@@ -1,0 +1,16 @@
+{
+  "name": "ryza-ai",
+  "private": true,
+  "version": "1.2.15",
+  "scripts": {
+    "dev": "bun --watch src/serve.ts",
+    "postinstall": "bun scripts/prepare.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "oxfmt": "^0.68.0"
+  },
+  "peerDependencies": {
+    "typescript": "^7"
+  }
+}

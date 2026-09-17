@@ -1,0 +1,18 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "printWidth": 110,
+  "singleQuote": true,
+  "trailingComma": "es5",
+  "bracketSameLine": true,
+  "checkIgnorePragma": true,
+  "htmlWhitespaceSensitivity": "ignore",
+  "sortPackageJson": false,
+  "ignorePatterns": [
+    "web",
+    ".data",
+    ".cache",
+    ".agents",
+    ".claude",
+    "docker-compose.yml"
+  ]
+}
