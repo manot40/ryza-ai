@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "skills": {
+    "bun": {
+      "source": "brianlovin/agent-config",
+      "sourceType": "github",
+      "skillPath": "skills/bun/SKILL.md",
+      "computedHash": "16c495e5ecd63e812b388b6d4fa62efd73614aea2fb507b0c8cdb122ea771ac0"
+    },
+    "svelte-code-writer": {
+      "source": "sveltejs/ai-tools",
+      "sourceType": "github",
+      "skillPath": "plugins/claude/svelte/skills/svelte-code-writer/SKILL.md",
+      "computedHash": "6f78193a79906175595ce8e4ca8d726da350eb99035a9544b6553620df5673a1"
+    }
+  }
+}
