@@ -388,8 +388,14 @@
     if (!res.ok) throw new Error(apiErrorMessage(null, res.status, await res.text()))
 
     const mime = res.headers.get('content-type');
-    if (mime && mime === 'application/json') return await res.json();
-    else return await res.blob();
+    let result;
+    if (mime && mime === 'application/json') {
+      result = await res.json();
+    } else {
+      result = await res.blob();
+    }
+    result._headers = res.headers;
+    return result;
   }
 
   /**
@@ -410,8 +416,14 @@
     if (!res.ok) throw new Error(apiErrorMessage(null, res.status, await res.text()))
 
     const mime = res.headers.get('content-type');
-    if (mime && mime === 'application/json') return await res.json();
-    else return await res.blob();
+    let result;
+    if (mime && mime === 'application/json') {
+      result = await res.json();
+    } else {
+      result = await res.blob();
+    }
+    result._headers = res.headers;
+    return result;
   }
 
   /* Same DashScope HTTP protocol, different hosts: official Beijing,
@@ -977,7 +989,7 @@
       if (!tts.apiKey) return Promise.reject(new Error('NO_KEY'));
 
       if (provider === 'openai-speech') {
-        /** @todo */
+        return Api._openaiSpeechSpeak(text, lang, mode);
       }
 
       var audio = { format: tts.format || 'wav' };
@@ -1017,6 +1029,63 @@
         return Api._fetchAsDataUrl(tts.reference).then(send);
       }
       return send(audio.voice);
+    },
+
+    /* ----------------------------- OpenAI-compatible /audio/speech endpoint
+       Used by OpenRouter TTS models and any OpenAI-compatible /audio/speech
+       host. Returns a Blob URL. Supports both preset voices and stateless
+       voice cloning via input_references. */
+    _openaiSpeechSpeak: function (text, lang, mode) {
+      var tts = Config.section('tts');
+      if (!tts.apiKey) return Promise.reject(new Error('NO_KEY'));
+
+      var model = tts.mode === 'clone' ? tts.modelClone : tts.modelPreset;
+      if (isPlaceholderModel(model)) {
+        return Promise.reject(new Error('NO_MODEL'));
+      }
+
+      var format = tts.format || 'pcm';
+      var voice = tts.mode === 'clone'
+        ? (tts.cloneVoice || '')
+        : (tts.presetVoice || '');
+
+      var body = {
+        model: model,
+        input: text,
+        response_format: format
+      };
+      if (voice) body.voice = voice;
+
+      function send() {
+        return request(localProxy(upstreamUrl(tts.baseUrl, '/audio/speech')),
+                       body, tts.apiKey, 180000).then(function (blob) {
+          if (!(blob instanceof Blob)) {
+            throw new Error('接口未返回音频');
+          }
+          if (format === 'pcm') {
+            var ct = (blob._headers && blob._headers.get('content-type')) || '';
+            var rate = 24000, ch = 1;
+            var m = /rate=(\d+)/.exec(ct);
+            if (m) rate = parseInt(m[1], 10);
+            m = /channels=(\d+)/.exec(ct);
+            if (m) ch = parseInt(m[1], 10);
+            return blob.arrayBuffer().then(function (buf) {
+              return URL.createObjectURL(Api._pcmToWav(buf, rate, ch, 16));
+            });
+          }
+          return URL.createObjectURL(blob);
+        });
+      }
+
+      if (tts.mode === 'clone') {
+        return Api._fetchAsDataUrl(tts.reference).then(function (dataUri) {
+          body.input_references = [
+            { type: 'input_audio', content: dataUri }
+          ];
+          return send();
+        });
+      }
+      return send();
     },
 
     /* ------------------------------------------- Qwen / Bailian (DashScope) */
@@ -1095,6 +1164,40 @@
       var bin = atob(b64), arr = new Uint8Array(bin.length), i;
       for (i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
       return URL.createObjectURL(new Blob([arr], { type: mime }));
+    },
+
+    _pcmToWav: function (pcmBuffer, sampleRate, channels, bitDepth) {
+      var bytesPerSample = bitDepth / 8;
+      var byteRate = sampleRate * channels * bytesPerSample;
+      var dataSize = pcmBuffer.byteLength;
+      var buffer = new ArrayBuffer(44 + dataSize);
+      var view = new DataView(buffer);
+
+      function writeStr(offset, str) {
+        for (var i = 0; i < str.length; i++) {
+          view.setUint8(offset + i, str.charCodeAt(i));
+        }
+      }
+
+      writeStr(0, 'RIFF');
+      view.setUint32(4, 36 + dataSize, true);
+      writeStr(8, 'WAVE');
+      writeStr(12, 'fmt ');
+      view.setUint32(16, 16, true);
+      view.setUint16(20, 1, true);
+      view.setUint16(22, channels, true);
+      view.setUint32(24, sampleRate, true);
+      view.setUint32(28, byteRate, true);
+      view.setUint16(32, channels * bytesPerSample, true);
+      view.setUint16(34, bitDepth, true);
+      writeStr(36, 'data');
+      view.setUint32(40, dataSize, true);
+
+      var src = new Uint8Array(pcmBuffer);
+      var dst = new Uint8Array(buffer, 44);
+      dst.set(src);
+
+      return new Blob([buffer], { type: 'audio/wav' });
     },
 
     /* Reference audio must reach the API as `data:audio/wav;base64,...`. */
