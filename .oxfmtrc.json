@@ -7,12 +7,5 @@
   "checkIgnorePragma": true,
   "htmlWhitespaceSensitivity": "ignore",
   "sortPackageJson": false,
-  "ignorePatterns": [
-    "web",
-    ".data",
-    ".cache",
-    ".agents",
-    ".claude",
-    "docker-compose.yml"
-  ]
+  "ignorePatterns": [".data", ".cache", ".agents", ".claude", "web", "locales", "docker-compose.yml"]
 }

@@ -1,4 +1,4 @@
-import { createStaticRoutes } from '~/libs/static';
+import { createStaticRoutes } from './libs/static';
 
 const UA = 'RyzaChat/1.2.13';
 const CORS = new Response(null, {
