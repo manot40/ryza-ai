@@ -12,7 +12,7 @@ const CORS = new Response(null, {
 
 const web = await createStaticRoutes('./web');
 const server = Bun.serve({
-  port: Bun.env.PORT || 3000,
+  port: Bun.env.PORT || 3434,
   hostname: Bun.env.HOST || 'localhost',
   routes: {
     ...web,

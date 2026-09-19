@@ -2023,6 +2023,13 @@
         { v: 'qwen', t: T('settings.tts.provider.qwen') }
       ], function (v) { Config.set('tts.provider', v); App.buildSettings(); });
 
+      if (Config.section('tts').provider === 'openai-speech') {
+        App._select(w, T('settings.tts.provider.style'), Config.section('tts').providerStyle || 'default', [
+          { v: 'default', t: T('settings.tts.provider.style.default') },
+          { v: 'audio.cpp', t: T('settings.tts.provider.style.audio-cpp') }
+        ], function (v) { Config.set('tts.providerStyle', v); App.buildSettings(); });
+      }
+
       if ((Config.section('tts').provider || 'openai') === 'qwen') {
         App._field(w, T('settings.baseUrl'), Config.section('tts').qwenBaseUrl,
           function (v) { Config.set('tts.qwenBaseUrl', v); },

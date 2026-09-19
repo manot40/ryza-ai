@@ -46,6 +46,7 @@
                           use SpeechSynthesizer. */
     tts: {
       provider: 'openai',
+      providerStyle: 'default',
       baseUrl: '',
       apiKey: '',
       mode: 'clone',                 // 'clone' | 'preset' | 'off'

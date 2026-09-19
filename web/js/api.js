@@ -51,6 +51,18 @@
     text: ''
   };
 
+  var VOICE_BANK_TRANSCRIPT = {
+    'assets/voice/ryza_wav/prologue_01.wav': 'これは、ライザの夢の世界。あなたと作る一夏の物語。',
+    'assets/voice/ryza_wav/prologue_02.wav': 'この世界の主人公はあなた。',
+    'assets/voice/ryza_wav/prologue_03.wav': '決まった道も世界もなくて、あなたの言葉が、そのまま物語になるの。',
+    'assets/voice/ryza_wav/prologue_04.wav': '例えば、',
+    'assets/voice/ryza_wav/prologue_05.wav': '私と一緒にお店を始めたり、',
+    'assets/voice/ryza_wav/prologue_06.wav': 'いろんな人と出会い、一緒に冒険したり、',
+    'assets/voice/ryza_wav/prologue_07.wav': 'アイテムを調合して億万長者を目指すことだって。',
+    'assets/voice/ryza_wav/prologue_08.wav': 'ただ、忘れないで。ここはあたしの夢の中。あたしにも何が起こるかわからない。危険な魔物に襲われることだってあるかも。',
+    'assets/voice/ryza_wav/prologue_09.wav': 'でも大丈夫。あなたの自由な発想で、どんな困難も乗り越えられるはずだから。'
+  };
+
   /* Per-mode playback shaping for shells whose endpoint ignores voice
      direction (or as an extra layer): ASMR slows and softens the audio. */
   var MODE_PLAY_FX = {
@@ -228,7 +240,8 @@
     return screenTagLine() + '\n' + String(spoken || '').replace(/^\s+/, '');
   }
 
-  function buildSystemPrompt(mode, style, rpgContext, outLang, nsfwSection, sceneSection, memorySection) {
+  function buildSystemPrompt(...args) {
+    const [mode, style, rpgContext, outLang, nsfwSection, sceneSection, memorySection] = args;
     return [staticPrompt(mode, style, outLang, !!rpgContext), memorySection || '',
             dynamicPrompt(rpgContext, nsfwSection, sceneSection)]
       .filter(Boolean).join('\n\n');
@@ -857,7 +870,7 @@
       return request(localProxy(upstreamUrl(llm.baseUrl, '/chat/completions')), {
         model: llm.model,
         messages: [
-          { role: 'system', content: 'You are a translator for a Japanese anime game character (Ryza, cheerful young alchemist). Translate her line into ' + langName(toLang) + ', keeping the playful spoken tone, first-person feel and emotion. Output ONLY the translated line — no quotes, notes or tags.' },
+          { role: 'system', content: 'You are a translator for a Japanese anime game character (Ryza, cheerful young alchemist). Translate her line into ' + langName(toLang) + ', keeping the playful spoken tone, first-person feel and emotion. Output ONLY the translated line — no quotes, notes, linebreaks, or tags.' },
           { role: 'user', content: text }
         ],
         temperature: 0.3,
@@ -1050,21 +1063,20 @@
         : (tts.presetVoice || '');
 
       var body = {
-        model: model,
+        model,
         input: text,
-        response_format: format
+        response_format: format,
       };
       if (voice) body.voice = voice;
 
-      function send() {
-        return request(localProxy(upstreamUrl(tts.baseUrl, '/audio/speech')),
-                       body, tts.apiKey, 180000).then(function (blob) {
-          if (!(blob instanceof Blob)) {
+      function send(fmt) {
+        const url = localProxy(upstreamUrl(tts.baseUrl, '/audio/speech'));
+        return request(url, body, tts.apiKey, 180000).then(function (blob) {
+          if (!(blob instanceof Blob))
             throw new Error('接口未返回音频');
-          }
-          if (format === 'pcm') {
+          if (fmt === 'pcm') {
             var ct = (blob._headers && blob._headers.get('content-type')) || '';
-            var rate = 24000, ch = 1;
+            var rate = 44100, ch = 1;
             var m = /rate=(\d+)/.exec(ct);
             if (m) rate = parseInt(m[1], 10);
             m = /channels=(\d+)/.exec(ct);
@@ -1078,11 +1090,27 @@
       }
 
       if (tts.mode === 'clone') {
-        return Api._fetchAsDataUrl(tts.reference).then(function (dataUri) {
-          body.input_references = [
-            { type: 'input_audio', content: dataUri }
-          ];
-          return send();
+        var isIrodori = Boolean(tts.modelClone?.startsWith('irodori-tts'));
+        var isAudioCpp = tts.providerStyle === 'audio.cpp';
+        return Api._fetchAsDataUrl(tts.reference, isAudioCpp).then(function (data) {
+          const transcript = VOICE_BANK_TRANSCRIPT[tts.reference];
+
+          if (isAudioCpp) {
+            body.voice_ref = { type: "base64", data };
+            body.response_format = 'wav';
+            if (isIrodori) body.options = {
+              instruction: tts.styleHint || undefined,
+              duration_scale: 1.05,
+              num_inference_steps: 50,
+            };
+            if (transcript && !isIrodori) body.reference_text = transcript;
+          } else {
+            body.response_format = format === 'wav' ? 'pcm' : format
+            body.input_references = [{ type: 'input_audio', input_audio: { data } }];
+            if (transcript) body.input_references.push({ type: "text", text: transcript });
+          }
+
+          return send('wav');
         });
       }
       return send();
@@ -1201,14 +1229,16 @@
     },
 
     /* Reference audio must reach the API as `data:audio/wav;base64,...`. */
-    _fetchAsDataUrl: function (path) {
+    _fetchAsDataUrl: function (path, raw = false) {
       return fetch(path).then(function (r) {
         if (!r.ok) throw new Error('无法读取参考音频：' + path);
         return r.arrayBuffer();
       }).then(function (buf) {
         var bytes = new Uint8Array(buf), s = '', i;
         for (i = 0; i < bytes.length; i++) s += String.fromCharCode(bytes[i]);
-        return 'data:audio/wav;base64,' + btoa(s);
+        var b64 = btoa(s);
+        if (raw) return b64;
+        return 'data:audio/wav;base64,' + b64;
       });
     }
   };
