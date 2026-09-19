@@ -62,8 +62,8 @@ async function proxy(request: Request, url: URL): Promise<Response> {
       status: upstreamRes.status,
       headers: { 'Content-Type': contentType },
     });
-  } catch (err: any) {
-    const message = err?.message || String(err);
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
     return json({ error: { message } }, { status: 502 });
   }
 }

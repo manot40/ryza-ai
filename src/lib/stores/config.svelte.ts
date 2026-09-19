@@ -34,6 +34,7 @@ export interface TtsConfig {
   modelClone: string;
   modelPreset: string;
   presetVoice: string;
+  cloneVoice?: string;
   format: string;
   reference: string;
   styleHint: string;
@@ -257,14 +258,14 @@ export function applyMigrations(target: Settings): void {
 }
 
 function loadInitial(): Settings {
-  let stored: Record<string, any> = {};
+  let stored: Record<string, unknown> = {};
   if (typeof localStorage !== 'undefined') {
     try {
       const raw = localStorage.getItem(SETTINGS_KEY);
       if (raw) {
         const parsed = destr<unknown>(raw);
         if (typeof parsed === 'object' && parsed !== null) {
-          stored = parsed as Record<string, any>;
+          stored = parsed as Record<string, unknown>;
         }
       }
     } catch {
@@ -299,13 +300,13 @@ export const config = {
 
   set(path: string, value: unknown): void {
     const parts = path.split('.');
-    let node: any = data;
+    let node: Record<string, unknown> = data as unknown as Record<string, unknown>;
     for (let i = 0; i < parts.length - 1; i++) {
       const key = parts[i];
       if (typeof node[key] !== 'object' || node[key] === null) {
         node[key] = {};
       }
-      node = node[key];
+      node = node[key] as Record<string, unknown>;
     }
     node[parts[parts.length - 1]] = value;
     save();
@@ -316,7 +317,7 @@ export const config = {
   reset(): void {
     const fresh = cloneDeep(DEFAULTS);
     for (const k of Object.keys(fresh) as (keyof Settings)[]) {
-      data[k] = fresh[k] as any;
+      (data as Record<keyof Settings, unknown>)[k] = fresh[k];
     }
     save();
   },
@@ -326,12 +327,12 @@ export const config = {
   },
 
   importJSON(text: string): void {
-    const parsed = destr<Record<string, any>>(text);
+    const parsed = destr<Record<string, unknown>>(text);
     const patch = typeof parsed === 'object' && parsed !== null ? parsed : {};
     const merged = merge(cloneDeep(DEFAULTS), patch) as Settings;
     applyMigrations(merged);
     for (const k of Object.keys(merged) as (keyof Settings)[]) {
-      data[k] = merged[k] as any;
+      (data as Record<keyof Settings, unknown>)[k] = merged[k];
     }
     save();
   },
@@ -349,7 +350,7 @@ export const config = {
     }
     const fresh = cloneDeep(DEFAULTS);
     for (const k of Object.keys(fresh) as (keyof Settings)[]) {
-      data[k] = fresh[k] as any;
+      (data as Record<keyof Settings, unknown>)[k] = fresh[k];
     }
     _hydrated = Promise.resolve();
   },
@@ -396,7 +397,7 @@ export const config = {
     _hydrated = null;
     const initial = loadInitial();
     for (const k of Object.keys(initial) as (keyof Settings)[]) {
-      data[k] = initial[k] as any;
+      (data as Record<keyof Settings, unknown>)[k] = initial[k];
     }
   },
 };

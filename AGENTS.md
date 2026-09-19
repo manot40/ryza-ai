@@ -213,6 +213,7 @@ When writing new Svelte code, always check the existing JS module first to under
 
 ## Do not
 
+- **Do not use any** — every variables should have definitive types and. If the variable doesn't have deterministic value, use `unknown` instead.
 - **Do not commit** **`config/providers.json`** — it contains API keys.
 - **Do not commit** **`web/assets/`** — they are large binary assets extracted from the APK.
 - **Do not add unrelated runtime npm dependencies** — the server has no production deps; the client is intentionally dependency-free at runtime.

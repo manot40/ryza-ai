@@ -1,35 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { config, DEFAULTS, SETTINGS_KEY, applyMigrations, type Settings } from './config.svelte';
 import { cloneDeep } from 'es-toolkit';
-
-class LocalStorageMock {
-  private store: Record<string, string> = {};
-
-  get length(): number {
-    return Object.keys(this.store).length;
-  }
-
-  clear(): void {
-    this.store = {};
-  }
-
-  getItem(key: string): string | null {
-    return Object.prototype.hasOwnProperty.call(this.store, key) ? this.store[key] : null;
-  }
-
-  setItem(key: string, value: string): void {
-    this.store[key] = String(value);
-  }
-
-  removeItem(key: string): void {
-    delete this.store[key];
-  }
-
-  key(index: number): string | null {
-    const keys = Object.keys(this.store);
-    return keys[index] ?? null;
-  }
-}
+import { LocalStorageMock } from '../../../tests/utils';
 
 describe('config store', () => {
   let mockStorage: LocalStorageMock;

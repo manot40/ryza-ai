@@ -46,26 +46,38 @@ export function weighted<T>(items: T[], weightOf?: (item: T) => number): T | nul
   let sum = 0;
   if (!items || !items.length) return null;
   for (let i = 0; i < items.length; i++) {
-    const w = weightOf ? weightOf(items[i]) : Number((items[i] as any).weight) || 0;
+    const item = items[i];
+    const w = weightOf
+      ? weightOf(item)
+      : typeof item === 'object' && item !== null && 'weight' in item
+        ? Number((item as { weight: unknown }).weight) || 0
+        : 0;
     sum += w > 0 ? w : 0;
   }
   if (!(sum > 0)) return items[Math.floor(Math.random() * items.length)];
   let r = Math.random() * sum;
   for (let i = 0; i < items.length; i++) {
-    const w = weightOf ? weightOf(items[i]) : Number((items[i] as any).weight) || 0;
+    const item = items[i];
+    const w = weightOf
+      ? weightOf(item)
+      : typeof item === 'object' && item !== null && 'weight' in item
+        ? Number((item as { weight: unknown }).weight) || 0
+        : 0;
     r -= w > 0 ? w : 0;
     if (r <= 0) return items[i];
   }
   return items[items.length - 1];
 }
 
-export function createEmitter<T extends Record<string, any[]>>() {
-  const listeners = new Map<keyof T, Set<(...args: any[]) => void>>();
+export function createEmitter<T extends Record<string, unknown[]>>() {
+  const listeners = new Map<keyof T, Set<(...args: unknown[]) => void>>();
   return {
     on<K extends keyof T>(event: K, fn: (...args: T[K]) => void) {
       if (!listeners.has(event)) listeners.set(event, new Set());
-      listeners.get(event)!.add(fn as any);
-      return () => listeners.get(event)!.delete(fn as any);
+      const set = listeners.get(event)!;
+      const listener = fn as (...args: unknown[]) => void;
+      set.add(listener);
+      return () => set.delete(listener);
     },
     emit<K extends keyof T>(event: K, ...args: T[K]) {
       const set = listeners.get(event);
