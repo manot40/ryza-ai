@@ -1,6 +1,6 @@
 # ryza-ai
 
-An offline-capable AI companion game featuring **Ryza** (Reisalin Stout) from the *Atelier Ryza* series. Chat with her, explore the world map, complete quests, and hear her speak — all powered by a user-supplied OpenAI-compatible LLM and TTS endpoint, with no dependency on any official server.
+An offline-capable AI companion game featuring **Ryza** (Reisalin Stout) from the _Atelier Ryza_ series. Chat with her, explore the world map, complete quests, and hear her speak — all powered by a user-supplied OpenAI-compatible LLM and TTS endpoint, with no dependency on any official server.
 
 ---
 
@@ -83,7 +83,7 @@ ryza-ai/
 - **[Bun](https://bun.com)** ≥ 1.x
 - `unzip` available on `PATH` (used by `scripts/prepare.ts` to extract assets)
 - An **OpenAI-compatible LLM endpoint** (local or remote, e.g. Ollama, LM Studio, vLLM)
-- *(Optional)* An **OpenAI-compatible TTS endpoint** or DashScope / Fish Audio credentials for voiced responses
+- _(Optional)_ An **OpenAI-compatible TTS endpoint** or DashScope / Fish Audio credentials for voiced responses
 
 ---
 
@@ -126,24 +126,24 @@ All runtime settings (LLM base URL, API key, model, TTS mode, etc.) are also con
 
 ### LLM settings (`config.llm`)
 
-| Field | Default | Description |
-|---|---|---|
-| `baseUrl` | *(empty)* | OpenAI-compatible base URL (e.g. `http://localhost:11434/v1`) |
-| `model` | `gpt-4o-mini` | Model ID |
-| `apiKey` | *(empty)* | API key (stored in localStorage only) |
-| `temperature` | `0.9` | Sampling temperature |
-| `maxTokens` | `400` | Max tokens per response |
-| `historyTurns` | `12` | Recent conversation turns to include |
-| `thinking` | `auto` | Extended thinking: `auto` / `on` / `off` |
+| Field          | Default       | Description                                                   |
+| -------------- | ------------- | ------------------------------------------------------------- |
+| `baseUrl`      | _(empty)_     | OpenAI-compatible base URL (e.g. `http://localhost:11434/v1`) |
+| `model`        | `gpt-4o-mini` | Model ID                                                      |
+| `apiKey`       | _(empty)_     | API key (stored in localStorage only)                         |
+| `temperature`  | `0.9`         | Sampling temperature                                          |
+| `maxTokens`    | `400`         | Max tokens per response                                       |
+| `historyTurns` | `12`          | Recent conversation turns to include                          |
+| `thinking`     | `auto`        | Extended thinking: `auto` / `on` / `off`                      |
 
 ### TTS settings (`config.tts`)
 
-| Field | Default | Description |
-|---|---|---|
-| `provider` | `openai` | `openai` (clone/preset) or `qwen` (DashScope) |
-| `mode` | `clone` | `clone` (voice clone from reference) / `preset` (fixed voice) / `off` |
-| `modelClone` | *(placeholder)* | Voice-clone model ID |
-| `reference` | `assets/voice/ryza_wav/prologue_08.wav` | Reference WAV for voice cloning |
+| Field        | Default                                 | Description                                                           |
+| ------------ | --------------------------------------- | --------------------------------------------------------------------- |
+| `provider`   | `openai`                                | `openai` (clone/preset) or `qwen` (DashScope)                         |
+| `mode`       | `clone`                                 | `clone` (voice clone from reference) / `preset` (fixed voice) / `off` |
+| `modelClone` | _(placeholder)_                         | Voice-clone model ID                                                  |
+| `reference`  | `assets/voice/ryza_wav/prologue_08.wav` | Reference WAV for voice cloning                                       |
 
 ### Proxy
 
@@ -169,22 +169,22 @@ Each module exposes one global object (e.g. `window.Config`, `window.Avatar`, `w
 
 Assets are **not** stored in the repository. They are extracted from the official APK release (see `scripts/prepare.ts`). Key asset types:
 
-| Path | Contents |
-|---|---|
-| `web/assets/voice/ryza_wav/` | Reference WAV clips used as TTS cloning source |
-| `web/assets/audio/bgm/` | Background music (`.m4a`) |
-| `web/assets/audio/se/` | Sound effects (`.m4a`) |
-| `web/assets/audio/alarm/` | Localized voiced alarm clips + `.env.json` lipsync envelopes |
-| `web/assets/animations/` | Lottie JSON for UI particle effects |
-| `web/assets/_index/` | JSON data: world hierarchy, NPC placement, stage backgrounds, scenes |
-| `web/assets/world_map/` | World map artwork + SVG map UI pins |
+| Path                         | Contents                                                             |
+| ---------------------------- | -------------------------------------------------------------------- |
+| `web/assets/voice/ryza_wav/` | Reference WAV clips used as TTS cloning source                       |
+| `web/assets/audio/bgm/`      | Background music (`.m4a`)                                            |
+| `web/assets/audio/se/`       | Sound effects (`.m4a`)                                               |
+| `web/assets/audio/alarm/`    | Localized voiced alarm clips + `.env.json` lipsync envelopes         |
+| `web/assets/animations/`     | Lottie JSON for UI particle effects                                  |
+| `web/assets/_index/`         | JSON data: world hierarchy, NPC placement, stage backgrounds, scenes |
+| `web/assets/world_map/`      | World map artwork + SVG map UI pins                                  |
 
 ---
 
 ## Third-party libraries
 
-| Library | Source | Notes |
-|---|---|---|
+| Library       | Source                      | Notes                                                                                                                                                                                                                                                     |
+| ------------- | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `spine-webgl` | `web/vendor/spine-webgl.js` | Vendored IIFE build of the [Spine WebGL runtime](https://esotericsoftware.com/spine-api-reference). The source corresponds to `@esotericsoftware/spine-webgl` on npm but is bundled manually (not in `package.json`) and exposes a global `spine` object. |
 
 ---

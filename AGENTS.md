@@ -6,7 +6,7 @@ This file is a guide for AI coding agents working in this repository. Read it be
 
 ## Project overview
 
-`ryza-ai` is an offline AI companion game featuring Ryza (Reisalin Stout) from the *Atelier Ryza* series. The user chats with an LLM-powered Ryza through a browser/PWA/Android/Electron client. There is no official backend — all AI requests are proxied through a local Bun server.
+`ryza-ai` is an offline AI companion game featuring Ryza (Reisalin Stout) from the _Atelier Ryza_ series. The user chats with an LLM-powered Ryza through a browser/PWA/Android/Electron client. There is no official backend — all AI requests are proxied through a local Bun server.
 
 **Current state:** The client is written in plain vanilla JS (IIFE globals, no bundler). The codebase is being **migrated to Svelte 5 + TypeScript**. The existing JS modules are the authoritative reference implementation.
 
@@ -43,26 +43,26 @@ scripts/
 
 All JS files expose a single `window.*` global. Load order (from `index.html`):
 
-| File | Global | Responsibility |
-|---|---|---|
-| `util.js` | `Util` | Math helpers: `clamp`, `lerp`, `weighted`, `hashHex`, `swapHashHalves`. No dependencies on other globals. |
-| `config.js` | `Config` | `localStorage`-backed settings store. Sections: `llm`, `tts`, `chara`, `profile`, `app`, `memory`. Use `Config.section('llm')` to read. |
-| `i18n.js` | `I18n`, `Langs` | UI string table for `zh`/`ja`/`en`. `I18n.tc(key, fallback)` is the translation call everywhere. |
-| `api.js` | `Api` | LLM + TTS transport. Builds system prompt (`persona()`), calls `/_proxy`, streams SSE, parses `<state>{...}</state>` tags from LLM replies. Emotion tags drive `Avatar`; state tags drive `Game`. |
-| `memory.js` | `Memory` | Two-layer rolling memory. `sessions` (recent windows) fold into `summaries`. Summaries are injected before history in every LLM call. |
-| `game.js` | `Game` | RPG state (stamina, gold, EXP, inventory, bag). Reads/writes `ryza.game.v1` in localStorage. Item registry and bag upgrade costs are defined here. |
-| `quests.js` | `Quests` | Quest engine. 8-stage main chain + LLM-generated side quests. Advances via `Quests.advance(type, n)`. State lives on `Game.s.quest`. |
-| `daily.js` | `Daily` | 7-day daily login calendar. Rewards flow through `Game`. |
-| `avatar.js` | `Avatar` | Spine 2D rendering. Single WebGL context for character + stage background. Handles emotion, idle animations, gaze, lip-sync, camera, atlas variant switching (`setAtlasVariant`). |
-| `nsfw.js` | `Nsfw` | Switches `Avatar` between the default and `nsfw` atlas variant. The LLM decides via an `undress:on`/`undress:off` tag — player text never forces it. |
-| `world.js` | `World` | World map (areas → fields → stages). Loads `world_hierarchy.json`, `npc_placement.json`, `stage_background_map.json`, `scenes.json` from `assets/_index/`. |
-| `audio.js` | `Sound` | BGM/ambient/SFX routing. Unlocks on first user gesture. Voice bank and lipsync envelope loader. |
-| `alarm.js` | `Alarm` | Alarm clock. Schedules and fires voiced wake-up clips from `assets/audio/alarm/`. |
-| `onboarding.js` | `Onboarding` | Title screen, onboarding questions (birthday/gender/free text/choice), prologue, tutorial talk. |
-| `fx.js` | `Fx` | Canvas particle effects: title fire, voice-toggle animation, quest completion confetti. Timing from Lottie JSON at `assets/animations/`. |
-| `shell.js` | *(side-effect)* | Electron frameless window controls. Only activates when `window.ryzaShell` is present (Electron). |
-| `kbd.js` | *(side-effect)* | Android IME viewport fix. Only activates on Android. Pins `#phone` height when the software keyboard opens. |
-| `app.js` | `App` | Top-level orchestrator. Boots all modules, wires the talk loop (send → LLM → TTS → lip-sync), RPG event dispatch, and UI panel navigation. |
+| File            | Global          | Responsibility                                                                                                                                                                                    |
+| --------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `util.js`       | `Util`          | Math helpers: `clamp`, `lerp`, `weighted`, `hashHex`, `swapHashHalves`. No dependencies on other globals.                                                                                         |
+| `config.js`     | `Config`        | `localStorage`-backed settings store. Sections: `llm`, `tts`, `chara`, `profile`, `app`, `memory`. Use `Config.section('llm')` to read.                                                           |
+| `i18n.js`       | `I18n`, `Langs` | UI string table for `zh`/`ja`/`en`. `I18n.tc(key, fallback)` is the translation call everywhere.                                                                                                  |
+| `api.js`        | `Api`           | LLM + TTS transport. Builds system prompt (`persona()`), calls `/_proxy`, streams SSE, parses `<state>{...}</state>` tags from LLM replies. Emotion tags drive `Avatar`; state tags drive `Game`. |
+| `memory.js`     | `Memory`        | Two-layer rolling memory. `sessions` (recent windows) fold into `summaries`. Summaries are injected before history in every LLM call.                                                             |
+| `game.js`       | `Game`          | RPG state (stamina, gold, EXP, inventory, bag). Reads/writes `ryza.game.v1` in localStorage. Item registry and bag upgrade costs are defined here.                                                |
+| `quests.js`     | `Quests`        | Quest engine. 8-stage main chain + LLM-generated side quests. Advances via `Quests.advance(type, n)`. State lives on `Game.s.quest`.                                                              |
+| `daily.js`      | `Daily`         | 7-day daily login calendar. Rewards flow through `Game`.                                                                                                                                          |
+| `avatar.js`     | `Avatar`        | Spine 2D rendering. Single WebGL context for character + stage background. Handles emotion, idle animations, gaze, lip-sync, camera, atlas variant switching (`setAtlasVariant`).                 |
+| `nsfw.js`       | `Nsfw`          | Switches `Avatar` between the default and `nsfw` atlas variant. The LLM decides via an `undress:on`/`undress:off` tag — player text never forces it.                                              |
+| `world.js`      | `World`         | World map (areas → fields → stages). Loads `world_hierarchy.json`, `npc_placement.json`, `stage_background_map.json`, `scenes.json` from `assets/_index/`.                                        |
+| `audio.js`      | `Sound`         | BGM/ambient/SFX routing. Unlocks on first user gesture. Voice bank and lipsync envelope loader.                                                                                                   |
+| `alarm.js`      | `Alarm`         | Alarm clock. Schedules and fires voiced wake-up clips from `assets/audio/alarm/`.                                                                                                                 |
+| `onboarding.js` | `Onboarding`    | Title screen, onboarding questions (birthday/gender/free text/choice), prologue, tutorial talk.                                                                                                   |
+| `fx.js`         | `Fx`            | Canvas particle effects: title fire, voice-toggle animation, quest completion confetti. Timing from Lottie JSON at `assets/animations/`.                                                          |
+| `shell.js`      | _(side-effect)_ | Electron frameless window controls. Only activates when `window.ryzaShell` is present (Electron).                                                                                                 |
+| `kbd.js`        | _(side-effect)_ | Android IME viewport fix. Only activates on Android. Pins `#phone` height when the software keyboard opens.                                                                                       |
+| `app.js`        | `App`           | Top-level orchestrator. Boots all modules, wires the talk loop (send → LLM → TTS → lip-sync), RPG event dispatch, and UI panel navigation.                                                        |
 
 ---
 
@@ -165,17 +165,17 @@ Use `I18n.tc(key, fallbackString)` everywhere a UI string appears. Keys follow d
 
 ## What is and isn't in the repo
 
-| Item | Status |
-|---|---|
-| `web/js/` — application code | ✅ Committed |
-| `web/css/app.css` | ✅ Committed |
-| `web/index.html` | ✅ Committed |
-| `web/vendor/spine-webgl.js` | ✅ Committed |
-| `config/providers.example.json` | ✅ Committed |
-| `src/` — Bun server | ✅ Committed |
-| `web/assets/` — game assets | ❌ Gitignored — run `bun install` |
-| `config/providers.json` | ❌ Gitignored — copy from example |
-| `node_modules/` | ❌ Gitignored |
+| Item                            | Status                            |
+| ------------------------------- | --------------------------------- |
+| `web/js/` — application code    | ✅ Committed                      |
+| `web/css/app.css`               | ✅ Committed                      |
+| `web/index.html`                | ✅ Committed                      |
+| `web/vendor/spine-webgl.js`     | ✅ Committed                      |
+| `config/providers.example.json` | ✅ Committed                      |
+| `src/` — Bun server             | ✅ Committed                      |
+| `web/assets/` — game assets     | ❌ Gitignored — run `bun install` |
+| `config/providers.json`         | ❌ Gitignored — copy from example |
+| `node_modules/`                 | ❌ Gitignored                     |
 
 ---
 
@@ -192,24 +192,29 @@ bun run dev          # starts http://localhost:3434
 
 The planned migration maps current modules to Svelte stores and components roughly as:
 
-| Current | Target |
-|---|---|
-| `Config` (localStorage) | Svelte `$state` / `$derived` wrapping localStorage |
-| `Game`, `Quests`, `Daily`, `Memory`, `Alarm` | Svelte stores (runes-based) |
-| `Avatar` | Svelte component wrapping the Spine canvas |
-| `Api` (transport) | Plain TS module (no DOM dependency) |
-| `i18n.js` | Replace with a typed i18n library or typed key map |
-| `app.js` (top-level orchestrator) | Root Svelte component |
-| IIFE globals | ES module exports; no `window.*` globals |
+| Current                                      | Target                                             |
+| -------------------------------------------- | -------------------------------------------------- |
+| `Config` (localStorage)                      | Svelte `$state` / `$derived` wrapping localStorage |
+| `Game`, `Quests`, `Daily`, `Memory`, `Alarm` | Svelte stores (runes-based)                        |
+| `Avatar`                                     | Svelte component wrapping the Spine canvas         |
+| `Api` (transport)                            | Plain TS module (no DOM dependency)                |
+| `i18n.js`                                    | Replace with a typed i18n library or typed key map |
+| `app.js` (top-level orchestrator)            | Root Svelte component                              |
+| IIFE globals                                 | ES module exports; no `window.*` globals           |
 
 When writing new Svelte code, always check the existing JS module first to understand the exact data shapes, edge cases, and comments explaining non-obvious decisions (many reference original AOT-recovered wire keys or APK source paths).
 
 ---
 
+## Do
+
+- **Do** use [`es-toolkit` ](https://es-toolkit.dev/llms.txt) for most common utils that available in lodash.
+- **Do** use `bun` (or `bunx`) for every package manager action.
+
 ## Do not
 
-- **Do not commit `config/providers.json`** — it contains API keys.
-- **Do not commit `web/assets/`** — they are large binary assets extracted from the APK.
+- **Do not commit** **`config/providers.json`** — it contains API keys.
+- **Do not commit** **`web/assets/`** — they are large binary assets extracted from the APK.
 - **Do not add unrelated runtime npm dependencies** — the server has no production deps; the client is intentionally dependency-free at runtime.
-- **Do not change `config/version.json` manually** — it must stay in sync with `package.json`.
+- **Do not change** **`config/version.json`** **manually** — it must stay in sync with `package.json`.
 - **Do not call LLM/TTS endpoints directly from the client** — all API calls must go through `/_proxy` to avoid CORS issues and to allow the server to inject headers.
