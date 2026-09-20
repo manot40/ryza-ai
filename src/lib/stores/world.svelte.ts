@@ -1,6 +1,7 @@
 // @wc-ignore-file
 import { config } from './config.svelte';
 import { game } from './game.svelte';
+import { getWorldName } from '$lib/i18n/game-content';
 
 export const TODS = ['mor', 'aft', 'eve', 'ngt'] as const;
 export type Tod = (typeof TODS)[number];
@@ -178,17 +179,33 @@ export class WorldStore {
       for (const f of a.fields) {
         for (const s of f.stages) {
           out.push({
-            area: a.name,
+            area: getWorldName(a.id, a.name),
             areaId: a.id,
-            field: f.name,
+            field: getWorldName(f.id, f.name),
             fieldId: f.id,
-            stage: s.name,
+            stage: getWorldName(s.id, s.name),
             stageId: s.id,
           });
         }
       }
     }
     return out;
+  }
+
+  areaName(areaId: string): string {
+    const a = this.areas().find((x) => x.id === areaId);
+    return getWorldName(areaId, a?.name || areaId);
+  }
+
+  fieldName(fieldId: string): string {
+    const hit = this.findField(fieldId);
+    return getWorldName(fieldId, hit?.field.name || fieldId);
+  }
+
+  stageName(stageId?: string | null): string {
+    if (!stageId) return '';
+    const s = this.find(stageId);
+    return getWorldName(stageId, s?.stage || stageId);
   }
 
   find(stageId?: string | null): StageInfo | null {

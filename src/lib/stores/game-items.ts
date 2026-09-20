@@ -1,3 +1,5 @@
+import { getItemName } from '$lib/i18n/game-content';
+
 export interface ItemDef {
   name: string;
   value: number;
@@ -43,7 +45,7 @@ export const BAG_UPGRADE_COST: Record<string, number> = {
 export const APPLE_SLOTS = 5;
 
 export function itemName(id: string): string {
-  return ITEMS[id]?.name || id;
+  return getItemName(id, ITEMS[id]?.name || id);
 }
 
 export function itemValue(id: string): number {

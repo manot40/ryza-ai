@@ -85,7 +85,7 @@
 
 <canvas
 	bind:this={canvas}
-	width={size}
+	width={size + size * .15}
 	height={size}
 	class="pointer-events-none {className}"
 	aria-hidden="true"

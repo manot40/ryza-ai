@@ -6,6 +6,7 @@
 		stageId?: string;
 		tod?: string;
 		skinId?: string;
+		hidden?: boolean;
 		class?: string;
 		onTapPart?: (part: string, overlayId: string | null) => void;
 	}
@@ -14,12 +15,16 @@
 		stageId = 'stage_01_001_04',
 		tod = 'aft',
 		skinId = 'crf_skn_002_0001',
+		hidden = false,
 		class: className = '',
 		onTapPart
 	}: Props = $props();
 
 	let canvas: HTMLCanvasElement | null = null;
 	const engine = new AvatarEngine();
+	let ready = $state(false);
+	let currentStageTod = '';
+	let currentSkin = '';
 
 	export function setEmotion(emotion: string, attitude: string = 'agree', immediate?: boolean) {
 		engine.setEmotion(emotion, attitude, immediate);
@@ -45,11 +50,21 @@
 		return engine.poke(part);
 	}
 
+	export function setHidden(on: boolean) {
+		engine.setHidden(on);
+	}
+
+	export function setAudioAnalyser(analyser: AnalyserNode | null) {
+		engine.setAudioAnalyser(analyser);
+	}
+
 	export function loadScene(newStageId: string, newTod: string, cb?: (err: Error | null) => void) {
-		engine.loadScene(newStageId, newTod, cb);
+		currentStageTod = `${newStageId}/${newTod}`;
+		engine.loadScene(newStageId, newTod, cb, skinId);
 	}
 
 	export function loadSkin(newSkinId: string, cb?: (err: Error | null) => void) {
+		currentSkin = newSkinId;
 		engine.loadSkin(newSkinId, cb);
 	}
 
@@ -81,39 +96,55 @@
 		engine.setPointer(0, 0, false);
 	}
 
+	let containerEl: HTMLDivElement | null = null;
+	let resizeObserver: ResizeObserver | null = null;
+	const handleResize = () => engine.resize();
+
 	onMount(async () => {
 		if (!canvas) return;
 		await engine.init(canvas);
 		engine.resize();
 
-		window.addEventListener('resize', () => engine.resize());
-
-		engine.loadScene(stageId, tod, (err) => {
-			if (!err && skinId) {
-				engine.loadSkin(skinId);
-			}
-		});
+		if (typeof ResizeObserver !== 'undefined' && containerEl) {
+			resizeObserver = new ResizeObserver(() => engine.resize());
+			resizeObserver.observe(containerEl);
+		}
+		window.addEventListener('resize', handleResize);
+		ready = true;
 	});
 
 	onDestroy(() => {
+		resizeObserver?.disconnect();
+		window.removeEventListener('resize', handleResize);
 		engine.destroy();
 	});
 
 	$effect(() => {
-		if (stageId && tod && engine.scene) {
-			engine.loadScene(stageId, tod);
+		if (!ready || !stageId || !tod) return;
+		const key = `${stageId}/${tod}`;
+		if (currentStageTod !== key) {
+			currentStageTod = key;
+			currentSkin = skinId;
+			engine.loadScene(stageId, tod, undefined, skinId);
 		}
 	});
 
 	$effect(() => {
-		if (skinId && engine.avatar) {
+		if (!ready || !skinId) return;
+		if (currentSkin !== skinId) {
+			currentSkin = skinId;
 			engine.loadSkin(skinId);
 		}
+	});
+
+	$effect(() => {
+		engine.setHidden(hidden);
 	});
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
+	bind:this={containerEl}
 	class="relative h-full w-full overflow-hidden {className}"
 	onpointerdown={handlePointerDown}
 	onpointermove={handlePointerMove}

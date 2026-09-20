@@ -8,6 +8,787 @@ msgstr ""
 "Plural-Forms: nplurals=1\n"
 "X-Plurals-Order: other\n"
 
-#: src/routes/+page.svelte
-msgid "TODO"
-msgstr ""
+#~ msgid "TODO"
+#~ msgstr ""
+
+#: src/components/chrome/Drawer.svelte
+msgid "Talk"
+msgstr "Bicara"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/WelcomeView.svelte
+msgid "Welcome Missions"
+msgstr "Misi Selamat Datang"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/DailyView.svelte
+msgid "Daily Login"
+msgstr "Login Harian"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/QuestView.svelte
+#: src/components/views/TalkView.svelte
+msgid "Quests"
+msgstr "Misi"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/WorldView.svelte
+msgid "World Map"
+msgstr "Peta Dunia"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/AlarmView.svelte
+msgid "Alarm Clock"
+msgstr "Jam Alarm"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/CharaView.svelte
+msgid "Character Profile"
+msgstr "Profil Karakter"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/SkinView.svelte
+#: src/components/views/TalkView.svelte
+msgid "Costumes"
+msgstr "Kostum"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/MemoryView.svelte
+msgid "Memories"
+msgstr "Kenangan"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/SettingsView.svelte
+#: src/components/views/TalkView.svelte
+msgid "Settings"
+msgstr "Pengaturan"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/TalkView.svelte
+#: src/components/views/TalkView.svelte
+msgid "Ryza"
+msgstr "Ryza"
+
+#. 0: config.section('state')?.day || 1
+#: src/components/chrome/Drawer.svelte
+msgid "Days together: {0}"
+msgstr "Bersama selama {0} hari"
+
+#: src/components/chrome/Drawer.svelte
+msgid "Offline Rebuilt Edition · No official server"
+msgstr "Edisi Rekonstruksi Offline · Tanpa server resmi"
+
+#: src/components/chrome/SideMenu.svelte
+#: src/components/views/SettingsView.svelte
+msgid "English"
+msgstr "English"
+
+#: src/components/chrome/SideMenu.svelte
+#: src/components/views/SettingsView.svelte
+msgid "日本語"
+msgstr "日本語"
+
+#: src/components/chrome/SideMenu.svelte
+#: src/components/views/SettingsView.svelte
+msgid "简体中文"
+msgstr "简体中文"
+
+#: src/components/chrome/SideMenu.svelte
+#: src/components/views/SettingsView.svelte
+msgid "Bahasa Indonesia"
+msgstr "Bahasa Indonesia"
+
+#: src/components/chrome/SideMenu.svelte
+#: src/components/chrome/TopBar.svelte
+msgid "Quick Actions"
+msgstr "Aksi Cepat"
+
+#: src/components/chrome/SideMenu.svelte
+msgid "Shortcuts and display controls"
+msgstr "Pintasan dan kontrol tampilan"
+
+#: src/components/chrome/SideMenu.svelte
+msgid "New Conversation"
+msgstr "Percakapan Baru"
+
+#: src/components/chrome/SideMenu.svelte
+msgid "Language"
+msgstr "Bahasa"
+
+#: src/components/chrome/SideMenu.svelte
+msgid "Toggle Character"
+msgstr "Tampilkan/Sembunyikan Karakter"
+
+#: src/components/chrome/SideMenu.svelte
+msgid "Toggle Fullscreen"
+msgstr "Layar Penuh"
+
+#: src/components/chrome/SideMenu.svelte
+msgid "← Back"
+msgstr "← Kembali"
+
+#: src/components/TodToggle.svelte
+msgid "Morning"
+msgstr "Pagi"
+
+#: src/components/TodToggle.svelte
+#: src/components/TodToggle.svelte
+msgid "Noon"
+msgstr "Siang"
+
+#: src/components/TodToggle.svelte
+msgid "Evening"
+msgstr "Sore"
+
+#: src/components/TodToggle.svelte
+msgid "Night"
+msgstr "Malam"
+
+#: src/components/chrome/TopBar.svelte
+#: src/components/chrome/TopBar.svelte
+msgid "Free Talk"
+msgstr "Obrolan Bebas"
+
+#: src/components/chrome/TopBar.svelte
+msgid "Story"
+msgstr "Cerita"
+
+#: src/components/chrome/TopBar.svelte
+msgid "Immersive"
+msgstr "Imersif"
+
+#: src/components/chrome/TopBar.svelte
+msgid "Open Navigation"
+msgstr "Buka Navigasi"
+
+#: src/components/chrome/TopBar.svelte
+msgid "Hideout"
+msgstr "Tempat Rahasia"
+
+#: src/components/chrome/TopBar.svelte
+msgid "Toggle Voice"
+msgstr "Alihkan Suara"
+
+#: src/components/views/AlarmView.svelte
+msgid "Sun"
+msgstr "Min"
+
+#: src/components/views/AlarmView.svelte
+msgid "Mon"
+msgstr "Sen"
+
+#: src/components/views/AlarmView.svelte
+msgid "Tue"
+msgstr "Sel"
+
+#: src/components/views/AlarmView.svelte
+msgid "Wed"
+msgstr "Rab"
+
+#: src/components/views/AlarmView.svelte
+msgid "Thu"
+msgstr "Kam"
+
+#: src/components/views/AlarmView.svelte
+msgid "Fri"
+msgstr "Jum"
+
+#: src/components/views/AlarmView.svelte
+msgid "Sat"
+msgstr "Sab"
+
+#: src/components/views/AlarmView.svelte
+msgid "Good Morning"
+msgstr "Selamat Pagi"
+
+#: src/components/views/AlarmView.svelte
+msgid "Play with Me"
+msgstr "Bermain Bersamaku"
+
+#: src/components/views/AlarmView.svelte
+msgid "Task Reminder"
+msgstr "Pengingat Tugas"
+
+#: src/components/views/AlarmView.svelte
+msgid "Well Done"
+msgstr "Kerja Bagus"
+
+#: src/components/views/AlarmView.svelte
+msgid "Normal Tone"
+msgstr "Nada Normal"
+
+#: src/components/views/AlarmView.svelte
+msgid "Whisper Tone"
+msgstr "Nada Bisikan"
+
+#: src/components/views/AlarmView.svelte
+msgid "+ New Alarm"
+msgstr "+ Alarm Baru"
+
+#: src/components/views/AlarmView.svelte
+msgid "No alarms set yet. Tap + New Alarm to add one!"
+msgstr "Belum ada alarm. Ketuk + Alarm Baru untuk menambahkan!"
+
+#: src/components/views/AlarmView.svelte
+msgid "Edit Alarm"
+msgstr "Edit Alarm"
+
+#: src/components/views/AlarmView.svelte
+msgid "New Alarm"
+msgstr "Alarm Baru"
+
+#: src/components/views/AlarmView.svelte
+msgid "Set the wake-up time and Ryza's voiced greeting style"
+msgstr "Atur waktu bangun dan gaya sapaan suara Ryza"
+
+#: src/components/views/AlarmView.svelte
+msgid "Time"
+msgstr "Waktu"
+
+#: src/components/views/AlarmView.svelte
+msgid "Greeting Type"
+msgstr "Tipe Sapaan"
+
+#: src/components/views/AlarmView.svelte
+msgid "Voice Style"
+msgstr "Gaya Suara"
+
+#: src/components/views/AlarmView.svelte
+msgid "Repeat Days"
+msgstr "Hari Pengulangan"
+
+#: src/components/views/AlarmView.svelte
+#: src/components/views/MemoryView.svelte
+#: src/components/views/SettingsView.svelte
+msgid "Cancel"
+msgstr "Batal"
+
+#: src/components/views/AlarmView.svelte
+msgid "Save Alarm"
+msgstr "Simpan Alarm"
+
+#: src/components/views/CharaView.svelte
+msgid "👗 Costumes"
+msgstr "👗 Kostum"
+
+#: src/components/views/CharaView.svelte
+msgid "Adventurer Profile"
+msgstr "Profil Petualang"
+
+#: src/components/views/CharaView.svelte
+msgid "Adventurer"
+msgstr "Petualang"
+
+#: src/components/views/CharaView.svelte
+msgid "Your Name"
+msgstr "Nama Anda"
+
+#: src/components/views/CharaView.svelte
+msgid "You / Senpai"
+msgstr "Kamu / Senpai"
+
+#: src/components/views/CharaView.svelte
+msgid "How Ryza Calls You"
+msgstr "Panggilan Ryza untukmu"
+
+#: src/components/views/CharaView.svelte
+msgid "Birthday"
+msgstr "Tanggal Lahir"
+
+#: src/components/views/CharaView.svelte
+msgid "Male / Female / Other"
+msgstr "Pria / Wanita / Lainnya"
+
+#: src/components/views/CharaView.svelte
+msgid "Gender"
+msgstr "Jenis Kelamin"
+
+#: src/components/views/CharaView.svelte
+msgid "Ryza's Persona & Setting"
+msgstr "Persona & Latar Ryza"
+
+#: src/components/views/CharaView.svelte
+msgid "Energetic, cheerful, loves alchemy..."
+msgstr "Bersemangat, ceria, suka alkimia..."
+
+#: src/components/views/CharaView.svelte
+msgid "Personality"
+msgstr "Kepribadian"
+
+#: src/components/views/CharaView.svelte
+msgid "Alchemy, adventures"
+msgstr "Alkimia, petualangan"
+
+#: src/components/views/CharaView.svelte
+msgid "Likes"
+msgstr "Hal yang Disukai"
+
+#: src/components/views/CharaView.svelte
+msgid "Ghosts, boredom"
+msgstr "Hantu, kebosanan"
+
+#: src/components/views/CharaView.svelte
+msgid "Dislikes"
+msgstr "Hal yang Dibenci"
+
+#: src/components/views/CharaView.svelte
+msgid "Living in the secret hideout on Kurken Island..."
+msgstr "Tinggal di tempat rahasia di Pulau Kurken..."
+
+#: src/components/views/CharaView.svelte
+msgid "Current Situation"
+msgstr "Situasi Saat Ini"
+
+#: src/components/views/CharaView.svelte
+msgid "Settings saved successfully!"
+msgstr "Pengaturan berhasil disimpan!"
+
+#: src/components/views/CharaView.svelte
+msgid "Save Profile"
+msgstr "Simpan Profil"
+
+#: src/components/views/DailyView.svelte
+msgid "Full Stamina Recovery"
+msgstr "Pemulihan Stamina Penuh"
+
+#: src/components/views/DailyView.svelte
+msgid "Distilled Water ×3"
+msgstr "Air Sulingan ×3"
+
+#: src/components/views/DailyView.svelte
+msgid "Stamina Apple ×1"
+msgstr "Apel Stamina ×1"
+
+#: src/components/views/DailyView.svelte
+msgid "Treasure Chest: 500 Gold + Relic"
+msgstr "Peti Harta: 500 Emas + Peninggalan Kuno"
+
+#: src/components/views/DailyView.svelte
+msgid "Daily reward received!"
+msgstr "Hadiah harian berhasil diterima!"
+
+#. 0: res.text || 'Daily reward received!'
+#: src/components/views/DailyView.svelte
+msgid "Claimed: {0}"
+msgstr "Diterima: {0}"
+
+#: src/components/views/DailyView.svelte
+msgid "Streak: <0/> Days"
+msgstr "Runtutan: <0/> Hari"
+
+#. 0: reward.day
+#: src/components/views/DailyView.svelte
+msgid "Day {0}"
+msgstr "Hari ke-{0}"
+
+#: src/components/views/DailyView.svelte
+msgid "Claimed"
+msgstr "Sudah Diklaim"
+
+#: src/components/views/DailyView.svelte
+msgid "Ready!"
+msgstr "Siap!"
+
+#: src/components/views/DailyView.svelte
+msgid "Claim Today's Reward"
+msgstr "Klaim Hadiah Hari Ini"
+
+#: src/components/views/DailyView.svelte
+msgid "Already Claimed Today"
+msgstr "Sudah Diklaim Hari Ini"
+
+#: src/components/views/MemoryView.svelte
+msgid "Clear All Memories"
+msgstr "Hapus Semua Kenangan"
+
+#: src/components/views/MemoryView.svelte
+msgid "Are you sure you want to erase all conversation memories and summaries? This cannot be undone."
+msgstr "Apakah Anda yakin ingin menghapus semua kenangan percakapan dan ringkasan? Tindakan ini tidak dapat dibatalkan."
+
+#: src/components/views/MemoryView.svelte
+#: src/components/views/MemoryView.svelte
+msgid "Clear All"
+msgstr "Hapus Semua"
+
+#: src/components/views/MemoryView.svelte
+msgid "Folding..."
+msgstr "Meringkas..."
+
+#: src/components/views/MemoryView.svelte
+msgid "Fold Summary"
+msgstr "Ringkas Memori"
+
+#: src/components/views/MemoryView.svelte
+msgid "Long-Term Summaries"
+msgstr "Ringkasan Jangka Panjang"
+
+#. 0: memory.summaries.length
+#: src/components/views/MemoryView.svelte
+msgid "{0} saved"
+msgstr "{0} tersimpan"
+
+#: src/components/views/MemoryView.svelte
+msgid "No long-term summaries yet. Conversations will fold here as you talk!"
+msgstr "Belum ada ringkasan jangka panjang. Percakapan akan terangkum di sini saat Anda mengobrol!"
+
+#. 0: item.n
+#: src/components/views/MemoryView.svelte
+msgid "Summary ({0} turns)"
+msgstr "Ringkasan ({0} putaran)"
+
+#: src/components/views/MemoryView.svelte
+msgid "Recent Conversation Sessions"
+msgstr "Sesi Percakapan Terbaru"
+
+#. 0: memory.sessions.length
+#: src/components/views/MemoryView.svelte
+msgid "{0} sessions"
+msgstr "{0} sesi"
+
+#: src/components/views/MemoryView.svelte
+msgid "No active session cards."
+msgstr "Tidak ada kartu sesi aktif."
+
+#: src/components/views/MemoryView.svelte
+msgid "Session Window"
+msgstr "Jendela Sesi"
+
+#: src/components/views/QuestView.svelte
+msgid "Thinking..."
+msgstr "Sedang Berpikir..."
+
+#: src/components/views/QuestView.svelte
+msgid "Ask Ryza"
+msgstr "Minta Ide Ryza"
+
+#: src/components/views/QuestView.svelte
+msgid "Side Quest"
+msgstr "Misi Sampingan"
+
+#. 0: currentQuest.no
+#: src/components/views/QuestView.svelte
+msgid "Main Quest #{0}"
+msgstr "Misi Utama #{0}"
+
+#. 0: currentQuest.cost
+#: src/components/views/QuestView.svelte
+msgid "Cost: {0} Stamina"
+msgstr "Biaya: {0} Stamina"
+
+#: src/components/views/QuestView.svelte
+msgid "Rewards:"
+msgstr "Hadiah:"
+
+#. 0: currentQuest.reward?.exp || 0
+#: src/components/views/QuestView.svelte
+msgid "+{0} EXP"
+msgstr "+{0} EXP"
+
+#. 0: currentQuest.reward?.money || 0
+#: src/components/views/QuestView.svelte
+msgid "+{0} G"
+msgstr "+{0} G"
+
+#: src/components/views/QuestView.svelte
+msgid "Claim Reward & Continue"
+msgstr "Klaim Hadiah & Lanjutkan"
+
+#: src/components/views/QuestView.svelte
+msgid "Talk to Ryza"
+msgstr "Bicara dengan Ryza"
+
+#: src/components/views/QuestView.svelte
+msgid "Open World Map"
+msgstr "Buka Peta Dunia"
+
+#: src/components/views/QuestView.svelte
+msgid "Take Action"
+msgstr "Lakukan Aksi"
+
+#: src/components/views/QuestView.svelte
+msgid "Completed"
+msgstr "Selesai"
+
+#: src/components/views/QuestView.svelte
+msgid "Recent Completed Quests"
+msgstr "Misi yang Baru Selesai"
+
+#: src/components/views/SettingsView.svelte
+msgid "Reset All Settings"
+msgstr "Reset Semua Pengaturan"
+
+#: src/components/views/SettingsView.svelte
+msgid "Are you sure you want to reset all settings to defaults? Your game progress will be preserved."
+msgstr "Apakah Anda yakin ingin mengatur ulang semua pengaturan ke default? Progres permainan akan tetap aman."
+
+#: src/components/views/SettingsView.svelte
+msgid "Reset Settings"
+msgstr "Atur Ulang"
+
+#: src/components/views/SettingsView.svelte
+msgid "Save All"
+msgstr "Simpan Semua"
+
+#: src/components/views/SettingsView.svelte
+msgid "LLM"
+msgstr "LLM"
+
+#: src/components/views/SettingsView.svelte
+msgid "TTS"
+msgstr "TTS"
+
+#: src/components/views/SettingsView.svelte
+msgid "Audio"
+msgstr "Audio"
+
+#: src/components/views/SettingsView.svelte
+msgid "App"
+msgstr "Aplikasi"
+
+#: src/components/views/SettingsView.svelte
+msgid "Data"
+msgstr "Data"
+
+#: src/components/views/SettingsView.svelte
+msgid "LLM Configuration"
+msgstr "Konfigurasi LLM"
+
+#: src/components/views/SettingsView.svelte
+msgid "API Base URL"
+msgstr "URL Dasar API"
+
+#: src/components/views/SettingsView.svelte
+msgid "Model Name"
+msgstr "Nama Model"
+
+#: src/components/views/SettingsView.svelte
+#: src/components/views/SettingsView.svelte
+msgid "API Key"
+msgstr "Kunci API"
+
+#: src/components/views/SettingsView.svelte
+msgid "Temperature"
+msgstr "Temperatur"
+
+#: src/components/views/SettingsView.svelte
+msgid "Voice Synthesis (TTS)"
+msgstr "Sintesis Suara (TTS)"
+
+#: src/components/views/SettingsView.svelte
+msgid "Provider"
+msgstr "Penyedia"
+
+#: src/components/views/SettingsView.svelte
+msgid "Base URL"
+msgstr "URL Dasar"
+
+#: src/components/views/SettingsView.svelte
+msgid "Voice / Model ID"
+msgstr "ID Suara / Model"
+
+#: src/components/views/SettingsView.svelte
+msgid "Volume Controls"
+msgstr "Kontrol Volume"
+
+#: src/components/views/SettingsView.svelte
+msgid "Background Music (BGM)"
+msgstr "Musik Latar (BGM)"
+
+#: src/components/views/SettingsView.svelte
+msgid "Voice Volume"
+msgstr "Volume Suara"
+
+#: src/components/views/SettingsView.svelte
+msgid "Sound Effects (SE)"
+msgstr "Efek Suara (SE)"
+
+#: src/components/views/SettingsView.svelte
+msgid "App Preferences"
+msgstr "Preferensi Aplikasi"
+
+#: src/components/views/SettingsView.svelte
+msgid "Interface Language"
+msgstr "Bahasa Antarmuka"
+
+#: src/components/views/SettingsView.svelte
+msgid "Cheat Mode"
+msgstr "Mode Curang"
+
+#: src/components/views/SettingsView.svelte
+msgid "Infinite stamina and gold"
+msgstr "Stamina dan emas tanpa batas"
+
+#: src/components/views/SettingsView.svelte
+msgid "Data Management"
+msgstr "Manajemen Data"
+
+#: src/components/views/SettingsView.svelte
+msgid "Export Settings JSON"
+msgstr "Ekspor Pengaturan JSON"
+
+#: src/components/views/SettingsView.svelte
+msgid "Reset Settings to Defaults"
+msgstr "Kembalikan Pengaturan ke Default"
+
+#: src/components/views/SettingsView.svelte
+msgid "Settings saved!"
+msgstr "Pengaturan tersimpan!"
+
+#. 0: skins.length
+#: src/components/views/SkinView.svelte
+msgid "{0} Outfits"
+msgstr "{0} Kostum"
+
+#: src/components/views/SkinView.svelte
+msgid "Loading costumes..."
+msgstr "Memuat kostum..."
+
+#: src/components/views/SkinView.svelte
+msgid "No costumes found."
+msgstr "Kostum tidak ditemukan."
+
+#: src/components/views/SkinView.svelte
+msgid "Equipped"
+msgstr "Digunakan"
+
+#: src/components/views/SkinView.svelte
+msgid "Locked"
+msgstr "Terkunci"
+
+#: src/components/views/SkinView.svelte
+msgid "Active"
+msgstr "Aktif"
+
+#: src/components/views/SkinView.svelte
+msgid "Wear"
+msgstr "Pakai"
+
+#: src/components/views/SkinView.svelte
+msgid "Preview Only"
+msgstr "Hanya Pratinjau"
+
+#: src/components/views/TalkView.svelte
+msgid "Welcome back, adventurer! What shall we do today?"
+msgstr "Selamat datang kembali, petualang! Apa yang akan kita lakukan hari ini?"
+
+#: src/components/views/TalkView.svelte
+msgid "Let's head out on an adventure! The weather on the island is fantastic today."
+msgstr "Ayo kita bertualang! Cuaca di pulau hari ini sangat menyenangkan."
+
+#. 0: game.level()
+#: src/components/views/TalkView.svelte
+msgid "Lv.{0}"
+msgstr "Lv.{0}"
+
+#: src/components/views/TalkView.svelte
+msgid "Toggle Log Panel"
+msgstr "Buka/Tutup Panel Log"
+
+#: src/components/views/TalkView.svelte
+msgid "Free Talk Mode"
+msgstr "Mode Obrolan Bebas"
+
+#. 0: idx + 1
+#: src/components/views/TalkView.svelte
+msgid "Message {0}"
+msgstr "Pesan {0}"
+
+#: src/components/views/TalkView.svelte
+msgid "Ryza is thinking..."
+msgstr "Ryza sedang berpikir..."
+
+#: src/components/views/TalkView.svelte
+msgid "Text Speed"
+msgstr "Kecepatan Teks"
+
+#: src/components/views/TalkView.svelte
+msgid "Say something to Ryza..."
+msgstr "Bicarakan sesuatu dengan Ryza..."
+
+#: src/components/views/TalkView.svelte
+msgid "Enter"
+msgstr "Enter"
+
+#: src/components/views/TalkView.svelte
+msgid "Clear Input"
+msgstr "Hapus Masukan"
+
+#: src/components/views/TalkView.svelte
+#: src/components/views/TalkView.svelte
+msgid "Send"
+msgstr "Kirim"
+
+#: src/components/views/WelcomeView.svelte
+msgid "First Conversation"
+msgstr "Percakapan Pertama"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Have a friendly chat with Ryza in the secret hideout."
+msgstr "Ngobrol santai dengan Ryza di tempat persembunyian rahasia."
+
+#: src/components/views/WelcomeView.svelte
+msgid "Explore the Island"
+msgstr "Jelajahi Pulau"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Open the world map to explore Kurken Island and other areas."
+msgstr "Buka peta dunia untuk menjelajahi Pulau Kurken dan area lainnya."
+
+#: src/components/views/WelcomeView.svelte
+msgid "Set an Alarm"
+msgstr "Pasang Alarm"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Schedule a voiced wake-up greeting with Ryza."
+msgstr "Jadwalkan sapaan bangun tidur bersuara bersama Ryza."
+
+#: src/components/views/WelcomeView.svelte
+msgid "Wardrobe & Costumes"
+msgstr "Lemari & Kostum"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Visit the costume gallery and try out Ryza’s outfits."
+msgstr "Kunjungi galeri kostum dan coba berbagai pakaian Ryza."
+
+#: src/components/views/WelcomeView.svelte
+msgid "First Quest"
+msgstr "Misi Pertama"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Embark on an adventure and advance your main quest line."
+msgstr "Mulailah petualangan dan majukan alur misi utamamu."
+
+#: src/components/views/WelcomeView.svelte
+msgid "All Completed!"
+msgstr "Semua Selesai!"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Tutorial Checklist"
+msgstr "Daftar Tutorial"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Done"
+msgstr "Selesai"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Go"
+msgstr "Mulai"
+
+#: src/components/views/WorldView.svelte
+msgid "Here"
+msgstr "Di Sini"
+
+#: src/components/views/WorldView.svelte
+msgid "Travel"
+msgstr "Pergi"
+
+#: src/components/views/WorldView.svelte
+msgid "People Here"
+msgstr "Orang di Sini"
+
+#: src/components/ui/dialog/dialog-content.svelte
+#: src/components/ui/dialog/dialog-footer.svelte
+#: src/components/ui/sheet/sheet-content.svelte
+msgid "Close"
+msgstr "Tutup"

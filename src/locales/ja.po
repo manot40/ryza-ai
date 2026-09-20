@@ -8,6 +8,787 @@ msgstr ""
 "Plural-Forms: nplurals=1\n"
 "X-Plurals-Order: other\n"
 
-#: src/routes/+page.svelte
-msgid "TODO"
-msgstr ""
+#~ msgid "TODO"
+#~ msgstr ""
+
+#: src/components/chrome/Drawer.svelte
+msgid "Talk"
+msgstr "会話"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/WelcomeView.svelte
+msgid "Welcome Missions"
+msgstr "ウェルカムミッション"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/DailyView.svelte
+msgid "Daily Login"
+msgstr "デイリーログイン"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/QuestView.svelte
+#: src/components/views/TalkView.svelte
+msgid "Quests"
+msgstr "クエスト"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/WorldView.svelte
+msgid "World Map"
+msgstr "ワールドマップ"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/AlarmView.svelte
+msgid "Alarm Clock"
+msgstr "アラーム"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/CharaView.svelte
+msgid "Character Profile"
+msgstr "キャラクター設定"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/SkinView.svelte
+#: src/components/views/TalkView.svelte
+msgid "Costumes"
+msgstr "衣装"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/MemoryView.svelte
+msgid "Memories"
+msgstr "メモリー"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/SettingsView.svelte
+#: src/components/views/TalkView.svelte
+msgid "Settings"
+msgstr "設定"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/TalkView.svelte
+#: src/components/views/TalkView.svelte
+msgid "Ryza"
+msgstr "ライザ"
+
+#. 0: config.section('state')?.day || 1
+#: src/components/chrome/Drawer.svelte
+msgid "Days together: {0}"
+msgstr "一緒 {0} 日目"
+
+#: src/components/chrome/Drawer.svelte
+msgid "Offline Rebuilt Edition · No official server"
+msgstr "オフライン再構築版 · 公式サーバー接続なし"
+
+#: src/components/chrome/SideMenu.svelte
+#: src/components/views/SettingsView.svelte
+msgid "English"
+msgstr "English"
+
+#: src/components/chrome/SideMenu.svelte
+#: src/components/views/SettingsView.svelte
+msgid "日本語"
+msgstr "日本語"
+
+#: src/components/chrome/SideMenu.svelte
+#: src/components/views/SettingsView.svelte
+msgid "简体中文"
+msgstr "简体中文"
+
+#: src/components/chrome/SideMenu.svelte
+#: src/components/views/SettingsView.svelte
+msgid "Bahasa Indonesia"
+msgstr "Bahasa Indonesia"
+
+#: src/components/chrome/SideMenu.svelte
+#: src/components/chrome/TopBar.svelte
+msgid "Quick Actions"
+msgstr "クイック操作"
+
+#: src/components/chrome/SideMenu.svelte
+msgid "Shortcuts and display controls"
+msgstr "ショートカットと表示設定"
+
+#: src/components/chrome/SideMenu.svelte
+msgid "New Conversation"
+msgstr "新しい会話"
+
+#: src/components/chrome/SideMenu.svelte
+msgid "Language"
+msgstr "言語"
+
+#: src/components/chrome/SideMenu.svelte
+msgid "Toggle Character"
+msgstr "立ち絵の表示/非表示"
+
+#: src/components/chrome/SideMenu.svelte
+msgid "Toggle Fullscreen"
+msgstr "全画面表示"
+
+#: src/components/chrome/SideMenu.svelte
+msgid "← Back"
+msgstr "← 戻る"
+
+#: src/components/TodToggle.svelte
+msgid "Morning"
+msgstr "朝"
+
+#: src/components/TodToggle.svelte
+#: src/components/TodToggle.svelte
+msgid "Noon"
+msgstr "昼"
+
+#: src/components/TodToggle.svelte
+msgid "Evening"
+msgstr "夕"
+
+#: src/components/TodToggle.svelte
+msgid "Night"
+msgstr "夜"
+
+#: src/components/chrome/TopBar.svelte
+#: src/components/chrome/TopBar.svelte
+msgid "Free Talk"
+msgstr "雑談"
+
+#: src/components/chrome/TopBar.svelte
+msgid "Story"
+msgstr "物語"
+
+#: src/components/chrome/TopBar.svelte
+msgid "Immersive"
+msgstr "没入"
+
+#: src/components/chrome/TopBar.svelte
+msgid "Open Navigation"
+msgstr "メニューを開く"
+
+#: src/components/chrome/TopBar.svelte
+msgid "Hideout"
+msgstr "アジト"
+
+#: src/components/chrome/TopBar.svelte
+msgid "Toggle Voice"
+msgstr "音声切り替え"
+
+#: src/components/views/AlarmView.svelte
+msgid "Sun"
+msgstr "日"
+
+#: src/components/views/AlarmView.svelte
+msgid "Mon"
+msgstr "月"
+
+#: src/components/views/AlarmView.svelte
+msgid "Tue"
+msgstr "火"
+
+#: src/components/views/AlarmView.svelte
+msgid "Wed"
+msgstr "水"
+
+#: src/components/views/AlarmView.svelte
+msgid "Thu"
+msgstr "木"
+
+#: src/components/views/AlarmView.svelte
+msgid "Fri"
+msgstr "金"
+
+#: src/components/views/AlarmView.svelte
+msgid "Sat"
+msgstr "土"
+
+#: src/components/views/AlarmView.svelte
+msgid "Good Morning"
+msgstr "おはよう"
+
+#: src/components/views/AlarmView.svelte
+msgid "Play with Me"
+msgstr "一緒に遊ぼう"
+
+#: src/components/views/AlarmView.svelte
+msgid "Task Reminder"
+msgstr "タスク通知"
+
+#: src/components/views/AlarmView.svelte
+msgid "Well Done"
+msgstr "おつかれさま"
+
+#: src/components/views/AlarmView.svelte
+msgid "Normal Tone"
+msgstr "通常トーン"
+
+#: src/components/views/AlarmView.svelte
+msgid "Whisper Tone"
+msgstr "囁きトーン"
+
+#: src/components/views/AlarmView.svelte
+msgid "+ New Alarm"
+msgstr "+ 新規アラーム"
+
+#: src/components/views/AlarmView.svelte
+msgid "No alarms set yet. Tap + New Alarm to add one!"
+msgstr "アラームはまだありません。「+ 新規アラーム」から追加できます！"
+
+#: src/components/views/AlarmView.svelte
+msgid "Edit Alarm"
+msgstr "アラーム編集"
+
+#: src/components/views/AlarmView.svelte
+msgid "New Alarm"
+msgstr "新規アラーム"
+
+#: src/components/views/AlarmView.svelte
+msgid "Set the wake-up time and Ryza's voiced greeting style"
+msgstr "起床時間とライザのボイスタイプを設定"
+
+#: src/components/views/AlarmView.svelte
+msgid "Time"
+msgstr "時刻"
+
+#: src/components/views/AlarmView.svelte
+msgid "Greeting Type"
+msgstr "挨拶タイプ"
+
+#: src/components/views/AlarmView.svelte
+msgid "Voice Style"
+msgstr "ボイススタイル"
+
+#: src/components/views/AlarmView.svelte
+msgid "Repeat Days"
+msgstr "繰り返し曜日"
+
+#: src/components/views/AlarmView.svelte
+#: src/components/views/MemoryView.svelte
+#: src/components/views/SettingsView.svelte
+msgid "Cancel"
+msgstr "キャンセル"
+
+#: src/components/views/AlarmView.svelte
+msgid "Save Alarm"
+msgstr "アラーム保存"
+
+#: src/components/views/CharaView.svelte
+msgid "👗 Costumes"
+msgstr "👗 衣装"
+
+#: src/components/views/CharaView.svelte
+msgid "Adventurer Profile"
+msgstr "冒険者プロフィール"
+
+#: src/components/views/CharaView.svelte
+msgid "Adventurer"
+msgstr "冒険者"
+
+#: src/components/views/CharaView.svelte
+msgid "Your Name"
+msgstr "名前"
+
+#: src/components/views/CharaView.svelte
+msgid "You / Senpai"
+msgstr "きみ / 先輩"
+
+#: src/components/views/CharaView.svelte
+msgid "How Ryza Calls You"
+msgstr "ライザからの呼び名"
+
+#: src/components/views/CharaView.svelte
+msgid "Birthday"
+msgstr "誕生日"
+
+#: src/components/views/CharaView.svelte
+msgid "Male / Female / Other"
+msgstr "男性 / 女性 / その他"
+
+#: src/components/views/CharaView.svelte
+msgid "Gender"
+msgstr "性別"
+
+#: src/components/views/CharaView.svelte
+msgid "Ryza's Persona & Setting"
+msgstr "ライザのペルソナと設定"
+
+#: src/components/views/CharaView.svelte
+msgid "Energetic, cheerful, loves alchemy..."
+msgstr "元気で明るく、錬金術が大好きな性格..."
+
+#: src/components/views/CharaView.svelte
+msgid "Personality"
+msgstr "性格"
+
+#: src/components/views/CharaView.svelte
+msgid "Alchemy, adventures"
+msgstr "錬金術、冒険"
+
+#: src/components/views/CharaView.svelte
+msgid "Likes"
+msgstr "好きなもの"
+
+#: src/components/views/CharaView.svelte
+msgid "Ghosts, boredom"
+msgstr "おばけ、退屈"
+
+#: src/components/views/CharaView.svelte
+msgid "Dislikes"
+msgstr "苦手なもの"
+
+#: src/components/views/CharaView.svelte
+msgid "Living in the secret hideout on Kurken Island..."
+msgstr "クーケン島のアジトで暮らしている..."
+
+#: src/components/views/CharaView.svelte
+msgid "Current Situation"
+msgstr "現在の状況"
+
+#: src/components/views/CharaView.svelte
+msgid "Settings saved successfully!"
+msgstr "設定を保存しました！"
+
+#: src/components/views/CharaView.svelte
+msgid "Save Profile"
+msgstr "プロフィール保存"
+
+#: src/components/views/DailyView.svelte
+msgid "Full Stamina Recovery"
+msgstr "スタミナ全回復"
+
+#: src/components/views/DailyView.svelte
+msgid "Distilled Water ×3"
+msgstr "蒸留水×3"
+
+#: src/components/views/DailyView.svelte
+msgid "Stamina Apple ×1"
+msgstr "スタミナリンゴ×1"
+
+#: src/components/views/DailyView.svelte
+msgid "Treasure Chest: 500 Gold + Relic"
+msgstr "宝箱：500G + 古代の遺物"
+
+#: src/components/views/DailyView.svelte
+msgid "Daily reward received!"
+msgstr "デイリー報酬を受け取りました！"
+
+#. 0: res.text || 'Daily reward received!'
+#: src/components/views/DailyView.svelte
+msgid "Claimed: {0}"
+msgstr "受取済: {0}"
+
+#: src/components/views/DailyView.svelte
+msgid "Streak: <0/> Days"
+msgstr "連続: <0/> 日"
+
+#. 0: reward.day
+#: src/components/views/DailyView.svelte
+msgid "Day {0}"
+msgstr "{0}日目"
+
+#: src/components/views/DailyView.svelte
+msgid "Claimed"
+msgstr "受取済"
+
+#: src/components/views/DailyView.svelte
+msgid "Ready!"
+msgstr "受取可能！"
+
+#: src/components/views/DailyView.svelte
+msgid "Claim Today's Reward"
+msgstr "本日の報酬を受け取る"
+
+#: src/components/views/DailyView.svelte
+msgid "Already Claimed Today"
+msgstr "本日は受取済です"
+
+#: src/components/views/MemoryView.svelte
+msgid "Clear All Memories"
+msgstr "すべてのメモリーを削除"
+
+#: src/components/views/MemoryView.svelte
+msgid "Are you sure you want to erase all conversation memories and summaries? This cannot be undone."
+msgstr "すべての会話メモリーと要約を消去してもよろしいですか？この操作は元に戻せません。"
+
+#: src/components/views/MemoryView.svelte
+#: src/components/views/MemoryView.svelte
+msgid "Clear All"
+msgstr "すべて消去"
+
+#: src/components/views/MemoryView.svelte
+msgid "Folding..."
+msgstr "要約中..."
+
+#: src/components/views/MemoryView.svelte
+msgid "Fold Summary"
+msgstr "要約をまとめる"
+
+#: src/components/views/MemoryView.svelte
+msgid "Long-Term Summaries"
+msgstr "長期記憶・要約"
+
+#. 0: memory.summaries.length
+#: src/components/views/MemoryView.svelte
+msgid "{0} saved"
+msgstr "{0} 件保存済"
+
+#: src/components/views/MemoryView.svelte
+msgid "No long-term summaries yet. Conversations will fold here as you talk!"
+msgstr "長期要約はまだありません。会話を重ねるとここにまとまります！"
+
+#. 0: item.n
+#: src/components/views/MemoryView.svelte
+msgid "Summary ({0} turns)"
+msgstr "要約 ({0} ターン)"
+
+#: src/components/views/MemoryView.svelte
+msgid "Recent Conversation Sessions"
+msgstr "最近の会話セッション"
+
+#. 0: memory.sessions.length
+#: src/components/views/MemoryView.svelte
+msgid "{0} sessions"
+msgstr "{0} 件のセッション"
+
+#: src/components/views/MemoryView.svelte
+msgid "No active session cards."
+msgstr "アクティブなセッションはありません。"
+
+#: src/components/views/MemoryView.svelte
+msgid "Session Window"
+msgstr "セッション枠"
+
+#: src/components/views/QuestView.svelte
+msgid "Thinking..."
+msgstr "考え中..."
+
+#: src/components/views/QuestView.svelte
+msgid "Ask Ryza"
+msgstr "ライザに頼む"
+
+#: src/components/views/QuestView.svelte
+msgid "Side Quest"
+msgstr "サブクエスト"
+
+#. 0: currentQuest.no
+#: src/components/views/QuestView.svelte
+msgid "Main Quest #{0}"
+msgstr "メインクエスト #{0}"
+
+#. 0: currentQuest.cost
+#: src/components/views/QuestView.svelte
+msgid "Cost: {0} Stamina"
+msgstr "消費: {0} スタミナ"
+
+#: src/components/views/QuestView.svelte
+msgid "Rewards:"
+msgstr "報酬:"
+
+#. 0: currentQuest.reward?.exp || 0
+#: src/components/views/QuestView.svelte
+msgid "+{0} EXP"
+msgstr "+{0} EXP"
+
+#. 0: currentQuest.reward?.money || 0
+#: src/components/views/QuestView.svelte
+msgid "+{0} G"
+msgstr "+{0} G"
+
+#: src/components/views/QuestView.svelte
+msgid "Claim Reward & Continue"
+msgstr "報酬を受け取って進む"
+
+#: src/components/views/QuestView.svelte
+msgid "Talk to Ryza"
+msgstr "ライザと話す"
+
+#: src/components/views/QuestView.svelte
+msgid "Open World Map"
+msgstr "ワールドマップを開く"
+
+#: src/components/views/QuestView.svelte
+msgid "Take Action"
+msgstr "行動する"
+
+#: src/components/views/QuestView.svelte
+msgid "Completed"
+msgstr "完了"
+
+#: src/components/views/QuestView.svelte
+msgid "Recent Completed Quests"
+msgstr "最近クリアしたクエスト"
+
+#: src/components/views/SettingsView.svelte
+msgid "Reset All Settings"
+msgstr "すべての設定を初期化"
+
+#: src/components/views/SettingsView.svelte
+msgid "Are you sure you want to reset all settings to defaults? Your game progress will be preserved."
+msgstr "すべての設定を初期状態に戻しますか？ゲームの進行状況は維持されます。"
+
+#: src/components/views/SettingsView.svelte
+msgid "Reset Settings"
+msgstr "設定を初期化"
+
+#: src/components/views/SettingsView.svelte
+msgid "Save All"
+msgstr "すべて保存"
+
+#: src/components/views/SettingsView.svelte
+msgid "LLM"
+msgstr "LLM"
+
+#: src/components/views/SettingsView.svelte
+msgid "TTS"
+msgstr "TTS"
+
+#: src/components/views/SettingsView.svelte
+msgid "Audio"
+msgstr "オーディオ"
+
+#: src/components/views/SettingsView.svelte
+msgid "App"
+msgstr "アプリ"
+
+#: src/components/views/SettingsView.svelte
+msgid "Data"
+msgstr "データ"
+
+#: src/components/views/SettingsView.svelte
+msgid "LLM Configuration"
+msgstr "大言語モデル設定"
+
+#: src/components/views/SettingsView.svelte
+msgid "API Base URL"
+msgstr "API Base URL"
+
+#: src/components/views/SettingsView.svelte
+msgid "Model Name"
+msgstr "モデル名"
+
+#: src/components/views/SettingsView.svelte
+#: src/components/views/SettingsView.svelte
+msgid "API Key"
+msgstr "API Key"
+
+#: src/components/views/SettingsView.svelte
+msgid "Temperature"
+msgstr "温度 (Temperature)"
+
+#: src/components/views/SettingsView.svelte
+msgid "Voice Synthesis (TTS)"
+msgstr "音声合成 (TTS)"
+
+#: src/components/views/SettingsView.svelte
+msgid "Provider"
+msgstr "プロバイダ"
+
+#: src/components/views/SettingsView.svelte
+msgid "Base URL"
+msgstr "Base URL"
+
+#: src/components/views/SettingsView.svelte
+msgid "Voice / Model ID"
+msgstr "ボイス / モデルID"
+
+#: src/components/views/SettingsView.svelte
+msgid "Volume Controls"
+msgstr "音量調整"
+
+#: src/components/views/SettingsView.svelte
+msgid "Background Music (BGM)"
+msgstr "BGM 音量"
+
+#: src/components/views/SettingsView.svelte
+msgid "Voice Volume"
+msgstr "ボイス音量"
+
+#: src/components/views/SettingsView.svelte
+msgid "Sound Effects (SE)"
+msgstr "効果音 (SE)"
+
+#: src/components/views/SettingsView.svelte
+msgid "App Preferences"
+msgstr "アプリ設定"
+
+#: src/components/views/SettingsView.svelte
+msgid "Interface Language"
+msgstr "表示言語"
+
+#: src/components/views/SettingsView.svelte
+msgid "Cheat Mode"
+msgstr "チートモード"
+
+#: src/components/views/SettingsView.svelte
+msgid "Infinite stamina and gold"
+msgstr "スタミナと所持金が無制限になります"
+
+#: src/components/views/SettingsView.svelte
+msgid "Data Management"
+msgstr "データ管理"
+
+#: src/components/views/SettingsView.svelte
+msgid "Export Settings JSON"
+msgstr "設定 JSON の書き出し"
+
+#: src/components/views/SettingsView.svelte
+msgid "Reset Settings to Defaults"
+msgstr "設定を初期値に戻す"
+
+#: src/components/views/SettingsView.svelte
+msgid "Settings saved!"
+msgstr "設定を保存しました！"
+
+#. 0: skins.length
+#: src/components/views/SkinView.svelte
+msgid "{0} Outfits"
+msgstr "{0} 着の衣装"
+
+#: src/components/views/SkinView.svelte
+msgid "Loading costumes..."
+msgstr "衣装を読み込み中..."
+
+#: src/components/views/SkinView.svelte
+msgid "No costumes found."
+msgstr "衣装が見つかりませんでした。"
+
+#: src/components/views/SkinView.svelte
+msgid "Equipped"
+msgstr "着用中"
+
+#: src/components/views/SkinView.svelte
+msgid "Locked"
+msgstr "未開放"
+
+#: src/components/views/SkinView.svelte
+msgid "Active"
+msgstr "現在"
+
+#: src/components/views/SkinView.svelte
+msgid "Wear"
+msgstr "着替える"
+
+#: src/components/views/SkinView.svelte
+msgid "Preview Only"
+msgstr "プレビューのみ"
+
+#: src/components/views/TalkView.svelte
+msgid "Welcome back, adventurer! What shall we do today?"
+msgstr "おかえり、冒険者さん！今日は何をして遊ぼうか？"
+
+#: src/components/views/TalkView.svelte
+msgid "Let's head out on an adventure! The weather on the island is fantastic today."
+msgstr "さあ、冒険に出かけよう！今日の島はとってもいい天気だよ。"
+
+#. 0: game.level()
+#: src/components/views/TalkView.svelte
+msgid "Lv.{0}"
+msgstr "Lv.{0}"
+
+#: src/components/views/TalkView.svelte
+msgid "Toggle Log Panel"
+msgstr "ログパネルの開閉"
+
+#: src/components/views/TalkView.svelte
+msgid "Free Talk Mode"
+msgstr "自由に雑談を楽しむモード"
+
+#. 0: idx + 1
+#: src/components/views/TalkView.svelte
+msgid "Message {0}"
+msgstr "メッセージ {0}"
+
+#: src/components/views/TalkView.svelte
+msgid "Ryza is thinking..."
+msgstr "ライザが考え中..."
+
+#: src/components/views/TalkView.svelte
+msgid "Text Speed"
+msgstr "テキスト送り速度"
+
+#: src/components/views/TalkView.svelte
+msgid "Say something to Ryza..."
+msgstr "ライザに何か話しかけてみて…"
+
+#: src/components/views/TalkView.svelte
+msgid "Enter"
+msgstr "Enter"
+
+#: src/components/views/TalkView.svelte
+msgid "Clear Input"
+msgstr "入力を消去"
+
+#: src/components/views/TalkView.svelte
+#: src/components/views/TalkView.svelte
+msgid "Send"
+msgstr "送信"
+
+#: src/components/views/WelcomeView.svelte
+msgid "First Conversation"
+msgstr "最初のおしゃべり"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Have a friendly chat with Ryza in the secret hideout."
+msgstr "アジトでライザと楽しくおしゃべりしてみよう。"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Explore the Island"
+msgstr "島を冒険しよう"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Open the world map to explore Kurken Island and other areas."
+msgstr "ワールドマップを開いてクーケン島や各地へ行ってみよう。"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Set an Alarm"
+msgstr "アラームをかけてみよう"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Schedule a voiced wake-up greeting with Ryza."
+msgstr "ライザのボイス付き目覚ましを設定してみよう。"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Wardrobe & Costumes"
+msgstr "衣装部屋へ行こう"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Visit the costume gallery and try out Ryza’s outfits."
+msgstr "衣装一覧を覗いてライザの衣装を試してみよう。"
+
+#: src/components/views/WelcomeView.svelte
+msgid "First Quest"
+msgstr "はじめてのクエスト"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Embark on an adventure and advance your main quest line."
+msgstr "冒険に出てメインクエストを進めてみよう。"
+
+#: src/components/views/WelcomeView.svelte
+msgid "All Completed!"
+msgstr "全ミッション達成！"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Tutorial Checklist"
+msgstr "チュートリアル一覧"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Done"
+msgstr "達成"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Go"
+msgstr "挑戦"
+
+#: src/components/views/WorldView.svelte
+msgid "Here"
+msgstr "現在地"
+
+#: src/components/views/WorldView.svelte
+msgid "Travel"
+msgstr "移動"
+
+#: src/components/views/WorldView.svelte
+msgid "People Here"
+msgstr "この場所にいる人"
+
+#: src/components/ui/dialog/dialog-content.svelte
+#: src/components/ui/dialog/dialog-footer.svelte
+#: src/components/ui/sheet/sheet-content.svelte
+msgid "Close"
+msgstr "閉じる"

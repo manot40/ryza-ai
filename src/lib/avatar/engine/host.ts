@@ -1,11 +1,34 @@
-import type { SpineHost, SpineLayer } from './types';
+import type {
+  SpineHost,
+  SpineLayer,
+  SpineManagedCtx,
+  SpineShader,
+  SpinePolygonBatcher,
+  SpineSkeletonRenderer,
+  SpineMatrix4,
+  SpineAssetManager,
+} from './types';
+
+interface SpineHostRuntime {
+  ManagedWebGLRenderingContext: new (
+    canvas: HTMLCanvasElement,
+    options?: { alpha?: boolean; premultipliedAlpha?: boolean; antialias?: boolean }
+  ) => SpineManagedCtx;
+  Shader: {
+    newTwoColoredTextured(ctx: SpineManagedCtx): SpineShader;
+  };
+  PolygonBatcher: new (ctx: SpineManagedCtx) => SpinePolygonBatcher;
+  SkeletonRenderer: new (ctx: SpineManagedCtx) => SpineSkeletonRenderer;
+  Matrix4: new () => SpineMatrix4;
+  AssetManager: new (ctx: SpineManagedCtx) => SpineAssetManager;
+}
 
 export function makeHost(canvas: HTMLCanvasElement): SpineHost | null {
   if (typeof window === 'undefined') return null;
-  const spineObj = (window as unknown as { spine?: any }).spine;
+  const spineObj = (window as unknown as { spine?: SpineHostRuntime }).spine;
   if (!spineObj) return null;
 
-  let ctx: any;
+  let ctx: SpineManagedCtx | null = null;
   try {
     ctx = new spineObj.ManagedWebGLRenderingContext(canvas, {
       alpha: false,
@@ -30,7 +53,10 @@ export function makeHost(canvas: HTMLCanvasElement): SpineHost | null {
 }
 
 export function makeLayer(host: SpineHost): SpineLayer {
-  const spineObj = (window as unknown as { spine?: any }).spine;
+  const spineObj = (window as unknown as { spine?: SpineHostRuntime }).spine;
+  if (!spineObj) {
+    throw new Error('Spine WebGL runtime not available');
+  }
   return {
     canvas: host.canvas,
     ctx: host.ctx,

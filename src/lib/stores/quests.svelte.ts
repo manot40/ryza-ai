@@ -4,6 +4,16 @@ import { config } from './config.svelte';
 import { game } from './game.svelte';
 import { ITEMS, itemName, itemValue } from './game-items';
 import { Api } from '$lib/api';
+import {
+  getQuestTitle,
+  getQuestDesc,
+  getQuestGoal,
+  getPoolQuestTitle,
+  getPoolQuestDesc,
+  getPoolQuestGoal,
+  getQuestObstacle,
+  getQuestPraise,
+} from '$lib/i18n/game-content';
 
 export interface QuestReward {
   exp: number;
@@ -384,15 +394,79 @@ export class QuestStore {
   }
 
   titleOf(q?: Quest | null): string {
-    return q?.title || '';
+    if (!q) return '';
+    if (q.k?.startsWith('q.')) {
+      const n = Number(q.k.slice(2));
+      return getQuestTitle(n, q.title);
+    }
+    if (q.k?.startsWith('pq.')) {
+      const n = Number(q.k.slice(3));
+      return getPoolQuestTitle(n, q.title);
+    }
+    if (!q.side && q.no >= 1 && q.no <= 8) {
+      return getQuestTitle(q.no, q.title);
+    }
+    return q.title || '';
+  }
+
+  title(q?: Quest | null): string {
+    return this.titleOf(q);
   }
 
   descOf(q?: Quest | null): string {
-    return q?.desc || '';
+    if (!q) return '';
+    if (q.k?.startsWith('q.')) {
+      const n = Number(q.k.slice(2));
+      return getQuestDesc(n, q.desc);
+    }
+    if (q.k?.startsWith('pq.')) {
+      const n = Number(q.k.slice(3));
+      return getPoolQuestDesc(n, q.desc);
+    }
+    if (!q.side && q.no >= 1 && q.no <= 8) {
+      return getQuestDesc(q.no, q.desc);
+    }
+    return q.desc || '';
+  }
+
+  desc(q?: Quest | null): string {
+    return this.descOf(q);
   }
 
   goalOf(q?: Quest | null): string {
-    return q?.goal || '';
+    if (!q) return '';
+    if (q.k?.startsWith('q.')) {
+      const n = Number(q.k.slice(2));
+      return getQuestGoal(n, q.goal);
+    }
+    if (q.k?.startsWith('pq.')) {
+      const n = Number(q.k.slice(3));
+      return getPoolQuestGoal(n, q.goal);
+    }
+    if (!q.side && q.no >= 1 && q.no <= 8) {
+      return getQuestGoal(q.no, q.goal);
+    }
+    return q.goal || '';
+  }
+
+  goal(q?: Quest | null): string {
+    return this.goalOf(q);
+  }
+
+  obstacleOf(q?: Quest | null): string {
+    if (!q) return '';
+    if (q.type) {
+      return getQuestObstacle(q.type, q.obstacle);
+    }
+    return q.obstacle || '';
+  }
+
+  obstacle(q?: Quest | null): string {
+    return this.obstacleOf(q);
+  }
+
+  praise(idx: number): string {
+    return getQuestPraise(idx, PRAISES[idx % PRAISES.length]);
   }
 
   async generate(useLLM: boolean): Promise<Quest> {

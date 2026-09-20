@@ -8,6 +8,787 @@ msgstr ""
 "Plural-Forms: nplurals=2\n"
 "X-Plurals-Order: one, other\n"
 
-#: src/routes/+page.svelte
-msgid "TODO"
-msgstr "TODO"
+#~ msgid "TODO"
+#~ msgstr "TODO"
+
+#: src/components/chrome/Drawer.svelte
+msgid "Talk"
+msgstr "Talk"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/WelcomeView.svelte
+msgid "Welcome Missions"
+msgstr "Welcome Missions"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/DailyView.svelte
+msgid "Daily Login"
+msgstr "Daily Login"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/QuestView.svelte
+#: src/components/views/TalkView.svelte
+msgid "Quests"
+msgstr "Quests"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/WorldView.svelte
+msgid "World Map"
+msgstr "World Map"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/AlarmView.svelte
+msgid "Alarm Clock"
+msgstr "Alarm Clock"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/CharaView.svelte
+msgid "Character Profile"
+msgstr "Character Profile"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/SkinView.svelte
+#: src/components/views/TalkView.svelte
+msgid "Costumes"
+msgstr "Costumes"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/MemoryView.svelte
+msgid "Memories"
+msgstr "Memories"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/SettingsView.svelte
+#: src/components/views/TalkView.svelte
+msgid "Settings"
+msgstr "Settings"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/TalkView.svelte
+#: src/components/views/TalkView.svelte
+msgid "Ryza"
+msgstr "Ryza"
+
+#. 0: config.section('state')?.day || 1
+#: src/components/chrome/Drawer.svelte
+msgid "Days together: {0}"
+msgstr "Days together: {0}"
+
+#: src/components/chrome/Drawer.svelte
+msgid "Offline Rebuilt Edition · No official server"
+msgstr "Offline Rebuilt Edition · No official server"
+
+#: src/components/chrome/SideMenu.svelte
+#: src/components/views/SettingsView.svelte
+msgid "English"
+msgstr "English"
+
+#: src/components/chrome/SideMenu.svelte
+#: src/components/views/SettingsView.svelte
+msgid "日本語"
+msgstr "日本語"
+
+#: src/components/chrome/SideMenu.svelte
+#: src/components/views/SettingsView.svelte
+msgid "简体中文"
+msgstr "简体中文"
+
+#: src/components/chrome/SideMenu.svelte
+#: src/components/views/SettingsView.svelte
+msgid "Bahasa Indonesia"
+msgstr "Bahasa Indonesia"
+
+#: src/components/chrome/SideMenu.svelte
+#: src/components/chrome/TopBar.svelte
+msgid "Quick Actions"
+msgstr "Quick Actions"
+
+#: src/components/chrome/SideMenu.svelte
+msgid "Shortcuts and display controls"
+msgstr "Shortcuts and display controls"
+
+#: src/components/chrome/SideMenu.svelte
+msgid "New Conversation"
+msgstr "New Conversation"
+
+#: src/components/chrome/SideMenu.svelte
+msgid "Language"
+msgstr "Language"
+
+#: src/components/chrome/SideMenu.svelte
+msgid "Toggle Character"
+msgstr "Toggle Character"
+
+#: src/components/chrome/SideMenu.svelte
+msgid "Toggle Fullscreen"
+msgstr "Toggle Fullscreen"
+
+#: src/components/chrome/SideMenu.svelte
+msgid "← Back"
+msgstr "← Back"
+
+#: src/components/TodToggle.svelte
+msgid "Morning"
+msgstr "Morning"
+
+#: src/components/TodToggle.svelte
+#: src/components/TodToggle.svelte
+msgid "Noon"
+msgstr "Noon"
+
+#: src/components/TodToggle.svelte
+msgid "Evening"
+msgstr "Evening"
+
+#: src/components/TodToggle.svelte
+msgid "Night"
+msgstr "Night"
+
+#: src/components/chrome/TopBar.svelte
+#: src/components/chrome/TopBar.svelte
+msgid "Free Talk"
+msgstr "Free Talk"
+
+#: src/components/chrome/TopBar.svelte
+msgid "Story"
+msgstr "Story"
+
+#: src/components/chrome/TopBar.svelte
+msgid "Immersive"
+msgstr "Immersive"
+
+#: src/components/chrome/TopBar.svelte
+msgid "Open Navigation"
+msgstr "Open Navigation"
+
+#: src/components/chrome/TopBar.svelte
+msgid "Hideout"
+msgstr "Hideout"
+
+#: src/components/chrome/TopBar.svelte
+msgid "Toggle Voice"
+msgstr "Toggle Voice"
+
+#: src/components/views/AlarmView.svelte
+msgid "Sun"
+msgstr "Sun"
+
+#: src/components/views/AlarmView.svelte
+msgid "Mon"
+msgstr "Mon"
+
+#: src/components/views/AlarmView.svelte
+msgid "Tue"
+msgstr "Tue"
+
+#: src/components/views/AlarmView.svelte
+msgid "Wed"
+msgstr "Wed"
+
+#: src/components/views/AlarmView.svelte
+msgid "Thu"
+msgstr "Thu"
+
+#: src/components/views/AlarmView.svelte
+msgid "Fri"
+msgstr "Fri"
+
+#: src/components/views/AlarmView.svelte
+msgid "Sat"
+msgstr "Sat"
+
+#: src/components/views/AlarmView.svelte
+msgid "Good Morning"
+msgstr "Good Morning"
+
+#: src/components/views/AlarmView.svelte
+msgid "Play with Me"
+msgstr "Play with Me"
+
+#: src/components/views/AlarmView.svelte
+msgid "Task Reminder"
+msgstr "Task Reminder"
+
+#: src/components/views/AlarmView.svelte
+msgid "Well Done"
+msgstr "Well Done"
+
+#: src/components/views/AlarmView.svelte
+msgid "Normal Tone"
+msgstr "Normal Tone"
+
+#: src/components/views/AlarmView.svelte
+msgid "Whisper Tone"
+msgstr "Whisper Tone"
+
+#: src/components/views/AlarmView.svelte
+msgid "+ New Alarm"
+msgstr "+ New Alarm"
+
+#: src/components/views/AlarmView.svelte
+msgid "No alarms set yet. Tap + New Alarm to add one!"
+msgstr "No alarms set yet. Tap + New Alarm to add one!"
+
+#: src/components/views/AlarmView.svelte
+msgid "Edit Alarm"
+msgstr "Edit Alarm"
+
+#: src/components/views/AlarmView.svelte
+msgid "New Alarm"
+msgstr "New Alarm"
+
+#: src/components/views/AlarmView.svelte
+msgid "Set the wake-up time and Ryza's voiced greeting style"
+msgstr "Set the wake-up time and Ryza's voiced greeting style"
+
+#: src/components/views/AlarmView.svelte
+msgid "Time"
+msgstr "Time"
+
+#: src/components/views/AlarmView.svelte
+msgid "Greeting Type"
+msgstr "Greeting Type"
+
+#: src/components/views/AlarmView.svelte
+msgid "Voice Style"
+msgstr "Voice Style"
+
+#: src/components/views/AlarmView.svelte
+msgid "Repeat Days"
+msgstr "Repeat Days"
+
+#: src/components/views/AlarmView.svelte
+#: src/components/views/MemoryView.svelte
+#: src/components/views/SettingsView.svelte
+msgid "Cancel"
+msgstr "Cancel"
+
+#: src/components/views/AlarmView.svelte
+msgid "Save Alarm"
+msgstr "Save Alarm"
+
+#: src/components/views/CharaView.svelte
+msgid "👗 Costumes"
+msgstr "👗 Costumes"
+
+#: src/components/views/CharaView.svelte
+msgid "Adventurer Profile"
+msgstr "Adventurer Profile"
+
+#: src/components/views/CharaView.svelte
+msgid "Adventurer"
+msgstr "Adventurer"
+
+#: src/components/views/CharaView.svelte
+msgid "Your Name"
+msgstr "Your Name"
+
+#: src/components/views/CharaView.svelte
+msgid "You / Senpai"
+msgstr "You / Senpai"
+
+#: src/components/views/CharaView.svelte
+msgid "How Ryza Calls You"
+msgstr "How Ryza Calls You"
+
+#: src/components/views/CharaView.svelte
+msgid "Birthday"
+msgstr "Birthday"
+
+#: src/components/views/CharaView.svelte
+msgid "Male / Female / Other"
+msgstr "Male / Female / Other"
+
+#: src/components/views/CharaView.svelte
+msgid "Gender"
+msgstr "Gender"
+
+#: src/components/views/CharaView.svelte
+msgid "Ryza's Persona & Setting"
+msgstr "Ryza's Persona & Setting"
+
+#: src/components/views/CharaView.svelte
+msgid "Energetic, cheerful, loves alchemy..."
+msgstr "Energetic, cheerful, loves alchemy..."
+
+#: src/components/views/CharaView.svelte
+msgid "Personality"
+msgstr "Personality"
+
+#: src/components/views/CharaView.svelte
+msgid "Alchemy, adventures"
+msgstr "Alchemy, adventures"
+
+#: src/components/views/CharaView.svelte
+msgid "Likes"
+msgstr "Likes"
+
+#: src/components/views/CharaView.svelte
+msgid "Ghosts, boredom"
+msgstr "Ghosts, boredom"
+
+#: src/components/views/CharaView.svelte
+msgid "Dislikes"
+msgstr "Dislikes"
+
+#: src/components/views/CharaView.svelte
+msgid "Living in the secret hideout on Kurken Island..."
+msgstr "Living in the secret hideout on Kurken Island..."
+
+#: src/components/views/CharaView.svelte
+msgid "Current Situation"
+msgstr "Current Situation"
+
+#: src/components/views/CharaView.svelte
+msgid "Settings saved successfully!"
+msgstr "Settings saved successfully!"
+
+#: src/components/views/CharaView.svelte
+msgid "Save Profile"
+msgstr "Save Profile"
+
+#: src/components/views/DailyView.svelte
+msgid "Full Stamina Recovery"
+msgstr "Full Stamina Recovery"
+
+#: src/components/views/DailyView.svelte
+msgid "Distilled Water ×3"
+msgstr "Distilled Water ×3"
+
+#: src/components/views/DailyView.svelte
+msgid "Stamina Apple ×1"
+msgstr "Stamina Apple ×1"
+
+#: src/components/views/DailyView.svelte
+msgid "Treasure Chest: 500 Gold + Relic"
+msgstr "Treasure Chest: 500 Gold + Relic"
+
+#: src/components/views/DailyView.svelte
+msgid "Daily reward received!"
+msgstr "Daily reward received!"
+
+#. 0: res.text || 'Daily reward received!'
+#: src/components/views/DailyView.svelte
+msgid "Claimed: {0}"
+msgstr "Claimed: {0}"
+
+#: src/components/views/DailyView.svelte
+msgid "Streak: <0/> Days"
+msgstr "Streak: <0/> Days"
+
+#. 0: reward.day
+#: src/components/views/DailyView.svelte
+msgid "Day {0}"
+msgstr "Day {0}"
+
+#: src/components/views/DailyView.svelte
+msgid "Claimed"
+msgstr "Claimed"
+
+#: src/components/views/DailyView.svelte
+msgid "Ready!"
+msgstr "Ready!"
+
+#: src/components/views/DailyView.svelte
+msgid "Claim Today's Reward"
+msgstr "Claim Today's Reward"
+
+#: src/components/views/DailyView.svelte
+msgid "Already Claimed Today"
+msgstr "Already Claimed Today"
+
+#: src/components/views/MemoryView.svelte
+msgid "Clear All Memories"
+msgstr "Clear All Memories"
+
+#: src/components/views/MemoryView.svelte
+msgid "Are you sure you want to erase all conversation memories and summaries? This cannot be undone."
+msgstr "Are you sure you want to erase all conversation memories and summaries? This cannot be undone."
+
+#: src/components/views/MemoryView.svelte
+#: src/components/views/MemoryView.svelte
+msgid "Clear All"
+msgstr "Clear All"
+
+#: src/components/views/MemoryView.svelte
+msgid "Folding..."
+msgstr "Folding..."
+
+#: src/components/views/MemoryView.svelte
+msgid "Fold Summary"
+msgstr "Fold Summary"
+
+#: src/components/views/MemoryView.svelte
+msgid "Long-Term Summaries"
+msgstr "Long-Term Summaries"
+
+#. 0: memory.summaries.length
+#: src/components/views/MemoryView.svelte
+msgid "{0} saved"
+msgstr "{0} saved"
+
+#: src/components/views/MemoryView.svelte
+msgid "No long-term summaries yet. Conversations will fold here as you talk!"
+msgstr "No long-term summaries yet. Conversations will fold here as you talk!"
+
+#. 0: item.n
+#: src/components/views/MemoryView.svelte
+msgid "Summary ({0} turns)"
+msgstr "Summary ({0} turns)"
+
+#: src/components/views/MemoryView.svelte
+msgid "Recent Conversation Sessions"
+msgstr "Recent Conversation Sessions"
+
+#. 0: memory.sessions.length
+#: src/components/views/MemoryView.svelte
+msgid "{0} sessions"
+msgstr "{0} sessions"
+
+#: src/components/views/MemoryView.svelte
+msgid "No active session cards."
+msgstr "No active session cards."
+
+#: src/components/views/MemoryView.svelte
+msgid "Session Window"
+msgstr "Session Window"
+
+#: src/components/views/QuestView.svelte
+msgid "Thinking..."
+msgstr "Thinking..."
+
+#: src/components/views/QuestView.svelte
+msgid "Ask Ryza"
+msgstr "Ask Ryza"
+
+#: src/components/views/QuestView.svelte
+msgid "Side Quest"
+msgstr "Side Quest"
+
+#. 0: currentQuest.no
+#: src/components/views/QuestView.svelte
+msgid "Main Quest #{0}"
+msgstr "Main Quest #{0}"
+
+#. 0: currentQuest.cost
+#: src/components/views/QuestView.svelte
+msgid "Cost: {0} Stamina"
+msgstr "Cost: {0} Stamina"
+
+#: src/components/views/QuestView.svelte
+msgid "Rewards:"
+msgstr "Rewards:"
+
+#. 0: currentQuest.reward?.exp || 0
+#: src/components/views/QuestView.svelte
+msgid "+{0} EXP"
+msgstr "+{0} EXP"
+
+#. 0: currentQuest.reward?.money || 0
+#: src/components/views/QuestView.svelte
+msgid "+{0} G"
+msgstr "+{0} G"
+
+#: src/components/views/QuestView.svelte
+msgid "Claim Reward & Continue"
+msgstr "Claim Reward & Continue"
+
+#: src/components/views/QuestView.svelte
+msgid "Talk to Ryza"
+msgstr "Talk to Ryza"
+
+#: src/components/views/QuestView.svelte
+msgid "Open World Map"
+msgstr "Open World Map"
+
+#: src/components/views/QuestView.svelte
+msgid "Take Action"
+msgstr "Take Action"
+
+#: src/components/views/QuestView.svelte
+msgid "Completed"
+msgstr "Completed"
+
+#: src/components/views/QuestView.svelte
+msgid "Recent Completed Quests"
+msgstr "Recent Completed Quests"
+
+#: src/components/views/SettingsView.svelte
+msgid "Reset All Settings"
+msgstr "Reset All Settings"
+
+#: src/components/views/SettingsView.svelte
+msgid "Are you sure you want to reset all settings to defaults? Your game progress will be preserved."
+msgstr "Are you sure you want to reset all settings to defaults? Your game progress will be preserved."
+
+#: src/components/views/SettingsView.svelte
+msgid "Reset Settings"
+msgstr "Reset Settings"
+
+#: src/components/views/SettingsView.svelte
+msgid "Save All"
+msgstr "Save All"
+
+#: src/components/views/SettingsView.svelte
+msgid "LLM"
+msgstr "LLM"
+
+#: src/components/views/SettingsView.svelte
+msgid "TTS"
+msgstr "TTS"
+
+#: src/components/views/SettingsView.svelte
+msgid "Audio"
+msgstr "Audio"
+
+#: src/components/views/SettingsView.svelte
+msgid "App"
+msgstr "App"
+
+#: src/components/views/SettingsView.svelte
+msgid "Data"
+msgstr "Data"
+
+#: src/components/views/SettingsView.svelte
+msgid "LLM Configuration"
+msgstr "LLM Configuration"
+
+#: src/components/views/SettingsView.svelte
+msgid "API Base URL"
+msgstr "API Base URL"
+
+#: src/components/views/SettingsView.svelte
+msgid "Model Name"
+msgstr "Model Name"
+
+#: src/components/views/SettingsView.svelte
+#: src/components/views/SettingsView.svelte
+msgid "API Key"
+msgstr "API Key"
+
+#: src/components/views/SettingsView.svelte
+msgid "Temperature"
+msgstr "Temperature"
+
+#: src/components/views/SettingsView.svelte
+msgid "Voice Synthesis (TTS)"
+msgstr "Voice Synthesis (TTS)"
+
+#: src/components/views/SettingsView.svelte
+msgid "Provider"
+msgstr "Provider"
+
+#: src/components/views/SettingsView.svelte
+msgid "Base URL"
+msgstr "Base URL"
+
+#: src/components/views/SettingsView.svelte
+msgid "Voice / Model ID"
+msgstr "Voice / Model ID"
+
+#: src/components/views/SettingsView.svelte
+msgid "Volume Controls"
+msgstr "Volume Controls"
+
+#: src/components/views/SettingsView.svelte
+msgid "Background Music (BGM)"
+msgstr "Background Music (BGM)"
+
+#: src/components/views/SettingsView.svelte
+msgid "Voice Volume"
+msgstr "Voice Volume"
+
+#: src/components/views/SettingsView.svelte
+msgid "Sound Effects (SE)"
+msgstr "Sound Effects (SE)"
+
+#: src/components/views/SettingsView.svelte
+msgid "App Preferences"
+msgstr "App Preferences"
+
+#: src/components/views/SettingsView.svelte
+msgid "Interface Language"
+msgstr "Interface Language"
+
+#: src/components/views/SettingsView.svelte
+msgid "Cheat Mode"
+msgstr "Cheat Mode"
+
+#: src/components/views/SettingsView.svelte
+msgid "Infinite stamina and gold"
+msgstr "Infinite stamina and gold"
+
+#: src/components/views/SettingsView.svelte
+msgid "Data Management"
+msgstr "Data Management"
+
+#: src/components/views/SettingsView.svelte
+msgid "Export Settings JSON"
+msgstr "Export Settings JSON"
+
+#: src/components/views/SettingsView.svelte
+msgid "Reset Settings to Defaults"
+msgstr "Reset Settings to Defaults"
+
+#: src/components/views/SettingsView.svelte
+msgid "Settings saved!"
+msgstr "Settings saved!"
+
+#. 0: skins.length
+#: src/components/views/SkinView.svelte
+msgid "{0} Outfits"
+msgstr "{0} Outfits"
+
+#: src/components/views/SkinView.svelte
+msgid "Loading costumes..."
+msgstr "Loading costumes..."
+
+#: src/components/views/SkinView.svelte
+msgid "No costumes found."
+msgstr "No costumes found."
+
+#: src/components/views/SkinView.svelte
+msgid "Equipped"
+msgstr "Equipped"
+
+#: src/components/views/SkinView.svelte
+msgid "Locked"
+msgstr "Locked"
+
+#: src/components/views/SkinView.svelte
+msgid "Active"
+msgstr "Active"
+
+#: src/components/views/SkinView.svelte
+msgid "Wear"
+msgstr "Wear"
+
+#: src/components/views/SkinView.svelte
+msgid "Preview Only"
+msgstr "Preview Only"
+
+#: src/components/views/TalkView.svelte
+msgid "Welcome back, adventurer! What shall we do today?"
+msgstr "Welcome back, adventurer! What shall we do today?"
+
+#: src/components/views/TalkView.svelte
+msgid "Let's head out on an adventure! The weather on the island is fantastic today."
+msgstr "Let's head out on an adventure! The weather on the island is fantastic today."
+
+#. 0: game.level()
+#: src/components/views/TalkView.svelte
+msgid "Lv.{0}"
+msgstr "Lv.{0}"
+
+#: src/components/views/TalkView.svelte
+msgid "Toggle Log Panel"
+msgstr "Toggle Log Panel"
+
+#: src/components/views/TalkView.svelte
+msgid "Free Talk Mode"
+msgstr "Free Talk Mode"
+
+#. 0: idx + 1
+#: src/components/views/TalkView.svelte
+msgid "Message {0}"
+msgstr "Message {0}"
+
+#: src/components/views/TalkView.svelte
+msgid "Ryza is thinking..."
+msgstr "Ryza is thinking..."
+
+#: src/components/views/TalkView.svelte
+msgid "Text Speed"
+msgstr "Text Speed"
+
+#: src/components/views/TalkView.svelte
+msgid "Say something to Ryza..."
+msgstr "Say something to Ryza..."
+
+#: src/components/views/TalkView.svelte
+msgid "Enter"
+msgstr "Enter"
+
+#: src/components/views/TalkView.svelte
+msgid "Clear Input"
+msgstr "Clear Input"
+
+#: src/components/views/TalkView.svelte
+#: src/components/views/TalkView.svelte
+msgid "Send"
+msgstr "Send"
+
+#: src/components/views/WelcomeView.svelte
+msgid "First Conversation"
+msgstr "First Conversation"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Have a friendly chat with Ryza in the secret hideout."
+msgstr "Have a friendly chat with Ryza in the secret hideout."
+
+#: src/components/views/WelcomeView.svelte
+msgid "Explore the Island"
+msgstr "Explore the Island"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Open the world map to explore Kurken Island and other areas."
+msgstr "Open the world map to explore Kurken Island and other areas."
+
+#: src/components/views/WelcomeView.svelte
+msgid "Set an Alarm"
+msgstr "Set an Alarm"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Schedule a voiced wake-up greeting with Ryza."
+msgstr "Schedule a voiced wake-up greeting with Ryza."
+
+#: src/components/views/WelcomeView.svelte
+msgid "Wardrobe & Costumes"
+msgstr "Wardrobe & Costumes"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Visit the costume gallery and try out Ryza’s outfits."
+msgstr "Visit the costume gallery and try out Ryza’s outfits."
+
+#: src/components/views/WelcomeView.svelte
+msgid "First Quest"
+msgstr "First Quest"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Embark on an adventure and advance your main quest line."
+msgstr "Embark on an adventure and advance your main quest line."
+
+#: src/components/views/WelcomeView.svelte
+msgid "All Completed!"
+msgstr "All Completed!"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Tutorial Checklist"
+msgstr "Tutorial Checklist"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Done"
+msgstr "Done"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Go"
+msgstr "Go"
+
+#: src/components/views/WorldView.svelte
+msgid "Here"
+msgstr "Here"
+
+#: src/components/views/WorldView.svelte
+msgid "Travel"
+msgstr "Travel"
+
+#: src/components/views/WorldView.svelte
+msgid "People Here"
+msgstr "People Here"
+
+#: src/components/ui/dialog/dialog-content.svelte
+#: src/components/ui/dialog/dialog-footer.svelte
+#: src/components/ui/sheet/sheet-content.svelte
+msgid "Close"
+msgstr "Close"

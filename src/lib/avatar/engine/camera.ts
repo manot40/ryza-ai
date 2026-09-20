@@ -1,4 +1,4 @@
-import type { CamParams, PostureCameraCatalog, SpineLayer } from './types';
+import type { CamParams, PostureCameraCatalog, SpineLayer, SpineAttachment } from './types';
 
 export const REF_ZOOM = 1.93;
 export const REF_H = 1720;
@@ -60,6 +60,17 @@ export function getCamParams(
   };
 }
 
+type SpineConstructor<T = unknown> = new (...args: unknown[]) => T;
+
+interface SpineRuntimeGlobal {
+  Physics: { none: unknown; pose: unknown };
+  BoundingBoxAttachment: SpineConstructor;
+  ClippingAttachment: SpineConstructor;
+  PathAttachment: SpineConstructor;
+  PointAttachment: SpineConstructor;
+  RegionAttachment: SpineConstructor<SpineAttachment>;
+}
+
 export function coverFor(L: SpineLayer | null): {
   x0: number;
   x1: number;
@@ -71,7 +82,7 @@ export function coverFor(L: SpineLayer | null): {
   if (!L || !L.skeleton) return null;
   if (L._coverDone) return L._cover || null;
 
-  const spineObj = (window as unknown as { spine?: any }).spine;
+  const spineObj = (window as unknown as { spine?: SpineRuntimeGlobal }).spine;
   if (!spineObj) return null;
 
   let best: { x0: number; x1: number; y0: number; y1: number; w: number; h: number } | null = null;
@@ -82,7 +93,7 @@ export function coverFor(L: SpineLayer | null): {
   for (let i = 0; i < slots.length; i++) {
     const slot = slots[i];
     if (!slot.bone.active || !slot.data.visible) continue;
-    const att = slot.getAttachment && slot.getAttachment();
+    const att = slot.getAttachment ? slot.getAttachment() : null;
     if (
       !att ||
       att instanceof spineObj.BoundingBoxAttachment ||
@@ -94,9 +105,9 @@ export function coverFor(L: SpineLayer | null): {
 
     const verts: number[] = [];
     try {
-      if (att instanceof spineObj.RegionAttachment) {
+      if (att instanceof spineObj.RegionAttachment && att.computeWorldVertices) {
         att.computeWorldVertices(slot, verts, 0, 2);
-      } else if (att.worldVerticesLength) {
+      } else if (att.worldVerticesLength && att.computeWorldVertices) {
         att.computeWorldVertices(slot, 0, att.worldVerticesLength, verts, 0, 2);
       } else {
         continue;
@@ -124,7 +135,8 @@ export function coverFor(L: SpineLayer | null): {
     }
 
     if (!(x1 > x0) || !(y1 > y0)) {
-      if (!(att instanceof spineObj.RegionAttachment) || !att.width || !att.height || !isFinite(slot.bone.a))
+      const aVal = slot.bone.a ?? 1;
+      if (!(att instanceof spineObj.RegionAttachment) || !att.width || !att.height || !isFinite(aVal))
         continue;
       const hw = att.width / 2;
       const hh = att.height / 2;
@@ -138,8 +150,8 @@ export function coverFor(L: SpineLayer | null): {
       x0 = y0 = 1e9;
       x1 = y1 = -1e9;
       for (let j = 0; j < 4; j++) {
-        const px = corners[j][0] * bn.a + corners[j][1] * bn.b + bn.worldX;
-        const py = corners[j][0] * bn.c + corners[j][1] * bn.d + bn.worldY;
+        const px = corners[j][0] * (bn.a ?? 1) + corners[j][1] * (bn.b ?? 0) + bn.worldX;
+        const py = corners[j][0] * (bn.c ?? 0) + corners[j][1] * (bn.d ?? 1) + bn.worldY;
         if (px < x0) x0 = px;
         if (px > x1) x1 = px;
         if (py < y0) y0 = py;
