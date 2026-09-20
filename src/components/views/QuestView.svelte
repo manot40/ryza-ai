@@ -54,8 +54,7 @@
         variant="ghost"
         size="icon"
         class="h-8 w-8 text-muted-foreground hover:text-foreground"
-        onclick={() => viewStore.setView('talk')}
-      >
+        onclick={() => viewStore.setView('talk')}>
         ✕
       </Button>
       <h2 class="text-lg font-bold text-gold">Quests</h2>
@@ -66,8 +65,7 @@
       size="sm"
       class="h-8 text-xs border-border/50 text-gold hover:bg-gold/10"
       disabled={isGenerating}
-      onclick={handleAskRyza}
-    >
+      onclick={handleAskRyza}>
       {isGenerating ? 'Thinking...' : 'Ask Ryza'}
     </Button>
   </div>
@@ -78,7 +76,8 @@
       <Card class="border-border/60 bg-card/85 shadow-lg">
         <CardHeader>
           <div class="flex items-center justify-between">
-            <span class="text-xs font-semibold text-gold px-2 py-0.5 rounded-full bg-gold/15 border border-gold/30">
+            <span
+              class="text-xs font-semibold text-gold px-2 py-0.5 rounded-full bg-gold/15 border border-gold/30">
               {currentQuest.side ? 'Side Quest' : `Main Quest #${currentQuest.no}`}
             </span>
             <span class="text-xs text-muted-foreground">
@@ -102,11 +101,7 @@
                 {currentQuest.step} / {currentQuest.need}
               </span>
             </div>
-            <Progress
-              value={currentQuest.step}
-              max={currentQuest.need}
-              class="h-2.5 bg-muted/60"
-            />
+            <Progress value={currentQuest.step} max={currentQuest.need} class="h-2.5 bg-muted/60" />
           </div>
 
           <!-- Rewards row -->
@@ -118,7 +113,8 @@
 
           <!-- Action Feedback -->
           {#if actionMessage}
-            <div class="p-2.5 rounded-md bg-muted/40 border border-border/40 text-xs text-foreground/90 leading-relaxed">
+            <div
+              class="p-2.5 rounded-md bg-muted/40 border border-border/40 text-xs text-foreground/90 leading-relaxed">
               {actionMessage}
             </div>
           {/if}
@@ -128,29 +124,25 @@
           {#if currentQuest.complete || currentQuest.step >= currentQuest.need}
             <Button
               class="w-full bg-leaf text-background font-bold hover:bg-leaf/90"
-              onclick={handleTakeNext}
-            >
+              onclick={handleTakeNext}>
               Claim Reward & Continue
             </Button>
           {:else if currentQuest.type === 'talk'}
             <Button
               class="w-full bg-gold text-background font-semibold hover:bg-gold/90"
-              onclick={() => viewStore.setView('talk')}
-            >
+              onclick={() => viewStore.setView('talk')}>
               Talk to Ryza
             </Button>
           {:else if currentQuest.type === 'explore'}
             <Button
               class="w-full bg-gold text-background font-semibold hover:bg-gold/90"
-              onclick={() => viewStore.setView('world')}
-            >
+              onclick={() => viewStore.setView('world')}>
               Open World Map
             </Button>
           {:else}
             <Button
               class="w-full bg-gold text-background font-semibold hover:bg-gold/90"
-              onclick={handleDoAction}
-            >
+              onclick={handleDoAction}>
               Take Action
             </Button>
           {/if}
@@ -166,8 +158,16 @@
         </h3>
         <div class="space-y-1.5">
           {#each [...questLog].reverse().slice(0, 5) as item}
-            <div class="flex items-center justify-between p-2.5 rounded-lg bg-card/60 border border-border/40 text-xs">
-              <span class="font-medium text-foreground/90">{quests.title({ no: item.no, title: item.title, side: item.no > 8, type: item.type } as Quest)}</span>
+            <div
+              class="flex items-center justify-between p-2.5 rounded-lg bg-card/60 border border-border/40 text-xs">
+              <span class="font-medium text-foreground/90">
+                {quests.title({
+                  no: item.no,
+                  title: item.title,
+                  side: item.no > 8,
+                  type: item.type,
+                } as Quest)}
+              </span>
               <span class="text-leaf font-semibold">Completed</span>
             </div>
           {/each}

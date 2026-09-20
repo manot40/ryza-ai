@@ -66,8 +66,7 @@
         variant="ghost"
         size="icon"
         class="h-8 w-8 text-muted-foreground hover:text-foreground"
-        onclick={() => viewStore.setView('talk')}
-      >
+        onclick={() => viewStore.setView('talk')}>
         ✕
       </Button>
       <h2 class="text-lg font-bold text-gold">Costumes</h2>
@@ -89,9 +88,10 @@
         {#each skins as outfit}
           {@const isEquipped = currentSkin === outfit.id}
           <Card
-            class="border-border/50 bg-card/75 overflow-hidden transition relative py-0 gap-0 {isEquipped ? 'ring-2 ring-gold bg-gold/10' : ''} {!outfit.hasSpine ? 'opacity-50' : 'hover:bg-card cursor-pointer'}"
-            onclick={() => handleEquip(outfit)}
-          >
+            class="border-border/50 bg-card/75 overflow-hidden transition relative py-0 gap-0 {isEquipped
+              ? 'ring-2 ring-gold bg-gold/10'
+              : ''} {!outfit.hasSpine ? 'opacity-50' : 'hover:bg-card cursor-pointer'}"
+            onclick={() => handleEquip(outfit)}>
             <div class="relative bg-muted/40 aspect-7/9 grid place-content-center overflow-hidden">
               <img
                 src={outfit.preview || '/assets/images/chara_placeholder.png'}
@@ -99,14 +99,15 @@
                 class="size-full object-cover"
                 onerror={(e) => {
                   (e.currentTarget as HTMLImageElement).src = '/assets/images/chara_placeholder.png';
-                }}
-              />
+                }} />
               {#if isEquipped}
-                <span class="absolute top-2 right-2 text-[10px] font-bold text-background bg-gold px-2 py-0.5 rounded-full shadow">
+                <span
+                  class="absolute top-2 right-2 text-[10px] font-bold text-background bg-gold px-2 py-0.5 rounded-full shadow">
                   Equipped
                 </span>
               {:else if !outfit.hasSpine}
-                <span class="absolute top-2 right-2 text-[10px] font-medium text-muted-foreground bg-black/60 px-1.5 py-0.5 rounded">
+                <span
+                  class="absolute top-2 right-2 text-[10px] font-medium text-muted-foreground bg-black/60 px-1.5 py-0.5 rounded">
                   Locked
                 </span>
               {/if}

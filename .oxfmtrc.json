@@ -1,5 +1,6 @@
 {
   "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "svelte": true,
   "printWidth": 110,
   "singleQuote": true,
   "trailingComma": "es5",

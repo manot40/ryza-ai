@@ -86,8 +86,7 @@
         variant="ghost"
         size="icon"
         class="h-8 w-8 text-muted-foreground hover:text-foreground"
-        onclick={() => viewStore.setView('talk')}
-      >
+        onclick={() => viewStore.setView('talk')}>
         ✕
       </Button>
       <h2 class="text-lg font-bold text-gold">Alarm Clock</h2>
@@ -96,8 +95,7 @@
     <Button
       size="sm"
       class="h-8 text-xs bg-gold text-background hover:bg-gold/90 font-semibold"
-      onclick={openCreateDialog}
-    >
+      onclick={openCreateDialog}>
       + New Alarm
     </Button>
   </div>
@@ -124,8 +122,9 @@
               <div class="flex items-center gap-1 mt-1">
                 {#each dayLabels as day, idx}
                   <span
-                    class="text-[10px] px-1.5 py-0.5 rounded {item.days?.includes(idx) ? 'bg-gold/20 text-gold font-bold' : 'text-muted-foreground/50'}"
-                  >
+                    class="text-[10px] px-1.5 py-0.5 rounded {item.days?.includes(idx)
+                      ? 'bg-gold/20 text-gold font-bold'
+                      : 'text-muted-foreground/50'}">
                     {day}
                   </span>
                 {/each}
@@ -133,16 +132,12 @@
             </div>
 
             <div class="flex items-center gap-3">
-              <Switch
-                checked={item.enabled}
-                onCheckedChange={() => alarm.toggle(item.id)}
-              />
+              <Switch checked={item.enabled} onCheckedChange={() => alarm.toggle(item.id)} />
               <Button
                 variant="ghost"
                 size="icon"
                 class="h-8 w-8 text-muted-foreground hover:text-destructive"
-                onclick={() => handleDelete(item.id)}
-              >
+                onclick={() => handleDelete(item.id)}>
                 ✕
               </Button>
             </div>
@@ -172,8 +167,7 @@
             id="alarm-time-input"
             type="time"
             bind:value={formTime}
-            class="h-10 text-center font-mono text-lg font-bold"
-          />
+            class="h-10 text-center font-mono text-lg font-bold" />
         </div>
 
         <!-- Alarm Type -->
@@ -183,9 +177,10 @@
             {#each TYPES as t}
               <Button
                 variant={formType === t ? 'secondary' : 'outline'}
-                class="text-xs h-9 justify-start {formType === t ? 'border-gold text-gold font-semibold' : ''}"
-                onclick={() => (formType = t)}
-              >
+                class="text-xs h-9 justify-start {formType === t
+                  ? 'border-gold text-gold font-semibold'
+                  : ''}"
+                onclick={() => (formType = t)}>
                 {typeLabels[t] || t}
               </Button>
             {/each}
@@ -199,9 +194,10 @@
             {#each STYLES as s}
               <Button
                 variant={formStyle === s ? 'secondary' : 'outline'}
-                class="text-xs h-9 justify-start {formStyle === s ? 'border-gold text-gold font-semibold' : ''}"
-                onclick={() => (formStyle = s)}
-              >
+                class="text-xs h-9 justify-start {formStyle === s
+                  ? 'border-gold text-gold font-semibold'
+                  : ''}"
+                onclick={() => (formStyle = s)}>
                 {styleLabels[s] || s}
               </Button>
             {/each}
@@ -216,9 +212,10 @@
               <Button
                 variant={formDays.includes(idx) ? 'default' : 'secondary'}
                 size="icon"
-                class="w-8 h-8 rounded-full text-xs font-bold {formDays.includes(idx) ? 'bg-gold text-background hover:bg-gold/90' : 'bg-muted text-muted-foreground hover:bg-muted/80'}"
-                onclick={() => toggleDay(idx)}
-              >
+                class="w-8 h-8 rounded-full text-xs font-bold {formDays.includes(idx)
+                  ? 'bg-gold text-background hover:bg-gold/90'
+                  : 'bg-muted text-muted-foreground hover:bg-muted/80'}"
+                onclick={() => toggleDay(idx)}>
                 {day[0]}
               </Button>
             {/each}
@@ -227,12 +224,8 @@
       </div>
 
       <Dialog.Footer class="flex flex-row justify-end gap-2">
-        <Button variant="outline" onclick={() => (dialogOpen = false)}>
-          Cancel
-        </Button>
-        <Button class="bg-gold text-background hover:bg-gold/90" onclick={handleSave}>
-          Save Alarm
-        </Button>
+        <Button variant="outline" onclick={() => (dialogOpen = false)}>Cancel</Button>
+        <Button class="bg-gold text-background hover:bg-gold/90" onclick={handleSave}>Save Alarm</Button>
       </Dialog.Footer>
     </Dialog.Content>
   </Dialog.Root>

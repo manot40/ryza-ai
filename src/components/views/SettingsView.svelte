@@ -124,14 +124,16 @@
         variant="ghost"
         size="icon"
         class="h-8 w-8 text-muted-foreground hover:text-foreground"
-        onclick={() => viewStore.setView('talk')}
-      >
+        onclick={() => viewStore.setView('talk')}>
         ✕
       </Button>
       <h2 class="text-lg font-bold text-gold">Settings</h2>
     </div>
 
-    <Button size="sm" class="h-8 text-xs bg-gold text-background hover:bg-gold/90 font-bold" onclick={handleSave}>
+    <Button
+      size="sm"
+      class="h-8 text-xs bg-gold text-background hover:bg-gold/90 font-bold"
+      onclick={handleSave}>
       Save All
     </Button>
   </div>
@@ -158,13 +160,14 @@
           </CardHeader>
           <CardContent class="space-y-3">
             <div class="space-y-1">
-              <label for="settings-llm-base-url" class="text-xs font-medium text-foreground">API Base URL</label>
+              <label for="settings-llm-base-url" class="text-xs font-medium text-foreground">
+                API Base URL
+              </label>
               <Input
                 id="settings-llm-base-url"
                 bind:value={llmBaseUrl}
                 placeholder="https://api.openai.com/v1"
-                class="h-9 text-xs"
-              />
+                class="h-9 text-xs" />
             </div>
 
             <div class="space-y-1">
@@ -173,8 +176,7 @@
                 id="settings-llm-model"
                 bind:value={llmModel}
                 placeholder="gpt-4o / claude-3-5-sonnet"
-                class="h-9 text-xs"
-              />
+                class="h-9 text-xs" />
             </div>
 
             <div class="space-y-1">
@@ -184,8 +186,7 @@
                 type="password"
                 bind:value={llmApiKey}
                 placeholder="sk-..."
-                class="h-9 text-xs"
-              />
+                class="h-9 text-xs" />
             </div>
 
             <div class="space-y-1.5">
@@ -193,14 +194,7 @@
                 <label for="settings-llm-temp" class="font-medium text-foreground">Temperature</label>
                 <span class="text-gold font-mono">{llmTemp}</span>
               </div>
-              <Slider
-                type="single"
-                min={0}
-                max={2}
-                step={0.05}
-                bind:value={llmTemp}
-                class="w-full"
-              />
+              <Slider type="single" min={0} max={2} step={0.05} bind:value={llmTemp} class="w-full" />
             </div>
           </CardContent>
         </Card>
@@ -215,7 +209,11 @@
           <CardContent class="space-y-3">
             <div class="space-y-1">
               <label for="settings-tts-provider" class="text-xs font-medium text-foreground">Provider</label>
-              <Input id="settings-tts-provider" bind:value={ttsProvider} placeholder="openai / qwen" class="h-9 text-xs" />
+              <Input
+                id="settings-tts-provider"
+                bind:value={ttsProvider}
+                placeholder="openai / qwen"
+                class="h-9 text-xs" />
             </div>
 
             <div class="space-y-1">
@@ -224,8 +222,7 @@
                 id="settings-tts-base-url"
                 bind:value={ttsBaseUrl}
                 placeholder="https://api.openai.com/v1"
-                class="h-9 text-xs"
-              />
+                class="h-9 text-xs" />
             </div>
 
             <div class="space-y-1">
@@ -235,13 +232,18 @@
                 type="password"
                 bind:value={ttsApiKey}
                 placeholder="sk-..."
-                class="h-9 text-xs"
-              />
+                class="h-9 text-xs" />
             </div>
 
             <div class="space-y-1">
-              <label for="settings-tts-model" class="text-xs font-medium text-foreground">Voice / Model ID</label>
-              <Input id="settings-tts-model" bind:value={ttsModel} placeholder="alloy / nova" class="h-9 text-xs" />
+              <label for="settings-tts-model" class="text-xs font-medium text-foreground">
+                Voice / Model ID
+              </label>
+              <Input
+                id="settings-tts-model"
+                bind:value={ttsModel}
+                placeholder="alloy / nova"
+                class="h-9 text-xs" />
             </div>
           </CardContent>
         </Card>
@@ -256,17 +258,12 @@
           <CardContent class="space-y-4">
             <div class="space-y-1.5">
               <div class="flex justify-between text-xs">
-                <label for="settings-audio-bgm" class="font-medium text-foreground">Background Music (BGM)</label>
+                <label for="settings-audio-bgm" class="font-medium text-foreground">
+                  Background Music (BGM)
+                </label>
                 <span class="text-gold font-mono">{Math.round(bgmVol * 100)}%</span>
               </div>
-              <Slider
-                type="single"
-                min={0}
-                max={1}
-                step={0.05}
-                bind:value={bgmVol}
-                class="w-full"
-              />
+              <Slider type="single" min={0} max={1} step={0.05} bind:value={bgmVol} class="w-full" />
             </div>
 
             <div class="space-y-1.5">
@@ -274,14 +271,7 @@
                 <label for="settings-audio-voice" class="font-medium text-foreground">Voice Volume</label>
                 <span class="text-gold font-mono">{Math.round(voiceVol * 100)}%</span>
               </div>
-              <Slider
-                type="single"
-                min={0}
-                max={1}
-                step={0.05}
-                bind:value={voiceVol}
-                class="w-full"
-              />
+              <Slider type="single" min={0} max={1} step={0.05} bind:value={voiceVol} class="w-full" />
             </div>
 
             <div class="space-y-1.5">
@@ -289,14 +279,7 @@
                 <label for="settings-audio-se" class="font-medium text-foreground">Sound Effects (SE)</label>
                 <span class="text-gold font-mono">{Math.round(seVol * 100)}%</span>
               </div>
-              <Slider
-                type="single"
-                min={0}
-                max={1}
-                step={0.05}
-                bind:value={seVol}
-                class="w-full"
-              />
+              <Slider type="single" min={0} max={1} step={0.05} bind:value={seVol} class="w-full" />
             </div>
           </CardContent>
         </Card>
@@ -309,23 +292,21 @@
             <CardTitle class="text-sm font-bold text-gold">App Preferences</CardTitle>
           </CardHeader>
           <CardContent class="space-y-4">
-            <div class="space-y-1.5">
-              <span class="text-xs font-medium text-foreground">Interface Language</span>
+            <div class="space-y-2.5">
+              <span class="block text-xs font-medium text-foreground">Interface Language</span>
               <div class="grid grid-cols-2 gap-2">
-                {#each [ { id: 'en', label: 'English' }, { id: 'ja', label: '日本語' }, { id: 'zh', label: '简体中文' }, { id: 'id', label: 'Bahasa Indonesia' }, ] as l}
+                {#each [{ id: 'en', label: 'English' }, { id: 'ja', label: '日本語' }, { id: 'zh', label: '简体中文' }, { id: 'id', label: 'Bahasa Indonesia' }] as l}
                   <Button
                     variant={appLang === l.id ? 'secondary' : 'outline'}
                     class="h-9 text-xs {appLang === l.id ? 'border-gold text-gold font-bold' : ''}"
-                    onclick={() => handleLanguageChange(l.id as SupportedUiLocale)}
-                  >
+                    onclick={() => handleLanguageChange(l.id as SupportedUiLocale)}>
                     {l.label}
                   </Button>
                 {/each}
               </div>
             </div>
-
             <div class="flex items-center justify-between pt-2 border-t border-border/30">
-              <div class="flex flex-col">
+              <div class="flex flex-col gap-1">
                 <span class="text-xs font-medium text-foreground">Cheat Mode</span>
                 <span class="text-[11px] text-muted-foreground">Infinite stamina and gold</span>
               </div>
@@ -345,16 +326,14 @@
             <Button
               variant="outline"
               class="w-full text-xs h-9 justify-start border-border/50"
-              onclick={handleExportConfig}
-            >
+              onclick={handleExportConfig}>
               Export Settings JSON
             </Button>
 
             <Button
               variant="outline"
               class="w-full text-xs h-9 justify-start border-destructive/40 text-destructive hover:bg-destructive/10"
-              onclick={handleResetAll}
-            >
+              onclick={handleResetAll}>
               Reset Settings to Defaults
             </Button>
           </CardContent>

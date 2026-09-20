@@ -25,15 +25,11 @@
         <Button
           variant="outline"
           class="border-border/60 hover:bg-muted/40"
-          onclick={() => modal.handleCancel()}
-        >
+          onclick={() => modal.handleCancel()}>
           {modal.cancelText}
         </Button>
       {/if}
-      <Button
-        class="bg-gold text-background font-medium hover:bg-gold/90"
-        onclick={() => modal.handleOk()}
-      >
+      <Button class="bg-gold text-background font-medium hover:bg-gold/90" onclick={() => modal.handleOk()}>
         {modal.okText}
       </Button>
     </Dialog.Footer>

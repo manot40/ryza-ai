@@ -1,5 +1,4 @@
 <script lang="ts">
-  
   import { daily } from '$lib/stores/daily.svelte';
   import { config } from '$lib/stores/config.svelte';
   import { Button } from '$components/ui/button';
@@ -12,11 +11,7 @@
     onSelectView: (view: string) => void;
   }
 
-  let {
-    open = $bindable(false),
-    activeView,
-    onSelectView
-  }: Props = $props();
+  let { open = $bindable(false), activeView, onSelectView }: Props = $props();
 
   const navItems = [
     { id: 'talk', label: 'Talk', icon: '/assets/icons/chara.svg' },
@@ -40,15 +35,13 @@
 <Sheet.Root bind:open>
   <Sheet.Content
     side="left"
-    class="w-72 sm:w-80 bg-background/95 backdrop-blur-md border-r border-border/60 p-0 flex flex-col justify-between"
-  >
+    class="w-72 sm:w-80 bg-background/95 backdrop-blur-md border-r border-border/60 p-0 flex flex-col justify-between">
     <div class="flex flex-col overflow-y-auto">
       <Sheet.Header class="p-4 border-b border-border/40 flex flex-row items-center gap-3">
         <img
           src="/assets/images/chara_icons/ryza.png"
           alt="Ryza"
-          class="w-12 h-12 rounded-full border border-gold/40 object-cover shadow-sm"
-        />
+          class="w-12 h-12 rounded-full border border-gold/40 object-cover shadow-sm" />
         <div class="flex flex-col text-left">
           <Sheet.Title class="text-gold font-bold text-base leading-tight">Ryza</Sheet.Title>
           <Sheet.Description class="text-xs text-muted-foreground mt-0.5">
@@ -61,9 +54,10 @@
         {#each navItems as item}
           <Button
             variant={activeView === item.id ? 'secondary' : 'ghost'}
-            class="w-full justify-start gap-3 h-10 px-3 text-sm font-medium {activeView === item.id ? 'bg-gold/15 text-gold font-semibold' : 'text-foreground/80'}"
-            onclick={() => handleSelect(item.id)}
-          >
+            class="w-full justify-start gap-3 h-10 px-3 text-sm font-medium {activeView === item.id
+              ? 'bg-gold/15 text-gold font-semibold'
+              : 'text-foreground/80'}"
+            onclick={() => handleSelect(item.id)}>
             <img src={item.icon} alt="" class="w-5 h-5 opacity-80" />
             <span class="flex-1 text-left">{item.label}</span>
             {#if item.hasBadge && daily.available()}

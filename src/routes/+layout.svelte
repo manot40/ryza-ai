@@ -49,13 +49,13 @@
   });
 </script>
 
-<div class="relative w-screen h-dvh overflow-hidden bg-black flex items-center justify-center select-none">
+<div
+  class="relative w-screen h-dvh overflow-hidden bg-background flex items-center justify-center select-none">
   <!-- #phone container fixed at 420x860 or full mobile -->
   <main
     id="phone"
     bind:this={phoneEl}
-    class="relative w-full h-full max-w-3xl bg-background text-foreground overflow-hidden shadow-2xl flex flex-col"
-  >
+    class="relative w-full h-full max-w-3xl bg-background text-foreground overflow-hidden shadow-2xl flex flex-col">
     <!-- Background Spine Stage & Avatar -->
     <div class="absolute inset-0 z-0 overflow-hidden">
       <Avatar
@@ -64,15 +64,14 @@
         tod={appState.tod || 'aft'}
         skinId={appState.skin || 'crf_skn_002_0001'}
         hidden={avatarService.hidden}
-        class="w-full h-full"
-      />
+        class="w-full h-full" />
     </div>
 
     <!-- Stage Vignette & Atmosphere Gradient -->
     <div
       id="vignette"
-      class="pointer-events-none absolute inset-0 z-10 bg-radial from-transparent via-transparent to-background/70"
-    ></div>
+      class="pointer-events-none absolute inset-0 z-10 bg-radial from-transparent via-transparent to-background/70">
+    </div>
 
     <!-- Confetti particle FX overlay -->
     <Confetti bind:this={confettiRef} class="pointer-events-none absolute inset-0 z-25" />
@@ -81,22 +80,19 @@
     <TopBar
       onOpenDrawer={() => (viewStore.drawerOpen = true)}
       onOpenSideMenu={() => (viewStore.sideMenuOpen = true)}
-      onSelectView={(v) => viewStore.setView(v)}
-    />
+      onSelectView={(v) => viewStore.setView(v)} />
 
     <!-- Navigation Drawer & Quick Menu -->
     <Drawer
       bind:open={viewStore.drawerOpen}
       activeView={viewStore.activeView}
-      onSelectView={(v) => viewStore.setView(v)}
-    />
+      onSelectView={(v) => viewStore.setView(v)} />
 
     <SideMenu
       bind:open={viewStore.sideMenuOpen}
       charaHidden={avatarService.hidden}
       onNewTalk={() => viewStore.setView('talk')}
-      onToggleChara={() => avatarService.toggleChara()}
-    />
+      onToggleChara={() => avatarService.toggleChara()} />
 
     <!-- Main View Outlet -->
     <div class="relative z-20 flex-1 flex flex-col overflow-hidden pt-14">

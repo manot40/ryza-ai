@@ -1,14 +1,13 @@
 <script lang="ts">
-import { world } from '$lib/stores/world.svelte';
-import { config } from '$lib/stores/config.svelte';
-import { avatarService } from '$lib/avatar/avatar-service.svelte';
+  import { world } from '$lib/stores/world.svelte';
+  import { config } from '$lib/stores/config.svelte';
+  import { avatarService } from '$lib/avatar/avatar-service.svelte';
 
-import { Button } from '$components/ui/button';
-import {cn} from '$lib/utils';
+  import { Button } from '$components/ui/button';
+  import { cn } from '$lib/utils';
 
-const {class:className}: {class?:string} = $props();
-const appState = $derived(config.section('state') || {});
-
+  const { class: className }: { class?: string } = $props();
+  const appState = $derived(config.section('state') || {});
 
   const todNames: Record<string, string> = {
     mor: 'Morning',
@@ -25,11 +24,10 @@ const appState = $derived(config.section('state') || {});
 </script>
 
 <Button
-        variant="outline"
-        size="sm"
-        class={cn("h-8 gap-1.5 border-border/50 text-xs text-foreground", className)}
-        onclick={handleAdvanceTod}
-      >
-        <span>🌤</span>
-        <span>{todNames[appState.tod] || 'Noon'}</span>
-      </Button>
+  variant="outline"
+  size="sm"
+  class={cn('h-8 gap-1.5 border-border/50 text-xs text-foreground', className)}
+  onclick={handleAdvanceTod}>
+  <span>🌤</span>
+  <span>{todNames[appState.tod] || 'Noon'}</span>
+</Button>

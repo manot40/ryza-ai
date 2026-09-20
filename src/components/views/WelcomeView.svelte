@@ -4,10 +4,7 @@
   import { Button } from '$components/ui/button';
   import { Card, CardContent } from '$components/ui/card';
 
-  const missionDetails: Record<
-    string,
-    { title: string; desc: string; targetView: string }
-  > = {
+  const missionDetails: Record<string, { title: string; desc: string; targetView: string }> = {
     talk: {
       title: 'First Conversation',
       desc: 'Have a friendly chat with Ryza in the secret hideout.',
@@ -49,8 +46,7 @@
         variant="ghost"
         size="icon"
         class="h-8 w-8 text-muted-foreground hover:text-foreground"
-        onclick={() => viewStore.setView('talk')}
-      >
+        onclick={() => viewStore.setView('talk')}>
         ✕
       </Button>
       <h2 class="text-lg font-bold text-gold">Welcome Missions</h2>
@@ -71,12 +67,16 @@
       {@const info = missionDetails[step.id] || { title: step.id, desc: '', targetView: 'talk' }}
       {@const isDone = welcome.done(step.id)}
       <Card
-        class="border-border/50 bg-card/75 shadow-sm transition hover:bg-card cursor-pointer {isDone ? 'border-leaf/30 bg-leaf/5' : ''}"
-        onclick={() => handleAction(step.id, info.targetView)}
-      >
+        class="border-border/50 bg-card/75 shadow-sm transition hover:bg-card cursor-pointer {isDone
+          ? 'border-leaf/30 bg-leaf/5'
+          : ''}"
+        onclick={() => handleAction(step.id, info.targetView)}>
         <CardContent class="p-3.5 flex items-center justify-between">
           <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-full flex items-center justify-center {isDone ? 'bg-leaf/20 text-leaf' : 'bg-gold/15 text-gold'}">
+            <div
+              class="w-9 h-9 rounded-full flex items-center justify-center {isDone
+                ? 'bg-leaf/20 text-leaf'
+                : 'bg-gold/15 text-gold'}">
               {#if isDone}
                 ✓
               {:else}
@@ -85,7 +85,10 @@
             </div>
 
             <div class="flex flex-col">
-              <span class="text-sm font-semibold {isDone ? 'text-foreground/70 line-through' : 'text-foreground'}">
+              <span
+                class="text-sm font-semibold {isDone
+                  ? 'text-foreground/70 line-through'
+                  : 'text-foreground'}">
                 {info.title}
               </span>
               <span class="text-xs text-muted-foreground mt-0.5">
@@ -96,11 +99,12 @@
 
           <div>
             {#if isDone}
-              <span class="text-xs font-bold text-leaf px-2 py-0.5 rounded-full bg-leaf/15">
-                Done
-              </span>
+              <span class="text-xs font-bold text-leaf px-2 py-0.5 rounded-full bg-leaf/15">Done</span>
             {:else}
-              <Button size="sm" variant="outline" class="h-7 text-xs border-gold/50 text-gold hover:bg-gold/10">
+              <Button
+                size="sm"
+                variant="outline"
+                class="h-7 text-xs border-gold/50 text-gold hover:bg-gold/10">
                 Go
               </Button>
             {/if}

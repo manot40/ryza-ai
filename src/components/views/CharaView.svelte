@@ -55,8 +55,7 @@
         variant="ghost"
         size="icon"
         class="h-8 w-8 text-muted-foreground hover:text-foreground"
-        onclick={() => viewStore.setView('talk')}
-      >
+        onclick={() => viewStore.setView('talk')}>
         ✕
       </Button>
       <h2 class="text-lg font-bold text-gold">Character Profile</h2>
@@ -66,8 +65,7 @@
       variant="outline"
       size="sm"
       class="h-8 text-xs border-border/50 text-gold hover:bg-gold/10"
-      onclick={() => viewStore.setView('skin')}
-    >
+      onclick={() => viewStore.setView('skin')}>
       👗 Costumes
     </Button>
   </div>
@@ -82,7 +80,11 @@
       <CardContent class="space-y-3">
         <div class="space-y-1">
           <label for="chara-player-name" class="text-xs font-medium text-foreground">Your Name</label>
-          <Input id="chara-player-name" bind:value={playerName} placeholder="Adventurer" class="h-9 text-xs" />
+          <Input
+            id="chara-player-name"
+            bind:value={playerName}
+            placeholder="Adventurer"
+            class="h-9 text-xs" />
         </div>
 
         <div class="space-y-1">
@@ -97,7 +99,11 @@
           </div>
           <div class="space-y-1">
             <label for="chara-gender" class="text-xs font-medium text-foreground">Gender</label>
-            <Input id="chara-gender" bind:value={gender} placeholder="Male / Female / Other" class="h-9 text-xs" />
+            <Input
+              id="chara-gender"
+              bind:value={gender}
+              placeholder="Male / Female / Other"
+              class="h-9 text-xs" />
           </div>
         </div>
       </CardContent>
@@ -116,18 +122,25 @@
             bind:value={personality}
             rows={2}
             placeholder="Energetic, cheerful, loves alchemy..."
-            class="text-xs resize-none"
-          />
+            class="text-xs resize-none" />
         </div>
 
         <div class="grid grid-cols-2 gap-2">
           <div class="space-y-1">
             <label for="chara-likes" class="text-xs font-medium text-foreground">Likes</label>
-            <Input id="chara-likes" bind:value={likes} placeholder="Alchemy, adventures" class="h-9 text-xs" />
+            <Input
+              id="chara-likes"
+              bind:value={likes}
+              placeholder="Alchemy, adventures"
+              class="h-9 text-xs" />
           </div>
           <div class="space-y-1">
             <label for="chara-dislikes" class="text-xs font-medium text-foreground">Dislikes</label>
-            <Input id="chara-dislikes" bind:value={dislikes} placeholder="Ghosts, boredom" class="h-9 text-xs" />
+            <Input
+              id="chara-dislikes"
+              bind:value={dislikes}
+              placeholder="Ghosts, boredom"
+              class="h-9 text-xs" />
           </div>
         </div>
 
@@ -138,14 +151,14 @@
             bind:value={situation}
             rows={2}
             placeholder="Living in the secret hideout on Kurken Island..."
-            class="text-xs resize-none"
-          />
+            class="text-xs resize-none" />
         </div>
       </CardContent>
     </Card>
 
     {#if savedNotice}
-      <div class="p-2.5 rounded-md bg-leaf/20 border border-leaf/40 text-xs text-foreground font-medium text-center">
+      <div
+        class="p-2.5 rounded-md bg-leaf/20 border border-leaf/40 text-xs text-foreground font-medium text-center">
         Settings saved successfully!
       </div>
     {/if}

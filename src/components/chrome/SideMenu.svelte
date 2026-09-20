@@ -12,12 +12,7 @@
     onToggleChara?: () => void;
   }
 
-  let {
-    open = $bindable(false),
-    charaHidden = false,
-    onNewTalk,
-    onToggleChara,
-  }: Props = $props();
+  let { open = $bindable(false), charaHidden = false, onNewTalk, onToggleChara }: Props = $props();
 
   let showLangSelect = $state(false);
 
@@ -48,8 +43,7 @@
 <Sheet.Root bind:open>
   <Sheet.Content
     side="right"
-    class="w-64 bg-background/95 backdrop-blur-md border-l border-border/60 p-4 flex flex-col justify-between"
-  >
+    class="w-64 bg-background/95 backdrop-blur-md border-l border-border/60 p-4 flex flex-col justify-between">
     <div class="flex flex-col gap-4">
       <Sheet.Header class="text-left border-b border-border/40 pb-3">
         <Sheet.Title class="text-gold font-semibold text-base">Quick Actions</Sheet.Title>
@@ -66,8 +60,7 @@
             onclick={() => {
               open = false;
               onNewTalk?.();
-            }}
-          >
+            }}>
             <img src="/assets/icons/asterisk.svg" alt="" class="w-4 h-4 opacity-80" />
             <span>New Conversation</span>
           </Button>
@@ -75,8 +68,7 @@
           <Button
             variant="outline"
             class="justify-start gap-3 h-11 border-border/50 hover:bg-muted/40"
-            onclick={() => (showLangSelect = true)}
-          >
+            onclick={() => (showLangSelect = true)}>
             <img src="/assets/icons/language.svg" alt="" class="w-4 h-4 opacity-80" />
             <span>Language</span>
           </Button>
@@ -87,21 +79,18 @@
             onclick={() => {
               open = false;
               onToggleChara?.();
-            }}
-          >
+            }}>
             <img
               src={charaHidden ? '/assets/icons/chara_show.svg' : '/assets/icons/chara_hide.svg'}
               alt=""
-              class="w-4 h-4 opacity-80"
-            />
+              class="w-4 h-4 opacity-80" />
             <span>Toggle Character</span>
           </Button>
 
           <Button
             variant="outline"
             class="justify-start gap-3 h-11 border-border/50 hover:bg-muted/40"
-            onclick={handleFullscreen}
-          >
+            onclick={handleFullscreen}>
             <img src="/assets/icons/allscreen.svg" alt="" class="w-4 h-4 opacity-80" />
             <span>Toggle Fullscreen</span>
           </Button>
@@ -111,8 +100,7 @@
           <Button
             variant="ghost"
             class="justify-start text-xs text-muted-foreground hover:text-foreground mb-1"
-            onclick={() => (showLangSelect = false)}
-          >
+            onclick={() => (showLangSelect = false)}>
             ← Back
           </Button>
 
@@ -120,9 +108,10 @@
             {#each languages as lang}
               <Button
                 variant={config.section('app')?.lang === lang.id ? 'secondary' : 'ghost'}
-                class="w-full justify-start text-sm {config.section('app')?.lang === lang.id ? 'font-semibold text-gold' : ''}"
-                onclick={() => selectLanguage(lang.id)}
-              >
+                class="w-full justify-start text-sm {config.section('app')?.lang === lang.id
+                  ? 'font-semibold text-gold'
+                  : ''}"
+                onclick={() => selectLanguage(lang.id)}>
                 {lang.label}
               </Button>
             {/each}

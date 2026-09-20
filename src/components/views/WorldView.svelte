@@ -5,19 +5,15 @@
   import { viewStore } from '$lib/stores/view.svelte';
   import { avatarService } from '$lib/avatar/avatar-service.svelte';
 
-    import TodToggle from '$components/TodToggle.svelte';
+  import TodToggle from '$components/TodToggle.svelte';
   import { Button } from '$components/ui/button';
   import { Card, CardContent } from '$components/ui/card';
-  
-
 
   const appState = $derived(config.section('state') || {});
   const currentStageId = $derived(appState.stage || 'stage_01_001_04');
   const currentTod = $derived(appState.tod || 'aft');
 
   let selectedAreaId = $state('');
-
-
 
   onMount(async () => {
     if (!world.hierarchy) {
@@ -40,8 +36,6 @@
     avatarService.loadScene(stageId, currentTod);
     viewStore.setView('talk');
   }
-
-  
 </script>
 
 <div class="h-full w-full flex flex-col bg-background/90 backdrop-blur-md overflow-hidden">
@@ -52,8 +46,7 @@
         variant="ghost"
         size="icon"
         class="h-8 w-8 text-muted-foreground hover:text-foreground"
-        onclick={() => viewStore.setView('talk')}
-      >
+        onclick={() => viewStore.setView('talk')}>
         ✕
       </Button>
       <h2 class="text-lg font-bold text-gold">World Map</h2>
@@ -70,9 +63,10 @@
       <Button
         variant={selectedAreaId === area.id ? 'default' : 'outline'}
         size="sm"
-        class="h-7 px-3 rounded-full text-xs font-medium whitespace-nowrap {selectedAreaId === area.id ? 'bg-gold text-background font-semibold hover:bg-gold/90' : 'bg-card/70 text-foreground/80 hover:bg-card border-border/40'}"
-        onclick={() => (selectedAreaId = area.id)}
-      >
+        class="h-7 px-3 rounded-full text-xs font-medium whitespace-nowrap {selectedAreaId === area.id
+          ? 'bg-gold text-background font-semibold hover:bg-gold/90'
+          : 'bg-card/70 text-foreground/80 hover:bg-card border-border/40'}"
+        onclick={() => (selectedAreaId = area.id)}>
         {world.areaName(area.id)}
       </Button>
     {/each}
@@ -90,9 +84,10 @@
           {#each field.stages as stage}
             {@const isCurrent = stage.id === currentStageId}
             <Card
-              class="border-border/50 bg-card/75 hover:bg-card transition cursor-pointer {isCurrent ? 'ring-1 ring-gold bg-gold/10' : ''}"
-              onclick={() => handleSelectStage(stage.id)}
-            >
+              class="border-border/50 bg-card/75 hover:bg-card transition cursor-pointer {isCurrent
+                ? 'ring-1 ring-gold bg-gold/10'
+                : ''}"
+              onclick={() => handleSelectStage(stage.id)}>
               <CardContent class="p-3 flex items-center justify-between">
                 <div class="flex flex-col">
                   <span class="text-sm font-semibold {isCurrent ? 'text-gold' : 'text-foreground'}">
@@ -104,13 +99,12 @@
                 </div>
 
                 {#if isCurrent}
-                  <span class="text-xs font-bold text-gold px-2 py-0.5 rounded-full bg-gold/20 border border-gold/40">
+                  <span
+                    class="text-xs font-bold text-gold px-2 py-0.5 rounded-full bg-gold/20 border border-gold/40">
                     Here
                   </span>
                 {:else}
-                  <Button variant="ghost" size="sm" class="h-7 text-xs text-muted-foreground">
-                    Travel
-                  </Button>
+                  <Button variant="ghost" size="sm" class="h-7 text-xs text-muted-foreground">Travel</Button>
                 {/if}
               </CardContent>
             </Card>
@@ -122,9 +116,7 @@
     <!-- NPCs currently here -->
     {#if npcsHere.length > 0}
       <div class="mt-6 pt-4 border-t border-border/40 space-y-2">
-        <h3 class="text-xs font-semibold text-gold uppercase tracking-wider px-1">
-          People Here
-        </h3>
+        <h3 class="text-xs font-semibold text-gold uppercase tracking-wider px-1">People Here</h3>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {#each npcsHere as npc}
             <div class="flex items-center gap-2.5 bg-card/60 border border-border/40 rounded-lg p-2.5">

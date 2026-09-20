@@ -51,8 +51,7 @@
         variant="ghost"
         size="icon"
         class="h-8 w-8 text-muted-foreground hover:text-foreground"
-        onclick={() => viewStore.setView('talk')}
-      >
+        onclick={() => viewStore.setView('talk')}>
         ✕
       </Button>
       <h2 class="text-lg font-bold text-gold">Memories</h2>
@@ -64,16 +63,14 @@
         size="sm"
         class="h-8 text-xs border-border/50 text-gold hover:bg-gold/10"
         disabled={isFlushing}
-        onclick={handleFlush}
-      >
+        onclick={handleFlush}>
         {isFlushing ? 'Folding...' : 'Fold Summary'}
       </Button>
       <Button
         variant="ghost"
         size="sm"
         class="h-8 text-xs text-destructive hover:bg-destructive/10"
-        onclick={handleClearAll}
-      >
+        onclick={handleClearAll}>
         Clear All
       </Button>
     </div>
@@ -84,16 +81,15 @@
     <!-- Long-term Summaries -->
     <div class="space-y-2">
       <div class="flex items-center justify-between px-1">
-        <h3 class="text-xs font-semibold text-gold uppercase tracking-wider">
-          Long-Term Summaries
-        </h3>
+        <h3 class="text-xs font-semibold text-gold uppercase tracking-wider">Long-Term Summaries</h3>
         <span class="text-[11px] text-muted-foreground">
           {memory.summaries.length} saved
         </span>
       </div>
 
       {#if memory.summaries.length === 0}
-        <div class="p-4 rounded-lg bg-card/40 border border-border/30 text-xs text-muted-foreground text-center">
+        <div
+          class="p-4 rounded-lg bg-card/40 border border-border/30 text-xs text-muted-foreground text-center">
           No long-term summaries yet. Conversations will fold here as you talk!
         </div>
       {:else}
@@ -101,7 +97,8 @@
           {#each memory.summaries as item}
             <Card class="border-border/50 bg-card/75 shadow-sm">
               <CardContent class="p-3 flex flex-col gap-2">
-                <div class="flex items-center justify-between text-[10px] text-muted-foreground border-b border-border/20 pb-1.5">
+                <div
+                  class="flex items-center justify-between text-[10px] text-muted-foreground border-b border-border/20 pb-1.5">
                   <span class="px-2 py-0.5 rounded-full bg-gold/15 text-gold font-bold">
                     Summary ({item.n} turns)
                   </span>
@@ -111,8 +108,7 @@
                       variant="ghost"
                       size="icon"
                       class="h-6 w-6 text-muted-foreground hover:text-destructive text-xs"
-                      onclick={() => deleteCard(item.id, 'summary')}
-                    >
+                      onclick={() => deleteCard(item.id, 'summary')}>
                       ✕
                     </Button>
                   </div>
@@ -139,7 +135,8 @@
       </div>
 
       {#if memory.sessions.length === 0}
-        <div class="p-4 rounded-lg bg-card/40 border border-border/30 text-xs text-muted-foreground text-center">
+        <div
+          class="p-4 rounded-lg bg-card/40 border border-border/30 text-xs text-muted-foreground text-center">
           No active session cards.
         </div>
       {:else}
@@ -147,7 +144,8 @@
           {#each memory.sessions as item}
             <Card class="border-border/50 bg-card/75 shadow-sm">
               <CardContent class="p-3 flex flex-col gap-2">
-                <div class="flex items-center justify-between text-[10px] text-muted-foreground border-b border-border/20 pb-1.5">
+                <div
+                  class="flex items-center justify-between text-[10px] text-muted-foreground border-b border-border/20 pb-1.5">
                   <span class="px-2 py-0.5 rounded-full bg-muted text-foreground/80 font-medium">
                     Session Window
                   </span>
@@ -155,8 +153,7 @@
                     variant="ghost"
                     size="icon"
                     class="h-6 w-6 text-muted-foreground hover:text-destructive text-xs"
-                    onclick={() => deleteCard(item.id, 'session')}
-                  >
+                    onclick={() => deleteCard(item.id, 'session')}>
                     ✕
                   </Button>
                 </div>

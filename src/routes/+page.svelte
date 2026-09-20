@@ -12,9 +12,12 @@
   import WelcomeView from '$components/views/WelcomeView.svelte';
 </script>
 
-<div class="relative h-full w-full overflow-hidden">
+<div class="relative size-full overflow-hidden">
   <!-- TalkView is always mounted as the primary interactive overlay over Spine -->
-  <div class="absolute inset-0 z-10 {viewStore.activeView === 'talk' ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0 invisible'} transition-opacity duration-200">
+  <div
+    class="absolute inset-0 z-10 {viewStore.activeView === 'talk'
+      ? 'pointer-events-auto opacity-100'
+      : 'pointer-events-none opacity-0 invisible'} transition-opacity duration-200">
     <TalkView />
   </div>
 
