@@ -45,3 +45,4 @@ vite.config.ts.timestamp-*
 
 # agents specific
 .trae
+web/assets
