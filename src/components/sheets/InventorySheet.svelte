@@ -7,6 +7,11 @@
   import { itemName } from '$lib/stores/game-items';
   import { toast } from '$lib/stores/toast.svelte';
   import { sound } from '$lib/audio/sound';
+  import {
+    getBagUpgradeGoldToast,
+    getBagUpgradedToast,
+    getBagUpgradeFailedToast,
+  } from '$lib/i18n/game-content';
 
   let currentBag = $derived(overlayStore.invBag);
   let items = $derived(game.bagList(currentBag));
@@ -31,16 +36,16 @@
   function handleUpgrade() {
     if (!nextBagTier) return;
     if (!game.canPay(upgradeCost)) {
-      toast.show('Not enough Gold to upgrade bag!', true);
+      toast.show(getBagUpgradeGoldToast(), true);
       return;
     }
     const targetTier = nextBagTier;
     const ok = game.upgradeBag(currentBag);
     if (ok) {
       sound.se('quest_clear');
-      toast.show(`Bag upgraded to ${targetTier.toUpperCase()}! Capacity increased.`);
+      toast.show(getBagUpgradedToast(targetTier));
     } else {
-      toast.show('Failed to upgrade bag.', true);
+      toast.show(getBagUpgradeFailedToast(), true);
     }
   }
 </script>

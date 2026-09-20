@@ -8,9 +8,6 @@ msgstr ""
 "Plural-Forms: nplurals=1\n"
 "X-Plurals-Order: other\n"
 
-#~ msgid "TODO"
-#~ msgstr ""
-
 #: src/components/chrome/Drawer.svelte
 msgid "Talk"
 msgstr "对话"
@@ -370,27 +367,7 @@ msgstr "设置已成功保存！"
 msgid "Save Profile"
 msgstr "保存档案"
 
-#: src/components/views/DailyView.svelte
-msgid "Full Stamina Recovery"
-msgstr "体力全恢复"
-
-#: src/components/views/DailyView.svelte
-msgid "Distilled Water ×3"
-msgstr "蒸馏水×3"
-
-#: src/components/views/DailyView.svelte
-msgid "Stamina Apple ×1"
-msgstr "体力苹果×1"
-
-#: src/components/views/DailyView.svelte
-msgid "Treasure Chest: 500 Gold + Relic"
-msgstr "宝箱：500G + 古代遗物"
-
-#: src/components/views/DailyView.svelte
-msgid "Daily reward received!"
-msgstr "已领取每日登录奖励！"
-
-#. 0: res.text || 'Daily reward received!'
+#. 0: claimNotice
 #: src/components/views/DailyView.svelte
 msgid "Claimed: {0}"
 msgstr "已领取: {0}"
@@ -566,14 +543,11 @@ msgstr "音频"
 
 #: src/components/views/SettingsView.svelte
 msgid "Game"
-msgstr ""
+msgstr "游戏"
 
 #: src/components/views/SettingsView.svelte
 msgid "Data"
 msgstr "数据"
-
-#~ msgid "LLM Configuration"
-#~ msgstr "大语言模型设置"
 
 #: src/components/views/SettingsView.svelte
 msgid "API Base URL"
@@ -595,15 +569,6 @@ msgstr "温度 (Temperature)"
 msgid "Voice Synthesis (TTS)"
 msgstr "语音合成 (TTS)"
 
-#~ msgid "Provider"
-#~ msgstr "服务商"
-
-#~ msgid "Base URL"
-#~ msgstr "接口地址"
-
-#~ msgid "Voice / Model ID"
-#~ msgstr "语音 / 模型 ID"
-
 #: src/components/views/SettingsView.svelte
 msgid "Volume Controls"
 msgstr "音量控制"
@@ -620,27 +585,13 @@ msgstr "语音音量"
 msgid "Sound Effects (SE)"
 msgstr "音效 (SE)"
 
-#~ msgid "Game Preferences"
-#~ msgstr "界面与偏好"
-
-#~ msgid "Interface Language"
-#~ msgstr "界面语言"
-
-#~ msgid "Cheat Mode"
-#~ msgstr "作弊模式"
-
-#~ msgid "Infinite stamina and gold"
-#~ msgstr "无限体力与所持金"
+#: src/components/views/SettingsView.svelte
+msgid "Cheat Mode"
+msgstr "作弊模式"
 
 #: src/components/views/SettingsView.svelte
 msgid "Data Management"
 msgstr "数据管理"
-
-#~ msgid "Export Settings JSON"
-#~ msgstr "导出设置 JSON"
-
-#~ msgid "Reset Settings to Defaults"
-#~ msgstr "重置设置到默认值"
 
 #: src/components/views/SettingsView.svelte
 msgid "Settings saved!"
@@ -680,12 +631,6 @@ msgstr "穿戴"
 msgid "Preview Only"
 msgstr "仅预览"
 
-#~ msgid "Welcome back, adventurer! What shall we do today?"
-#~ msgstr "欢迎回来，冒险者！今天我们做些什么呢？"
-
-#~ msgid "Let's head out on an adventure! The weather on the island is fantastic today."
-#~ msgstr "一起去冒险吧！今天岛上的天气棒极了。"
-
 #. 0: game.level()
 #. 0: game.level()
 #: src/components/sheets/StatusSheet.svelte
@@ -696,9 +641,6 @@ msgstr "Lv.{0}"
 #: src/components/views/TalkView.svelte
 msgid "Toggle Log Panel"
 msgstr "切换对话面板"
-
-#~ msgid "Free Talk Mode"
-#~ msgstr "自由杂谈模式"
 
 #. 0: idx + 1
 #: src/components/views/TalkView.svelte
@@ -794,9 +736,6 @@ msgstr "当前在此"
 msgid "Travel"
 msgstr "前往"
 
-#~ msgid "People Here"
-#~ msgstr "此地的人"
-
 #: src/components/chrome/ElectronControls.svelte
 #: src/components/ui/dialog/dialog-content.svelte
 #: src/components/ui/dialog/dialog-footer.svelte
@@ -804,454 +743,415 @@ msgstr "前往"
 msgid "Close"
 msgstr "关闭"
 
-#~ msgid "Voice <0/>"
-#~ msgstr ""
-
-#~ msgid "<0/> Voice"
-#~ msgstr ""
-
 #: src/components/views/TalkView.svelte
 msgid "Voice"
-msgstr ""
+msgstr "语音"
 
 #: src/components/sheets/ModeSheet.svelte
 #: src/components/views/TalkView.svelte
 msgid "Text"
-msgstr ""
+msgstr "文字"
 
 #: src/components/sheets/InventorySheet.svelte
 #: src/components/views/TalkView.svelte
 msgid "Inventory"
-msgstr ""
-
-#~ msgid "People"
-#~ msgstr ""
-
-#~ msgid "Manage collected materials and items"
-#~ msgstr ""
+msgstr "背包"
 
 #: src/components/sheets/InventorySheet.svelte
 msgid "Your Bag"
-msgstr ""
+msgstr "你的背包"
 
 #: src/components/sheets/InventorySheet.svelte
 msgid "Ryza's Bag"
-msgstr ""
+msgstr "莱莎的背包"
 
 #: src/components/sheets/InventorySheet.svelte
 msgid "Bag is empty"
-msgstr ""
+msgstr "背包是空的"
 
 #. 0: upgradeCost
 #: src/components/sheets/InventorySheet.svelte
 msgid "Upgrade Bag ({0} G)"
-msgstr ""
+msgstr "升级背包 ({0} G)"
 
 #. 0: cap
 #: src/components/sheets/InventorySheet.svelte
 msgid "Capacity: <0/> / {0}"
-msgstr ""
+msgstr "容量: <0/> / {0}"
 
 #: src/components/sheets/ModeSheet.svelte
-#: src/components/views/TalkView.svelte
 msgid "Chat"
-msgstr ""
+msgstr "闲聊"
 
 #: src/components/sheets/ModeSheet.svelte
 msgid "Dialogue Mode"
-msgstr ""
-
-#~ msgid "Choose conversation mode, voice output, and scene context"
-#~ msgstr ""
+msgstr "对话模式"
 
 #: src/components/sheets/ModeSheet.svelte
 msgid "Mode"
-msgstr ""
+msgstr "模式"
 
 #: src/components/sheets/ModeSheet.svelte
 msgid "🔊 Voice"
-msgstr ""
+msgstr "🔊 语音"
 
 #: src/components/sheets/ModeSheet.svelte
 msgid "📝 Text Only"
-msgstr ""
+msgstr "📝 仅文本"
 
 #: src/components/sheets/ModeSheet.svelte
 msgid "Output Style"
-msgstr ""
+msgstr "输出样式"
 
 #: src/components/sheets/ModeSheet.svelte
 msgid "Map"
-msgstr ""
+msgstr "地图"
 
 #: src/components/sheets/StatusSheet.svelte
 msgid "Adventure Status"
-msgstr ""
-
-#~ msgid "Current journey progress and statistics"
-#~ msgstr ""
+msgstr "冒险状态"
 
 #: src/components/sheets/StatusSheet.svelte
 msgid "Level"
-msgstr ""
+msgstr "等级"
 
 #: src/components/sheets/StatusSheet.svelte
 msgid "Stamina"
-msgstr ""
+msgstr "体力"
 
 #: src/components/sheets/StatusSheet.svelte
 msgid "EXP Progress"
-msgstr ""
+msgstr "EXP 进度"
 
 #. 0: exp.into; 1: exp.span; 2: game.s.exp_total
 #: src/components/sheets/StatusSheet.svelte
 msgid "{0} / {1} (Total: {2})"
-msgstr ""
+msgstr "{0} / {1} (总计: {2})"
 
 #: src/components/sheets/StatusSheet.svelte
 msgid "Gold"
-msgstr ""
+msgstr "金币"
 
 #: src/components/sheets/StatusSheet.svelte
 #: src/components/views/SettingsView.svelte
 msgid "None"
-msgstr ""
+msgstr "无"
 
 #: src/components/sheets/StatusSheet.svelte
 msgid "Active Quest"
-msgstr ""
+msgstr "进行中任务"
 
 #: src/components/sheets/StatusSheet.svelte
 msgid "People Met"
-msgstr ""
+msgstr "相识之人"
 
 #: src/components/sheets/StatusSheet.svelte
 msgid "Ship Construction"
-msgstr ""
+msgstr "造船进度"
 
 #: src/components/sheets/StatusSheet.svelte
 msgid "No memories recorded yet"
-msgstr ""
-
-#~ msgid "People in {0}"
-#~ msgstr ""
-
-#~ msgid "Characters currently present at this location"
-#~ msgstr ""
-
-#~ msgid "No one is around here right now."
-#~ msgstr ""
+msgstr "尚无记录的回忆"
 
 #: src/components/sheets/NpcSheet.svelte
 msgid "Unmet"
-msgstr ""
-
-#~ msgid "Select interface display language"
-#~ msgstr ""
+msgstr "未结识"
 
 #: src/components/overlays/TitleOverlay.svelte
 msgid "Start"
-msgstr ""
+msgstr "开始"
 
 #: src/components/overlays/TitleOverlay.svelte
 msgid "ライザと話す"
-msgstr ""
+msgstr "和莱莎对话"
 
 #: src/components/overlays/TitleOverlay.svelte
 msgid "Atelier Ryza"
-msgstr ""
+msgstr "莱莎的炼金工房"
 
 #. 0: onboarding.prologueIndex
 #: src/components/overlays/PrologueOverlay.svelte
 msgid "Prologue {0} / 9"
-msgstr ""
+msgstr "序幕 {0} / 9"
 
 #: src/components/overlays/PrologueOverlay.svelte
 msgid "\"A summer journey begins on the peaceful island of Kurken...\""
-msgstr ""
+msgstr "\\"
 
 #: src/components/overlays/PrologueOverlay.svelte
 msgid "Tap screen to continue"
-msgstr ""
+msgstr "点击屏幕继续"
 
 #: src/components/overlays/OnboardingOverlay.svelte
 msgid "First, let's get to know you"
-msgstr ""
+msgstr "首先，先了解一下你吧"
 
 #: src/components/overlays/OnboardingOverlay.svelte
 msgid "Your name, birthday, and gender will help Ryza address you properly."
-msgstr ""
+msgstr "你的名字、生日和性别将帮助莱莎更亲切地称呼你。"
 
 #: src/components/overlays/OnboardingOverlay.svelte
 msgid "What do you look like?"
-msgstr ""
+msgstr "你的外表是怎样的？"
 
 #: src/components/overlays/OnboardingOverlay.svelte
 msgid "Give Ryza a hint so she can picture you."
-msgstr ""
+msgstr "给莱莎一点线索，让她能想象你的模样。"
 
 #: src/components/overlays/OnboardingOverlay.svelte
 msgid "What kind of journey brought you here?"
-msgstr ""
+msgstr "你是经历怎样的旅途来到这里的？"
 
 #: src/components/overlays/OnboardingOverlay.svelte
 msgid "Your background, hometown, or whatever comes to mind."
-msgstr ""
+msgstr "你的身世、家乡，或者任何想到的事情。"
 
 #: src/components/overlays/OnboardingOverlay.svelte
 msgid "What do you enjoy doing in your free time?"
-msgstr ""
+msgstr "空闲时间你喜欢做什么？"
 
 #: src/components/overlays/OnboardingOverlay.svelte
 msgid "Hobbies and pastimes."
-msgstr ""
+msgstr "兴趣与消遣。"
 
 #: src/components/overlays/OnboardingOverlay.svelte
 msgid "What would you most like to do with Ryza?"
-msgstr ""
+msgstr "你最想和莱莎一起做什么？"
 
 #: src/components/overlays/OnboardingOverlay.svelte
 msgid "Select all that appeal to you."
-msgstr ""
+msgstr "选择所有吸引你的项目。"
 
 #: src/components/overlays/OnboardingOverlay.svelte
 msgid "Adventuring and treasure hunting"
-msgstr ""
+msgstr "冒险与寻宝"
 
 #: src/components/overlays/OnboardingOverlay.svelte
 msgid "Running an atelier shop together"
-msgstr ""
+msgstr "一起开工房店铺"
 
 #: src/components/overlays/OnboardingOverlay.svelte
 msgid "Synthesizing items"
-msgstr ""
+msgstr "调和道具"
 
 #: src/components/overlays/OnboardingOverlay.svelte
 msgid "Relaxing and chatting"
-msgstr ""
+msgstr "轻松闲聊"
 
 #: src/components/overlays/OnboardingOverlay.svelte
 msgid "Listening to her stories"
-msgstr ""
+msgstr "听她说故事"
 
 #: src/components/overlays/OnboardingOverlay.svelte
 msgid "What interests you about alchemy?"
-msgstr ""
+msgstr "炼金术的哪一点吸引你？"
 
 #: src/components/overlays/OnboardingOverlay.svelte
 msgid "Select all that apply."
-msgstr ""
+msgstr "选择所有适用的项目。"
 
 #: src/components/overlays/OnboardingOverlay.svelte
 msgid "Gathering materials"
-msgstr ""
+msgstr "采集素材"
 
 #: src/components/overlays/OnboardingOverlay.svelte
 msgid "Learning recipes"
-msgstr ""
+msgstr "学习配方"
 
 #: src/components/overlays/OnboardingOverlay.svelte
 msgid "Fun experiments even if they fail"
-msgstr ""
+msgstr "即使失败也很有趣的实验"
 
 #: src/components/overlays/OnboardingOverlay.svelte
 msgid "Enhancing equipment"
-msgstr ""
+msgstr "强化装备"
 
 #: src/components/overlays/OnboardingOverlay.svelte
 msgid "Brewing recovery potions"
-msgstr ""
+msgstr "制作回复药"
 
 #: src/components/overlays/OnboardingOverlay.svelte
 msgid "Still new to it, want to learn"
-msgstr ""
+msgstr "还是初学者，想多了解"
 
 #: src/components/overlays/OnboardingOverlay.svelte
 msgid "Where would you like our story to begin?"
-msgstr ""
+msgstr "想让我们的故事从哪里开始？"
 
 #: src/components/overlays/OnboardingOverlay.svelte
 msgid "Choose a starting point."
-msgstr ""
+msgstr "选择一个起点。"
 
 #: src/components/overlays/OnboardingOverlay.svelte
 msgid "Daily life on Kurken Island"
-msgstr ""
+msgstr "库肯岛上的日常生活"
 
 #: src/components/overlays/OnboardingOverlay.svelte
 msgid "Having known each other for a long time"
-msgstr ""
+msgstr "彼此相识已久"
 
 #: src/components/overlays/OnboardingOverlay.svelte
 msgid "What goals do you hope to achieve?"
-msgstr ""
+msgstr "你希望实现什么目标？"
 
 #: src/components/overlays/OnboardingOverlay.svelte
 msgid "For yourself, and to share with Ryza."
-msgstr ""
+msgstr "为了你自己，也和莱莎一同分享。"
 
 #: src/components/overlays/OnboardingOverlay.svelte
 msgid "How would you describe your personality?"
-msgstr ""
+msgstr "你会如何描述自己的性格？"
 
 #: src/components/overlays/OnboardingOverlay.svelte
 msgid "Your temperament and way of getting along."
-msgstr ""
+msgstr "你的性情与相处方式。"
 
 #: src/components/overlays/OnboardingOverlay.svelte
 msgid "Question"
-msgstr ""
+msgstr "问题"
 
 #: src/components/overlays/OnboardingOverlay.svelte
 msgid "Your name"
-msgstr ""
+msgstr "你的名字"
 
 #: src/components/overlays/OnboardingOverlay.svelte
 msgid "Name"
-msgstr ""
+msgstr "名字"
 
 #: src/components/overlays/OnboardingOverlay.svelte
 msgid "Finish"
-msgstr ""
+msgstr "完成"
 
 #: src/components/overlays/OnboardingOverlay.svelte
 msgid "Next"
-msgstr ""
+msgstr "下一步"
 
 #: src/components/overlays/OnboardingOverlay.svelte
 msgid "Skip"
-msgstr ""
+msgstr "跳过"
 
 #: src/components/overlays/AlarmOverlay.svelte
 msgid "Snooze"
-msgstr ""
+msgstr "稍后提醒"
 
 #: src/components/overlays/AlarmOverlay.svelte
 #: src/components/overlays/FaintOverlay.svelte
 msgid "Dismiss"
-msgstr ""
+msgstr "关闭"
 
 #: src/components/overlays/QuestClearOverlay.svelte
 msgid "Quest Cleared"
-msgstr ""
+msgstr "任务完成"
 
 #: src/components/overlays/QuestClearOverlay.svelte
 msgid "Incredible job! Another adventure well spent!"
-msgstr ""
+msgstr "太棒了！又度过了一段精彩的冒险！"
 
 #: src/components/overlays/QuestClearOverlay.svelte
 msgid "Quest Cleared!"
-msgstr ""
+msgstr "任务完成！"
 
 #: src/components/overlays/QuestClearOverlay.svelte
 msgid "OK"
-msgstr ""
-
-#~ msgid "Rested soundly at home, fully recovering stamina."
-#~ msgstr ""
+msgstr "确定"
 
 #: src/components/overlays/FaintOverlay.svelte
 msgid "Out of Stamina"
-msgstr ""
+msgstr "体力耗尽"
 
 #: src/components/overlays/FaintOverlay.svelte
 msgid "Out of Stamina..."
-msgstr ""
+msgstr "体力耗尽了…"
 
 #: src/components/overlays/FaintOverlay.svelte
 msgid "When stamina hits zero, Ryza faints from exhaustion. Rest up in a safe place to restore your energy!"
-msgstr ""
+msgstr "体力归零时，莱莎会体力不支晕倒。在安全的地方休息来恢复活力吧！"
 
 #: src/components/overlays/FaintOverlay.svelte
 msgid "Cheat: Full Refill"
-msgstr ""
+msgstr "作弊：完全回复"
 
 #: src/components/overlays/FaintOverlay.svelte
 msgid "Go Home and Sleep"
-msgstr ""
+msgstr "回家睡觉"
 
 #: src/components/chrome/ElectronControls.svelte
 msgid "Pin on Top"
-msgstr ""
+msgstr "置顶窗口"
 
 #: src/components/chrome/ElectronControls.svelte
 msgid "Minimize"
-msgstr ""
+msgstr "最小化"
 
 #: src/routes/+layout.svelte
 msgid "Start a new conversation with Ryza? This resets active chat turns, but your adventure level, inventory, and memories will remain safe."
-msgstr ""
+msgstr "要和莱莎开始新的对话吗？这将重置当前的聊天轮次，但你的冒险等级、背包物品和回忆都将完整保留。"
 
 #: src/routes/+layout.svelte
 msgid "Start New Talk"
-msgstr ""
+msgstr "开始新对话"
 
 #: src/components/views/TalkView.svelte
 msgid "Reply could not be retrieved."
-msgstr ""
+msgstr "无法获取回复。"
 
 #: src/components/views/TalkView.svelte
 msgid "Retry"
-msgstr ""
-
-#. 0: appState.mode || 'Chat'
-#: src/components/views/TalkView.svelte
-msgid "{0} Mode"
-msgstr ""
+msgstr "重试"
 
 #: src/components/views/CharaView.svelte
 msgid "Save Data (3 Slots)"
-msgstr ""
+msgstr "存档数据 (3个槽位)"
 
 #: src/components/views/CharaView.svelte
 msgid "Empty Slot"
-msgstr ""
+msgstr "空存档位"
 
 #. 0: slot.day; 1: slot.game ? 1 + Math.floor(Math.sqrt(((slot.game as { exp_total?\\: number }).exp_total || 0) / 30)) \\: '?'; 2: new Date(slot.at).toLocaleDateString(); 3: new Date(slot.at).toLocaleTimeString([], { hour\\: '2-digit', minute\\: '2-digit' })
 #: src/components/views/CharaView.svelte
 msgid "Day {0} · Lv.{1} · {2} {3}"
-msgstr ""
+msgstr "第 {0} 天 · Lv.{1} · {2} {3}"
 
 #: src/components/views/CharaView.svelte
 msgid "Save"
-msgstr ""
+msgstr "保存"
 
 #: src/components/views/CharaView.svelte
 msgid "Load"
-msgstr ""
+msgstr "读取"
 
 #: src/components/views/SettingsView.svelte
 #: src/components/views/SettingsView.svelte
 msgid "Chloe"
-msgstr ""
+msgstr "Chloe"
 
 #: src/components/views/SettingsView.svelte
 #: src/components/views/SettingsView.svelte
 #: src/components/views/SettingsView.svelte
 msgid "明るく元気な若い女性の声。親しみやすい口調で。"
-msgstr ""
+msgstr "开朗活泼的年轻女性声音。语气亲切自然。"
 
 #: src/components/views/SettingsView.svelte
 #: src/components/views/SettingsView.svelte
 msgid "Cherry"
-msgstr ""
+msgstr "Cherry"
 
 #: src/components/views/SettingsView.svelte
 msgid "Please enter API Base URL first"
-msgstr ""
+msgstr "请先输入 API 基础 URL"
 
 #: src/components/views/SettingsView.svelte
 msgid "Fetching models list..."
-msgstr ""
+msgstr "正在获取模型列表..."
 
 #. 0: llmModelsList.length
 #: src/components/views/SettingsView.svelte
 msgid "Found {0} models!"
-msgstr ""
+msgstr "找到 {0} 个模型！"
 
 #: src/components/views/SettingsView.svelte
 msgid "No models found, enter model manually."
-msgstr ""
+msgstr "未找到模型，请手动输入。"
 
 #: src/components/views/SettingsView.svelte
 #: src/components/views/SettingsView.svelte
@@ -1259,654 +1159,657 @@ msgstr ""
 #: src/components/views/SettingsView.svelte
 #: src/components/views/SettingsView.svelte
 msgid "Unknown error"
-msgstr ""
+msgstr "未知错误"
 
 #. 0: (e as Error)?.message || 'Unknown error'
 #: src/components/views/SettingsView.svelte
 msgid "Failed to fetch models: {0}"
-msgstr ""
+msgstr "获取模型失败: {0}"
 
 #: src/components/views/SettingsView.svelte
 msgid "API Key is required to test LLM"
-msgstr ""
+msgstr "测试 LLM 需要 API 密钥"
 
 #: src/components/views/SettingsView.svelte
 msgid "Testing LLM connection..."
-msgstr ""
+msgstr "正在测试 LLM 连接..."
 
 #: src/components/views/SettingsView.svelte
 msgid "短く一言、あいさつして。"
-msgstr ""
+msgstr "简短打个招呼。"
 
 #. 0: res.text
 #: src/components/views/SettingsView.svelte
 msgid "Ryza: {0}"
-msgstr ""
+msgstr "莱莎: {0}"
 
 #. 0: (e as Error)?.message || 'Unknown error'
 #: src/components/views/SettingsView.svelte
 msgid "LLM Test Failed: {0}"
-msgstr ""
+msgstr "LLM 测试失败: {0}"
 
 #: src/components/views/SettingsView.svelte
 #: src/components/views/SettingsView.svelte
 msgid "Please enter Qwen API Key first"
-msgstr ""
+msgstr "请先输入 Qwen API 密钥"
 
 #: src/components/views/SettingsView.svelte
 msgid "Fetching Qwen models..."
-msgstr ""
+msgstr "正在获取 Qwen 模型..."
 
 #. 0: qwenModelsList.length
 #: src/components/views/SettingsView.svelte
 msgid "Found {0} Qwen models!"
-msgstr ""
+msgstr "找到 {0} 个 Qwen 模型！"
 
 #: src/components/views/SettingsView.svelte
 msgid "No models returned from endpoint."
-msgstr ""
+msgstr "接口未返回任何模型。"
 
 #. 0: (e as Error)?.message || 'Unknown error'
 #: src/components/views/SettingsView.svelte
 msgid "Failed to fetch Qwen models: {0}"
-msgstr ""
+msgstr "获取 Qwen 模型失败: {0}"
 
 #: src/components/views/SettingsView.svelte
 msgid "Cloning voice from reference sample..."
-msgstr ""
+msgstr "正在从参考音频克隆音色..."
 
 #: src/components/views/SettingsView.svelte
 msgid "Voice successfully cloned!"
-msgstr ""
+msgstr "音色克隆成功！"
 
 #. 0: (e as Error)?.message || 'Unknown error'
 #: src/components/views/SettingsView.svelte
 msgid "Voice cloning failed: {0}"
-msgstr ""
+msgstr "音色克隆失败: {0}"
 
 #: src/components/views/SettingsView.svelte
 msgid "TTS API Key is required"
-msgstr ""
+msgstr "需要 TTS API 密钥"
 
 #: src/components/views/SettingsView.svelte
 msgid "Please enter a valid TTS model name"
-msgstr ""
+msgstr "请输入有效的 TTS 模型名称"
 
 #: src/components/views/SettingsView.svelte
 msgid "Synthesizing voice test..."
-msgstr ""
+msgstr "正在进行语音合成测试..."
 
 #: src/components/views/SettingsView.svelte
 msgid "やあ、聞こえてる？"
-msgstr ""
+msgstr "嗨，能听到吗？"
 
 #: src/components/views/SettingsView.svelte
 msgid "TTS is disabled or produced no audio"
-msgstr ""
+msgstr "TTS 已禁用或未生成音频"
 
 #: src/components/views/SettingsView.svelte
 msgid "Voice synthesis test succeeded!"
-msgstr ""
+msgstr "语音合成测试成功！"
 
 #. 0: (e as Error)?.message || 'Unknown error'
 #: src/components/views/SettingsView.svelte
 msgid "TTS Test Failed: {0}"
-msgstr ""
+msgstr "TTS 测试失败: {0}"
 
 #: src/components/views/SettingsView.svelte
 msgid "Configuration copied to clipboard!"
-msgstr ""
+msgstr "配置已复制到剪贴板！"
 
 #: src/components/views/SettingsView.svelte
 msgid "Settings imported successfully!"
-msgstr ""
+msgstr "设置导入成功！"
 
 #: src/components/views/SettingsView.svelte
 msgid "Invalid JSON"
-msgstr ""
+msgstr "无效的 JSON"
 
 #. 0: (e as Error)?.message || 'Invalid JSON'
 #: src/components/views/SettingsView.svelte
 msgid "Import failed: {0}"
-msgstr ""
+msgstr "导入失败: {0}"
 
 #: src/components/views/SettingsView.svelte
 msgid "Large Language Model (LLM)"
-msgstr ""
+msgstr "大语言模型 (LLM)"
 
 #: src/components/views/SettingsView.svelte
 msgid "OpenAI-compatible URL ending in /v1. Dev config seeds from config/providers.json."
-msgstr ""
+msgstr "以 /v1 结尾的兼容 OpenAI 接口地址。开发配置从 config/providers.json 初始化。"
 
 #: src/components/views/SettingsView.svelte
 #: src/components/views/SettingsView.svelte
 msgid "Fetching..."
-msgstr ""
+msgstr "获取中..."
 
 #: src/components/views/SettingsView.svelte
 msgid "Fetch Models"
-msgstr ""
+msgstr "获取模型"
 
 #: src/components/views/SettingsView.svelte
 msgid "Fetch to populate dropdown or type manually"
-msgstr ""
+msgstr "获取以填充下拉菜单或手动输入"
 
 #: src/components/views/SettingsView.svelte
 msgid "Stored only in local storage"
-msgstr ""
+msgstr "仅保存在本地存储中"
 
 #: src/components/views/SettingsView.svelte
 msgid "Max Tokens"
-msgstr ""
+msgstr "最大 Token 数"
 
 #: src/components/views/SettingsView.svelte
 msgid "History Turns"
-msgstr ""
+msgstr "历史轮数"
 
 #: src/components/views/SettingsView.svelte
 msgid "Context Window (tokens)"
-msgstr ""
+msgstr "上下文窗口 (Token)"
 
 #. 0: estimatedContext
 #: src/components/views/SettingsView.svelte
 msgid "0 = guess from model id. Auto resolved: {0} tokens."
-msgstr ""
+msgstr "0 = 根据模型 ID 推断。自动解析为：{0} Token。"
 
 #: src/components/views/SettingsView.svelte
 #: src/components/views/SettingsView.svelte
 msgid "Auto"
-msgstr ""
+msgstr "自动"
 
 #: src/components/views/SettingsView.svelte
 #: src/components/views/SettingsView.svelte
 msgid "Off"
-msgstr ""
+msgstr "关闭"
 
 #: src/components/views/SettingsView.svelte
 msgid "On"
-msgstr ""
+msgstr "开启"
 
 #: src/components/views/SettingsView.svelte
 msgid "Thinking Mode"
-msgstr ""
+msgstr "思考模式"
 
 #: src/components/views/SettingsView.svelte
 msgid "Default"
-msgstr ""
+msgstr "默认"
 
 #: src/components/views/SettingsView.svelte
 msgid "Low"
-msgstr ""
+msgstr "低"
 
 #: src/components/views/SettingsView.svelte
 msgid "Medium"
-msgstr ""
+msgstr "中"
 
 #: src/components/views/SettingsView.svelte
 msgid "High"
-msgstr ""
+msgstr "高"
 
 #: src/components/views/SettingsView.svelte
 msgid "Max"
-msgstr ""
+msgstr "极高"
 
 #: src/components/views/SettingsView.svelte
 msgid "Effort"
-msgstr ""
+msgstr "思考力度"
 
 #: src/components/views/SettingsView.svelte
 msgid "OpenAI"
-msgstr ""
+msgstr "OpenAI"
 
 #: src/components/views/SettingsView.svelte
 msgid "OpenRouter"
-msgstr ""
+msgstr "OpenRouter"
 
 #: src/components/views/SettingsView.svelte
 msgid "Qwen"
-msgstr ""
+msgstr "通义千问 (Qwen)"
 
 #: src/components/views/SettingsView.svelte
 msgid "GLM"
-msgstr ""
+msgstr "智谱 GLM"
 
 #: src/components/views/SettingsView.svelte
 msgid "Protocol Style"
-msgstr ""
+msgstr "协议格式"
 
 #: src/components/views/SettingsView.svelte
 msgid "Reasoning & Thinking"
-msgstr ""
+msgstr "推理与思考"
 
 #: src/components/views/SettingsView.svelte
 msgid "Testing..."
-msgstr ""
+msgstr "测试中..."
 
 #: src/components/views/SettingsView.svelte
 msgid "OpenAI Compatible (Chat/Voice Clone)"
-msgstr ""
+msgstr "OpenAI 兼容 (对话/音色克隆)"
 
 #: src/components/views/SettingsView.svelte
 msgid "OpenAI Audio Speech (/v1/audio/speech)"
-msgstr ""
+msgstr "OpenAI 语音合成 (/v1/audio/speech)"
 
 #: src/components/views/SettingsView.svelte
 msgid "DashScope / Qwen TTS"
-msgstr ""
+msgstr "百炼 DashScope / Qwen TTS"
 
 #: src/components/views/SettingsView.svelte
 msgid "Service Provider"
-msgstr ""
+msgstr "服务提供商"
 
 #: src/components/views/SettingsView.svelte
 msgid "Standard /v1/audio/speech"
-msgstr ""
+msgstr "标准 /v1/audio/speech"
 
 #: src/components/views/SettingsView.svelte
 msgid "audio.cpp Compatible"
-msgstr ""
+msgstr "audio.cpp 兼容"
 
 #: src/components/views/SettingsView.svelte
 msgid "Request Payload Style"
-msgstr ""
+msgstr "请求载荷格式"
 
 #: src/components/views/SettingsView.svelte
 msgid "Leave empty for public DashScope endpoint"
-msgstr ""
+msgstr "使用官方 DashScope 服务时请留空"
 
 #: src/components/views/SettingsView.svelte
 msgid "Qwen Base URL"
-msgstr ""
+msgstr "Qwen 基础 URL"
 
 #: src/components/views/SettingsView.svelte
 msgid "DashScope API Key"
-msgstr ""
+msgstr "DashScope API 密钥"
 
 #: src/components/views/SettingsView.svelte
 msgid "Qwen API Key"
-msgstr ""
+msgstr "Qwen API 密钥"
 
 #: src/components/views/SettingsView.svelte
 msgid "Fetch Qwen Models"
-msgstr ""
+msgstr "获取 Qwen 模型"
 
 #: src/components/views/SettingsView.svelte
 msgid "Qwen Model ID"
-msgstr ""
+msgstr "Qwen 模型 ID"
 
 #. 0: qwenVoice
 #: src/components/views/SettingsView.svelte
 msgid "{0} (Custom / Cloned)"
-msgstr ""
+msgstr "{0} (自定义 / 克隆)"
 
 #: src/components/views/SettingsView.svelte
 msgid "Voice ID or Preset"
-msgstr ""
+msgstr "音色 ID 或预设"
 
 #: src/components/views/SettingsView.svelte
 msgid "Cloning..."
-msgstr ""
+msgstr "克隆中..."
 
 #: src/components/views/SettingsView.svelte
 msgid "Clone Voice from Ryza Sample"
-msgstr ""
+msgstr "从莱莎音频样本克隆音色"
 
 #: src/components/views/SettingsView.svelte
 msgid "Voice Clone Target Model"
-msgstr ""
+msgstr "音色克隆目标模型"
 
 #: src/components/views/SettingsView.svelte
 msgid "Voice Clone"
-msgstr ""
+msgstr "音色克隆"
 
 #: src/components/views/SettingsView.svelte
 #: src/components/views/SettingsView.svelte
 msgid "Off (Disabled)"
-msgstr ""
+msgstr "关闭 (禁用)"
 
 #: src/components/views/SettingsView.svelte
 msgid "Voice Mode"
-msgstr ""
+msgstr "语音模式"
 
 #: src/components/views/SettingsView.svelte
 msgid "TTS Base URL"
-msgstr ""
+msgstr "TTS 基础 URL"
 
 #: src/components/views/SettingsView.svelte
 msgid "TTS API Key"
-msgstr ""
+msgstr "TTS API 密钥"
 
 #: src/components/views/SettingsView.svelte
 msgid "Voice Clone (Ryza's original voice)"
-msgstr ""
+msgstr "音色克隆 (莱莎原声)"
 
 #: src/components/views/SettingsView.svelte
 msgid "Preset Voice"
-msgstr ""
+msgstr "预设音色"
 
 #: src/components/views/SettingsView.svelte
 msgid "TTS Mode"
-msgstr ""
+msgstr "TTS 模式"
 
 #: src/components/views/SettingsView.svelte
 msgid "Voice Clone Model ID"
-msgstr ""
+msgstr "音色克隆模型 ID"
 
 #: src/components/views/SettingsView.svelte
 msgid "Reference Audio Path"
-msgstr ""
+msgstr "参考音频路径"
 
 #: src/components/views/SettingsView.svelte
 msgid "Preset Model ID"
-msgstr ""
+msgstr "预设模型 ID"
 
 #: src/components/views/SettingsView.svelte
 msgid "Preset Voice Name"
-msgstr ""
+msgstr "预设音色名称"
 
 #: src/components/views/SettingsView.svelte
 msgid "Voice Style Hint"
-msgstr ""
+msgstr "语音风格提示词"
 
 #: src/components/views/SettingsView.svelte
 msgid "Sets voice personality; delivery tone (ASMR whisper, story) layers on top automatically."
-msgstr ""
+msgstr "设定声音个性；叙述语气（ASMR耳语、故事）将自动叠加在此设定之上。"
 
 #: src/components/views/SettingsView.svelte
 msgid "Synthesizing..."
-msgstr ""
+msgstr "合成中..."
 
 #: src/components/views/SettingsView.svelte
 msgid "4-Axis Language Matrix"
-msgstr ""
+msgstr "四维多语言设置"
 
 #: src/components/views/SettingsView.svelte
 msgid "Configure UI strings, shipped voice recordings, character replies, and TTS speech independently."
-msgstr ""
+msgstr "可分别独立设置界面语言、预录语音、莱莎回复语言及语音合成。"
 
 #: src/components/views/SettingsView.svelte
 msgid "Interface Language (UI)"
-msgstr ""
+msgstr "界面语言 (UI)"
 
 #: src/components/views/SettingsView.svelte
 #: src/components/views/SettingsView.svelte
 msgid "Auto (Follow Interface)"
-msgstr ""
+msgstr "自动 (跟随界面语言)"
 
 #: src/components/views/SettingsView.svelte
 #: src/components/views/SettingsView.svelte
 msgid "日本語 (Japanese)"
-msgstr ""
+msgstr "日语 (Japanese)"
 
 #: src/components/views/SettingsView.svelte
 #: src/components/views/SettingsView.svelte
 #: src/components/views/SettingsView.svelte
 msgid "简体中文 (Chinese)"
-msgstr ""
+msgstr "简体中文 (Chinese)"
 
 #: src/components/views/SettingsView.svelte
 msgid "Recorded Voice Packs"
-msgstr ""
+msgstr "预录语音包"
 
 #: src/components/views/SettingsView.svelte
 msgid "Language used for shipped sound clips and alarm wake-up voices."
-msgstr ""
+msgstr "用于预置音频片段和闹钟唤醒语音的语言。"
 
 #: src/components/views/SettingsView.svelte
 msgid "日本語 (Japanese — Recommended for character authenticity)"
-msgstr ""
+msgstr "日语 (推荐 · 还原角色原作氛围)"
 
 #: src/components/views/SettingsView.svelte
 msgid "Ryza Replies (Character Chat Text)"
-msgstr ""
+msgstr "莱莎回复语言 (对话文本)"
 
 #: src/components/views/SettingsView.svelte
 msgid "The language Ryza writes in the dialogue text. Set to 日本語 to keep dialogue Japanese regardless of UI language."
-msgstr ""
+msgstr "莱莎在对话框中使用的文本语言。设为日语可在任意界面语言下保持原作对话风格。"
 
 #: src/components/views/SettingsView.svelte
 msgid "Auto (Same as Ryza Replies)"
-msgstr ""
+msgstr "自动 (与莱莎回复一致)"
 
 #: src/components/views/SettingsView.svelte
 msgid "Speech Synthesis Language (TTS)"
-msgstr ""
+msgstr "语音合成语言 (TTS)"
 
 #: src/components/views/SettingsView.svelte
 msgid "If speech language differs from Ryza replies, the line will be automatically translated by the LLM before sending to TTS."
-msgstr ""
+msgstr "若语音合成语言与莱莎回复语言不同，将在发送至 TTS 前由 LLM 自动翻译。"
 
 #: src/components/views/SettingsView.svelte
 msgid "Presentation & Feedback"
-msgstr ""
+msgstr "显示与交互反馈"
 
 #: src/components/views/SettingsView.svelte
 msgid "Voice Playback"
-msgstr ""
+msgstr "语音朗读"
 
 #: src/components/views/SettingsView.svelte
 msgid "Master audio voice toggle"
-msgstr ""
+msgstr "语音总开关"
 
 #: src/components/views/SettingsView.svelte
 msgid "Show Speech Bubble"
-msgstr ""
+msgstr "显示对话气泡"
 
 #: src/components/views/SettingsView.svelte
 msgid "Talk bubbles over the stage"
-msgstr ""
+msgstr "在画面中显示对话气泡"
 
 #: src/components/views/SettingsView.svelte
 msgid "Vibration"
-msgstr ""
+msgstr "震动反馈"
 
 #: src/components/views/SettingsView.svelte
 msgid "Haptic feedback on taps and events"
-msgstr ""
+msgstr "轻触及游戏事件时的触觉振动"
 
 #: src/components/views/SettingsView.svelte
 msgid "Rim Light"
-msgstr ""
+msgstr "边缘光效果"
 
 #: src/components/views/SettingsView.svelte
 msgid "Character edge lighting shader"
-msgstr ""
+msgstr "角色边缘高光着色器"
 
 #: src/components/views/SettingsView.svelte
 msgid "Text Typewriter Speed"
-msgstr ""
+msgstr "打字机速度"
 
 #: src/components/views/SettingsView.svelte
 msgid "Time Passage"
-msgstr ""
+msgstr "时间流逝方式"
 
 #: src/components/views/SettingsView.svelte
 msgid "Real Clock (Follows device system time)"
-msgstr ""
+msgstr "实时时钟 (跟随设备系统时间)"
 
 #: src/components/views/SettingsView.svelte
 msgid "In-Game Flow (Simulated time progression)"
-msgstr ""
+msgstr "游戏流逝 (模拟时间流逝)"
 
 #: src/components/views/SettingsView.svelte
 msgid "Manual Only (TOD toggle in top bar)"
-msgstr ""
+msgstr "仅手动 (通过顶部按钮切换时段)"
 
 #: src/components/views/SettingsView.svelte
 msgid "Time Mode"
-msgstr ""
+msgstr "时间模式"
 
 #: src/components/views/SettingsView.svelte
 msgid "Slow (1 real min = 15 game mins)"
-msgstr ""
+msgstr "较慢 (现实1分钟 = 游戏内15分钟)"
 
 #: src/components/views/SettingsView.svelte
 msgid "Standard (1 real min = 1 game hr)"
-msgstr ""
+msgstr "标准 (现实1分钟 = 游戏内1小时)"
 
 #: src/components/views/SettingsView.svelte
 msgid "Fast (1 real min = 3 game hrs)"
-msgstr ""
+msgstr "快速 (现实1分钟 = 游戏内3小时)"
 
 #: src/components/views/SettingsView.svelte
 msgid "Very Fast (1 real min = 6 game hrs)"
-msgstr ""
+msgstr "极速 (现实1分钟 = 游戏内6小时)"
 
 #: src/components/views/SettingsView.svelte
 msgid "In-Game Flow Speed"
-msgstr ""
+msgstr "游戏内时间流逝速度"
 
 #: src/components/views/SettingsView.svelte
 msgid "Long Term Memory"
-msgstr ""
+msgstr "长期记忆"
 
 #: src/components/views/SettingsView.svelte
 msgid "Enable Memory Summaries"
-msgstr ""
+msgstr "启用记忆摘要"
 
 #: src/components/views/SettingsView.svelte
 msgid "Fold sessions into summary cards"
-msgstr ""
+msgstr "将对话整理归纳为摘要卡片"
 
 #: src/components/views/SettingsView.svelte
 msgid "Turns / Session"
-msgstr ""
+msgstr "每会话轮数"
 
 #: src/components/views/SettingsView.svelte
 msgid "Session Cap"
-msgstr ""
+msgstr "会话存储上限"
 
 #: src/components/views/SettingsView.svelte
 msgid "Summary Cap"
-msgstr ""
+msgstr "摘要卡片上限"
 
 #: src/components/views/SettingsView.svelte
 msgid "Game Balance"
-msgstr ""
-
-#: src/components/views/SettingsView.svelte
-msgid "Cheat Mode (作弊模式)"
-msgstr ""
+msgstr "游戏平衡"
 
 #: src/components/views/SettingsView.svelte
 msgid "Infinite stamina (🍎∞) and coins"
-msgstr ""
+msgstr "体力 (🍎∞) 与金币无限"
 
 #: src/components/views/SettingsView.svelte
 msgid "Master Volume"
-msgstr ""
+msgstr "主音量"
 
 #: src/components/views/SettingsView.svelte
 msgid "Ambient Sound"
-msgstr ""
+msgstr "环境音效"
 
 #: src/components/views/SettingsView.svelte
 msgid "📥 Export Settings JSON (Copy & Download)"
-msgstr ""
+msgstr "📥 导出设置 JSON (复制并下载)"
 
 #: src/components/views/SettingsView.svelte
 msgid "📤 Import Settings JSON..."
-msgstr ""
+msgstr "📤 导入设置 JSON..."
 
 #: src/components/views/SettingsView.svelte
 msgid "⚠️ Reset All Settings to Defaults"
-msgstr ""
+msgstr "⚠️ 重置所有设置为默认值"
 
 #: src/components/views/SettingsView.svelte
 msgid "Import Configuration JSON"
-msgstr ""
+msgstr "导入配置 JSON"
 
 #: src/components/views/SettingsView.svelte
 msgid "Paste exported configuration JSON below to restore settings."
-msgstr ""
+msgstr "在下方粘贴导出的配置 JSON 以恢复设置。"
 
 #: src/components/views/SettingsView.svelte
 msgid "Apply Configuration"
-msgstr ""
+msgstr "应用配置"
 
 #: src/components/views/CharaView.svelte
 msgid "Casual adventurer outfit..."
-msgstr ""
+msgstr "随性的冒险者便服..."
 
 #: src/components/views/CharaView.svelte
 msgid "Appearance"
-msgstr ""
+msgstr "外貌特征"
 
 #: src/components/views/CharaView.svelte
 msgid "Traveled from the mainland..."
-msgstr ""
+msgstr "从大陆远道而来..."
 
 #: src/components/views/CharaView.svelte
 msgid "Background"
-msgstr ""
+msgstr "背景身世"
 
 #: src/components/views/CharaView.svelte
 msgid "Fishing, crafting"
-msgstr ""
+msgstr "钓鱼、手作"
 
 #: src/components/views/CharaView.svelte
 msgid "Hobby"
-msgstr ""
+msgstr "爱好"
 
 #: src/components/views/CharaView.svelte
 msgid "Alchemy, ruins exploration"
-msgstr ""
+msgstr "炼金术、遗迹探索"
 
 #: src/components/views/CharaView.svelte
 msgid "Interest"
-msgstr ""
+msgstr "兴趣"
 
 #: src/components/views/CharaView.svelte
 msgid "Become a renowned explorer..."
-msgstr ""
+msgstr "成为一名著名的探险家..."
 
 #: src/components/views/CharaView.svelte
 msgid "Future Goals"
-msgstr ""
+msgstr "未来目标"
 
 #: src/components/views/CharaView.svelte
 msgid "Extra context or custom directives appended to system prompt..."
-msgstr ""
+msgstr "附加到系统提示词的补充背景或自定义指令..."
 
 #: src/components/views/CharaView.svelte
 msgid "Additional Prompt Instructions"
-msgstr ""
-
-#: src/components/sheets/InventorySheet.svelte
-msgid "Not enough Gold to upgrade bag!"
-msgstr ""
-
-#. 0: targetTier.toUpperCase()
-#: src/components/sheets/InventorySheet.svelte
-msgid "Bag upgraded to {0}! Capacity increased."
-msgstr ""
-
-#: src/components/sheets/InventorySheet.svelte
-msgid "Failed to upgrade bag."
-msgstr ""
+msgstr "额外提示词指令"
 
 #: src/components/views/TalkView.svelte
 msgid "Shop"
-msgstr ""
+msgstr "商店"
 
 #: src/components/views/WorldView.svelte
 msgid "Guests"
-msgstr ""
+msgstr "访客"
 
 #. 0: npcsHere.length
 #: src/components/views/WorldView.svelte
 msgid "Guests Here ({0})"
-msgstr ""
+msgstr "此处的访客 ({0})"
 
 #: src/components/views/WorldView.svelte
 msgid "View Details"
-msgstr ""
+msgstr "查看详情"
 
 #. 0: stageName
 #: src/components/sheets/NpcSheet.svelte
 msgid "Guests in {0}"
-msgstr ""
+msgstr "{0}的访客"
 
 #: src/components/sheets/NpcSheet.svelte
 msgid "No guests around here right now."
-msgstr ""
+msgstr "现在这里没有访客。"
+
+#: src/components/views/TalkView.svelte
+msgid "Story Mode"
+msgstr "故事模式"
+
+#: src/components/views/TalkView.svelte
+msgid "Immersive Mode"
+msgstr "沉浸模式"
+
+#: src/components/views/TalkView.svelte
+msgid "ASMR Mode"
+msgstr "ASMR模式"
+
+#: src/components/views/TalkView.svelte
+msgid "Text Mode"
+msgstr "文字模式"
+
+#: src/components/views/TalkView.svelte
+msgid "Chat Mode"
+msgstr "闲聊模式"

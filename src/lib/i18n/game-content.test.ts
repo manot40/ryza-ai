@@ -13,6 +13,19 @@ import {
   getDailyBonusNudge,
   getWorldLockedToast,
   getSailedToast,
+  getNoApiKeyToast,
+  getNoStaminaToast,
+  getNetworkErrorToast,
+  getMoveToast,
+  getRestFullToast,
+  getSaveSlotToast,
+  getLoadSlotToast,
+  getQuestClearedToast,
+  getNoActiveQuestLine,
+  getBagUpgradeGoldToast,
+  getBagUpgradedToast,
+  getBagUpgradeFailedToast,
+  getDailyRewardLabel,
 } from './game-content';
 
 describe('game-content localization module', () => {
@@ -111,5 +124,73 @@ describe('game-content localization module', () => {
     expect(getSailedToast('ja')).toBe('出航成功！世界の扉が開いたよ');
     expect(getSailedToast('zh')).toBe('出航成功！世界地图已解锁');
     expect(getSailedToast('id')).toBe('Berhasil berlayar! Peta dunia telah terbuka');
+  });
+
+  it('retrieves error and status toasts across languages', () => {
+    expect(getNoApiKeyToast('en')).toBe('API key is not configured');
+    expect(getNoApiKeyToast('ja')).toBe('APIキーが設定されていません');
+    expect(getNoApiKeyToast('zh')).toBe('未配置 API 密钥');
+    expect(getNoApiKeyToast('id')).toBe('Kunci API belum dikonfigurasi');
+
+    expect(getNoStaminaToast('en')).toBe('Not enough stamina…!');
+    expect(getNoStaminaToast('ja')).toBe('元気が足りません…！');
+
+    expect(getNetworkErrorToast('timeout', 'en')).toBe('Network error: timeout');
+    expect(getNetworkErrorToast('timeout', 'ja')).toBe('通信エラー: timeout');
+
+    expect(getMoveToast('Stage 1', 'en')).toBe('Travel: Stage 1');
+    expect(getMoveToast('ステージ1', 'ja')).toBe('移動：ステージ1');
+
+    expect(getRestFullToast('en')).toBe('Rested safely at home — stamina fully restored!');
+    expect(getRestFullToast('ja')).toBe('安全なおうちで眠って、元気が満タンになった！');
+
+    expect(getSaveSlotToast(1, 'en')).toBe('Game saved to slot 1');
+    expect(getSaveSlotToast(1, 'ja')).toBe('スロット 1 にセーブしました');
+
+    expect(getLoadSlotToast(2, 'en')).toBe('Game loaded from slot 2');
+    expect(getLoadSlotToast(2, 'zh')).toBe('已从存档槽 2 读取');
+
+    expect(getQuestClearedToast(undefined, 'en')).toBe('Quest cleared! Reward claimed.');
+    expect(getQuestClearedToast({ exp: 30, money: 20 }, 'en')).toBe('Quest cleared! Claimed +30 EXP, +20 G.');
+    expect(getQuestClearedToast({ exp: 30, money: 20 }, 'ja')).toBe(
+      'クエストクリア！ +30 EXP / +20 G を獲得しました'
+    );
+
+    expect(getNoActiveQuestLine('en')).toBe('No active quest right now. Let’s ask for a new objective.');
+    expect(getNoActiveQuestLine('ja')).toBe('今はクエストなし。新しいお題を考えてもらおう。');
+
+    expect(getBagUpgradeGoldToast('en')).toBe('Not enough Gold to upgrade bag!');
+    expect(getBagUpgradeGoldToast('ja')).toBe('ゴールドが足りなくてバッグを拡張できません！');
+
+    expect(getBagUpgradedToast('large', 'en')).toBe('Bag upgraded to LARGE! Capacity increased.');
+    expect(getBagUpgradedToast('large', 'ja')).toBe('バッグをLARGEに拡張しました！容量が増加しました。');
+
+    expect(getBagUpgradeFailedToast('en')).toBe('Failed to upgrade bag.');
+    expect(getBagUpgradeFailedToast('id')).toBe('Gagal meningkatkan tas.');
+  });
+
+  it('formats daily reward labels across languages', () => {
+    expect(getDailyRewardLabel({ kind: 'stamina' }, 'en')).toBe('Full Stamina Recovery');
+    expect(getDailyRewardLabel({ kind: 'stamina' }, 'ja')).toBe('スタミナ全回復');
+
+    expect(getDailyRewardLabel({ kind: 'money', amount: 120 }, 'en')).toBe('120 Gold');
+    expect(getDailyRewardLabel({ kind: 'money', amount: 120 }, 'ja')).toBe('120G');
+
+    expect(getDailyRewardLabel({ kind: 'item', id: 'wasser', n: 3 }, 'en')).toBe('Distilled Water ×3');
+    expect(getDailyRewardLabel({ kind: 'item', id: 'wasser', n: 3 }, 'ja')).toBe('蒸留水 ×3');
+
+    expect(getDailyRewardLabel({ kind: 'big', money: 300, exp: 100 }, 'en')).toBe(
+      '300 Gold + EXP +100 + Full Heal'
+    );
+    expect(getDailyRewardLabel({ kind: 'big', money: 300, exp: 100 }, 'zh')).toBe(
+      '300 金币 + EXP +100 + 完全回复'
+    );
+
+    expect(getDailyRewardLabel({ kind: 'chest', money: 500, item: 'relic' }, 'en')).toBe(
+      'Treasure Chest: 500 Gold + Ancient Relic'
+    );
+    expect(getDailyRewardLabel({ kind: 'chest', money: 500, item: 'relic' }, 'ja')).toBe(
+      '宝箱：500G + 古代の遺物'
+    );
   });
 });

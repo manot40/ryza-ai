@@ -54,6 +54,7 @@ export interface ClaimResult {
   day?: number;
   text?: string;
   reason?: string;
+  reward?: DailyReward;
 }
 
 type DailyEvents = {
@@ -181,6 +182,7 @@ export class DailyStore {
       ok: true,
       day: idx + 1,
       text: msgs.join('、'),
+      reward: r,
     };
     this.emit('claim', res);
     return res;

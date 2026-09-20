@@ -18,6 +18,21 @@
   const appState = $derived(config.section('state') || {});
   const isVoiceActive = $derived(appState.style !== 'text' && config.section('app')?.voice !== false);
 
+  function modeLabel(m?: string): string {
+    switch (m) {
+      case 'story':
+        return 'Story Mode';
+      case 'immersive':
+        return 'Immersive Mode';
+      case 'asmr':
+        return 'ASMR Mode';
+      case 'text':
+        return 'Text Mode';
+      default:
+        return 'Chat Mode';
+    }
+  }
+
   const textSpeeds = [
     { label: '×1', ms: 28 },
     { label: '×1.5', ms: 18 },
@@ -227,7 +242,7 @@
               <div class="flex flex-col">
                 <span class="text-xs font-bold text-gold leading-none">Ryza</span>
                 <span class="text-[10px] text-muted-foreground leading-tight mt-0.5">
-                  {appState.mode || 'Chat'} Mode
+                  {modeLabel(appState.mode)}
                 </span>
               </div>
             </div>

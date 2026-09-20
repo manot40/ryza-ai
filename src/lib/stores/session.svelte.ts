@@ -9,7 +9,12 @@ import { world } from './world.svelte';
 import { avatarService } from '$lib/avatar/avatar-service.svelte';
 import { sound } from '$lib/audio/sound';
 import { toast } from './toast.svelte';
-import { getDailyBonusNudge } from '$lib/i18n/game-content';
+import {
+  getDailyBonusNudge,
+  getLoadSlotToast,
+  getRestFullToast,
+  getSaveSlotToast,
+} from '$lib/i18n/game-content';
 
 export const MEM_KEY = 'ryza.memory.v1';
 export const SAVE_KEY = 'ryza.saves.v1';
@@ -180,7 +185,7 @@ export class SessionStore {
     const current = this.loadSlots();
     current[index] = this.createSnapshot();
     this.writeSlots(current);
-    toast.show('Game saved to slot ' + (index + 1));
+    toast.show(getSaveSlotToast(index + 1));
     return true;
   }
 
@@ -190,7 +195,7 @@ export class SessionStore {
     const snap = current[index];
     if (!snap) return false;
     this.applySnapshot(snap);
-    toast.show('Game loaded from slot ' + (index + 1));
+    toast.show(getLoadSlotToast(index + 1));
     return true;
   }
 
@@ -219,7 +224,7 @@ export class SessionStore {
     if (prev === 'ngt' && tod === 'mor' && s.stage === HOME_STAGE) {
       game.refill();
       game.remember('安全なおうちでぐっすり眠った。');
-      toast.show('安全なおうちで眠って、元気が満タンになった！');
+      toast.show(getRestFullToast());
     }
 
     avatarService.loadScene(s.stage, tod);

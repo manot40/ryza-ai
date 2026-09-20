@@ -15,6 +15,9 @@ import {
   getPoolQuestGoal,
   getQuestObstacle,
   getQuestPraise,
+  getQuestClearedToast,
+  getNoActiveQuestLine,
+  getQuestClearedMemory,
 } from '$lib/i18n/game-content';
 
 export interface QuestReward {
@@ -582,7 +585,7 @@ export class QuestStore {
     const reward = q.reward || { exp: 30, money: 20 };
     game.addExp(reward.exp);
     game.addMoney(reward.money);
-    game.remember(`「${q.title}」をクリア！ +${reward.exp}EXP / +${reward.money}G`);
+    game.remember(getQuestClearedMemory(this.title(q), reward));
 
     const log =
       (game.flags.quest_log as Array<{ no: number; type: string; title: string; at: number }>) || [];
@@ -611,11 +614,7 @@ export class QuestStore {
     const nextQ = this.startNo(no > 8 ? 9 : no);
     welcome.mark('quest');
     const reward = prev?.reward || { exp: 30, money: 20 };
-    toast.show(
-      prev
-        ? `Quest cleared! Claimed +${reward.exp} EXP, +${reward.money} G.`
-        : 'Quest cleared! Reward claimed.'
-    );
+    toast.show(getQuestClearedToast(prev ? reward : undefined));
     return nextQ;
   }
 
@@ -626,7 +625,7 @@ export class QuestStore {
   doAction(actType?: string, ctx: QuestActionContext = {}): QuestActionResult {
     const q = this.active();
     if (!q || q.complete) {
-      return { ok: false, line: '今はクエストなし。新しいお題を考えてもらおう。' };
+      return { ok: false, line: getNoActiveQuestLine() };
     }
     if (!game.canAct(q.cost)) {
       return {

@@ -4,6 +4,7 @@
   import Header from './Header.svelte';
   import { Button } from '$components/ui/button';
   import { Card, CardContent } from '$components/ui/card';
+  import { getDailyRewardLabel } from '$lib/i18n/game-content';
 
   let streak = $state(0);
   let canClaim = $state(false);
@@ -21,21 +22,12 @@
     refresh();
   });
 
-  const rewardEnglishLabels = [
-    'Full Stamina Recovery',
-    '120 Gold',
-    'Distilled Water ×3',
-    'EXP +60',
-    '300 Gold + EXP 100 + Full Heal',
-    'Stamina Apple ×1',
-    'Treasure Chest: 500 Gold + Relic',
-  ];
-
   function handleClaim() {
     if (!canClaim) return;
     const res = daily.claim();
     if (res.ok) {
-      claimNotice = `Claimed: ${res.text || 'Daily reward received!'}`;
+      const rewardText = res.reward ? getDailyRewardLabel(res.reward) : res.text || '';
+      claimNotice = rewardText;
       refresh();
     }
   }
@@ -74,7 +66,7 @@
                 Day {reward.day}
               </span>
               <span class="text-xs text-muted-foreground mt-0.5">
-                {rewardEnglishLabels[idx] || reward.text}
+                {getDailyRewardLabel(reward)}
               </span>
             </div>
           </div>
@@ -92,7 +84,7 @@
   {#if claimNotice}
     <div
       class="p-3 rounded-md bg-leaf/20 border border-leaf/40 text-xs text-foreground font-medium text-center">
-      {claimNotice}
+      Claimed: {claimNotice}
     </div>
   {/if}
 </div>

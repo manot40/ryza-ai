@@ -15,7 +15,16 @@ import { sound } from '$lib/audio/sound';
 import { voiceBank } from '$lib/audio/voicebank';
 import { alarm, todForHour } from '$lib/stores/alarm.svelte';
 import { Langs } from '$lib/i18n/langs';
-import { getGreeting, getSailedToast, getWorldLockedToast } from '$lib/i18n/game-content';
+import {
+  getGreeting,
+  getMoveToast,
+  getNetworkErrorToast,
+  getNoApiKeyToast,
+  getNoStaminaToast,
+  getRestFullToast,
+  getSailedToast,
+  getWorldLockedToast,
+} from '$lib/i18n/game-content';
 import {
   chat as apiChat,
   speak as apiSpeak,
@@ -156,14 +165,14 @@ export class TalkLoopController {
     const llm = config.section('llm') || {};
 
     if (!llm.apiKey) {
-      toast.err('APIキーが設定されていません');
+      toast.err(getNoApiKeyToast());
       viewStore.setView('settings');
       return;
     }
 
     const cost = game.turnCost(String(st.mode || 'chat'), String(st.style || 'normal'));
     if (game.faint() || !game.canAct(cost)) {
-      toast.err('元気が足りません…！');
+      toast.err(getNoStaminaToast());
       this.showFaint();
       return;
     }
@@ -234,7 +243,7 @@ export class TalkLoopController {
       this.speaking = false;
       const em = (err as Error)?.message || 'UNKNOWN';
       if (em !== 'NO_KEY') this.retryVisible = true;
-      toast.err(em === 'NO_KEY' ? 'APIキーが設定されていません' : `通信エラー: ${em}`);
+      toast.err(em === 'NO_KEY' ? getNoApiKeyToast() : getNetworkErrorToast(em));
       const fallback = '（……うまく聞こえなかった。もう一回言って？）';
       this.displayText = fallback;
       this.pushPage(fallback);
@@ -417,7 +426,7 @@ export class TalkLoopController {
 
     const place = world.find(stageId);
     if (place) {
-      toast.show('移動：' + world.placeLabel(stageId, place.stage));
+      toast.show(getMoveToast(world.placeLabel(stageId, place.stage)));
     }
 
     const npcs = world.npcsAt(stageId, Number(st.day) || 1);
@@ -452,7 +461,7 @@ export class TalkLoopController {
     }
     overlayStore.closeFaint();
     viewStore.setView('talk');
-    toast.show('安全なおうちで眠って、元気が満タンになった！');
+    toast.show(getRestFullToast());
   }
 
   onSailed(): void {
@@ -526,7 +535,7 @@ export class TalkLoopController {
     if (fromTod === 'ngt' && nextTod === 'mor' && dest === HOME_STAGE) {
       game.refill();
       game.remember('安全なおうちでぐっすり眠った。');
-      toast.show('安全なおうちで眠って、元気が満タンになった！');
+      toast.show(getRestFullToast());
     }
 
     if (nextTod !== fromTod) {

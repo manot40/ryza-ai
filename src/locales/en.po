@@ -8,9 +8,6 @@ msgstr ""
 "Plural-Forms: nplurals=2\n"
 "X-Plurals-Order: one, other\n"
 
-#~ msgid "TODO"
-#~ msgstr "TODO"
-
 #: src/components/chrome/Drawer.svelte
 msgid "Talk"
 msgstr "Talk"
@@ -370,27 +367,7 @@ msgstr "Settings saved successfully!"
 msgid "Save Profile"
 msgstr "Save Profile"
 
-#: src/components/views/DailyView.svelte
-msgid "Full Stamina Recovery"
-msgstr "Full Stamina Recovery"
-
-#: src/components/views/DailyView.svelte
-msgid "Distilled Water ×3"
-msgstr "Distilled Water ×3"
-
-#: src/components/views/DailyView.svelte
-msgid "Stamina Apple ×1"
-msgstr "Stamina Apple ×1"
-
-#: src/components/views/DailyView.svelte
-msgid "Treasure Chest: 500 Gold + Relic"
-msgstr "Treasure Chest: 500 Gold + Relic"
-
-#: src/components/views/DailyView.svelte
-msgid "Daily reward received!"
-msgstr "Daily reward received!"
-
-#. 0: res.text || 'Daily reward received!'
+#. 0: claimNotice
 #: src/components/views/DailyView.svelte
 msgid "Claimed: {0}"
 msgstr "Claimed: {0}"
@@ -572,9 +549,6 @@ msgstr "Game"
 msgid "Data"
 msgstr "Data"
 
-#~ msgid "LLM Configuration"
-#~ msgstr "LLM Configuration"
-
 #: src/components/views/SettingsView.svelte
 msgid "API Base URL"
 msgstr "API Base URL"
@@ -595,15 +569,6 @@ msgstr "Temperature"
 msgid "Voice Synthesis (TTS)"
 msgstr "Voice Synthesis (TTS)"
 
-#~ msgid "Provider"
-#~ msgstr "Provider"
-
-#~ msgid "Base URL"
-#~ msgstr "Base URL"
-
-#~ msgid "Voice / Model ID"
-#~ msgstr "Voice / Model ID"
-
 #: src/components/views/SettingsView.svelte
 msgid "Volume Controls"
 msgstr "Volume Controls"
@@ -620,27 +585,13 @@ msgstr "Voice Volume"
 msgid "Sound Effects (SE)"
 msgstr "Sound Effects (SE)"
 
-#~ msgid "Game Preferences"
-#~ msgstr "Game Preferences"
-
-#~ msgid "Interface Language"
-#~ msgstr "Interface Language"
-
-#~ msgid "Cheat Mode"
-#~ msgstr "Cheat Mode"
-
-#~ msgid "Infinite stamina and gold"
-#~ msgstr "Infinite stamina and gold"
+#: src/components/views/SettingsView.svelte
+msgid "Cheat Mode"
+msgstr "Cheat Mode"
 
 #: src/components/views/SettingsView.svelte
 msgid "Data Management"
 msgstr "Data Management"
-
-#~ msgid "Export Settings JSON"
-#~ msgstr "Export Settings JSON"
-
-#~ msgid "Reset Settings to Defaults"
-#~ msgstr "Reset Settings to Defaults"
 
 #: src/components/views/SettingsView.svelte
 msgid "Settings saved!"
@@ -680,12 +631,6 @@ msgstr "Wear"
 msgid "Preview Only"
 msgstr "Preview Only"
 
-#~ msgid "Welcome back, adventurer! What shall we do today?"
-#~ msgstr "Welcome back, adventurer! What shall we do today?"
-
-#~ msgid "Let's head out on an adventure! The weather on the island is fantastic today."
-#~ msgstr "Let's head out on an adventure! The weather on the island is fantastic today."
-
 #. 0: game.level()
 #. 0: game.level()
 #: src/components/sheets/StatusSheet.svelte
@@ -696,9 +641,6 @@ msgstr "Lv.{0}"
 #: src/components/views/TalkView.svelte
 msgid "Toggle Log Panel"
 msgstr "Toggle Log Panel"
-
-#~ msgid "Free Talk Mode"
-#~ msgstr "Free Talk Mode"
 
 #. 0: idx + 1
 #: src/components/views/TalkView.svelte
@@ -794,21 +736,12 @@ msgstr "Here"
 msgid "Travel"
 msgstr "Travel"
 
-#~ msgid "People Here"
-#~ msgstr "People Here"
-
 #: src/components/chrome/ElectronControls.svelte
 #: src/components/ui/dialog/dialog-content.svelte
 #: src/components/ui/dialog/dialog-footer.svelte
 #: src/components/ui/sheet/sheet-content.svelte
 msgid "Close"
 msgstr "Close"
-
-#~ msgid "Voice <0/>"
-#~ msgstr "Voice <0/>"
-
-#~ msgid "<0/> Voice"
-#~ msgstr "<0/> Voice"
 
 #: src/components/views/TalkView.svelte
 msgid "Voice"
@@ -823,12 +756,6 @@ msgstr "Text"
 #: src/components/views/TalkView.svelte
 msgid "Inventory"
 msgstr "Inventory"
-
-#~ msgid "People"
-#~ msgstr "People"
-
-#~ msgid "Manage collected materials and items"
-#~ msgstr "Manage collected materials and items"
 
 #: src/components/sheets/InventorySheet.svelte
 msgid "Your Bag"
@@ -853,16 +780,12 @@ msgid "Capacity: <0/> / {0}"
 msgstr "Capacity: <0/> / {0}"
 
 #: src/components/sheets/ModeSheet.svelte
-#: src/components/views/TalkView.svelte
 msgid "Chat"
 msgstr "Chat"
 
 #: src/components/sheets/ModeSheet.svelte
 msgid "Dialogue Mode"
 msgstr "Dialogue Mode"
-
-#~ msgid "Choose conversation mode, voice output, and scene context"
-#~ msgstr "Choose conversation mode, voice output, and scene context"
 
 #: src/components/sheets/ModeSheet.svelte
 msgid "Mode"
@@ -887,9 +810,6 @@ msgstr "Map"
 #: src/components/sheets/StatusSheet.svelte
 msgid "Adventure Status"
 msgstr "Adventure Status"
-
-#~ msgid "Current journey progress and statistics"
-#~ msgstr "Current journey progress and statistics"
 
 #: src/components/sheets/StatusSheet.svelte
 msgid "Level"
@@ -933,21 +853,9 @@ msgstr "Ship Construction"
 msgid "No memories recorded yet"
 msgstr "No memories recorded yet"
 
-#~ msgid "People in {0}"
-#~ msgstr "People in {0}"
-
-#~ msgid "Characters currently present at this location"
-#~ msgstr "Characters currently present at this location"
-
-#~ msgid "No one is around here right now."
-#~ msgstr "No one is around here right now."
-
 #: src/components/sheets/NpcSheet.svelte
 msgid "Unmet"
 msgstr "Unmet"
-
-#~ msgid "Select interface display language"
-#~ msgstr "Select interface display language"
 
 #: src/components/overlays/TitleOverlay.svelte
 msgid "Start"
@@ -1147,9 +1055,6 @@ msgstr "Quest Cleared!"
 msgid "OK"
 msgstr "OK"
 
-#~ msgid "Rested soundly at home, fully recovering stamina."
-#~ msgstr "Rested soundly at home, fully recovering stamina."
-
 #: src/components/overlays/FaintOverlay.svelte
 msgid "Out of Stamina"
 msgstr "Out of Stamina"
@@ -1193,11 +1098,6 @@ msgstr "Reply could not be retrieved."
 #: src/components/views/TalkView.svelte
 msgid "Retry"
 msgstr "Retry"
-
-#. 0: appState.mode || 'Chat'
-#: src/components/views/TalkView.svelte
-msgid "{0} Mode"
-msgstr "{0} Mode"
 
 #: src/components/views/CharaView.svelte
 msgid "Save Data (3 Slots)"
@@ -1785,10 +1685,6 @@ msgid "Game Balance"
 msgstr "Game Balance"
 
 #: src/components/views/SettingsView.svelte
-msgid "Cheat Mode (作弊模式)"
-msgstr "Cheat Mode (作弊模式)"
-
-#: src/components/views/SettingsView.svelte
 msgid "Infinite stamina (🍎∞) and coins"
 msgstr "Infinite stamina (🍎∞) and coins"
 
@@ -1872,19 +1768,6 @@ msgstr "Extra context or custom directives appended to system prompt..."
 msgid "Additional Prompt Instructions"
 msgstr "Additional Prompt Instructions"
 
-#: src/components/sheets/InventorySheet.svelte
-msgid "Not enough Gold to upgrade bag!"
-msgstr "Not enough Gold to upgrade bag!"
-
-#. 0: targetTier.toUpperCase()
-#: src/components/sheets/InventorySheet.svelte
-msgid "Bag upgraded to {0}! Capacity increased."
-msgstr "Bag upgraded to {0}! Capacity increased."
-
-#: src/components/sheets/InventorySheet.svelte
-msgid "Failed to upgrade bag."
-msgstr "Failed to upgrade bag."
-
 #: src/components/views/TalkView.svelte
 msgid "Shop"
 msgstr "Shop"
@@ -1910,3 +1793,23 @@ msgstr "Guests in {0}"
 #: src/components/sheets/NpcSheet.svelte
 msgid "No guests around here right now."
 msgstr "No guests around here right now."
+
+#: src/components/views/TalkView.svelte
+msgid "Story Mode"
+msgstr "Story Mode"
+
+#: src/components/views/TalkView.svelte
+msgid "Immersive Mode"
+msgstr "Immersive Mode"
+
+#: src/components/views/TalkView.svelte
+msgid "ASMR Mode"
+msgstr "ASMR Mode"
+
+#: src/components/views/TalkView.svelte
+msgid "Text Mode"
+msgstr "Text Mode"
+
+#: src/components/views/TalkView.svelte
+msgid "Chat Mode"
+msgstr "Chat Mode"

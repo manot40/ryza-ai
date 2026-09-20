@@ -1166,7 +1166,7 @@
         <CardContent class="space-y-2">
           <div class="flex items-center justify-between">
             <div class="flex flex-col">
-              <span class="text-xs font-medium text-foreground">Cheat Mode (作弊模式)</span>
+              <span class="text-xs font-medium text-foreground">Cheat Mode</span>
               <span class="text-[11px] text-muted-foreground">Infinite stamina (🍎∞) and coins</span>
             </div>
             <Switch checked={cheatMode} onCheckedChange={(val) => (cheatMode = val)} />

@@ -834,3 +834,276 @@ export function getSailedToast(locale?: ContentLocale): string {
       return 'You sailed! The world map is open';
   }
 }
+
+export function getNoApiKeyToast(locale?: ContentLocale): string {
+  const loc = locale || resolveContentLocale();
+  switch (loc) {
+    case 'zh':
+      return '未配置 API 密钥';
+    case 'ja':
+      return 'APIキーが設定されていません';
+    case 'id':
+      return 'Kunci API belum dikonfigurasi';
+    default:
+      return 'API key is not configured';
+  }
+}
+
+export function getNoStaminaToast(locale?: ContentLocale): string {
+  const loc = locale || resolveContentLocale();
+  switch (loc) {
+    case 'zh':
+      return '精力不足…！';
+    case 'ja':
+      return '元気が足りません…！';
+    case 'id':
+      return 'Stamina tidak cukup…!';
+    default:
+      return 'Not enough stamina…!';
+  }
+}
+
+export function getNetworkErrorToast(msg: string, locale?: ContentLocale): string {
+  const loc = locale || resolveContentLocale();
+  switch (loc) {
+    case 'zh':
+      return `网络错误: ${msg}`;
+    case 'ja':
+      return `通信エラー: ${msg}`;
+    case 'id':
+      return `Kesalahan jaringan: ${msg}`;
+    default:
+      return `Network error: ${msg}`;
+  }
+}
+
+export function getMoveToast(place: string, locale?: ContentLocale): string {
+  const loc = locale || resolveContentLocale();
+  switch (loc) {
+    case 'zh':
+      return `移动：${place}`;
+    case 'ja':
+      return `移動：${place}`;
+    case 'id':
+      return `Perjalanan: ${place}`;
+    default:
+      return `Travel: ${place}`;
+  }
+}
+
+export function getRestFullToast(locale?: ContentLocale): string {
+  const loc = locale || resolveContentLocale();
+  switch (loc) {
+    case 'zh':
+      return '在安全的家里睡了一觉，精力完全恢复！';
+    case 'ja':
+      return '安全なおうちで眠って、元気が満タンになった！';
+    case 'id':
+      return 'Beristirahat di rumah yang aman — stamina pulih sepenuhnya!';
+    default:
+      return 'Rested safely at home — stamina fully restored!';
+  }
+}
+
+export function getSaveSlotToast(slot: number, locale?: ContentLocale): string {
+  const loc = locale || resolveContentLocale();
+  switch (loc) {
+    case 'zh':
+      return `已保存到存档槽 ${slot}`;
+    case 'ja':
+      return `スロット ${slot} にセーブしました`;
+    case 'id':
+      return `Permainan disimpan ke slot ${slot}`;
+    default:
+      return `Game saved to slot ${slot}`;
+  }
+}
+
+export function getLoadSlotToast(slot: number, locale?: ContentLocale): string {
+  const loc = locale || resolveContentLocale();
+  switch (loc) {
+    case 'zh':
+      return `已从存档槽 ${slot} 读取`;
+    case 'ja':
+      return `スロット ${slot} からロードしました`;
+    case 'id':
+      return `Permainan dimuat dari slot ${slot}`;
+    default:
+      return `Game loaded from slot ${slot}`;
+  }
+}
+
+export function getQuestClearedToast(
+  reward?: { exp: number; money: number },
+  locale?: ContentLocale
+): string {
+  const loc = locale || resolveContentLocale();
+  if (reward) {
+    switch (loc) {
+      case 'zh':
+        return `任务完成！获得 +${reward.exp} EXP / +${reward.money} G`;
+      case 'ja':
+        return `クエストクリア！ +${reward.exp} EXP / +${reward.money} G を獲得しました`;
+      case 'id':
+        return `Misi selesai! Mendapatkan +${reward.exp} EXP / +${reward.money} G`;
+      default:
+        return `Quest cleared! Claimed +${reward.exp} EXP, +${reward.money} G.`;
+    }
+  }
+  switch (loc) {
+    case 'zh':
+      return '任务完成！已领取奖励';
+    case 'ja':
+      return 'クエストクリア！報酬を獲得しました';
+    case 'id':
+      return 'Misi selesai! Hadiah telah diambil';
+    default:
+      return 'Quest cleared! Reward claimed.';
+  }
+}
+
+export function getNoActiveQuestLine(locale?: ContentLocale): string {
+  const loc = locale || resolveContentLocale();
+  switch (loc) {
+    case 'zh':
+      return '目前没有任务。去想想新的目标吧。';
+    case 'ja':
+      return '今はクエストなし。新しいお題を考えてもらおう。';
+    case 'id':
+      return 'Tidak ada misi aktif saat ini. Mari minta tujuan baru.';
+    default:
+      return 'No active quest right now. Let’s ask for a new objective.';
+  }
+}
+
+export function getQuestClearedMemory(
+  title: string,
+  reward: { exp: number; money: number },
+  locale?: ContentLocale
+): string {
+  const loc = locale || resolveContentLocale();
+  switch (loc) {
+    case 'zh':
+      return `完成「${title}」！ +${reward.exp}EXP / +${reward.money}G`;
+    case 'ja':
+      return `「${title}」をクリア！ +${reward.exp}EXP / +${reward.money}G`;
+    case 'id':
+      return `Selesaikan "${title}"! +${reward.exp}EXP / +${reward.money}G`;
+    default:
+      return `Cleared "${title}"! +${reward.exp}EXP / +${reward.money}G`;
+  }
+}
+
+export function getBagUpgradeGoldToast(locale?: ContentLocale): string {
+  const loc = locale || resolveContentLocale();
+  switch (loc) {
+    case 'zh':
+      return '金币不足，无法升级背包！';
+    case 'ja':
+      return 'ゴールドが足りなくてバッグを拡張できません！';
+    case 'id':
+      return 'Gold tidak cukup untuk meningkatkan tas!';
+    default:
+      return 'Not enough Gold to upgrade bag!';
+  }
+}
+
+export function getBagUpgradedToast(tier: string, locale?: ContentLocale): string {
+  const loc = locale || resolveContentLocale();
+  const up = tier.toUpperCase();
+  switch (loc) {
+    case 'zh':
+      return `背包已升级至 ${up}！容量提升。`;
+    case 'ja':
+      return `バッグを${up}に拡張しました！容量が増加しました。`;
+    case 'id':
+      return `Tas ditingkatkan ke ${up}! Kapasitas bertambah.`;
+    default:
+      return `Bag upgraded to ${up}! Capacity increased.`;
+  }
+}
+
+export function getBagUpgradeFailedToast(locale?: ContentLocale): string {
+  const loc = locale || resolveContentLocale();
+  switch (loc) {
+    case 'zh':
+      return '升级背包失败。';
+    case 'ja':
+      return 'バッグの拡張に失敗しました。';
+    case 'id':
+      return 'Gagal meningkatkan tas.';
+    default:
+      return 'Failed to upgrade bag.';
+  }
+}
+
+export interface DailyRewardDesc {
+  kind: string;
+  amount?: number | 'full';
+  money?: number;
+  exp?: number;
+  id?: string;
+  item?: string;
+  n?: number;
+  text?: string;
+}
+
+export function getDailyRewardLabel(r: DailyRewardDesc, locale?: ContentLocale): string {
+  const loc = locale || resolveContentLocale();
+  switch (r.kind) {
+    case 'stamina':
+      switch (loc) {
+        case 'zh':
+          return '体力完全恢复';
+        case 'ja':
+          return 'スタミナ全回復';
+        case 'id':
+          return 'Pemulihan Stamina Penuh';
+        default:
+          return 'Full Stamina Recovery';
+      }
+    case 'money':
+      switch (loc) {
+        case 'zh':
+          return `${r.amount} 金币`;
+        case 'ja':
+          return `${r.amount}G`;
+        case 'id':
+          return `${r.amount} Gold`;
+        default:
+          return `${r.amount} Gold`;
+      }
+    case 'item': {
+      const name = getItemName(r.id || '', '', loc);
+      return `${name} ×${r.n || 1}`;
+    }
+    case 'exp':
+      return `EXP +${r.amount}`;
+    case 'big':
+      switch (loc) {
+        case 'zh':
+          return `${r.money} 金币 + EXP +${r.exp} + 完全回复`;
+        case 'ja':
+          return `${r.money}G + EXP+${r.exp} + 全回復`;
+        case 'id':
+          return `${r.money} Gold + EXP +${r.exp} + Pulih Penuh`;
+        default:
+          return `${r.money} Gold + EXP +${r.exp} + Full Heal`;
+      }
+    case 'chest': {
+      const relic = getItemName(r.item || 'relic', '', loc);
+      switch (loc) {
+        case 'zh':
+          return `宝箱：${r.money} 金币 + ${relic}`;
+        case 'ja':
+          return `宝箱：${r.money}G + ${relic}`;
+        case 'id':
+          return `Peti Harta: ${r.money} Gold + ${relic}`;
+        default:
+          return `Treasure Chest: ${r.money} Gold + ${relic}`;
+      }
+    }
+    default:
+      return r.text || '';
+  }
+}
