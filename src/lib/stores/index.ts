@@ -9,3 +9,6 @@ export * from './daily.svelte';
 export * from './alarm.svelte';
 export * from './nsfw.svelte';
 export * from './world.svelte';
+export * from './view.svelte';
+export * from './overlay.svelte';
+export * from './onboarding.svelte';

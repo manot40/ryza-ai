@@ -12,6 +12,23 @@
   import AppModal from '$components/AppModal.svelte';
   import Confetti from '$lib/fx/confetti.svelte';
   import { computeFitUiZoom } from '$lib/fit-ui';
+  import { imeViewport } from '$lib/actions/ime-viewport';
+  import { initElectronShell } from '$lib/platform/electron';
+
+  // Bottom Sheets
+  import ModeSheet from '$components/sheets/ModeSheet.svelte';
+  import InventorySheet from '$components/sheets/InventorySheet.svelte';
+  import StatusSheet from '$components/sheets/StatusSheet.svelte';
+  import NpcSheet from '$components/sheets/NpcSheet.svelte';
+  import LanguageSheet from '$components/sheets/LanguageSheet.svelte';
+
+  // Overlays
+  import TitleOverlay from '$components/overlays/TitleOverlay.svelte';
+  import OnboardingOverlay from '$components/overlays/OnboardingOverlay.svelte';
+  import PrologueOverlay from '$components/overlays/PrologueOverlay.svelte';
+  import AlarmOverlay from '$components/overlays/AlarmOverlay.svelte';
+  import QuestClearOverlay from '$components/overlays/QuestClearOverlay.svelte';
+  import FaintOverlay from '$components/overlays/FaintOverlay.svelte';
 
   let { children } = $props();
 
@@ -41,6 +58,7 @@
   });
 
   onMount(() => {
+    initElectronShell();
     updateZoom();
     window.addEventListener('resize', updateZoom);
     return () => {
@@ -51,10 +69,11 @@
 
 <div
   class="relative w-screen h-dvh overflow-hidden bg-background flex items-center justify-center select-none">
-  <!-- #phone container fixed at 420x860 or full mobile -->
+  <!-- #phone container fixed at 420x860 or full mobile with Android IME adjustment -->
   <main
     id="phone"
     bind:this={phoneEl}
+    use:imeViewport
     class="relative w-full h-full max-w-3xl bg-background text-foreground overflow-hidden shadow-2xl flex flex-col">
     <!-- Background Spine Stage & Avatar -->
     <div class="absolute inset-0 z-0 overflow-hidden">
@@ -101,5 +120,20 @@
 
     <!-- Global Dialog Modal -->
     <AppModal />
+
+    <!-- Bottom Sheets -->
+    <ModeSheet />
+    <InventorySheet />
+    <StatusSheet />
+    <NpcSheet />
+    <LanguageSheet />
+
+    <!-- Overlays -->
+    <TitleOverlay />
+    <OnboardingOverlay />
+    <PrologueOverlay />
+    <AlarmOverlay />
+    <QuestClearOverlay />
+    <FaintOverlay />
   </main>
 </div>

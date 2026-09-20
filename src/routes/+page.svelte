@@ -1,5 +1,9 @@
 <script lang="ts">
-  import { viewStore } from '$lib/stores/view.svelte';
+  import { VIEWS, viewStore } from '$lib/stores/view.svelte';
+  import { useDebounceState } from '$lib/hooks/debounce.svelte';
+
+  import * as Sheet from '$components/ui/sheet';
+
   import TalkView from '$components/views/TalkView.svelte';
   import WorldView from '$components/views/WorldView.svelte';
   import QuestView from '$components/views/QuestView.svelte';
@@ -10,6 +14,30 @@
   import MemoryView from '$components/views/MemoryView.svelte';
   import SettingsView from '$components/views/SettingsView.svelte';
   import WelcomeView from '$components/views/WelcomeView.svelte';
+
+  let open = $state(false);
+
+  const ANIMATION_TIMEOUT = 300;
+  const debActiveView = useDebounceState(() => viewStore.activeView, ANIMATION_TIMEOUT);
+  const activeView = $derived.by(() => {
+    const isOpen = debActiveView.value && debActiveView.value !== 'talk';
+    return isOpen ? debActiveView.value : viewStore.activeView;
+  });
+
+  function closeSheet() {
+    open = false;
+    viewStore.setView('talk');
+  }
+
+  $effect(() => {
+    const isOpen = viewStore.activeView !== 'talk' && VIEWS.includes(viewStore.activeView);
+    const setter = () => (open = isOpen);
+
+    if (!isOpen) {
+      const timeout = setTimeout(setter, ANIMATION_TIMEOUT);
+      return () => clearTimeout(timeout);
+    } else setter();
+  });
 </script>
 
 <div class="relative size-full overflow-hidden">
@@ -22,41 +50,30 @@
   </div>
 
   <!-- Other Views overlay on top when active -->
-  {#if viewStore.activeView === 'world'}
-    <div class="absolute inset-0 z-20">
-      <WorldView />
-    </div>
-  {:else if viewStore.activeView === 'quest'}
-    <div class="absolute inset-0 z-20">
-      <QuestView />
-    </div>
-  {:else if viewStore.activeView === 'daily'}
-    <div class="absolute inset-0 z-20">
-      <DailyView />
-    </div>
-  {:else if viewStore.activeView === 'alarm'}
-    <div class="absolute inset-0 z-20">
-      <AlarmView />
-    </div>
-  {:else if viewStore.activeView === 'chara'}
-    <div class="absolute inset-0 z-20">
-      <CharaView />
-    </div>
-  {:else if viewStore.activeView === 'skin'}
-    <div class="absolute inset-0 z-20">
-      <SkinView />
-    </div>
-  {:else if viewStore.activeView === 'memory'}
-    <div class="absolute inset-0 z-20">
-      <MemoryView />
-    </div>
-  {:else if viewStore.activeView === 'settings'}
-    <div class="absolute inset-0 z-20">
-      <SettingsView />
-    </div>
-  {:else if viewStore.activeView === 'welcome'}
-    <div class="absolute inset-0 z-20">
-      <WelcomeView />
-    </div>
-  {/if}
+  <Sheet.Root {open} onOpenChange={closeSheet}>
+    <Sheet.Content
+      side="bottom"
+      class="w-full max-w-xl mx-auto bg-background/95 border border-border/60 rounded-t-2xl"
+      showCloseButton={false}>
+      {#if activeView === 'world'}
+        <WorldView />
+      {:else if activeView === 'quest'}
+        <QuestView />
+      {:else if activeView === 'daily'}
+        <DailyView />
+      {:else if activeView === 'alarm'}
+        <AlarmView />
+      {:else if activeView === 'chara'}
+        <CharaView />
+      {:else if activeView === 'skin'}
+        <SkinView />
+      {:else if activeView === 'memory'}
+        <MemoryView />
+      {:else if activeView === 'settings'}
+        <SettingsView />
+      {:else if activeView === 'welcome'}
+        <WelcomeView />
+      {/if}
+    </Sheet.Content>
+  </Sheet.Root>
 </div>

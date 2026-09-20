@@ -1,14 +1,17 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
+
   import { game } from '$lib/stores/game.svelte';
   import { config } from '$lib/stores/config.svelte';
   import { viewStore } from '$lib/stores/view.svelte';
+  import { overlayStore } from '$lib/stores/overlay.svelte';
   import { avatarService } from '$lib/avatar/avatar-service.svelte';
   import { TypewriterController } from '$lib/typewriter';
-  import { Button } from '$components/ui/button';
-  import { Input } from '$components/ui/input';
 
+  import { Input } from '$components/ui/input';
+  import { Button } from '$components/ui/button';
   import { CogIcon } from '@lucide/svelte';
+  import VoiceToggle from '$lib/fx/voice-toggle.svelte';
 
   let inputText = $state('');
   let isThinking = $state(false);
@@ -16,6 +19,9 @@
   let recentPages = $state<string[]>([]);
   let activePageIdx = $state(0);
   let panelCollapsed = $state(false);
+
+  const appState = $derived(config.section('state') || {});
+  const isVoiceActive = $derived(appState.style !== 'text' && config.section('app')?.voice !== false);
 
   onMount(() => {
     const greeting = 'Welcome back, adventurer! What shall we do today?';
@@ -79,6 +85,11 @@
     displayText = recentPages[idx];
   }
 
+  function toggleVoiceStyle() {
+    const nextStyle = appState.style === 'text' ? 'normal' : 'text';
+    config.set('state.style', nextStyle);
+  }
+
   onDestroy(() => {
     typewriter.cancel();
   });
@@ -87,10 +98,13 @@
 <div class="relative flex flex-col size-full justify-between p-3 pointer-events-none">
   <!-- Top HUD Cluster -->
   <div class="flex items-start justify-between pointer-events-auto">
-    <div class="flex flex-col gap-1.5">
+    <div class="flex flex-col gap-1.5 pointer-events-auto">
       <!-- Stamina Row -->
+      <!-- svelte-ignore a11y_click_events_have_key_events -->
+      <!-- svelte-ignore a11y_no_static_element_interactions -->
       <div
-        class="flex items-center gap-1.5 bg-card/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-border/40 shadow-sm">
+        class="flex items-center gap-1.5 bg-card/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-border/40 shadow-sm cursor-pointer hover:bg-card/80 transition-colors"
+        onclick={() => overlayStore.openSheet('status')}>
         <div class="flex items-center gap-0.5">
           {#each Array(game.apples().slots) as _, i}
             <img
@@ -112,79 +126,104 @@
           variant="outline"
           size="sm"
           class="h-6 flex items-center gap-1 bg-card/60 backdrop-blur-md px-2.5 py-0 rounded-full border-border/40 text-xs font-medium text-gold shadow-sm hover:bg-card/80"
-          onclick={() => viewStore.setView('quest')}>
+          onclick={() => overlayStore.openSheet('status')}>
           <img src="/assets/icons/hud_coin.svg" alt="" class="w-3.5 h-3.5" />
           <span>{game.cheat() ? '∞' : game.s.money.toLocaleString()}</span>
         </Button>
 
+        <!-- svelte-ignore a11y_click_events_have_key_events -->
+        <!-- svelte-ignore a11y_no_static_element_interactions -->
         <div
-          class="bg-card/60 backdrop-blur-md px-2 py-0.5 rounded-full border border-border/40 text-xs font-semibold text-foreground/80 shadow-sm">
+          class="bg-card/60 backdrop-blur-md px-2 py-0.5 rounded-full border border-border/40 text-xs font-semibold text-foreground/80 shadow-sm cursor-pointer hover:bg-card/80 transition-colors"
+          onclick={() => overlayStore.openSheet('status')}>
           Lv.{game.level()}
         </div>
       </div>
     </div>
 
     <!-- Quick Action Floating Buttons -->
-    <div class="flex flex-col gap-1 pointer-events-auto">
+    <div class="flex flex-col gap-2.5 pointer-events-auto">
       <Button
         variant="outline"
         size="icon"
-        class="size-9 rounded-full bg-card/70 backdrop-blur-md border-border/50 shadow-md hover:bg-card/90"
-        onclick={() => (panelCollapsed = !panelCollapsed)}
-        title="Toggle Log Panel">
-        <img
-          src="/assets/icons/arrow_up.svg"
-          alt=""
-          class="w-4 h-4 transition-transform duration-200 {panelCollapsed ? 'rotate-180' : ''}" />
-      </Button>
-
-      <Button
-        variant="outline"
-        size="icon"
-        class="size-9 rounded-full bg-card/70 backdrop-blur-md border-border/50 shadow-md hover:bg-card/90"
+        class="size-12 rounded-full bg-card/70 backdrop-blur-md border-border/50 shadow-md hover:bg-card/90"
         onclick={() => viewStore.setView('quest')}
         title="Quests">
-        <img src="/assets/icons/quest.svg" alt="" class="w-4 h-4" />
+        <img src="/assets/icons/quest.svg" alt="" class="size-6" />
       </Button>
 
       <Button
         variant="outline"
         size="icon"
-        class="size-9 rounded-full bg-card/70 backdrop-blur-md border-border/50 shadow-md hover:bg-card/90"
-        onclick={() => viewStore.setView('skin')}
-        title="Costumes">
-        <img src="/assets/icons/bag.svg" alt="" class="w-4 h-4" />
+        class="size-12 rounded-full bg-card/70 backdrop-blur-md border-border/50 shadow-md hover:bg-card/90"
+        onclick={() => overlayStore.openSheet('inv')}
+        title="Inventory">
+        <img src="/assets/icons/bag.svg" alt="" class="size-6" />
       </Button>
 
       <Button
         variant="outline"
         size="icon"
-        class="size-9 rounded-full bg-card/70 backdrop-blur-md border-border/50 shadow-md hover:bg-card/90"
+        class="size-12 rounded-full bg-card/70 backdrop-blur-md border-border/50 shadow-md hover:bg-card/90"
         onclick={() => viewStore.setView('settings')}
         title="Settings">
-        <CogIcon class="size-4" />
+        <CogIcon class="size-6" />
       </Button>
     </div>
   </div>
 
   <!-- Bottom Log Panel & Input Bar -->
-  <div class="sm:w-lg mx-auto">
-    <div
-      class="flex flex-col gap-2 pointer-events-auto transition-all duration-300 {panelCollapsed
-        ? 'translate-y-[calc(100%-3.5rem)]'
-        : ''}">
+  <div
+    style="translate: 0 {!panelCollapsed ? '0' : 'calc(100% - var(--spacing) * 24)'}"
+    class="flex flex-col sm:w-lg mx-auto pointer-events-auto transition-all duration-300">
+    <div class="flex justify-between items-center mb-2">
+      <Button
+        variant="outline"
+        class="rounded-full bg-card/60 backdrop-blur-md text-foreground/90 hover:bg-card/90 shadow-sm transition-all"
+        style="background: {isVoiceActive ? 'linear-gradient(120deg, #ff9a3d, #f5b03d)' : 'revert-rule'}"
+        aria-label="Toggle Voice"
+        onclick={toggleVoiceStyle}>
+        <VoiceToggle active={isVoiceActive} size={28} />
+        <span class={['transition-all', isVoiceActive ? 'text-background' : '-ml-1']}>
+          {isVoiceActive ? 'Voice' : 'Text'}
+        </span>
+      </Button>
+      <Button
+        variant="outline"
+        size="icon"
+        class="size-10 rounded-full bg-card/70 backdrop-blur-md border-border/50 shadow-md hover:bg-card/90"
+        onclick={() => (panelCollapsed = !panelCollapsed)}
+        title="Toggle Log Panel">
+        <img
+          src="/assets/icons/arrow_up.svg"
+          alt=""
+          class="size-4 transition-transform duration-200 {!panelCollapsed ? 'rotate-180' : ''}" />
+      </Button>
+    </div>
+    <div class="flex flex-col gap-2">
       <!-- Dialogue Bubble Card -->
       <!-- svelte-ignore a11y_click_events_have_key_events -->
       <!-- svelte-ignore a11y_no_static_element_interactions -->
       <div
         class="bg-card/85 backdrop-blur-md border border-border/50 rounded-2xl p-3.5 shadow-xl flex flex-col gap-2.5 cursor-pointer select-text w-full"
         onclick={handleSkipTypewriter}>
-        <div class="flex items-center justify-between border-b border-border/30 pb-2 w-full">
-          <div class="flex items-center gap-2.5">
+        <div
+          class={[
+            !panelCollapsed && 'border-b pb-2',
+            'flex items-center justify-between border-border/30 w-full',
+          ]}>
+          <!-- svelte-ignore a11y_click_events_have_key_events -->
+          <!-- svelte-ignore a11y_no_static_element_interactions -->
+          <div
+            class="flex items-center gap-2.5 cursor-pointer hover:opacity-80 transition-opacity"
+            onclick={(e) => {
+              e.stopPropagation();
+              overlayStore.openSheet('mode');
+            }}>
             <img
               src="/assets/images/chara_icons/ryza.png"
               alt="Ryza"
-              class="w-8 h-8 rounded-full border border-gold/40 object-cover" />
+              class="size-8 rounded-full border border-gold/40 object-cover" />
             <div class="flex flex-col">
               <span class="text-xs font-bold text-gold leading-none">Ryza</span>
               <span class="text-[10px] text-muted-foreground leading-tight mt-0.5">Free Talk Mode</span>
@@ -232,7 +271,7 @@
         <Button
           variant="ghost"
           size="icon"
-          class="size-9 rounded-full text-xs font-bold text-gold hover:bg-muted/40"
+          class="size-10 rounded-full text-xs font-bold text-gold hover:bg-muted/40"
           onclick={cycleSpeed}
           title="Text Speed">
           {textSpeeds[speedIdx].label}
@@ -249,7 +288,7 @@
         <Button
           variant="ghost"
           size="icon"
-          class="size-9 rounded-full text-muted-foreground hover:text-foreground hover:bg-muted/40"
+          class="size-10 rounded-full text-muted-foreground hover:text-foreground hover:bg-muted/40"
           onclick={() => (inputText = '')}
           title="Clear Input">
           <img src="/assets/icons/asterisk.svg" alt="" class="w-4 h-4 opacity-70" />
@@ -257,7 +296,7 @@
 
         <Button
           size="icon"
-          class="size-9 rounded-full bg-gold text-background hover:bg-gold/90 shadow-sm"
+          class="size-10 rounded-full bg-gold text-background hover:bg-gold/90 shadow-sm"
           onclick={handleSend}
           title="Send">
           <img src="/assets/icons/send.svg" alt="Send" class="w-4 h-4" />

@@ -48,11 +48,11 @@ msgstr "Character Profile"
 
 #: src/components/chrome/Drawer.svelte
 #: src/components/views/SkinView.svelte
-#: src/components/views/TalkView.svelte
 msgid "Costumes"
 msgstr "Costumes"
 
 #: src/components/chrome/Drawer.svelte
+#: src/components/sheets/StatusSheet.svelte
 #: src/components/views/MemoryView.svelte
 msgid "Memories"
 msgstr "Memories"
@@ -80,21 +80,25 @@ msgid "Offline Rebuilt Edition · No official server"
 msgstr "Offline Rebuilt Edition · No official server"
 
 #: src/components/chrome/SideMenu.svelte
+#: src/components/sheets/LanguageSheet.svelte
 #: src/components/views/SettingsView.svelte
 msgid "English"
 msgstr "English"
 
 #: src/components/chrome/SideMenu.svelte
+#: src/components/sheets/LanguageSheet.svelte
 #: src/components/views/SettingsView.svelte
 msgid "日本語"
 msgstr "日本語"
 
 #: src/components/chrome/SideMenu.svelte
+#: src/components/sheets/LanguageSheet.svelte
 #: src/components/views/SettingsView.svelte
 msgid "简体中文"
 msgstr "简体中文"
 
 #: src/components/chrome/SideMenu.svelte
+#: src/components/sheets/LanguageSheet.svelte
 #: src/components/views/SettingsView.svelte
 msgid "Bahasa Indonesia"
 msgstr "Bahasa Indonesia"
@@ -112,7 +116,9 @@ msgstr "Shortcuts and display controls"
 msgid "New Conversation"
 msgstr "New Conversation"
 
+#: src/components/chrome/Drawer.svelte
 #: src/components/chrome/SideMenu.svelte
+#: src/components/sheets/LanguageSheet.svelte
 msgid "Language"
 msgstr "Language"
 
@@ -151,10 +157,12 @@ msgid "Free Talk"
 msgstr "Free Talk"
 
 #: src/components/chrome/TopBar.svelte
+#: src/components/sheets/ModeSheet.svelte
 msgid "Story"
 msgstr "Story"
 
 #: src/components/chrome/TopBar.svelte
+#: src/components/sheets/ModeSheet.svelte
 msgid "Immersive"
 msgstr "Immersive"
 
@@ -163,10 +171,11 @@ msgid "Open Navigation"
 msgstr "Open Navigation"
 
 #: src/components/chrome/TopBar.svelte
+#: src/components/sheets/ModeSheet.svelte
 msgid "Hideout"
 msgstr "Hideout"
 
-#: src/components/chrome/TopBar.svelte
+#: src/components/views/TalkView.svelte
 msgid "Toggle Voice"
 msgstr "Toggle Voice"
 
@@ -292,6 +301,7 @@ msgstr "You / Senpai"
 msgid "How Ryza Calls You"
 msgstr "How Ryza Calls You"
 
+#: src/components/overlays/OnboardingOverlay.svelte
 #: src/components/views/CharaView.svelte
 msgid "Birthday"
 msgstr "Birthday"
@@ -300,6 +310,7 @@ msgstr "Birthday"
 msgid "Male / Female / Other"
 msgstr "Male / Female / Other"
 
+#: src/components/overlays/OnboardingOverlay.svelte
 #: src/components/views/CharaView.svelte
 msgid "Gender"
 msgstr "Gender"
@@ -543,8 +554,8 @@ msgid "Audio"
 msgstr "Audio"
 
 #: src/components/views/SettingsView.svelte
-msgid "App"
-msgstr "App"
+msgid "Game"
+msgstr "Game"
 
 #: src/components/views/SettingsView.svelte
 msgid "Data"
@@ -604,8 +615,8 @@ msgid "Sound Effects (SE)"
 msgstr "Sound Effects (SE)"
 
 #: src/components/views/SettingsView.svelte
-msgid "App Preferences"
-msgstr "App Preferences"
+msgid "Game Preferences"
+msgstr "Game Preferences"
 
 #: src/components/views/SettingsView.svelte
 msgid "Interface Language"
@@ -677,6 +688,8 @@ msgid "Let's head out on an adventure! The weather on the island is fantastic to
 msgstr "Let's head out on an adventure! The weather on the island is fantastic today."
 
 #. 0: game.level()
+#. 0: game.level()
+#: src/components/sheets/StatusSheet.svelte
 #: src/components/views/TalkView.svelte
 msgid "Lv.{0}"
 msgstr "Lv.{0}"
@@ -787,8 +800,386 @@ msgstr "Travel"
 msgid "People Here"
 msgstr "People Here"
 
+#: src/components/chrome/ElectronControls.svelte
 #: src/components/ui/dialog/dialog-content.svelte
 #: src/components/ui/dialog/dialog-footer.svelte
 #: src/components/ui/sheet/sheet-content.svelte
 msgid "Close"
 msgstr "Close"
+
+#~ msgid "Voice <0/>"
+#~ msgstr "Voice <0/>"
+
+#~ msgid "<0/> Voice"
+#~ msgstr "<0/> Voice"
+
+#: src/components/views/TalkView.svelte
+msgid "Voice"
+msgstr "Voice"
+
+#: src/components/sheets/ModeSheet.svelte
+#: src/components/views/TalkView.svelte
+msgid "Text"
+msgstr "Text"
+
+#: src/components/sheets/InventorySheet.svelte
+#: src/components/views/TalkView.svelte
+msgid "Inventory"
+msgstr "Inventory"
+
+#: src/components/views/WorldView.svelte
+msgid "People"
+msgstr "People"
+
+#~ msgid "Manage collected materials and items"
+#~ msgstr "Manage collected materials and items"
+
+#: src/components/sheets/InventorySheet.svelte
+msgid "Your Bag"
+msgstr "Your Bag"
+
+#: src/components/sheets/InventorySheet.svelte
+msgid "Ryza's Bag"
+msgstr "Ryza's Bag"
+
+#: src/components/sheets/InventorySheet.svelte
+msgid "Bag is empty"
+msgstr "Bag is empty"
+
+#. 0: upgradeCost
+#: src/components/sheets/InventorySheet.svelte
+msgid "Upgrade Bag ({0} G)"
+msgstr "Upgrade Bag ({0} G)"
+
+#. 0: cap
+#: src/components/sheets/InventorySheet.svelte
+msgid "Capacity: <0/> / {0}"
+msgstr "Capacity: <0/> / {0}"
+
+#: src/components/sheets/ModeSheet.svelte
+msgid "Chat"
+msgstr "Chat"
+
+#: src/components/sheets/ModeSheet.svelte
+msgid "Dialogue Mode"
+msgstr "Dialogue Mode"
+
+#~ msgid "Choose conversation mode, voice output, and scene context"
+#~ msgstr "Choose conversation mode, voice output, and scene context"
+
+#: src/components/sheets/ModeSheet.svelte
+msgid "Mode"
+msgstr "Mode"
+
+#: src/components/sheets/ModeSheet.svelte
+msgid "🔊 Voice"
+msgstr "🔊 Voice"
+
+#: src/components/sheets/ModeSheet.svelte
+msgid "📝 Text Only"
+msgstr "📝 Text Only"
+
+#: src/components/sheets/ModeSheet.svelte
+msgid "Output Style"
+msgstr "Output Style"
+
+#: src/components/sheets/ModeSheet.svelte
+msgid "Map"
+msgstr "Map"
+
+#: src/components/sheets/StatusSheet.svelte
+msgid "Adventure Status"
+msgstr "Adventure Status"
+
+#~ msgid "Current journey progress and statistics"
+#~ msgstr "Current journey progress and statistics"
+
+#: src/components/sheets/StatusSheet.svelte
+msgid "Level"
+msgstr "Level"
+
+#: src/components/sheets/StatusSheet.svelte
+msgid "Stamina"
+msgstr "Stamina"
+
+#: src/components/sheets/StatusSheet.svelte
+msgid "EXP Progress"
+msgstr "EXP Progress"
+
+#. 0: exp.into; 1: exp.span; 2: game.s.exp_total
+#: src/components/sheets/StatusSheet.svelte
+msgid "{0} / {1} (Total: {2})"
+msgstr "{0} / {1} (Total: {2})"
+
+#: src/components/sheets/StatusSheet.svelte
+msgid "Gold"
+msgstr "Gold"
+
+#: src/components/sheets/StatusSheet.svelte
+msgid "None"
+msgstr "None"
+
+#: src/components/sheets/StatusSheet.svelte
+msgid "Active Quest"
+msgstr "Active Quest"
+
+#: src/components/sheets/StatusSheet.svelte
+msgid "People Met"
+msgstr "People Met"
+
+#: src/components/sheets/StatusSheet.svelte
+msgid "Ship Construction"
+msgstr "Ship Construction"
+
+#: src/components/sheets/StatusSheet.svelte
+msgid "No memories recorded yet"
+msgstr "No memories recorded yet"
+
+#. 0: stageName
+#: src/components/sheets/NpcSheet.svelte
+msgid "People in {0}"
+msgstr "People in {0}"
+
+#~ msgid "Characters currently present at this location"
+#~ msgstr "Characters currently present at this location"
+
+#: src/components/sheets/NpcSheet.svelte
+msgid "No one is around here right now."
+msgstr "No one is around here right now."
+
+#: src/components/sheets/NpcSheet.svelte
+msgid "Unmet"
+msgstr "Unmet"
+
+#~ msgid "Select interface display language"
+#~ msgstr "Select interface display language"
+
+#: src/components/overlays/TitleOverlay.svelte
+msgid "Start"
+msgstr "Start"
+
+#: src/components/overlays/TitleOverlay.svelte
+msgid "ライザと話す"
+msgstr "ライザと話す"
+
+#: src/components/overlays/TitleOverlay.svelte
+msgid "Atelier Ryza"
+msgstr "Atelier Ryza"
+
+#. 0: onboarding.prologueIndex
+#: src/components/overlays/PrologueOverlay.svelte
+msgid "Prologue {0} / 9"
+msgstr "Prologue {0} / 9"
+
+#: src/components/overlays/PrologueOverlay.svelte
+msgid "\"A summer journey begins on the peaceful island of Kurken...\""
+msgstr "\"A summer journey begins on the peaceful island of Kurken...\""
+
+#: src/components/overlays/PrologueOverlay.svelte
+msgid "Tap screen to continue"
+msgstr "Tap screen to continue"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "First, let's get to know you"
+msgstr "First, let's get to know you"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Your name, birthday, and gender will help Ryza address you properly."
+msgstr "Your name, birthday, and gender will help Ryza address you properly."
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "What do you look like?"
+msgstr "What do you look like?"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Give Ryza a hint so she can picture you."
+msgstr "Give Ryza a hint so she can picture you."
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "What kind of journey brought you here?"
+msgstr "What kind of journey brought you here?"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Your background, hometown, or whatever comes to mind."
+msgstr "Your background, hometown, or whatever comes to mind."
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "What do you enjoy doing in your free time?"
+msgstr "What do you enjoy doing in your free time?"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Hobbies and pastimes."
+msgstr "Hobbies and pastimes."
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "What would you most like to do with Ryza?"
+msgstr "What would you most like to do with Ryza?"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Select all that appeal to you."
+msgstr "Select all that appeal to you."
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Adventuring and treasure hunting"
+msgstr "Adventuring and treasure hunting"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Running an atelier shop together"
+msgstr "Running an atelier shop together"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Synthesizing items"
+msgstr "Synthesizing items"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Relaxing and chatting"
+msgstr "Relaxing and chatting"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Listening to her stories"
+msgstr "Listening to her stories"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "What interests you about alchemy?"
+msgstr "What interests you about alchemy?"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Select all that apply."
+msgstr "Select all that apply."
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Gathering materials"
+msgstr "Gathering materials"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Learning recipes"
+msgstr "Learning recipes"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Fun experiments even if they fail"
+msgstr "Fun experiments even if they fail"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Enhancing equipment"
+msgstr "Enhancing equipment"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Brewing recovery potions"
+msgstr "Brewing recovery potions"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Still new to it, want to learn"
+msgstr "Still new to it, want to learn"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Where would you like our story to begin?"
+msgstr "Where would you like our story to begin?"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Choose a starting point."
+msgstr "Choose a starting point."
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Daily life on Kurken Island"
+msgstr "Daily life on Kurken Island"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Having known each other for a long time"
+msgstr "Having known each other for a long time"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "What goals do you hope to achieve?"
+msgstr "What goals do you hope to achieve?"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "For yourself, and to share with Ryza."
+msgstr "For yourself, and to share with Ryza."
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "How would you describe your personality?"
+msgstr "How would you describe your personality?"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Your temperament and way of getting along."
+msgstr "Your temperament and way of getting along."
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Question"
+msgstr "Question"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Your name"
+msgstr "Your name"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Name"
+msgstr "Name"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Finish"
+msgstr "Finish"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Next"
+msgstr "Next"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Skip"
+msgstr "Skip"
+
+#: src/components/overlays/AlarmOverlay.svelte
+msgid "Snooze"
+msgstr "Snooze"
+
+#: src/components/overlays/AlarmOverlay.svelte
+#: src/components/overlays/FaintOverlay.svelte
+msgid "Dismiss"
+msgstr "Dismiss"
+
+#: src/components/overlays/QuestClearOverlay.svelte
+msgid "Quest Cleared"
+msgstr "Quest Cleared"
+
+#: src/components/overlays/QuestClearOverlay.svelte
+msgid "Incredible job! Another adventure well spent!"
+msgstr "Incredible job! Another adventure well spent!"
+
+#: src/components/overlays/QuestClearOverlay.svelte
+msgid "Quest Cleared!"
+msgstr "Quest Cleared!"
+
+#: src/components/overlays/QuestClearOverlay.svelte
+msgid "OK"
+msgstr "OK"
+
+#: src/components/overlays/FaintOverlay.svelte
+msgid "Rested soundly at home, fully recovering stamina."
+msgstr "Rested soundly at home, fully recovering stamina."
+
+#: src/components/overlays/FaintOverlay.svelte
+msgid "Out of Stamina"
+msgstr "Out of Stamina"
+
+#: src/components/overlays/FaintOverlay.svelte
+msgid "Out of Stamina..."
+msgstr "Out of Stamina..."
+
+#: src/components/overlays/FaintOverlay.svelte
+msgid "When stamina hits zero, Ryza faints from exhaustion. Rest up in a safe place to restore your energy!"
+msgstr "When stamina hits zero, Ryza faints from exhaustion. Rest up in a safe place to restore your energy!"
+
+#: src/components/overlays/FaintOverlay.svelte
+msgid "Cheat: Full Refill"
+msgstr "Cheat: Full Refill"
+
+#: src/components/overlays/FaintOverlay.svelte
+msgid "Go Home and Sleep"
+msgstr "Go Home and Sleep"
+
+#: src/components/chrome/ElectronControls.svelte
+msgid "Pin on Top"
+msgstr "Pin on Top"
+
+#: src/components/chrome/ElectronControls.svelte
+msgid "Minimize"
+msgstr "Minimize"

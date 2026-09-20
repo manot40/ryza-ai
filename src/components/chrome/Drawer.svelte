@@ -1,6 +1,7 @@
 <script lang="ts">
   import { daily } from '$lib/stores/daily.svelte';
   import { config } from '$lib/stores/config.svelte';
+  import { overlayStore } from '$lib/stores/overlay.svelte';
   import { Button } from '$components/ui/button';
 
   import * as Sheet from '$components/ui/sheet';
@@ -29,6 +30,11 @@
   function handleSelect(viewId: string) {
     onSelectView(viewId);
     open = false;
+  }
+
+  function handleOpenLang() {
+    open = false;
+    overlayStore.openSheet('lang');
   }
 </script>
 
@@ -65,6 +71,15 @@
             {/if}
           </Button>
         {/each}
+
+        <!-- Language Sheet Action -->
+        <Button
+          variant="ghost"
+          class="w-full justify-start gap-3 h-10 px-3 text-sm font-medium text-foreground/80 hover:bg-muted/40"
+          onclick={handleOpenLang}>
+          <img src="/assets/icons/language.svg" alt="" class="w-5 h-5 opacity-80" />
+          <span class="flex-1 text-left">Language</span>
+        </Button>
       </nav>
     </div>
 

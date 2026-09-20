@@ -1,10 +1,12 @@
 <script lang="ts">
   import { config } from '$lib/stores/config.svelte';
   import { world } from '$lib/stores/world.svelte';
+  import { overlayStore } from '$lib/stores/overlay.svelte';
 
   import { Button } from '$components/ui/button';
   import TodToggle from '$components/TodToggle.svelte';
-  import VoiceToggle from '$lib/fx/voice-toggle.svelte';
+  import ElectronControls from './ElectronControls.svelte';
+  import { ChevronsRightIcon, MenuIcon } from '@lucide/svelte';
 
   interface Props {
     onOpenDrawer: () => void;
@@ -15,21 +17,12 @@
   let { onOpenDrawer, onOpenSideMenu, onSelectView }: Props = $props();
 
   const appState = $derived(config.section('state') || {});
-  const app = $derived(config.section('app') || {});
-
-  const isVoiceActive = $derived(appState.style !== 'text' && app.voice !== false);
-
   const modeLabels: Record<string, string> = {
     chat: 'Free Talk',
     story: 'Story',
     asmr: 'ASMR',
     immersive: 'Immersive',
   };
-
-  function toggleVoiceStyle() {
-    const nextStyle = appState.style === 'text' ? 'normal' : 'text';
-    config.set('state.style', nextStyle);
-  }
 </script>
 
 <header
@@ -38,10 +31,10 @@
     <Button
       variant="outline"
       size="icon"
-      class="h-9 w-9 rounded-full bg-card/60 backdrop-blur-md border-border/50 text-foreground/90 hover:bg-card/90 shadow-sm"
+      class="size-10 rounded-md bg-card/60 backdrop-blur-md border-border/50 text-foreground/90 hover:bg-card/90 shadow-sm mr-3"
       aria-label="Open Navigation"
       onclick={onOpenDrawer}>
-      <span class="text-base leading-none">☰</span>
+      <MenuIcon class="size-5" />
     </Button>
 
     <Button
@@ -59,10 +52,10 @@
       class="h-7 bg-card/60 backdrop-blur-md font-medium text-foreground/80 hover:bg-card/90 shadow-sm gap-1" />
 
     <Button
-      is="div"
       variant="outline"
       size="sm"
-      class="hidden sm:inline-flex h-7 rounded-full bg-card/60 backdrop-blur-md border-border/40 px-2.5 text-xs font-medium text-gold/90 hover:bg-card/60 hover:text-initial shadow-sm">
+      class="hidden sm:inline-flex h-7 rounded-full bg-card/60 backdrop-blur-md border-border/40 px-2.5 text-xs font-medium text-gold/90 hover:bg-card/80 shadow-sm cursor-pointer"
+      onclick={() => overlayStore.openSheet('mode')}>
       <span>{modeLabels[appState.mode || 'chat'] || 'Free Talk'}</span>
     </Button>
   </div>
@@ -71,19 +64,12 @@
     <Button
       variant="outline"
       size="icon"
-      class="size-9 rounded-full bg-card/60 backdrop-blur-md border-border/50 text-foreground/90 hover:bg-card/90 shadow-sm p-0"
-      aria-label="Toggle Voice"
-      onclick={toggleVoiceStyle}>
-      <VoiceToggle active={isVoiceActive} size={20} class="-ml-2" />
-    </Button>
-
-    <Button
-      variant="outline"
-      size="icon"
-      class="size-9 rounded-full bg-card/60 backdrop-blur-md border-border/50 text-foreground/90 hover:bg-card/90 shadow-sm"
+      class="size-10 rounded-md bg-card/60 backdrop-blur-md border-border/50 text-foreground/90 hover:bg-card/90 shadow-sm"
       aria-label="Quick Actions"
       onclick={onOpenSideMenu}>
-      <span class="text-base font-bold leading-none">»</span>
+      <ChevronsRightIcon class="size-5" />
     </Button>
+
+    <ElectronControls />
   </div>
 </header>
