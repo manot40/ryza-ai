@@ -2,6 +2,8 @@
 import { clamp, createEmitter } from '$lib/util';
 import { config } from './config.svelte';
 import { game } from './game.svelte';
+import { toast } from './toast.svelte';
+import { welcome } from './welcome.svelte';
 import { ITEMS, itemName, itemValue } from './game-items';
 import { Api } from '$lib/api';
 import {
@@ -600,14 +602,21 @@ export class QuestStore {
   }
 
   takeNext(): Quest {
-    if (!this._pendingAdvance) {
-      this.ensure();
-      return this.active()!;
+    const prev = this.active();
+    if (prev && !prev.complete && prev.step >= prev.need) {
+      this.clear();
     }
     this._pendingAdvance = false;
-    const prev = this.active();
     const no = prev ? prev.no + 1 : 1;
-    return this.startNo(no > 8 ? 9 : no);
+    const nextQ = this.startNo(no > 8 ? 9 : no);
+    welcome.mark('quest');
+    const reward = prev?.reward || { exp: 30, money: 20 };
+    toast.show(
+      prev
+        ? `Quest cleared! Claimed +${reward.exp} EXP, +${reward.money} G.`
+        : 'Quest cleared! Reward claimed.'
+    );
+    return nextQ;
   }
 
   pendingAdvance(): boolean {
@@ -850,9 +859,10 @@ export class QuestStore {
     const q = this.ensure();
     const L: string[] = [];
     L.push('## クエスト（進行度あたしと共有。達成したら <state> で教えて）');
-    L.push(`- No.${q.no}「${q.title}」kind=${q.type}`);
-    L.push(`  目標：${q.goal}（進行 ${q.step | 0}/${q.need}）`);
-    L.push(`  詳細：${q.desc}${q.obstacle ? ` / 障害：${q.obstacle}` : ''}`);
+    L.push(`- No.${q.no}「${this.titleOf(q)}」kind=${q.type}`);
+    L.push(`  目標：${this.goalOf(q)}（進行 ${q.step | 0}/${q.need}）`);
+    const obs = this.obstacleOf(q);
+    L.push(`  詳細：${this.descOf(q)}${obs ? ` / 障害：${obs}` : ''}`);
     if (!game.sailed) {
       L.push('- まだクーケン島にいる。船（No.8）ができるまで世界地図の他エリアはロック。');
       L.push(`- 造船部品：${game.flag('ship_parts', 0) || 0}/4。`);

@@ -6,10 +6,22 @@
   import { avatarService } from '$lib/avatar/avatar-service.svelte';
   import { config } from '$lib/stores/config.svelte';
   import { viewStore } from '$lib/stores/view.svelte';
+  import { modal } from '$lib/stores/modal.svelte';
+  import { sound } from '$lib/audio/sound';
+  import { voiceBank } from '$lib/audio/voicebank';
+  import { world } from '$lib/stores/world.svelte';
+  import { session } from '$lib/stores/session.svelte';
+  import { game } from '$lib/stores/game.svelte';
+  import { quests } from '$lib/stores/quests.svelte';
+  import { talkLoop } from '$lib/talk-loop.svelte';
+  import { nsfw } from '$lib/stores/nsfw.svelte';
+  import { overlayStore } from '$lib/stores/overlay.svelte';
+
   import TopBar from '$components/chrome/TopBar.svelte';
   import Drawer from '$components/chrome/Drawer.svelte';
   import SideMenu from '$components/chrome/SideMenu.svelte';
   import AppModal from '$components/AppModal.svelte';
+  import ToastHost from '$components/chrome/ToastHost.svelte';
   import Confetti from '$lib/fx/confetti.svelte';
   import { computeFitUiZoom } from '$lib/fit-ui';
   import { imeViewport } from '$lib/actions/ime-viewport';
@@ -57,12 +69,80 @@
     }
   });
 
+  async function handleNewConversation() {
+    const ok = await modal.confirm(
+      'New Conversation',
+      'Start a new conversation with Ryza? This resets active chat turns, but your adventure level, inventory, and memories will remain safe.',
+      'Start New Talk',
+      'Cancel'
+    );
+    if (ok) {
+      session.clearHistory();
+      nsfw.reset();
+      talkLoop.recentPages = [];
+      talkLoop.activePageIdx = 0;
+      viewStore.setView('talk');
+      talkLoop.greet();
+    }
+  }
+
+  function handleTapPart(part: string, overlay: string | null) {
+    talkLoop.buzz(18);
+    sound.se('touch_start');
+    if (overlay) sound.tapVoice(overlay);
+  }
+
   onMount(() => {
     initElectronShell();
     updateZoom();
     window.addEventListener('resize', updateZoom);
+
+    // Boot audio and session services
+    Promise.all([config.hydrate(), world.init(), voiceBank.load(), sound.init()]).then(() => {
+      sound.setCatalog(Object.keys(world.scenes || {}));
+      const st = config.section('state') || {};
+      sound.setPlace(st.stage, st.tod, world.backgroundFor(st.stage));
+      sound.setRoute(st.onboardingDone ? 'talk' : 'title');
+      session.init();
+      session.dailyNudge();
+    });
+
+    // 30-second RPG clock tick
+    const clockInterval = setInterval(() => {
+      session.tickTime();
+    }, 30000);
+
+    // Lifecycle visibility sync
+    const onVisibilityChange = () => {
+      if (!document.hidden) {
+        session.tickDay();
+        session.tickTime();
+      }
+    };
+    document.addEventListener('visibilitychange', onVisibilityChange);
+
+    // RPG event dispatch wiring
+    const unbindQuestClear = quests.on('clear', (q) => {
+      overlayStore.showQuestClear({
+        title: q.title,
+        praise: quests.praise(q.no),
+      });
+      sound.se('quest_clear');
+      confettiRef?.burst();
+    });
+
+    const unbindGame = game.on('stamina', () => {
+      if (game.faint()) {
+        talkLoop.showFaint();
+      }
+    });
+
     return () => {
       window.removeEventListener('resize', updateZoom);
+      clearInterval(clockInterval);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+      unbindQuestClear();
+      unbindGame();
     };
   });
 </script>
@@ -83,6 +163,7 @@
         tod={appState.tod || 'aft'}
         skinId={appState.skin || 'crf_skn_002_0001'}
         hidden={avatarService.hidden}
+        onTapPart={handleTapPart}
         class="w-full h-full" />
     </div>
 
@@ -110,13 +191,16 @@
     <SideMenu
       bind:open={viewStore.sideMenuOpen}
       charaHidden={avatarService.hidden}
-      onNewTalk={() => viewStore.setView('talk')}
+      onNewTalk={handleNewConversation}
       onToggleChara={() => avatarService.toggleChara()} />
 
     <!-- Main View Outlet -->
-    <div class="relative z-20 flex-1 flex flex-col overflow-hidden pt-14">
+    <div class="relative z-20 flex-1 flex flex-col overflow-hidden pt-14 pointer-events-none">
       {@render children()}
     </div>
+
+    <!-- Toast Notifications Host -->
+    <ToastHost />
 
     <!-- Global Dialog Modal -->
     <AppModal />

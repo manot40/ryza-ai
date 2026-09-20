@@ -42,18 +42,21 @@ export class TypewriterController {
     return this._fullText;
   }
 
-  start(text: string): void {
+  private _activeDone?: () => void;
+
+  start(text: string, onDone?: () => void): void {
     this.cancel();
     const gen = ++this._generation;
     this._fullText = text;
     this._currentText = '';
     this._index = 0;
     this._isTyping = true;
+    this._activeDone = onDone || this._onDone;
 
     if (!text) {
       this._isTyping = false;
       this._onUpdate?.('');
-      this._onDone?.();
+      this._activeDone?.();
       return;
     }
 
@@ -62,7 +65,7 @@ export class TypewriterController {
 
       if (this._index >= this._fullText.length) {
         this._isTyping = false;
-        this._onDone?.();
+        this._activeDone?.();
         return;
       }
 
@@ -74,7 +77,7 @@ export class TypewriterController {
         this._timer = setTimeout(step, this._speed);
       } else {
         this._isTyping = false;
-        this._onDone?.();
+        this._activeDone?.();
       }
     };
 
@@ -88,7 +91,7 @@ export class TypewriterController {
     this._index = this._fullText.length;
     this._isTyping = false;
     this._onUpdate?.(this._currentText);
-    this._onDone?.();
+    this._activeDone?.();
   }
 
   cancel(): void {

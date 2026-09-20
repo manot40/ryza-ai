@@ -2,11 +2,17 @@
   import { Button } from '$components/ui/button';
   import Confetti from '$lib/fx/confetti.svelte';
   import { overlayStore } from '$lib/stores/overlay.svelte';
+  import { quests } from '$lib/stores/quests.svelte';
+  import { talkLoop } from '$lib/talk-loop.svelte';
 
   const clearData = $derived(overlayStore.questClearData);
 
   function handleOk() {
     overlayStore.closeQuestClear();
+    if (quests.pendingAdvance()) {
+      quests.takeNext();
+    }
+    talkLoop.playWellDone();
   }
 </script>
 

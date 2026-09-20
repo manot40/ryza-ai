@@ -777,3 +777,60 @@ export function getWorldName(id: string, fallback?: string, locale?: ContentLoca
   const loc = locale || resolveContentLocale();
   return WORLD_NAMES[loc]?.[id] || WORLD_NAMES.en?.[id] || WORLD_NAMES.ja?.[id] || fallback || id;
 }
+
+export function getGreeting(day: number, lang?: string): string {
+  const target = lang || Langs.llm();
+  const isMultiDay = day > 1;
+  if (target === 'zh' || target === 'zh-tw') {
+    return isMultiDay ? '……今天也，见到你啦。' : '……呀，见到你啦。';
+  }
+  if (target === 'ja') {
+    return isMultiDay ? '……今日も、会えたね。' : '……やあ、会えたね。';
+  }
+  if (target === 'id') {
+    return isMultiDay ? '…Hari ini juga, kita bertemu lagi ya.' : '…Hei, kamu di sini ya.';
+  }
+  return isMultiDay ? '…There you are again today.' : '…Hey, there you are.';
+}
+
+export function getDailyBonusNudge(locale?: ContentLocale): string {
+  const loc = locale || resolveContentLocale();
+  switch (loc) {
+    case 'zh':
+      return '每日登录奖励已送达！';
+    case 'ja':
+      return 'デイリーログインボーナスが届いています！';
+    case 'id':
+      return 'Bonus login harian telah tersedia!';
+    default:
+      return 'Daily login bonus is available!';
+  }
+}
+
+export function getWorldLockedToast(locale?: ContentLocale): string {
+  const loc = locale || resolveContentLocale();
+  switch (loc) {
+    case 'zh':
+      return '还没有船，去不了库肯岛以外（完成主线8「造船出海」）';
+    case 'ja':
+      return '船がないとクーケン島の外へは出られない（メイン8をクリア！）';
+    case 'id':
+      return 'Belum punya kapal, belum bisa meninggalkan Pulau Kurken (selesaikan Misi Utama 8)';
+    default:
+      return 'No ship, no leaving Kurken Island (finish Main Quest 8)';
+  }
+}
+
+export function getSailedToast(locale?: ContentLocale): string {
+  const loc = locale || resolveContentLocale();
+  switch (loc) {
+    case 'zh':
+      return '出航成功！世界地图已解锁';
+    case 'ja':
+      return '出航成功！世界の扉が開いたよ';
+    case 'id':
+      return 'Berhasil berlayar! Peta dunia telah terbuka';
+    default:
+      return 'You sailed! The world map is open';
+  }
+}

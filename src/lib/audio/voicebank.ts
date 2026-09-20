@@ -1,4 +1,5 @@
 import { config } from '../stores/config.svelte';
+import { Langs } from '../i18n/langs';
 
 export type VoiceLocaleCategory = 'alarm' | 'tap' | 'prologue';
 
@@ -11,8 +12,7 @@ export interface VoiceLocaleConfig {
 export type VoiceBankIndex = Record<string, Record<string, Record<string, Record<string, string[]>>>>;
 
 export function getVoiceLocale(langOverride?: string): VoiceLocaleConfig {
-  const lang =
-    langOverride || (typeof config !== 'undefined' ? config.section('app')?.lang : undefined) || 'ja';
+  const lang = langOverride || (typeof Langs !== 'undefined' ? Langs.voice() : undefined) || 'ja';
 
   const map: Record<string, VoiceLocaleConfig> = {
     zh: { alarm: 'zh-tw', tap: 'zh-tw', prologue: 'zh-tw' },

@@ -4,6 +4,7 @@
   import { game } from '$lib/stores/game.svelte';
   import { viewStore } from '$lib/stores/view.svelte';
   import { quests, type Quest } from '$lib/stores/quests.svelte';
+  import { talkLoop } from '$lib/talk-loop.svelte';
 
   import Header from './Header.svelte';
   import { Button } from '$components/ui/button';
@@ -40,6 +41,7 @@
 
   function handleTakeNext() {
     quests.takeNext();
+    talkLoop.playWellDone();
     actionMessage = '';
     refresh();
   }

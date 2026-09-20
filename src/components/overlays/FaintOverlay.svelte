@@ -2,9 +2,7 @@
   import { Button } from '$components/ui/button';
   import { overlayStore } from '$lib/stores/overlay.svelte';
   import { game } from '$lib/stores/game.svelte';
-  import { config } from '$lib/stores/config.svelte';
-  import { viewStore } from '$lib/stores/view.svelte';
-  import { avatarService } from '$lib/avatar/avatar-service.svelte';
+  import { talkLoop } from '$lib/talk-loop.svelte';
 
   const isCheat = $derived(game.cheat());
 
@@ -18,16 +16,7 @@
   }
 
   function handleSleepHome() {
-    const HOME_STAGE = 'stage_01_001_04';
-    config.set('state.stage', HOME_STAGE);
-    config.set('state.tod', 'mor');
-
-    avatarService.loadScene(HOME_STAGE, 'mor');
-    game.refill();
-    game.remember('Rested soundly at home, fully recovering stamina.');
-
-    overlayStore.closeFaint();
-    viewStore.setView('talk');
+    talkLoop.sleepHome();
   }
 </script>
 

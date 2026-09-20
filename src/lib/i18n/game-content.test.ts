@@ -9,6 +9,10 @@ import {
   getItemName,
   getRecipeName,
   getWorldName,
+  getGreeting,
+  getDailyBonusNudge,
+  getWorldLockedToast,
+  getSailedToast,
 } from './game-content';
 
 describe('game-content localization module', () => {
@@ -73,5 +77,39 @@ describe('game-content localization module', () => {
     expect(getWorldName('unknown_place', 'Fallback Place', 'en')).toBe('Fallback Place');
     expect(getItemName('unknown_item', 'Fallback Item', 'en')).toBe('Fallback Item');
     expect(getItemName('unknown_item', undefined, 'en')).toBe('unknown_item');
+  });
+
+  it('retrieves greetings across languages and days', () => {
+    expect(getGreeting(1, 'ja')).toBe('……やあ、会えたね。');
+    expect(getGreeting(5, 'ja')).toBe('……今日も、会えたね。');
+    expect(getGreeting(1, 'en')).toBe('…Hey, there you are.');
+    expect(getGreeting(5, 'en')).toBe('…There you are again today.');
+    expect(getGreeting(1, 'zh')).toBe('……呀，见到你啦。');
+    expect(getGreeting(5, 'zh')).toBe('……今天也，见到你啦。');
+    expect(getGreeting(1, 'id')).toBe('…Hei, kamu di sini ya.');
+    expect(getGreeting(5, 'id')).toBe('…Hari ini juga, kita bertemu lagi ya.');
+  });
+
+  it('retrieves daily bonus nudge across languages', () => {
+    expect(getDailyBonusNudge('en')).toBe('Daily login bonus is available!');
+    expect(getDailyBonusNudge('ja')).toBe('デイリーログインボーナスが届いています！');
+    expect(getDailyBonusNudge('zh')).toBe('每日登录奖励已送达！');
+    expect(getDailyBonusNudge('id')).toBe('Bonus login harian telah tersedia!');
+  });
+
+  it('retrieves world locked toast across languages', () => {
+    expect(getWorldLockedToast('en')).toBe('No ship, no leaving Kurken Island (finish Main Quest 8)');
+    expect(getWorldLockedToast('ja')).toBe('船がないとクーケン島の外へは出られない（メイン8をクリア！）');
+    expect(getWorldLockedToast('zh')).toBe('还没有船，去不了库肯岛以外（完成主线8「造船出海」）');
+    expect(getWorldLockedToast('id')).toBe(
+      'Belum punya kapal, belum bisa meninggalkan Pulau Kurken (selesaikan Misi Utama 8)'
+    );
+  });
+
+  it('retrieves sailed toast across languages', () => {
+    expect(getSailedToast('en')).toBe('You sailed! The world map is open');
+    expect(getSailedToast('ja')).toBe('出航成功！世界の扉が開いたよ');
+    expect(getSailedToast('zh')).toBe('出航成功！世界地图已解锁');
+    expect(getSailedToast('id')).toBe('Berhasil berlayar! Peta dunia telah terbuka');
   });
 });

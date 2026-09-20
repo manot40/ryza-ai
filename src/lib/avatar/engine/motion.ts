@@ -2,6 +2,8 @@ import { clamp, weighted } from '../../util';
 import type {
   SpineLayer,
   SpineSkeletonData,
+  SpineSkeleton,
+  SpineBone,
   SpineAnimationState,
   SpineTrackEntry,
   MotionGroup,
@@ -536,21 +538,84 @@ export class MotionController {
 
   pokeUnmuteReady(state: SpineAnimationState | null | undefined): boolean {
     if (!state) return false;
-    if (isTrackBusy(state, 1)) return false;
+    // Mirrors old JS _oneShotBusy() = _trackBusy(1) || _trackBusy(6).
+    // If neither one-shot (arm overlay, track 1) nor poke (track 6) is busy,
+    // unmute additives immediately.
+    const oneShotBusy = isTrackBusy(state, 1) || isTrackBusy(state, 6);
+    if (!oneShotBusy) return true;
+    // Track 6 is still running – wait until 60% of the exit fade has elapsed
+    // so additive layers blend back in smoothly with the poke's tail.
     const tr = state.getCurrent(6);
-    if (!tr || !tr.mixingFrom || !isEntryLive(tr.mixingFrom)) return true;
-    if (!/<empty>/i.test(tr.animation?.name || '')) return false;
+    if (!tr || !tr.mixingFrom || !isEntryLive(tr.mixingFrom)) return false;
+    if (!/\<empty\>/i.test(tr.animation?.name || '')) return false;
     const dur = Math.max(1e-6, Number(tr.mixDuration) || 0.3);
     return (Number(tr.mixTime) || 0) / dur >= 0.6;
   }
 
-  pokeExitMix(anim: { name: string; duration: number } | null | undefined, pc?: ProjectConfig): number {
+  pokeExitMix(
+    anim: { name: string; duration: number } | null | undefined,
+    pc: ProjectConfig | undefined,
+    data: SpineSkeletonData | null | undefined
+  ): number {
     const base = Number(pc?.tapReactionExitMix) > 0 ? Number(pc?.tapReactionExitMix) : 0.3;
     if (!anim?.duration) return base;
     if (this._exitMixCache[anim.name] != null) return this._exitMixCache[anim.name];
-    // Dynamic calculation with safe bounds
-    const mix = clamp(base, base, 0.65);
+
+    let mix = base;
+    try {
+      // Compute the maximum world-space bone displacement at the gesture's last
+      // frame relative to the idle pose.  The further the limb travels, the
+      // longer the exit fade needs to be so the settle looks natural.
+      // This mirrors Avatar._pokeExitMix in the original avatar.js.
+      const spineObj = (window as unknown as { spine?: SpineGlobal }).spine;
+      if (spineObj && data) {
+        const sk: SpineSkeleton = new (spineObj.Skeleton as new (d: SpineSkeletonData) => SpineSkeleton)(
+          data
+        );
+        const asd = new (spineObj.AnimationStateData as new (d: SpineSkeletonData) => { defaultMix: number })(
+          data
+        );
+        asd.defaultMix = 0;
+        const st: SpineAnimationState = new (spineObj.AnimationState as new (d: {
+          defaultMix: number;
+        }) => SpineAnimationState)(asd);
+
+        // Capture idle (track 0) bone world positions as reference
+        const idleName = pickAnim(data, 'motion_A_001_idle') || (data.animations[0]?.name ?? null);
+        if (idleName) {
+          st.setAnimation(0, idleName, false);
+          st.update(0);
+          st.apply(sk);
+          sk.updateWorldTransform((spineObj.Physics as { pose: unknown }).pose);
+          const ref = sk.bones.map((b: SpineBone) => [b.worldX, b.worldY] as [number, number]);
+
+          // Apply the tap anim at its last frame on track 1 (additive-style)
+          st.setAnimation(1, anim.name, false);
+          st.update(anim.duration);
+          st.apply(sk);
+          sk.updateWorldTransform((spineObj.Physics as { pose: unknown }).pose);
+
+          let maxD = 0;
+          for (let i = 0; i < sk.bones.length; i++) {
+            const b = sk.bones[i];
+            const d = Math.hypot(b.worldX - ref[i][0], b.worldY - ref[i][1]);
+            if (d > maxD) maxD = d;
+          }
+          mix = clamp(base + maxD / 1400, base, 0.65);
+        }
+      }
+    } catch {
+      mix = base;
+    }
     this._exitMixCache[anim.name] = mix;
     return mix;
   }
+}
+
+// Minimal shape of the `spine` global needed for pokeExitMix
+interface SpineGlobal {
+  Skeleton: unknown;
+  AnimationStateData: unknown;
+  AnimationState: unknown;
+  Physics: unknown;
 }

@@ -21,19 +21,14 @@ describe('api index module', () => {
       );
     });
 
-    it('rewrites to /_proxy when running on localhost or ryza://app', () => {
-      vi.stubGlobal('location', { origin: 'http://localhost:3434' });
+    it('rewrites external https URLs to /_proxy?u=...', () => {
       const target = 'https://api.openai.com/v1/chat/completions';
-      expect(localProxy(target)).toBe('/_proxy?u=' + encodeURIComponent(target));
-
-      vi.stubGlobal('location', { origin: 'ryza://app' });
       expect(localProxy(target)).toBe('/_proxy?u=' + encodeURIComponent(target));
     });
 
-    it('bypasses proxy on other non-local origins', () => {
-      vi.stubGlobal('location', { origin: 'https://ryza-web.example.com' });
-      const target = 'https://api.openai.com/v1/chat/completions';
-      expect(localProxy(target)).toBe(target);
+    it('preserves already-proxied or relative paths', () => {
+      expect(localProxy('/_proxy?u=test')).toBe('/_proxy?u=test');
+      expect(localProxy('/config/providers.json')).toBe('/config/providers.json');
     });
   });
 

@@ -1,5 +1,6 @@
 // @wc-ignore-file
 import { cloneDeep, merge } from 'es-toolkit';
+import { set } from 'es-toolkit/compat';
 import { destr } from 'destr';
 
 export const SETTINGS_KEY = 'ryza.settings.v1';
@@ -299,16 +300,7 @@ export const config = {
   },
 
   set(path: string, value: unknown): void {
-    const parts = path.split('.');
-    let node: Record<string, unknown> = data as unknown as Record<string, unknown>;
-    for (let i = 0; i < parts.length - 1; i++) {
-      const key = parts[i];
-      if (typeof node[key] !== 'object' || node[key] === null) {
-        node[key] = {};
-      }
-      node = node[key] as Record<string, unknown>;
-    }
-    node[parts[parts.length - 1]] = value;
+    set(data, path, value);
     save();
   },
 

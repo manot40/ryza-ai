@@ -43,6 +43,33 @@ function pointInPoly(px: number, py: number, verts: number[]): boolean {
   return inside;
 }
 
+let _scenesDocCache: Record<string, Record<string, { skel: string; atlas: string; config?: string }>> | null =
+  null;
+let _stageBackgroundMapCache: Record<string, string> | null = null;
+
+async function getScenesAndStageMap(): Promise<{
+  scenes: Record<string, Record<string, { skel: string; atlas: string; config?: string }>>;
+  stageMap: Record<string, string>;
+}> {
+  if (!_scenesDocCache || !_stageBackgroundMapCache) {
+    const [scRes, mapRes] = await Promise.all([
+      _scenesDocCache
+        ? Promise.resolve(_scenesDocCache)
+        : fetch('/assets/_index/scenes.json')
+            .then((r) => (r.ok ? r.json() : {}))
+            .catch(() => ({})),
+      _stageBackgroundMapCache
+        ? Promise.resolve(_stageBackgroundMapCache)
+        : fetch('/assets/_index/stage_background_map.json')
+            .then((r) => (r.ok ? r.json() : {}))
+            .catch(() => ({})),
+    ]);
+    _scenesDocCache = scRes;
+    _stageBackgroundMapCache = mapRes;
+  }
+  return { scenes: _scenesDocCache, stageMap: _stageBackgroundMapCache };
+}
+
 export class AvatarEngine {
   host: SpineHost | null = null;
   avatar: SpineLayer | null = null;
@@ -670,26 +697,27 @@ export class AvatarEngine {
   loadScene(stageId: string, tod: string, cb?: (err: Error | null) => void, skinId?: string): void {
     const L = this.scene;
     if (!L) return;
-    const sceneKey = `${stageId}/${tod}`;
-    if (this._loadedSceneKey === sceneKey && L.ready) {
-      cb?.(null);
-      return;
-    }
-    if (this._loadingSceneKey === sceneKey) {
-      return;
-    }
-    this._loadingSceneKey = sceneKey;
-    L.ready = false;
-    L.skeleton = null;
-    L.state = null;
-    L.data = null;
-    fetch('/assets/_index/scenes.json')
-      .then((r) => r.json())
-      .then((scenes) => {
-        if (this._loadingSceneKey !== sceneKey) return;
-        const stage = scenes[stageId];
+
+    getScenesAndStageMap()
+      .then(({ scenes, stageMap }) => {
+        const bgStageId = stageMap[stageId] || stageId;
+        const sceneKey = `${bgStageId}/${tod}`;
+        if (this._loadedSceneKey === sceneKey && L.ready) {
+          cb?.(null);
+          return;
+        }
+        if (this._loadingSceneKey === sceneKey) {
+          return;
+        }
+        this._loadingSceneKey = sceneKey;
+        L.ready = false;
+        L.skeleton = null;
+        L.state = null;
+        L.data = null;
+
+        const stage = scenes[bgStageId] || scenes[stageId];
         const entry = stage && (stage[tod] || stage[Object.keys(stage)[0]]);
-        if (!entry) throw new Error(`没有这个场景：${stageId}/${tod}`);
+        if (!entry) throw new Error(`没有这个场景：${stageId} (bg: ${bgStageId})/${tod}`);
         const cfgP = entry.config
           ? fetch(entry.config)
               .then((r) => (r.ok ? r.json() : null))
@@ -721,9 +749,7 @@ export class AvatarEngine {
         });
       })
       .catch((e: unknown) => {
-        if (this._loadingSceneKey === sceneKey) {
-          this._loadingSceneKey = '';
-        }
+        this._loadingSceneKey = '';
         cb?.(e instanceof Error ? e : new Error(String(e)));
       });
   }
@@ -1133,7 +1159,7 @@ export class AvatarEngine {
     const tr = L.state.setAnimation(6, anim, false);
     tr.mixDuration = enter;
     const foundAnim = L.data?.findAnimation(anim);
-    L.state.addEmptyAnimation(6, this.motion.pokeExitMix(foundAnim, pc), 0);
+    L.state.addEmptyAnimation(6, this.motion.pokeExitMix(foundAnim, pc, L.data), 0);
     return pick.OverlayID;
   }
 
@@ -1151,7 +1177,7 @@ export class AvatarEngine {
     if (!L?.ready || !L.skeleton) return null;
     const w = this.screenToWorld(cssX, cssY);
 
-    const hitParts = (this.gesture?.projectConfig?.hitPartNames as Record<string, string> | undefined) || {
+    const hitParts = this.gesture?.projectConfig?.hitPartNames || {
       BB_head: 'head',
       BB_body: 'body',
       BB_arm_L: 'arm_l',
@@ -1164,7 +1190,13 @@ export class AvatarEngine {
     const hits: Record<string, boolean> = {};
 
     for (const slotName in hitParts) {
-      const slot = L.skeleton.findSlot(slotName);
+      let slot = L.skeleton.findSlot(slotName);
+      if (!slot) {
+        slot =
+          L.skeleton.findSlot(slotName.toLowerCase()) ||
+          L.skeleton.findSlot(slotName.toUpperCase()) ||
+          L.skeleton.findSlot(slotName.replace('_L', '_l').replace('_R', '_r'));
+      }
       if (!slot) continue;
       const att = slot.getAttachment() as {
         worldVerticesLength?: number;
@@ -1181,7 +1213,17 @@ export class AvatarEngine {
       const verts: number[] = [];
       try {
         att.computeWorldVertices(slot, 0, att.worldVerticesLength, verts, 0, 2);
-        if (verts.length >= 6 && pointInPoly(w.x, w.y, verts)) {
+        let testVerts = verts;
+        if (slotName === 'BB_head' && verts.length >= 8) {
+          // Extend top edge of BB_head upwards to cover top hair ribbon accessories
+          const headVerts = [...verts];
+          headVerts[0] += (verts[0] - verts[6]) * 0.25;
+          headVerts[1] += (verts[1] - verts[7]) * 0.25;
+          headVerts[2] += (verts[2] - verts[4]) * 0.25;
+          headVerts[3] += (verts[3] - verts[5]) * 0.25;
+          testVerts = headVerts;
+        }
+        if (testVerts.length >= 6 && pointInPoly(w.x, w.y, testVerts)) {
           hits[hitParts[slotName]] = true;
         }
       } catch {}
@@ -1191,14 +1233,17 @@ export class AvatarEngine {
       if (hits[part]) return part;
     }
 
-    // Fallback hit radius test against character center
-    const dx = Math.abs(w.x - L.skeleton.x);
-    const dy = Math.abs(w.y - L.skeleton.y);
-    if (dx < 300 && dy < 600) {
-      if (w.y > L.skeleton.y + 350) return 'head';
-      if (w.y > L.skeleton.y + 150) return 'breast';
-      return 'body';
+    // Bone-relative fallback for head (ensures hair/accessories taps reliably hit head)
+    const headBone = L.skeleton.findBone('head');
+    if (headBone) {
+      const sc = Math.abs(L.skeleton.scaleY) || 1;
+      const hdx = Math.abs(w.x - headBone.worldX);
+      const hdy = w.y - headBone.worldY;
+      if (hdx < 380 * sc && hdy >= -130 * sc && hdy <= 680 * sc) {
+        return 'head';
+      }
     }
+
     return null;
   }
 

@@ -40,12 +40,12 @@
   });
 </script>
 
-<div class="relative size-full overflow-hidden">
+<div class="relative size-full overflow-hidden pointer-events-none">
   <!-- TalkView is always mounted as the primary interactive overlay over Spine -->
   <div
-    class="absolute inset-0 z-10 {viewStore.activeView === 'talk'
-      ? 'pointer-events-auto opacity-100'
-      : 'pointer-events-none opacity-0 invisible'} transition-opacity duration-200">
+    class="absolute inset-0 z-10 pointer-events-none {viewStore.activeView === 'talk'
+      ? 'opacity-100'
+      : 'opacity-0 invisible'} transition-opacity duration-200">
     <TalkView />
   </div>
 

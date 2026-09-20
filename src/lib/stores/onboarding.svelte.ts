@@ -128,12 +128,16 @@ export class OnboardingStore {
   prologueIndex = $state(1);
   tutorialIndex = $state(0);
 
-  isDone = $derived(Boolean(config.section('state')?.onboardingDone));
+  isDone = $derived(Boolean(this.state.onboardingDone));
 
   constructor() {
     if (typeof window !== 'undefined' && this.isDone) {
       this.stage = 'done';
     }
+  }
+
+  private get state() {
+    return config.section('state') || {};
   }
 
   start(): void {
@@ -146,6 +150,7 @@ export class OnboardingStore {
   skip(): void {
     config.set('state.onboardingDone', true);
     this.stage = 'done';
+    sound.setRoute(this.state.onboardingDone ? 'talk' : 'title');
   }
 
   saveIdentity(identity: IdentityAnswer): void {
@@ -198,13 +203,9 @@ export class OnboardingStore {
     if (this.tutorialIndex + 1 < TUTORIAL_LINES.length) {
       this.tutorialIndex++;
     } else {
-      this.finishTutorial();
+      this.stage = 'done';
+      config.set('state.onboardingDone', true);
     }
-  }
-
-  finishTutorial(): void {
-    config.set('state.onboardingDone', true);
-    this.stage = 'done';
   }
 }
 

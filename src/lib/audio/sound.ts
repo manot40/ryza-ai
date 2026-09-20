@@ -296,10 +296,11 @@ export class SoundManager {
       src = this.seFiles.find((p) => p.includes(`se_${name}`) || p.includes(`/${name}`)) || '';
     }
     if (!src) return;
+    const resolvedSrc = src.startsWith('/') ? src : `/${src}`;
     try {
       if (this._se) this._se.pause();
     } catch {}
-    this._se = new Audio(src);
+    this._se = new Audio(resolvedSrc);
     this._se.volume = this._gain('se');
     this._se.play().catch(() => {});
   }
@@ -320,10 +321,11 @@ export class SoundManager {
     if (!cands.length) return;
 
     const src = cands[Math.floor(Math.random() * cands.length)];
+    const resolvedSrc = src.startsWith('/') ? src : `/${src}`;
     try {
       if (this._tap) this._tap.pause();
     } catch {}
-    this._tap = new Audio(src);
+    this._tap = new Audio(resolvedSrc);
     this._tap.volume = this._gain('voice');
     this._tap.play().catch(() => {});
   }

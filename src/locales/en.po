@@ -82,6 +82,9 @@ msgstr "Offline Rebuilt Edition · No official server"
 #: src/components/chrome/SideMenu.svelte
 #: src/components/sheets/LanguageSheet.svelte
 #: src/components/views/SettingsView.svelte
+#: src/components/views/SettingsView.svelte
+#: src/components/views/SettingsView.svelte
+#: src/components/views/SettingsView.svelte
 msgid "English"
 msgstr "English"
 
@@ -100,6 +103,9 @@ msgstr "简体中文"
 #: src/components/chrome/SideMenu.svelte
 #: src/components/sheets/LanguageSheet.svelte
 #: src/components/views/SettingsView.svelte
+#: src/components/views/SettingsView.svelte
+#: src/components/views/SettingsView.svelte
+#: src/components/views/SettingsView.svelte
 msgid "Bahasa Indonesia"
 msgstr "Bahasa Indonesia"
 
@@ -113,12 +119,14 @@ msgid "Shortcuts and display controls"
 msgstr "Shortcuts and display controls"
 
 #: src/components/chrome/SideMenu.svelte
+#: src/routes/+layout.svelte
 msgid "New Conversation"
 msgstr "New Conversation"
 
 #: src/components/chrome/Drawer.svelte
 #: src/components/chrome/SideMenu.svelte
 #: src/components/sheets/LanguageSheet.svelte
+#: src/components/views/SettingsView.svelte
 msgid "Language"
 msgstr "Language"
 
@@ -270,6 +278,8 @@ msgstr "Repeat Days"
 #: src/components/views/AlarmView.svelte
 #: src/components/views/MemoryView.svelte
 #: src/components/views/SettingsView.svelte
+#: src/components/views/SettingsView.svelte
+#: src/routes/+layout.svelte
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -352,6 +362,7 @@ msgid "Current Situation"
 msgstr "Current Situation"
 
 #: src/components/views/CharaView.svelte
+#: src/components/views/SettingsView.svelte
 msgid "Settings saved successfully!"
 msgstr "Settings saved successfully!"
 
@@ -561,9 +572,8 @@ msgstr "Game"
 msgid "Data"
 msgstr "Data"
 
-#: src/components/views/SettingsView.svelte
-msgid "LLM Configuration"
-msgstr "LLM Configuration"
+#~ msgid "LLM Configuration"
+#~ msgstr "LLM Configuration"
 
 #: src/components/views/SettingsView.svelte
 msgid "API Base URL"
@@ -573,7 +583,6 @@ msgstr "API Base URL"
 msgid "Model Name"
 msgstr "Model Name"
 
-#: src/components/views/SettingsView.svelte
 #: src/components/views/SettingsView.svelte
 msgid "API Key"
 msgstr "API Key"
@@ -586,17 +595,14 @@ msgstr "Temperature"
 msgid "Voice Synthesis (TTS)"
 msgstr "Voice Synthesis (TTS)"
 
-#: src/components/views/SettingsView.svelte
-msgid "Provider"
-msgstr "Provider"
+#~ msgid "Provider"
+#~ msgstr "Provider"
 
-#: src/components/views/SettingsView.svelte
-msgid "Base URL"
-msgstr "Base URL"
+#~ msgid "Base URL"
+#~ msgstr "Base URL"
 
-#: src/components/views/SettingsView.svelte
-msgid "Voice / Model ID"
-msgstr "Voice / Model ID"
+#~ msgid "Voice / Model ID"
+#~ msgstr "Voice / Model ID"
 
 #: src/components/views/SettingsView.svelte
 msgid "Volume Controls"
@@ -614,33 +620,27 @@ msgstr "Voice Volume"
 msgid "Sound Effects (SE)"
 msgstr "Sound Effects (SE)"
 
-#: src/components/views/SettingsView.svelte
-msgid "Game Preferences"
-msgstr "Game Preferences"
+#~ msgid "Game Preferences"
+#~ msgstr "Game Preferences"
 
-#: src/components/views/SettingsView.svelte
-msgid "Interface Language"
-msgstr "Interface Language"
+#~ msgid "Interface Language"
+#~ msgstr "Interface Language"
 
-#: src/components/views/SettingsView.svelte
-msgid "Cheat Mode"
-msgstr "Cheat Mode"
+#~ msgid "Cheat Mode"
+#~ msgstr "Cheat Mode"
 
-#: src/components/views/SettingsView.svelte
-msgid "Infinite stamina and gold"
-msgstr "Infinite stamina and gold"
+#~ msgid "Infinite stamina and gold"
+#~ msgstr "Infinite stamina and gold"
 
 #: src/components/views/SettingsView.svelte
 msgid "Data Management"
 msgstr "Data Management"
 
-#: src/components/views/SettingsView.svelte
-msgid "Export Settings JSON"
-msgstr "Export Settings JSON"
+#~ msgid "Export Settings JSON"
+#~ msgstr "Export Settings JSON"
 
-#: src/components/views/SettingsView.svelte
-msgid "Reset Settings to Defaults"
-msgstr "Reset Settings to Defaults"
+#~ msgid "Reset Settings to Defaults"
+#~ msgstr "Reset Settings to Defaults"
 
 #: src/components/views/SettingsView.svelte
 msgid "Settings saved!"
@@ -664,6 +664,7 @@ msgid "Equipped"
 msgstr "Equipped"
 
 #: src/components/views/SkinView.svelte
+#: src/components/views/WorldView.svelte
 msgid "Locked"
 msgstr "Locked"
 
@@ -679,13 +680,11 @@ msgstr "Wear"
 msgid "Preview Only"
 msgstr "Preview Only"
 
-#: src/components/views/TalkView.svelte
-msgid "Welcome back, adventurer! What shall we do today?"
-msgstr "Welcome back, adventurer! What shall we do today?"
+#~ msgid "Welcome back, adventurer! What shall we do today?"
+#~ msgstr "Welcome back, adventurer! What shall we do today?"
 
-#: src/components/views/TalkView.svelte
-msgid "Let's head out on an adventure! The weather on the island is fantastic today."
-msgstr "Let's head out on an adventure! The weather on the island is fantastic today."
+#~ msgid "Let's head out on an adventure! The weather on the island is fantastic today."
+#~ msgstr "Let's head out on an adventure! The weather on the island is fantastic today."
 
 #. 0: game.level()
 #. 0: game.level()
@@ -698,9 +697,8 @@ msgstr "Lv.{0}"
 msgid "Toggle Log Panel"
 msgstr "Toggle Log Panel"
 
-#: src/components/views/TalkView.svelte
-msgid "Free Talk Mode"
-msgstr "Free Talk Mode"
+#~ msgid "Free Talk Mode"
+#~ msgstr "Free Talk Mode"
 
 #. 0: idx + 1
 #: src/components/views/TalkView.svelte
@@ -796,9 +794,8 @@ msgstr "Here"
 msgid "Travel"
 msgstr "Travel"
 
-#: src/components/views/WorldView.svelte
-msgid "People Here"
-msgstr "People Here"
+#~ msgid "People Here"
+#~ msgstr "People Here"
 
 #: src/components/chrome/ElectronControls.svelte
 #: src/components/ui/dialog/dialog-content.svelte
@@ -827,9 +824,8 @@ msgstr "Text"
 msgid "Inventory"
 msgstr "Inventory"
 
-#: src/components/views/WorldView.svelte
-msgid "People"
-msgstr "People"
+#~ msgid "People"
+#~ msgstr "People"
 
 #~ msgid "Manage collected materials and items"
 #~ msgstr "Manage collected materials and items"
@@ -857,6 +853,7 @@ msgid "Capacity: <0/> / {0}"
 msgstr "Capacity: <0/> / {0}"
 
 #: src/components/sheets/ModeSheet.svelte
+#: src/components/views/TalkView.svelte
 msgid "Chat"
 msgstr "Chat"
 
@@ -916,6 +913,7 @@ msgid "Gold"
 msgstr "Gold"
 
 #: src/components/sheets/StatusSheet.svelte
+#: src/components/views/SettingsView.svelte
 msgid "None"
 msgstr "None"
 
@@ -935,17 +933,14 @@ msgstr "Ship Construction"
 msgid "No memories recorded yet"
 msgstr "No memories recorded yet"
 
-#. 0: stageName
-#: src/components/sheets/NpcSheet.svelte
-msgid "People in {0}"
-msgstr "People in {0}"
+#~ msgid "People in {0}"
+#~ msgstr "People in {0}"
 
 #~ msgid "Characters currently present at this location"
 #~ msgstr "Characters currently present at this location"
 
-#: src/components/sheets/NpcSheet.svelte
-msgid "No one is around here right now."
-msgstr "No one is around here right now."
+#~ msgid "No one is around here right now."
+#~ msgstr "No one is around here right now."
 
 #: src/components/sheets/NpcSheet.svelte
 msgid "Unmet"
@@ -1152,9 +1147,8 @@ msgstr "Quest Cleared!"
 msgid "OK"
 msgstr "OK"
 
-#: src/components/overlays/FaintOverlay.svelte
-msgid "Rested soundly at home, fully recovering stamina."
-msgstr "Rested soundly at home, fully recovering stamina."
+#~ msgid "Rested soundly at home, fully recovering stamina."
+#~ msgstr "Rested soundly at home, fully recovering stamina."
 
 #: src/components/overlays/FaintOverlay.svelte
 msgid "Out of Stamina"
@@ -1183,3 +1177,736 @@ msgstr "Pin on Top"
 #: src/components/chrome/ElectronControls.svelte
 msgid "Minimize"
 msgstr "Minimize"
+
+#: src/routes/+layout.svelte
+msgid "Start a new conversation with Ryza? This resets active chat turns, but your adventure level, inventory, and memories will remain safe."
+msgstr "Start a new conversation with Ryza? This resets active chat turns, but your adventure level, inventory, and memories will remain safe."
+
+#: src/routes/+layout.svelte
+msgid "Start New Talk"
+msgstr "Start New Talk"
+
+#: src/components/views/TalkView.svelte
+msgid "Reply could not be retrieved."
+msgstr "Reply could not be retrieved."
+
+#: src/components/views/TalkView.svelte
+msgid "Retry"
+msgstr "Retry"
+
+#. 0: appState.mode || 'Chat'
+#: src/components/views/TalkView.svelte
+msgid "{0} Mode"
+msgstr "{0} Mode"
+
+#: src/components/views/CharaView.svelte
+msgid "Save Data (3 Slots)"
+msgstr "Save Data (3 Slots)"
+
+#: src/components/views/CharaView.svelte
+msgid "Empty Slot"
+msgstr "Empty Slot"
+
+#. 0: slot.day; 1: slot.game ? 1 + Math.floor(Math.sqrt(((slot.game as { exp_total?\\: number }).exp_total || 0) / 30)) \\: '?'; 2: new Date(slot.at).toLocaleDateString(); 3: new Date(slot.at).toLocaleTimeString([], { hour\\: '2-digit', minute\\: '2-digit' })
+#: src/components/views/CharaView.svelte
+msgid "Day {0} · Lv.{1} · {2} {3}"
+msgstr "Day {0} · Lv.{1} · {2} {3}"
+
+#: src/components/views/CharaView.svelte
+msgid "Save"
+msgstr "Save"
+
+#: src/components/views/CharaView.svelte
+msgid "Load"
+msgstr "Load"
+
+#: src/components/views/SettingsView.svelte
+#: src/components/views/SettingsView.svelte
+msgid "Chloe"
+msgstr "Chloe"
+
+#: src/components/views/SettingsView.svelte
+#: src/components/views/SettingsView.svelte
+#: src/components/views/SettingsView.svelte
+msgid "明るく元気な若い女性の声。親しみやすい口調で。"
+msgstr "明るく元気な若い女性の声。親しみやすい口調で。"
+
+#: src/components/views/SettingsView.svelte
+#: src/components/views/SettingsView.svelte
+msgid "Cherry"
+msgstr "Cherry"
+
+#: src/components/views/SettingsView.svelte
+msgid "Please enter API Base URL first"
+msgstr "Please enter API Base URL first"
+
+#: src/components/views/SettingsView.svelte
+msgid "Fetching models list..."
+msgstr "Fetching models list..."
+
+#. 0: llmModelsList.length
+#: src/components/views/SettingsView.svelte
+msgid "Found {0} models!"
+msgstr "Found {0} models!"
+
+#: src/components/views/SettingsView.svelte
+msgid "No models found, enter model manually."
+msgstr "No models found, enter model manually."
+
+#: src/components/views/SettingsView.svelte
+#: src/components/views/SettingsView.svelte
+#: src/components/views/SettingsView.svelte
+#: src/components/views/SettingsView.svelte
+#: src/components/views/SettingsView.svelte
+msgid "Unknown error"
+msgstr "Unknown error"
+
+#. 0: (e as Error)?.message || 'Unknown error'
+#: src/components/views/SettingsView.svelte
+msgid "Failed to fetch models: {0}"
+msgstr "Failed to fetch models: {0}"
+
+#: src/components/views/SettingsView.svelte
+msgid "API Key is required to test LLM"
+msgstr "API Key is required to test LLM"
+
+#: src/components/views/SettingsView.svelte
+msgid "Testing LLM connection..."
+msgstr "Testing LLM connection..."
+
+#: src/components/views/SettingsView.svelte
+msgid "短く一言、あいさつして。"
+msgstr "短く一言、あいさつして。"
+
+#. 0: res.text
+#: src/components/views/SettingsView.svelte
+msgid "Ryza: {0}"
+msgstr "Ryza: {0}"
+
+#. 0: (e as Error)?.message || 'Unknown error'
+#: src/components/views/SettingsView.svelte
+msgid "LLM Test Failed: {0}"
+msgstr "LLM Test Failed: {0}"
+
+#: src/components/views/SettingsView.svelte
+#: src/components/views/SettingsView.svelte
+msgid "Please enter Qwen API Key first"
+msgstr "Please enter Qwen API Key first"
+
+#: src/components/views/SettingsView.svelte
+msgid "Fetching Qwen models..."
+msgstr "Fetching Qwen models..."
+
+#. 0: qwenModelsList.length
+#: src/components/views/SettingsView.svelte
+msgid "Found {0} Qwen models!"
+msgstr "Found {0} Qwen models!"
+
+#: src/components/views/SettingsView.svelte
+msgid "No models returned from endpoint."
+msgstr "No models returned from endpoint."
+
+#. 0: (e as Error)?.message || 'Unknown error'
+#: src/components/views/SettingsView.svelte
+msgid "Failed to fetch Qwen models: {0}"
+msgstr "Failed to fetch Qwen models: {0}"
+
+#: src/components/views/SettingsView.svelte
+msgid "Cloning voice from reference sample..."
+msgstr "Cloning voice from reference sample..."
+
+#: src/components/views/SettingsView.svelte
+msgid "Voice successfully cloned!"
+msgstr "Voice successfully cloned!"
+
+#. 0: (e as Error)?.message || 'Unknown error'
+#: src/components/views/SettingsView.svelte
+msgid "Voice cloning failed: {0}"
+msgstr "Voice cloning failed: {0}"
+
+#: src/components/views/SettingsView.svelte
+msgid "TTS API Key is required"
+msgstr "TTS API Key is required"
+
+#: src/components/views/SettingsView.svelte
+msgid "Please enter a valid TTS model name"
+msgstr "Please enter a valid TTS model name"
+
+#: src/components/views/SettingsView.svelte
+msgid "Synthesizing voice test..."
+msgstr "Synthesizing voice test..."
+
+#: src/components/views/SettingsView.svelte
+msgid "やあ、聞こえてる？"
+msgstr "やあ、聞こえてる？"
+
+#: src/components/views/SettingsView.svelte
+msgid "TTS is disabled or produced no audio"
+msgstr "TTS is disabled or produced no audio"
+
+#: src/components/views/SettingsView.svelte
+msgid "Voice synthesis test succeeded!"
+msgstr "Voice synthesis test succeeded!"
+
+#. 0: (e as Error)?.message || 'Unknown error'
+#: src/components/views/SettingsView.svelte
+msgid "TTS Test Failed: {0}"
+msgstr "TTS Test Failed: {0}"
+
+#: src/components/views/SettingsView.svelte
+msgid "Configuration copied to clipboard!"
+msgstr "Configuration copied to clipboard!"
+
+#: src/components/views/SettingsView.svelte
+msgid "Settings imported successfully!"
+msgstr "Settings imported successfully!"
+
+#: src/components/views/SettingsView.svelte
+msgid "Invalid JSON"
+msgstr "Invalid JSON"
+
+#. 0: (e as Error)?.message || 'Invalid JSON'
+#: src/components/views/SettingsView.svelte
+msgid "Import failed: {0}"
+msgstr "Import failed: {0}"
+
+#: src/components/views/SettingsView.svelte
+msgid "Large Language Model (LLM)"
+msgstr "Large Language Model (LLM)"
+
+#: src/components/views/SettingsView.svelte
+msgid "OpenAI-compatible URL ending in /v1. Dev config seeds from config/providers.json."
+msgstr "OpenAI-compatible URL ending in /v1. Dev config seeds from config/providers.json."
+
+#: src/components/views/SettingsView.svelte
+#: src/components/views/SettingsView.svelte
+msgid "Fetching..."
+msgstr "Fetching..."
+
+#: src/components/views/SettingsView.svelte
+msgid "Fetch Models"
+msgstr "Fetch Models"
+
+#: src/components/views/SettingsView.svelte
+msgid "Fetch to populate dropdown or type manually"
+msgstr "Fetch to populate dropdown or type manually"
+
+#: src/components/views/SettingsView.svelte
+msgid "Stored only in local storage"
+msgstr "Stored only in local storage"
+
+#: src/components/views/SettingsView.svelte
+msgid "Max Tokens"
+msgstr "Max Tokens"
+
+#: src/components/views/SettingsView.svelte
+msgid "History Turns"
+msgstr "History Turns"
+
+#: src/components/views/SettingsView.svelte
+msgid "Context Window (tokens)"
+msgstr "Context Window (tokens)"
+
+#. 0: estimatedContext
+#: src/components/views/SettingsView.svelte
+msgid "0 = guess from model id. Auto resolved: {0} tokens."
+msgstr "0 = guess from model id. Auto resolved: {0} tokens."
+
+#: src/components/views/SettingsView.svelte
+#: src/components/views/SettingsView.svelte
+msgid "Auto"
+msgstr "Auto"
+
+#: src/components/views/SettingsView.svelte
+#: src/components/views/SettingsView.svelte
+msgid "Off"
+msgstr "Off"
+
+#: src/components/views/SettingsView.svelte
+msgid "On"
+msgstr "On"
+
+#: src/components/views/SettingsView.svelte
+msgid "Thinking Mode"
+msgstr "Thinking Mode"
+
+#: src/components/views/SettingsView.svelte
+msgid "Default"
+msgstr "Default"
+
+#: src/components/views/SettingsView.svelte
+msgid "Low"
+msgstr "Low"
+
+#: src/components/views/SettingsView.svelte
+msgid "Medium"
+msgstr "Medium"
+
+#: src/components/views/SettingsView.svelte
+msgid "High"
+msgstr "High"
+
+#: src/components/views/SettingsView.svelte
+msgid "Max"
+msgstr "Max"
+
+#: src/components/views/SettingsView.svelte
+msgid "Effort"
+msgstr "Effort"
+
+#: src/components/views/SettingsView.svelte
+msgid "OpenAI"
+msgstr "OpenAI"
+
+#: src/components/views/SettingsView.svelte
+msgid "OpenRouter"
+msgstr "OpenRouter"
+
+#: src/components/views/SettingsView.svelte
+msgid "Qwen"
+msgstr "Qwen"
+
+#: src/components/views/SettingsView.svelte
+msgid "GLM"
+msgstr "GLM"
+
+#: src/components/views/SettingsView.svelte
+msgid "Protocol Style"
+msgstr "Protocol Style"
+
+#: src/components/views/SettingsView.svelte
+msgid "Reasoning & Thinking"
+msgstr "Reasoning & Thinking"
+
+#: src/components/views/SettingsView.svelte
+msgid "Testing..."
+msgstr "Testing..."
+
+#: src/components/views/SettingsView.svelte
+msgid "OpenAI Compatible (Chat/Voice Clone)"
+msgstr "OpenAI Compatible (Chat/Voice Clone)"
+
+#: src/components/views/SettingsView.svelte
+msgid "OpenAI Audio Speech (/v1/audio/speech)"
+msgstr "OpenAI Audio Speech (/v1/audio/speech)"
+
+#: src/components/views/SettingsView.svelte
+msgid "DashScope / Qwen TTS"
+msgstr "DashScope / Qwen TTS"
+
+#: src/components/views/SettingsView.svelte
+msgid "Service Provider"
+msgstr "Service Provider"
+
+#: src/components/views/SettingsView.svelte
+msgid "Standard /v1/audio/speech"
+msgstr "Standard /v1/audio/speech"
+
+#: src/components/views/SettingsView.svelte
+msgid "audio.cpp Compatible"
+msgstr "audio.cpp Compatible"
+
+#: src/components/views/SettingsView.svelte
+msgid "Request Payload Style"
+msgstr "Request Payload Style"
+
+#: src/components/views/SettingsView.svelte
+msgid "Leave empty for public DashScope endpoint"
+msgstr "Leave empty for public DashScope endpoint"
+
+#: src/components/views/SettingsView.svelte
+msgid "Qwen Base URL"
+msgstr "Qwen Base URL"
+
+#: src/components/views/SettingsView.svelte
+msgid "DashScope API Key"
+msgstr "DashScope API Key"
+
+#: src/components/views/SettingsView.svelte
+msgid "Qwen API Key"
+msgstr "Qwen API Key"
+
+#: src/components/views/SettingsView.svelte
+msgid "Fetch Qwen Models"
+msgstr "Fetch Qwen Models"
+
+#: src/components/views/SettingsView.svelte
+msgid "Qwen Model ID"
+msgstr "Qwen Model ID"
+
+#. 0: qwenVoice
+#: src/components/views/SettingsView.svelte
+msgid "{0} (Custom / Cloned)"
+msgstr "{0} (Custom / Cloned)"
+
+#: src/components/views/SettingsView.svelte
+msgid "Voice ID or Preset"
+msgstr "Voice ID or Preset"
+
+#: src/components/views/SettingsView.svelte
+msgid "Cloning..."
+msgstr "Cloning..."
+
+#: src/components/views/SettingsView.svelte
+msgid "Clone Voice from Ryza Sample"
+msgstr "Clone Voice from Ryza Sample"
+
+#: src/components/views/SettingsView.svelte
+msgid "Voice Clone Target Model"
+msgstr "Voice Clone Target Model"
+
+#: src/components/views/SettingsView.svelte
+msgid "Voice Clone"
+msgstr "Voice Clone"
+
+#: src/components/views/SettingsView.svelte
+#: src/components/views/SettingsView.svelte
+msgid "Off (Disabled)"
+msgstr "Off (Disabled)"
+
+#: src/components/views/SettingsView.svelte
+msgid "Voice Mode"
+msgstr "Voice Mode"
+
+#: src/components/views/SettingsView.svelte
+msgid "TTS Base URL"
+msgstr "TTS Base URL"
+
+#: src/components/views/SettingsView.svelte
+msgid "TTS API Key"
+msgstr "TTS API Key"
+
+#: src/components/views/SettingsView.svelte
+msgid "Voice Clone (Ryza's original voice)"
+msgstr "Voice Clone (Ryza's original voice)"
+
+#: src/components/views/SettingsView.svelte
+msgid "Preset Voice"
+msgstr "Preset Voice"
+
+#: src/components/views/SettingsView.svelte
+msgid "TTS Mode"
+msgstr "TTS Mode"
+
+#: src/components/views/SettingsView.svelte
+msgid "Voice Clone Model ID"
+msgstr "Voice Clone Model ID"
+
+#: src/components/views/SettingsView.svelte
+msgid "Reference Audio Path"
+msgstr "Reference Audio Path"
+
+#: src/components/views/SettingsView.svelte
+msgid "Preset Model ID"
+msgstr "Preset Model ID"
+
+#: src/components/views/SettingsView.svelte
+msgid "Preset Voice Name"
+msgstr "Preset Voice Name"
+
+#: src/components/views/SettingsView.svelte
+msgid "Voice Style Hint"
+msgstr "Voice Style Hint"
+
+#: src/components/views/SettingsView.svelte
+msgid "Sets voice personality; delivery tone (ASMR whisper, story) layers on top automatically."
+msgstr "Sets voice personality; delivery tone (ASMR whisper, story) layers on top automatically."
+
+#: src/components/views/SettingsView.svelte
+msgid "Synthesizing..."
+msgstr "Synthesizing..."
+
+#: src/components/views/SettingsView.svelte
+msgid "4-Axis Language Matrix"
+msgstr "4-Axis Language Matrix"
+
+#: src/components/views/SettingsView.svelte
+msgid "Configure UI strings, shipped voice recordings, character replies, and TTS speech independently."
+msgstr "Configure UI strings, shipped voice recordings, character replies, and TTS speech independently."
+
+#: src/components/views/SettingsView.svelte
+msgid "Interface Language (UI)"
+msgstr "Interface Language (UI)"
+
+#: src/components/views/SettingsView.svelte
+#: src/components/views/SettingsView.svelte
+msgid "Auto (Follow Interface)"
+msgstr "Auto (Follow Interface)"
+
+#: src/components/views/SettingsView.svelte
+#: src/components/views/SettingsView.svelte
+msgid "日本語 (Japanese)"
+msgstr "日本語 (Japanese)"
+
+#: src/components/views/SettingsView.svelte
+#: src/components/views/SettingsView.svelte
+#: src/components/views/SettingsView.svelte
+msgid "简体中文 (Chinese)"
+msgstr "简体中文 (Chinese)"
+
+#: src/components/views/SettingsView.svelte
+msgid "Recorded Voice Packs"
+msgstr "Recorded Voice Packs"
+
+#: src/components/views/SettingsView.svelte
+msgid "Language used for shipped sound clips and alarm wake-up voices."
+msgstr "Language used for shipped sound clips and alarm wake-up voices."
+
+#: src/components/views/SettingsView.svelte
+msgid "日本語 (Japanese — Recommended for character authenticity)"
+msgstr "日本語 (Japanese — Recommended for character authenticity)"
+
+#: src/components/views/SettingsView.svelte
+msgid "Ryza Replies (Character Chat Text)"
+msgstr "Ryza Replies (Character Chat Text)"
+
+#: src/components/views/SettingsView.svelte
+msgid "The language Ryza writes in the dialogue text. Set to 日本語 to keep dialogue Japanese regardless of UI language."
+msgstr "The language Ryza writes in the dialogue text. Set to 日本語 to keep dialogue Japanese regardless of UI language."
+
+#: src/components/views/SettingsView.svelte
+msgid "Auto (Same as Ryza Replies)"
+msgstr "Auto (Same as Ryza Replies)"
+
+#: src/components/views/SettingsView.svelte
+msgid "Speech Synthesis Language (TTS)"
+msgstr "Speech Synthesis Language (TTS)"
+
+#: src/components/views/SettingsView.svelte
+msgid "If speech language differs from Ryza replies, the line will be automatically translated by the LLM before sending to TTS."
+msgstr "If speech language differs from Ryza replies, the line will be automatically translated by the LLM before sending to TTS."
+
+#: src/components/views/SettingsView.svelte
+msgid "Presentation & Feedback"
+msgstr "Presentation & Feedback"
+
+#: src/components/views/SettingsView.svelte
+msgid "Voice Playback"
+msgstr "Voice Playback"
+
+#: src/components/views/SettingsView.svelte
+msgid "Master audio voice toggle"
+msgstr "Master audio voice toggle"
+
+#: src/components/views/SettingsView.svelte
+msgid "Show Speech Bubble"
+msgstr "Show Speech Bubble"
+
+#: src/components/views/SettingsView.svelte
+msgid "Talk bubbles over the stage"
+msgstr "Talk bubbles over the stage"
+
+#: src/components/views/SettingsView.svelte
+msgid "Vibration"
+msgstr "Vibration"
+
+#: src/components/views/SettingsView.svelte
+msgid "Haptic feedback on taps and events"
+msgstr "Haptic feedback on taps and events"
+
+#: src/components/views/SettingsView.svelte
+msgid "Rim Light"
+msgstr "Rim Light"
+
+#: src/components/views/SettingsView.svelte
+msgid "Character edge lighting shader"
+msgstr "Character edge lighting shader"
+
+#: src/components/views/SettingsView.svelte
+msgid "Text Typewriter Speed"
+msgstr "Text Typewriter Speed"
+
+#: src/components/views/SettingsView.svelte
+msgid "Time Passage"
+msgstr "Time Passage"
+
+#: src/components/views/SettingsView.svelte
+msgid "Real Clock (Follows device system time)"
+msgstr "Real Clock (Follows device system time)"
+
+#: src/components/views/SettingsView.svelte
+msgid "In-Game Flow (Simulated time progression)"
+msgstr "In-Game Flow (Simulated time progression)"
+
+#: src/components/views/SettingsView.svelte
+msgid "Manual Only (TOD toggle in top bar)"
+msgstr "Manual Only (TOD toggle in top bar)"
+
+#: src/components/views/SettingsView.svelte
+msgid "Time Mode"
+msgstr "Time Mode"
+
+#: src/components/views/SettingsView.svelte
+msgid "Slow (1 real min = 15 game mins)"
+msgstr "Slow (1 real min = 15 game mins)"
+
+#: src/components/views/SettingsView.svelte
+msgid "Standard (1 real min = 1 game hr)"
+msgstr "Standard (1 real min = 1 game hr)"
+
+#: src/components/views/SettingsView.svelte
+msgid "Fast (1 real min = 3 game hrs)"
+msgstr "Fast (1 real min = 3 game hrs)"
+
+#: src/components/views/SettingsView.svelte
+msgid "Very Fast (1 real min = 6 game hrs)"
+msgstr "Very Fast (1 real min = 6 game hrs)"
+
+#: src/components/views/SettingsView.svelte
+msgid "In-Game Flow Speed"
+msgstr "In-Game Flow Speed"
+
+#: src/components/views/SettingsView.svelte
+msgid "Long Term Memory"
+msgstr "Long Term Memory"
+
+#: src/components/views/SettingsView.svelte
+msgid "Enable Memory Summaries"
+msgstr "Enable Memory Summaries"
+
+#: src/components/views/SettingsView.svelte
+msgid "Fold sessions into summary cards"
+msgstr "Fold sessions into summary cards"
+
+#: src/components/views/SettingsView.svelte
+msgid "Turns / Session"
+msgstr "Turns / Session"
+
+#: src/components/views/SettingsView.svelte
+msgid "Session Cap"
+msgstr "Session Cap"
+
+#: src/components/views/SettingsView.svelte
+msgid "Summary Cap"
+msgstr "Summary Cap"
+
+#: src/components/views/SettingsView.svelte
+msgid "Game Balance"
+msgstr "Game Balance"
+
+#: src/components/views/SettingsView.svelte
+msgid "Cheat Mode (作弊模式)"
+msgstr "Cheat Mode (作弊模式)"
+
+#: src/components/views/SettingsView.svelte
+msgid "Infinite stamina (🍎∞) and coins"
+msgstr "Infinite stamina (🍎∞) and coins"
+
+#: src/components/views/SettingsView.svelte
+msgid "Master Volume"
+msgstr "Master Volume"
+
+#: src/components/views/SettingsView.svelte
+msgid "Ambient Sound"
+msgstr "Ambient Sound"
+
+#: src/components/views/SettingsView.svelte
+msgid "📥 Export Settings JSON (Copy & Download)"
+msgstr "📥 Export Settings JSON (Copy & Download)"
+
+#: src/components/views/SettingsView.svelte
+msgid "📤 Import Settings JSON..."
+msgstr "📤 Import Settings JSON..."
+
+#: src/components/views/SettingsView.svelte
+msgid "⚠️ Reset All Settings to Defaults"
+msgstr "⚠️ Reset All Settings to Defaults"
+
+#: src/components/views/SettingsView.svelte
+msgid "Import Configuration JSON"
+msgstr "Import Configuration JSON"
+
+#: src/components/views/SettingsView.svelte
+msgid "Paste exported configuration JSON below to restore settings."
+msgstr "Paste exported configuration JSON below to restore settings."
+
+#: src/components/views/SettingsView.svelte
+msgid "Apply Configuration"
+msgstr "Apply Configuration"
+
+#: src/components/views/CharaView.svelte
+msgid "Casual adventurer outfit..."
+msgstr "Casual adventurer outfit..."
+
+#: src/components/views/CharaView.svelte
+msgid "Appearance"
+msgstr "Appearance"
+
+#: src/components/views/CharaView.svelte
+msgid "Traveled from the mainland..."
+msgstr "Traveled from the mainland..."
+
+#: src/components/views/CharaView.svelte
+msgid "Background"
+msgstr "Background"
+
+#: src/components/views/CharaView.svelte
+msgid "Fishing, crafting"
+msgstr "Fishing, crafting"
+
+#: src/components/views/CharaView.svelte
+msgid "Hobby"
+msgstr "Hobby"
+
+#: src/components/views/CharaView.svelte
+msgid "Alchemy, ruins exploration"
+msgstr "Alchemy, ruins exploration"
+
+#: src/components/views/CharaView.svelte
+msgid "Interest"
+msgstr "Interest"
+
+#: src/components/views/CharaView.svelte
+msgid "Become a renowned explorer..."
+msgstr "Become a renowned explorer..."
+
+#: src/components/views/CharaView.svelte
+msgid "Future Goals"
+msgstr "Future Goals"
+
+#: src/components/views/CharaView.svelte
+msgid "Extra context or custom directives appended to system prompt..."
+msgstr "Extra context or custom directives appended to system prompt..."
+
+#: src/components/views/CharaView.svelte
+msgid "Additional Prompt Instructions"
+msgstr "Additional Prompt Instructions"
+
+#: src/components/sheets/InventorySheet.svelte
+msgid "Not enough Gold to upgrade bag!"
+msgstr "Not enough Gold to upgrade bag!"
+
+#. 0: targetTier.toUpperCase()
+#: src/components/sheets/InventorySheet.svelte
+msgid "Bag upgraded to {0}! Capacity increased."
+msgstr "Bag upgraded to {0}! Capacity increased."
+
+#: src/components/sheets/InventorySheet.svelte
+msgid "Failed to upgrade bag."
+msgstr "Failed to upgrade bag."
+
+#: src/components/views/TalkView.svelte
+msgid "Shop"
+msgstr "Shop"
+
+#: src/components/views/WorldView.svelte
+msgid "Guests"
+msgstr "Guests"
+
+#. 0: npcsHere.length
+#: src/components/views/WorldView.svelte
+msgid "Guests Here ({0})"
+msgstr "Guests Here ({0})"
+
+#: src/components/views/WorldView.svelte
+msgid "View Details"
+msgstr "View Details"
+
+#. 0: stageName
+#: src/components/sheets/NpcSheet.svelte
+msgid "Guests in {0}"
+msgstr "Guests in {0}"
+
+#: src/components/sheets/NpcSheet.svelte
+msgid "No guests around here right now."
+msgstr "No guests around here right now."

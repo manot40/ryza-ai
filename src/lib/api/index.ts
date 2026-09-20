@@ -122,10 +122,8 @@ export function upstreamUrl(baseUrl: string, path: string): string {
 }
 
 export function localProxy(target: string): string {
-  const or = typeof location !== 'undefined' ? String(location.origin || '') : '';
-  if (!/^https?:\/\/(127\.0\.0\.1|localhost)(:\d+)?$/i.test(or) && !/^ryza:\/\/app$/i.test(or)) {
-    return target;
-  }
+  if (!target || !/^https?:\/\//i.test(target)) return target;
+  if (target.startsWith('/_proxy')) return target;
   return '/_proxy?u=' + encodeURIComponent(target);
 }
 

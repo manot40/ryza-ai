@@ -61,6 +61,15 @@ describe('QuestStore', () => {
       expect(game.money).toBeGreaterThan(initialMoney);
       expect(game.exp_total).toBeGreaterThan(initialExp);
     });
+
+    it('advances quest on takeNext even if pendingAdvance was not set in memory', () => {
+      const q = quests.ensure();
+      q.step = q.need;
+      q.complete = true;
+      quests.takeNext();
+      const nextQ = quests.active();
+      expect(nextQ!.no).toBe(q.no + 1);
+    });
   });
 
   describe('deterministic action engine', () => {
@@ -124,6 +133,32 @@ describe('QuestStore', () => {
 
       quests.clear();
       expect(game.sailed).toBe(true);
+    });
+
+    it('advances explore quest on progressEvent explore', () => {
+      quests.takeChain(2);
+      const q = quests.active();
+      expect(q!.type).toBe('explore');
+      expect(q!.step).toBe(0);
+
+      quests.progressEvent('explore', 1);
+      expect(quests.active()!.step).toBe(1);
+
+      quests.progressEvent('explore', 1);
+      expect(quests.active()!.step).toBe(2);
+      expect(quests.active()!.complete).toBe(true);
+    });
+
+    it('outputs promptBlock with localized quest title, goal, and sailing status', () => {
+      quests.takeChain(1);
+      const block = quests.promptBlock();
+      expect(block).toContain('No.1');
+      expect(block).toContain('クーケン島');
+      expect(block).toContain('造船部品：0/4');
+
+      game.sailed = true;
+      const sailedBlock = quests.promptBlock();
+      expect(sailedBlock).toContain('出航済み');
     });
   });
 });

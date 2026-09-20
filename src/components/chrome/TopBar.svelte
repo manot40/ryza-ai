@@ -26,8 +26,8 @@
 </script>
 
 <header
-  class="absolute top-0 left-0 right-0 z-30 flex h-14 items-center justify-between px-3 pointer-events-auto bg-linear-to-b from-background/80 via-background/40 to-transparent">
-  <div class="flex items-center gap-1">
+  class="absolute top-0 left-0 right-0 z-30 flex h-14 items-center justify-between px-3 pointer-events-none bg-linear-to-b from-background/80 via-background/40 to-transparent">
+  <div class="flex items-center gap-1 pointer-events-auto">
     <Button
       variant="outline"
       size="icon"
@@ -60,7 +60,7 @@
     </Button>
   </div>
 
-  <div class="flex items-center gap-1">
+  <div class="flex items-center gap-1 pointer-events-auto">
     <Button
       variant="outline"
       size="icon"

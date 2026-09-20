@@ -1,5 +1,7 @@
 // @wc-ignore-file
 
+import { sound } from '$lib/audio/sound';
+
 export const VIEWS = [
   'talk',
   'world',
@@ -24,6 +26,7 @@ export class ViewStore {
     this.activeView = view as AppView;
     this.drawerOpen = false;
     this.sideMenuOpen = false;
+    sound.setRoute(view === 'world' ? 'world' : 'talk');
   }
 }
 

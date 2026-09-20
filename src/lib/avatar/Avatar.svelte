@@ -26,6 +26,14 @@
   let currentStageTod = '';
   let currentSkin = '';
 
+  interface Ripple {
+    id: number;
+    x: number;
+    y: number;
+  }
+  let ripples = $state<Ripple[]>([]);
+  let nextRippleId = 0;
+
   export function setEmotion(emotion: string, attitude: string = 'agree', immediate?: boolean) {
     engine.setEmotion(emotion, attitude, immediate);
   }
@@ -74,6 +82,11 @@
 
     const part = engine.hitPartAt(x, y);
     if (part) {
+      const ripId = ++nextRippleId;
+      ripples = [...ripples, { id: ripId, x: e.clientX - rect.left, y: e.clientY - rect.top }];
+      setTimeout(() => {
+        ripples = ripples.filter((r) => r.id !== ripId);
+      }, 600);
       const overlay = engine.poke(part);
       onTapPart?.(part, overlay);
     }
@@ -146,4 +159,10 @@
   onpointermove={handlePointerMove}
   onpointerleave={handlePointerLeave}>
   <canvas bind:this={canvas} class="h-full w-full touch-none select-none"></canvas>
+  {#each ripples as r (r.id)}
+    <div
+      class="tap-ripple pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full border-2 border-gold/70 bg-gold/20 animate-ping duration-500"
+      style="left: {r.x}px; top: {r.y}px;">
+    </div>
+  {/each}
 </div>
