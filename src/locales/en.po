@@ -1813,3 +1813,796 @@ msgstr "Text Mode"
 #: src/components/views/TalkView.svelte
 msgid "Chat Mode"
 msgstr "Chat Mode"
+
+#: src/lib/i18n/game-content.svelte.ts
+#: src/lib/stores/session.svelte.ts
+msgid "Daily login bonus is available!"
+msgstr "Daily login bonus is available!"
+
+#: src/components/views/WorldView.svelte
+#: src/components/views/WorldView.svelte
+#: src/lib/i18n/game-content.svelte.ts
+#: src/lib/talk-loop.svelte.ts
+msgid "No ship, no leaving Kurken Island (finish Main Quest 8)"
+msgstr "No ship, no leaving Kurken Island (finish Main Quest 8)"
+
+#: src/lib/i18n/game-content.svelte.ts
+#: src/lib/talk-loop.svelte.ts
+msgid "You sailed! The world map is open"
+msgstr "You sailed! The world map is open"
+
+#: src/lib/i18n/game-content.svelte.ts
+#: src/lib/talk-loop.svelte.ts
+msgid "API key is not configured"
+msgstr "API key is not configured"
+
+#: src/lib/i18n/game-content.svelte.ts
+#: src/lib/talk-loop.svelte.ts
+msgid "Not enough stamina…!"
+msgstr "Not enough stamina…!"
+
+#. 0: msg
+#. 0: em
+#: src/lib/i18n/game-content.svelte.ts
+#: src/lib/talk-loop.svelte.ts
+msgid "Network error: {0}"
+msgstr "Network error: {0}"
+
+#. 0: place
+#. 0: label
+#: src/lib/i18n/game-content.svelte.ts
+#: src/lib/talk-loop.svelte.ts
+msgid "Travel: {0}"
+msgstr "Travel: {0}"
+
+#: src/lib/i18n/game-content.svelte.ts
+#: src/lib/stores/session.svelte.ts
+#: src/lib/talk-loop.svelte.ts
+msgid "Rested safely at home — stamina fully restored!"
+msgstr "Rested safely at home — stamina fully restored!"
+
+#. 0: slot
+#. 0: index + 1
+#: src/lib/i18n/game-content.svelte.ts
+#: src/lib/stores/session.svelte.ts
+msgid "Game saved to slot {0}"
+msgstr "Game saved to slot {0}"
+
+#. 0: slot
+#. 0: index + 1
+#: src/lib/i18n/game-content.svelte.ts
+#: src/lib/stores/session.svelte.ts
+msgid "Game loaded from slot {0}"
+msgstr "Game loaded from slot {0}"
+
+#. 0: reward.exp; 1: reward.money
+#: src/lib/i18n/game-content.svelte.ts
+msgid "Quest cleared! Claimed +{0} EXP, +{1} G."
+msgstr "Quest cleared! Claimed +{0} EXP, +{1} G."
+
+#: src/lib/i18n/game-content.svelte.ts
+msgid "Quest cleared! Reward claimed."
+msgstr "Quest cleared! Reward claimed."
+
+#: src/lib/i18n/game-content.svelte.ts
+msgid "No active quest right now. Let’s ask for a new objective."
+msgstr "No active quest right now. Let’s ask for a new objective."
+
+#. 0: title; 1: reward.exp; 2: reward.money
+#: src/lib/i18n/game-content.svelte.ts
+msgid "Cleared \"{0}\"! +{1}EXP / +{2}G"
+msgstr "Cleared \"{0}\"! +{1}EXP / +{2}G"
+
+#: src/components/sheets/InventorySheet.svelte
+#: src/lib/i18n/game-content.svelte.ts
+msgid "Not enough Gold to upgrade bag!"
+msgstr "Not enough Gold to upgrade bag!"
+
+#. 0: targetTier.toUpperCase()
+#. 0: up
+#: src/components/sheets/InventorySheet.svelte
+#: src/lib/i18n/game-content.svelte.ts
+msgid "Bag upgraded to {0}! Capacity increased."
+msgstr "Bag upgraded to {0}! Capacity increased."
+
+#: src/components/sheets/InventorySheet.svelte
+#: src/lib/i18n/game-content.svelte.ts
+msgid "Failed to upgrade bag."
+msgstr "Failed to upgrade bag."
+
+#: src/lib/stores/session.svelte.ts
+msgid "Kurken Island"
+msgstr "Kurken Island"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_1"
+msgid "Let’s Talk First"
+msgstr "Let’s Talk First"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_1"
+msgid "Chat with Ryza and get used to each other."
+msgstr "Chat with Ryza and get used to each other."
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_1"
+msgid "Talk to Ryza 4 times"
+msgstr "Talk to Ryza 4 times"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_2"
+msgid "Explore the Island"
+msgstr "Explore the Island"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_2"
+msgid "Open the world map and travel somewhere else."
+msgstr "Open the world map and travel somewhere else."
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_2"
+msgid "Move to another stage twice"
+msgstr "Move to another stage twice"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_3"
+msgid "Gathering Adventure"
+msgstr "Gathering Adventure"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_3"
+msgid "Collect adventuring materials. Fill that bag!"
+msgstr "Collect adventuring materials. Fill that bag!"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_3"
+msgid "Gather 3 materials"
+msgstr "Gather 3 materials"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_4"
+msgid "First Synthesis"
+msgstr "First Synthesis"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_4"
+msgid "Try alchemy with the materials you gathered!"
+msgstr "Try alchemy with the materials you gathered!"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_4"
+msgid "Craft successfully once"
+msgstr "Craft successfully once"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_5"
+msgid "Monster in the Way"
+msgstr "Monster in the Way"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_5"
+msgid "A monster showed up. Break through with crafted items."
+msgstr "A monster showed up. Break through with crafted items."
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_5"
+msgid "Win one battle"
+msgstr "Win one battle"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_6"
+msgid "A Day Running the Shop"
+msgstr "A Day Running the Shop"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_6"
+msgid "Set out spare items and earn some pocket money."
+msgstr "Set out spare items and earn some pocket money."
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_6"
+msgid "Sell items at the shop"
+msgstr "Sell items at the shop"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_7"
+msgid "Gather Ship Parts"
+msgstr "Gather Ship Parts"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_7"
+msgid "Collect 4 ship parts"
+msgstr "Collect 4 ship parts"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_8"
+msgid "Set Sail, Free!"
+msgstr "Set Sail, Free!"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_8"
+msgid "Finish the ship and leave Kurken Island! The world map opens."
+msgstr "Finish the ship and leave Kurken Island! The world map opens."
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_8"
+msgid "Pay 200G and sail"
+msgstr "Pay 200G and sail"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_1"
+msgid "A New Recipe"
+msgstr "A New Recipe"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_1"
+msgid "Dream up a synthesis you have never tried."
+msgstr "Dream up a synthesis you have never tried."
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_1"
+msgid "Craft successfully once"
+msgstr "Craft successfully once"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_2"
+msgid "Spring Materials"
+msgstr "Spring Materials"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_2"
+msgid "Search near the waterfall pool at the spring."
+msgstr "Search near the waterfall pool at the spring."
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_2"
+msgid "Gather 2 materials"
+msgstr "Gather 2 materials"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_3"
+msgid "Stargazing"
+msgstr "Stargazing"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_3"
+msgid "Walk together to the star-viewing height at night."
+msgstr "Walk together to the star-viewing height at night."
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_3"
+msgid "Move to a night stage"
+msgstr "Move to a night stage"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_4"
+msgid "Ruined Village Resident"
+msgstr "Ruined Village Resident"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_4"
+msgid "Deal with whatever bothers you in the forgotten ruins."
+msgstr "Deal with whatever bothers you in the forgotten ruins."
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_4"
+msgid "Win one battle"
+msgstr "Win one battle"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_5"
+msgid "Street Vendor Day"
+msgstr "Street Vendor Day"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_5"
+msgid "How about a little business at the harbor plaza?"
+msgstr "How about a little business at the harbor plaza?"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_5"
+msgid "Sell items at the shop"
+msgstr "Sell items at the shop"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_6"
+msgid "Memory Lane"
+msgstr "Memory Lane"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_6"
+msgid "Recall the day we first met, slowly."
+msgstr "Recall the day we first met, slowly."
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_6"
+msgid "Talk to Ryza 3 times"
+msgstr "Talk to Ryza 3 times"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_7"
+msgid "Snack Hunt"
+msgstr "Snack Hunt"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_7"
+msgid "Gather sweet ingredients for my snack."
+msgstr "Gather sweet ingredients for my snack."
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_7"
+msgid "Gather 2 materials"
+msgstr "Gather 2 materials"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_8"
+msgid "Ruins Expedition"
+msgstr "Ruins Expedition"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_8"
+msgid "Let’s look deeper into the sealed sanctuary."
+msgstr "Let’s look deeper into the sealed sanctuary."
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_8"
+msgid "Move to another stage"
+msgstr "Move to another stage"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_obstacle"
+msgid "Good stuff grows deeper in, apparently."
+msgstr "Good stuff grows deeper in, apparently."
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_obstacle"
+msgid "Synthesis fails easy — gather spare materials first."
+msgstr "Synthesis fails easy — gather spare materials first."
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_obstacle"
+msgid "Um, if something too strong shows up we can run… probably."
+msgstr "Um, if something too strong shows up we can run… probably."
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_obstacle"
+msgid "Not sure it will sell, but worth a try!"
+msgstr "Not sure it will sell, but worth a try!"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_obstacle"
+msgid "Every part is huge. One trip won’t carry them."
+msgstr "Every part is huge. One trip won’t carry them."
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_obstacle"
+msgid "The roads have felt a bit odd lately."
+msgstr "The roads have felt a bit odd lately."
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_obstacle"
+msgid "Sailing costs money. Let’s earn some at the shop."
+msgstr "Sailing costs money. Let’s earn some at the shop."
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_praise"
+msgid "Amazing, you cleared it!"
+msgstr "Amazing, you cleared it!"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_praise"
+msgid "Let’s keep going with the next quest"
+msgstr "Let’s keep going with the next quest"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_praise"
+msgid "Awesome! What adventure next?"
+msgstr "Awesome! What adventure next?"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Emeralia Grass"
+msgstr "Emeralia Grass"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Sea Urchin"
+msgstr "Sea Urchin"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Distilled Water"
+msgstr "Distilled Water"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Forest Honey"
+msgstr "Forest Honey"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Radiant Shell"
+msgstr "Radiant Shell"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Magic Ore Shard"
+msgstr "Magic Ore Shard"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Vitality Mushroom"
+msgstr "Vitality Mushroom"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Driftwood Log"
+msgstr "Driftwood Log"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Ironwood Grain"
+msgstr "Ironwood Grain"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Sailcloth Scrap"
+msgstr "Sailcloth Scrap"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Healing Bottle"
+msgstr "Healing Bottle"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Bomb Vial"
+msgstr "Bomb Vial"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Guardian Charm Ring"
+msgstr "Guardian Charm Ring"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Ancient Relic"
+msgstr "Ancient Relic"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Stamina Apple"
+msgstr "Stamina Apple"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "recipe"
+msgid "Healing Bottle"
+msgstr "Healing Bottle"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "recipe"
+msgid "Bomb Vial"
+msgstr "Bomb Vial"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "recipe"
+msgid "Guardian Charm Ring"
+msgstr "Guardian Charm Ring"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Kurken Island Area"
+msgstr "Kurken Island Area"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Cleria Region"
+msgstr "Cleria Region"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Nemed Region"
+msgstr "Nemed Region"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Underworld Orim"
+msgstr "Underworld Orim"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Royal Capital Area"
+msgstr "Royal Capital Area"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Kurken Island"
+msgstr "Kurken Island"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Pixie Forest"
+msgstr "Pixie Forest"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Traveler’s Road"
+msgstr "Traveler’s Road"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Sunken Mine"
+msgstr "Sunken Mine"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Hidden Cove"
+msgstr "Hidden Cove"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Meteor Castle"
+msgstr "Meteor Castle"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Weissberg Volcano"
+msgstr "Weissberg Volcano"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Maple Delta"
+msgstr "Maple Delta"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Liese Gorge"
+msgstr "Liese Gorge"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Pynnor Holy Tower"
+msgstr "Pynnor Holy Tower"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Forgotten Village"
+msgstr "Forgotten Village"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Old Mansion"
+msgstr "Old Mansion"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Kark Isles"
+msgstr "Kark Isles"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Code of the Universe"
+msgstr "Code of the Universe"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Mining Highway"
+msgstr "Mining Highway"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Sardonica"
+msgstr "Sardonica"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Astrard Heights"
+msgstr "Astrard Heights"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Magic Stone Path"
+msgstr "Magic Stone Path"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Scintilla Mine"
+msgstr "Scintilla Mine"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Poluta Hills"
+msgstr "Poluta Hills"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Nemed Great Forest"
+msgstr "Nemed Great Forest"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Flower Road Farmland"
+msgstr "Flower Road Farmland"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Dragon Tail Mountain Path"
+msgstr "Dragon Tail Mountain Path"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Abandoned Mountain Temple"
+msgstr "Abandoned Mountain Temple"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Urdis Sanctuary"
+msgstr "Urdis Sanctuary"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Bird’s Pass"
+msgstr "Bird’s Pass"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Eternity’s Coffer"
+msgstr "Eternity’s Coffer"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Capital Outskirts"
+msgstr "Capital Outskirts"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Ashra-am Baird"
+msgstr "Ashra-am Baird"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Windcall Valley"
+msgstr "Windcall Valley"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Capital South"
+msgstr "Capital South"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Northern Lands"
+msgstr "Northern Lands"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Dragon’s Coffin"
+msgstr "Dragon’s Coffin"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Ancient Mana Workshop"
+msgstr "Ancient Mana Workshop"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Maiden’s Tomb"
+msgstr "Maiden’s Tomb"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Submerged City"
+msgstr "Submerged City"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Mirage Land"
+msgstr "Mirage Land"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Valley of Dragon Bones"
+msgstr "Valley of Dragon Bones"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Spire Reservoir"
+msgstr "Spire Reservoir"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Magic Stone Lighthouse"
+msgstr "Magic Stone Lighthouse"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Ryza’s Home"
+msgstr "Ryza’s Home"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Goat Pasture"
+msgstr "Goat Pasture"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Resting Plaza"
+msgstr "Resting Plaza"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Waterfall Basin"
+msgstr "Waterfall Basin"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Secret Hideout Front"
+msgstr "Secret Hideout Front"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Floral Circle"
+msgstr "Floral Circle"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Lantern Tree"
+msgstr "Lantern Tree"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Stump Stage"
+msgstr "Stump Stage"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Opposite Shore Beach"
+msgstr "Opposite Shore Beach"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Giant Weasel Flower Garden"
+msgstr "Giant Weasel Flower Garden"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Old Road Ruins"
+msgstr "Old Road Ruins"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Fork Tree"
+msgstr "Fork Tree"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Altar of the Rare Ones"
+msgstr "Altar of the Rare Ones"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Star-viewing Heights"
+msgstr "Star-viewing Heights"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgid "Full Stamina Recovery"
+msgstr "Full Stamina Recovery"
+
+#. 0: r.amount
+#: src/lib/i18n/game-content.svelte.ts
+msgid "{0} Gold"
+msgstr "{0} Gold"
+
+#. 0: r.money; 1: r.exp
+#: src/lib/i18n/game-content.svelte.ts
+msgid "{0} Gold + EXP +{1} + Full Heal"
+msgstr "{0} Gold + EXP +{1} + Full Heal"
+
+#. 0: r.money; 1: relic
+#: src/lib/i18n/game-content.svelte.ts
+msgid "Treasure Chest: {0} Gold + {1}"
+msgstr "Treasure Chest: {0} Gold + {1}"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgid "Ryza Game Content"
+msgstr "Ryza Game Content"

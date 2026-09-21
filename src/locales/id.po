@@ -1813,3 +1813,796 @@ msgstr "Mode Teks"
 #: src/components/views/TalkView.svelte
 msgid "Chat Mode"
 msgstr "Mode Obrolan"
+
+#: src/lib/i18n/game-content.svelte.ts
+#: src/lib/stores/session.svelte.ts
+msgid "Daily login bonus is available!"
+msgstr "Bonus login harian telah tersedia!"
+
+#: src/components/views/WorldView.svelte
+#: src/components/views/WorldView.svelte
+#: src/lib/i18n/game-content.svelte.ts
+#: src/lib/talk-loop.svelte.ts
+msgid "No ship, no leaving Kurken Island (finish Main Quest 8)"
+msgstr "Belum punya kapal, belum bisa meninggalkan Pulau Kurken (selesaikan Misi Utama 8)"
+
+#: src/lib/i18n/game-content.svelte.ts
+#: src/lib/talk-loop.svelte.ts
+msgid "You sailed! The world map is open"
+msgstr "Berhasil berlayar! Peta dunia telah terbuka"
+
+#: src/lib/i18n/game-content.svelte.ts
+#: src/lib/talk-loop.svelte.ts
+msgid "API key is not configured"
+msgstr "Kunci API belum dikonfigurasi"
+
+#: src/lib/i18n/game-content.svelte.ts
+#: src/lib/talk-loop.svelte.ts
+msgid "Not enough stamina…!"
+msgstr "Stamina tidak cukup…!"
+
+#. 0: msg
+#. 0: em
+#: src/lib/i18n/game-content.svelte.ts
+#: src/lib/talk-loop.svelte.ts
+msgid "Network error: {0}"
+msgstr "Kesalahan jaringan: {0}"
+
+#. 0: place
+#. 0: label
+#: src/lib/i18n/game-content.svelte.ts
+#: src/lib/talk-loop.svelte.ts
+msgid "Travel: {0}"
+msgstr "Perjalanan: {0}"
+
+#: src/lib/i18n/game-content.svelte.ts
+#: src/lib/stores/session.svelte.ts
+#: src/lib/talk-loop.svelte.ts
+msgid "Rested safely at home — stamina fully restored!"
+msgstr "Beristirahat di rumah yang aman — stamina pulih sepenuhnya!"
+
+#. 0: slot
+#. 0: index + 1
+#: src/lib/i18n/game-content.svelte.ts
+#: src/lib/stores/session.svelte.ts
+msgid "Game saved to slot {0}"
+msgstr "Permainan disimpan ke slot {0}"
+
+#. 0: slot
+#. 0: index + 1
+#: src/lib/i18n/game-content.svelte.ts
+#: src/lib/stores/session.svelte.ts
+msgid "Game loaded from slot {0}"
+msgstr "Permainan dimuat dari slot {0}"
+
+#. 0: reward.exp; 1: reward.money
+#: src/lib/i18n/game-content.svelte.ts
+msgid "Quest cleared! Claimed +{0} EXP, +{1} G."
+msgstr "Misi selesai! Mendapatkan +{0} EXP / +{1} G"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgid "Quest cleared! Reward claimed."
+msgstr "Misi selesai! Hadiah telah diambil"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgid "No active quest right now. Let’s ask for a new objective."
+msgstr "Tidak ada misi aktif saat ini. Mari minta tujuan baru."
+
+#. 0: title; 1: reward.exp; 2: reward.money
+#: src/lib/i18n/game-content.svelte.ts
+msgid "Cleared \"{0}\"! +{1}EXP / +{2}G"
+msgstr "Selesaikan \"{0}\"! +{1}EXP / +{2}G"
+
+#: src/components/sheets/InventorySheet.svelte
+#: src/lib/i18n/game-content.svelte.ts
+msgid "Not enough Gold to upgrade bag!"
+msgstr "Gold tidak cukup untuk meningkatkan tas!"
+
+#. 0: targetTier.toUpperCase()
+#. 0: up
+#: src/components/sheets/InventorySheet.svelte
+#: src/lib/i18n/game-content.svelte.ts
+msgid "Bag upgraded to {0}! Capacity increased."
+msgstr "Tas ditingkatkan ke {0}! Kapasitas bertambah."
+
+#: src/components/sheets/InventorySheet.svelte
+#: src/lib/i18n/game-content.svelte.ts
+msgid "Failed to upgrade bag."
+msgstr "Gagal meningkatkan tas."
+
+#: src/lib/stores/session.svelte.ts
+msgid "Kurken Island"
+msgstr "Pulau Kurken"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_1"
+msgid "Let’s Talk First"
+msgstr "Mari Mengobrol Dulu"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_1"
+msgid "Chat with Ryza and get used to each other."
+msgstr "Ngobrol dengan Ryza agar lebih akrab satu sama lain."
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_1"
+msgid "Talk to Ryza 4 times"
+msgstr "Bicara dengan Ryza 4 kali"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_2"
+msgid "Explore the Island"
+msgstr "Petualangan Mengelilingi Pulau"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_2"
+msgid "Open the world map and travel somewhere else."
+msgstr "Buka peta dunia dan jelajahi tempat lain."
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_2"
+msgid "Move to another stage twice"
+msgstr "Pindah ke panggung lain 2 kali"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_3"
+msgid "Gathering Adventure"
+msgstr "Petualangan Mengumpulkan Bahan"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_3"
+msgid "Collect adventuring materials. Fill that bag!"
+msgstr "Kumpulkan bahan petualangan. Penuhi tasmu!"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_3"
+msgid "Gather 3 materials"
+msgstr "Kumpulkan 3 bahan"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_4"
+msgid "First Synthesis"
+msgstr "Sintesis Pertama"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_4"
+msgid "Try alchemy with the materials you gathered!"
+msgstr "Gunakan bahan yang terkumpul untuk mencoba alkimia bersama Ryza!"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_4"
+msgid "Craft successfully once"
+msgstr "Berhasil sintesis 1 kali"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_5"
+msgid "Monster in the Way"
+msgstr "Monster Penghalang Jalan"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_5"
+msgid "A monster showed up. Break through with crafted items."
+msgstr "Monster muncul di perjalanan. Terobos menggunakan item hasil sintesis."
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_5"
+msgid "Win one battle"
+msgstr "Menangkan 1 pertarungan"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_6"
+msgid "A Day Running the Shop"
+msgstr "Sehari Mengelola Toko"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_6"
+msgid "Set out spare items and earn some pocket money."
+msgstr "Pajang barang yang tidak terpakai untuk mendapat uang saku."
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_6"
+msgid "Sell items at the shop"
+msgstr "Jual barang di toko"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_7"
+msgid "Gather Ship Parts"
+msgstr "Kumpulkan Bahan Pembuat Kapal"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_7"
+msgid "Collect 4 ship parts"
+msgstr "Kumpulkan 4 bagian kapal"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_8"
+msgid "Set Sail, Free!"
+msgstr "Berlayar Bebas Mengarungi Samudra"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_8"
+msgid "Finish the ship and leave Kurken Island! The world map opens."
+msgstr "Selesaikan kapal dan tinggalkan Pulau Kurken! Peta dunia terbuka."
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_8"
+msgid "Pay 200G and sail"
+msgstr "Berlayar dengan biaya 200G"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_1"
+msgid "A New Recipe"
+msgstr "Resep Baru"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_1"
+msgid "Dream up a synthesis you have never tried."
+msgstr "Pikirkan resep sintesis yang belum pernah dicoba bersama Ryza."
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_1"
+msgid "Craft successfully once"
+msgstr "Berhasil sintesis 1 kali"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_2"
+msgid "Spring Materials"
+msgstr "Bahan Mata Air"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_2"
+msgid "Search near the waterfall pool at the spring."
+msgstr "Cari bahan baru di sekitar kolam air terjun mata air."
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_2"
+msgid "Gather 2 materials"
+msgstr "Kumpulkan 2 bahan"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_3"
+msgid "Stargazing"
+msgstr "Melihat Bintang"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_3"
+msgid "Walk together to the star-viewing height at night."
+msgstr "Berjalan bersama ke bukit pemantauan bintang di malam hari."
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_3"
+msgid "Move to a night stage"
+msgstr "Pindah ke panggung malam"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_4"
+msgid "Ruined Village Resident"
+msgstr "Penghuni Desa Terbengkalai"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_4"
+msgid "Deal with whatever bothers you in the forgotten ruins."
+msgstr "Bereskan monster yang mengganggu di reruntuhan terlupakan."
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_4"
+msgid "Win one battle"
+msgstr "Menangkan 1 pertarungan"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_5"
+msgid "Street Vendor Day"
+msgstr "Sehari Menjual Keliling"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_5"
+msgid "How about a little business at the harbor plaza?"
+msgstr "Bagaimana kalau mencoba berdagang di alun-alun dermaga?"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_5"
+msgid "Sell items at the shop"
+msgstr "Jual barang di toko"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_6"
+msgid "Memory Lane"
+msgstr "Mengenang Masa Lalu"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_6"
+msgid "Recall the day we first met, slowly."
+msgstr "Mengingat kembali hari pertama kita bertemu secara perlahan."
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_6"
+msgid "Talk to Ryza 3 times"
+msgstr "Bicara dengan Ryza 3 kali"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_7"
+msgid "Snack Hunt"
+msgstr "Mencari Camilan"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_7"
+msgid "Gather sweet ingredients for my snack."
+msgstr "Kumpulkan bahan manis untuk membuat camilan Ryza."
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_7"
+msgid "Gather 2 materials"
+msgstr "Kumpulkan 2 bahan"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_8"
+msgid "Ruins Expedition"
+msgstr "Eksplorasi Reruntuhan"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_8"
+msgid "Let’s look deeper into the sealed sanctuary."
+msgstr "Mari menjelajahi bagian terdalam kuil bersegel."
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_8"
+msgid "Move to another stage"
+msgstr "Pindah ke panggung lain"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_obstacle"
+msgid "Good stuff grows deeper in, apparently."
+msgstr "Bahan berkualitas sepertinya ada di tempat yang lebih dalam."
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_obstacle"
+msgid "Synthesis fails easy — gather spare materials first."
+msgstr "Sintesis mudah gagal — siapkan bahan lebih banyak terlebih dahulu."
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_obstacle"
+msgid "Um, if something too strong shows up we can run… probably."
+msgstr "Kalau ada monster yang terlalu kuat, kita kabur saja... mungkin."
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_obstacle"
+msgid "Not sure it will sell, but worth a try!"
+msgstr "Belum tentu laku, tapi harus dicoba dulu!"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_obstacle"
+msgid "Every part is huge. One trip won’t carry them."
+msgstr "Setiap bagian sangat besar dan berat, tidak bisa dibawa sekaligus."
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_obstacle"
+msgid "The roads have felt a bit odd lately."
+msgstr "Akhir-akhir ini suasana jalurnya agak janggal."
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_obstacle"
+msgid "Sailing costs money. Let’s earn some at the shop."
+msgstr "Berlayar butuh modal. Ayo kumpulkan uang dengan berdagang."
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_praise"
+msgid "Amazing, you cleared it!"
+msgstr "Luar biasa, selamat telah menyelesaikannya!"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_praise"
+msgid "Let’s keep going with the next quest"
+msgstr "Ayo semangat untuk misi berikutnya"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_praise"
+msgid "Awesome! What adventure next?"
+msgstr "Keren! Petualangan apa selanjutnya?"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Emeralia Grass"
+msgstr "Rumput Emeralia"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Sea Urchin"
+msgstr "Bulu Babi"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Distilled Water"
+msgstr "Air Suling"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Forest Honey"
+msgstr "Madu Hutan"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Radiant Shell"
+msgstr "Kerang Berkilau"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Magic Ore Shard"
+msgstr "Pecahan Bijih Sihir"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Vitality Mushroom"
+msgstr "Jamur Vitalitas"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Driftwood Log"
+msgstr "Kayu Hanyut"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Ironwood Grain"
+msgstr "Kayu Besi"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Sailcloth Scrap"
+msgstr "Kain Layar"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Healing Bottle"
+msgstr "Botol Pemulih"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Bomb Vial"
+msgstr "Botol Bom"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Guardian Charm Ring"
+msgstr "Cincin Pelindung"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Ancient Relic"
+msgstr "Peninggalan Kuno"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Stamina Apple"
+msgstr "Apel Stamina"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "recipe"
+msgid "Healing Bottle"
+msgstr "Botol Pemulih"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "recipe"
+msgid "Bomb Vial"
+msgstr "Botol Bom"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "recipe"
+msgid "Guardian Charm Ring"
+msgstr "Cincin Pelindung"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Kurken Island Area"
+msgstr "Daerah Sekitar Pulau Kurken"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Cleria Region"
+msgstr "Wilayah Cleria"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Nemed Region"
+msgstr "Wilayah Nemed"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Underworld Orim"
+msgstr "Dunia Lain Orim"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Royal Capital Area"
+msgstr "Daerah Sekitar Ibu Kota"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Kurken Island"
+msgstr "Pulau Kurken"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Pixie Forest"
+msgstr "Hutan Pixie"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Traveler’s Road"
+msgstr "Jalan Pengelana"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Sunken Mine"
+msgstr "Tambang Tenggelam"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Hidden Cove"
+msgstr "Teluk Tersembunyi"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Meteor Castle"
+msgstr "Kastel Meteor"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Weissberg Volcano"
+msgstr "Gunung Berapi Weissberg"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Maple Delta"
+msgstr "Delta Maple"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Liese Gorge"
+msgstr "Ngarai Liese"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Pynnor Holy Tower"
+msgstr "Menara Suci Pynnor"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Forgotten Village"
+msgstr "Desa Terbengkalai"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Old Mansion"
+msgstr "Rumah Megah Kuno"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Kark Isles"
+msgstr "Kepulauan Kark"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Code of the Universe"
+msgstr "Kitab Semesta"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Mining Highway"
+msgstr "Jalur Penambangan"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Sardonica"
+msgstr "Sardonica"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Astrard Heights"
+msgstr "Dataran Tinggi Astrard"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Magic Stone Path"
+msgstr "Jalur Batu Sihir"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Scintilla Mine"
+msgstr "Tambang Scintilla"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Poluta Hills"
+msgstr "Perbukitan Poluta"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Nemed Great Forest"
+msgstr "Hutan Rimba Nemed"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Flower Road Farmland"
+msgstr "Lahan Pertanian Jalur Bunga"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Dragon Tail Mountain Path"
+msgstr "Jalur Gunung Ekor Naga"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Abandoned Mountain Temple"
+msgstr "Kuil Gunung Terbengkalai"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Urdis Sanctuary"
+msgstr "Tempat Suci Urdis"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Bird’s Pass"
+msgstr "Celah Burung"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Eternity’s Coffer"
+msgstr "Peti Keabadian"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Capital Outskirts"
+msgstr "Pinggiran Ibu Kota"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Ashra-am Baird"
+msgstr "Ashra-am Baird"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Windcall Valley"
+msgstr "Lembah Angin Semilir"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Capital South"
+msgstr "Selatan Ibu Kota"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Northern Lands"
+msgstr "Dataran Utara"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Dragon’s Coffin"
+msgstr "Peti Mati Naga Suci"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Ancient Mana Workshop"
+msgstr "Bengkel Mana Kuno"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Maiden’s Tomb"
+msgstr "Makam Putri Bawah Tanah"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Submerged City"
+msgstr "Kota Bintang Dasar Air"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Mirage Land"
+msgstr "Lahan Fatamorgana"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Valley of Dragon Bones"
+msgstr "Lembah Tulang Naga Legendaris"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Spire Reservoir"
+msgstr "Waduk Menara"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Magic Stone Lighthouse"
+msgstr "Mercusuar Batu Sihir"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Ryza’s Home"
+msgstr "Rumah Ryza"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Goat Pasture"
+msgstr "Padang Rumput Kambing"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Resting Plaza"
+msgstr "Alun-Alun Istirahat"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Waterfall Basin"
+msgstr "Kolam Air Terjun"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Secret Hideout Front"
+msgstr "Depan Tempat Persembunyian"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Floral Circle"
+msgstr "Lingkaran Bunga Berwarna"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Lantern Tree"
+msgstr "Pohon Lentera"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Stump Stage"
+msgstr "Panggung Tunggul Pohon"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Opposite Shore Beach"
+msgstr "Pantai Seberang"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Giant Weasel Flower Garden"
+msgstr "Taman Bunga Musang Raksasa"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Old Road Ruins"
+msgstr "Reruntuhan Jalur Lama"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Fork Tree"
+msgstr "Pohon Besar Percabangan"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Altar of the Rare Ones"
+msgstr "Altar Kaum Langka"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Star-viewing Heights"
+msgstr "Bukit Pengamatan Bintang"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgid "Full Stamina Recovery"
+msgstr "Pemulihan Stamina Penuh"
+
+#. 0: r.amount
+#: src/lib/i18n/game-content.svelte.ts
+msgid "{0} Gold"
+msgstr "{0} Gold"
+
+#. 0: r.money; 1: r.exp
+#: src/lib/i18n/game-content.svelte.ts
+msgid "{0} Gold + EXP +{1} + Full Heal"
+msgstr "{0} Gold + EXP +{1} + Pulih Penuh"
+
+#. 0: r.money; 1: relic
+#: src/lib/i18n/game-content.svelte.ts
+msgid "Treasure Chest: {0} Gold + {1}"
+msgstr "Peti Harta: {0} Gold + {1}"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgid "Ryza Game Content"
+msgstr "Konten Game Ryza"

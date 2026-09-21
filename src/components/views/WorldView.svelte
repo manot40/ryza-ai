@@ -6,7 +6,6 @@
   import { overlayStore } from '$lib/stores/overlay.svelte';
   import { talkLoop } from '$lib/talk-loop.svelte';
   import { toast } from '$lib/stores/toast.svelte';
-  import { getWorldLockedToast } from '$lib/i18n/game-content';
 
   import Header from './Header.svelte';
   import TodToggle from '$components/TodToggle.svelte';
@@ -37,7 +36,7 @@
   function handleSelectStage(stageId: string) {
     const areaId = world.areaOf(stageId);
     if (areaId && world.locked(areaId)) {
-      toast.err(getWorldLockedToast());
+      toast.err('No ship, no leaving Kurken Island (finish Main Quest 8)');
       return;
     }
     talkLoop.gotoStage(stageId);
@@ -70,7 +69,7 @@
         : 'bg-card/70 text-foreground/80 hover:bg-card border-border/40'} {isLocked ? 'opacity-50' : ''}"
       onclick={() => {
         if (isLocked) {
-          toast.err(getWorldLockedToast());
+          toast.err('No ship, no leaving Kurken Island (finish Main Quest 8)');
           return;
         }
         selectedAreaId = area.id;

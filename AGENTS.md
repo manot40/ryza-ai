@@ -78,10 +78,10 @@ scripts/
 
 ### Code & Typing Standards
 
-- **Strictly No `any`** — Every variable, parameter, and return value must have a definitive type. If a value is non-deterministic or externally shaped, use `unknown` with runtime type narrowing.
+- **Strictly No** **`any`** — Every variable, parameter, and return value must have a definitive type. If a value is non-deterministic or externally shaped, use `unknown` with runtime type narrowing.
 - **Svelte 5 Runes** — Use modern Svelte 5 syntax: `$state()`, `$derived()`, `$derived.by()`, `$effect()`, `$props()`, and `$bindable()`. Do not use legacy Svelte 3/4 reactive syntax (`export let`, `$:`) in new code.
-- **Use `es-toolkit`** — For array, object, and utility operations commonly found in Lodash, prefer `es-toolkit`.
-- **Always use `bun` or `bunx`** — Do not invoke `npm`, `pnpm`, or `yarn`.
+- **Use** **`es-toolkit`** — For array, object, and utility operations commonly found in Lodash, prefer `es-toolkit`.
+- **Always use** **`bun`** **or** **`bunx`** — Do not invoke `npm`, `pnpm`, or `yarn`.
 
 ### Spine Rendering & Canvas Interactivity
 
@@ -109,6 +109,103 @@ scripts/
   - **Ryza Replies**: Sets the LLM character response language (`auto`, `ja`, `en`, `zh`, `id`).
   - **Speech Language**: Sets the TTS generation language.
 - In-character Japanese lore and prompt instructions remain authentic.
+
+### Wuchale i18n Patterns
+
+The project uses **wuchale** for compile-first i18n. Two patterns are used depending on file type.
+
+> **Important note about** **`state_referenced_locally`**:
+>
+> When wuchale transforms strings inside class methods, Svelte emits a `state_referenced_locally`
+> warning. This does **not** mean the strings are stale — it means they are not reactively tracked.
+> For **imperative calls** (toasts, one-shot messages, `game.remember()`), the current locale value
+> is read at call time, which is correct. The warning only matters if the string is used in a
+> reactive context (template binding, `$effect` dependency) where it needs to update automatically.
+>
+> For workaround, the translated string can be placed outside the class as constant or getter function if the text is string template:
+>
+> ```ts
+> //# mystore.svelte.ts
+>
+> /** This would be transpiled by wuchale as $derived on runtime */
+> const tlKey = 'Translate Value';
+> /** Would also be transpiled by wuchale */
+> const tlGetter = (str: string) => `foo ${str}`;
+>
+> class MyController {
+>   ...
+>   showToast() {
+>     // This won't trigger any warning,
+>     // since we read the translated value as getter
+>     toast.show(tlKey);
+>     // Bar shouldn't translated so we put `@wc-ignore`
+>     // @wc-ignore
+>     this.message = tlGetter('bar');
+>   }
+> }
+> ```
+
+**Pattern A — Direct inlining:**
+
+- Write English strings directly at the call site.
+- Wuchale auto-extracts string literals and template literals.
+- Template literal interpolations (`` `${x}` ``) become `{0}` placeholders in the catalog.
+- Works in:
+  - `.svelte` component files (templates and `<script>` blocks) — fully reactive
+  - `.svelte.ts` class methods — works for imperative calls (warning is benign)
+- Example:
+
+  ```svelte
+  <script>
+    function handleError(err: string) {
+      toast.err(`Network error: ${err}`);
+    }
+  </script>
+
+  <button onclick={() => toast.show('Saved successfully!')}>Save</button>
+  ```
+
+**Pattern B — Messages file (when Pattern A is not viable):**
+
+- Use when you need reactive string values from a `.svelte.ts` file, or when a file has
+  exported data structures that would cause `derived_invalid_export` errors.
+- Create a separate `*-messages.svelte.ts` file with getter functions:
+
+  ```ts
+  const TOAST = {
+    NO_STAMINA: "Not enough stamina…!",
+    NETWORK_ERROR: "Network error: {0}",
+  };
+
+  export function getToast(key: keyof typeof TOAST): string {
+    return TOAST[key];
+  }
+  ```
+
+- Import and call these functions from the store. Each call reads the current catalog value.
+
+**When to use which:**
+
+| File type                                                   | Pattern             | `@wc-ignore-file`?  | Why                                                               |
+| ----------------------------------------------------------- | ------------------- | ------------------- | ----------------------------------------------------------------- |
+| `.svelte` component                                         | A — Direct inlining | No                  | Fully reactive in templates                                       |
+| `.svelte.ts` — class methods, imperative calls only         | A — Direct inlining | No (can be removed) | `state_referenced_locally` warning is benign for imperative calls |
+| `.svelte.ts` — strings used reactively (templates, $effect) | B — Messages file   | Optional            | Getter functions read current value each call                     |
+| `.svelte.ts` — exported data structures with strings        | B — Messages file   | Yes (required)      | Avoids `derived_invalid_export` compile error                     |
+
+**Key rules:**
+
+- **Never remove** **`@wc-ignore-file`** from files that export data structures containing many
+  string literals (e.g. `quests.CHAIN`, `quests.POOL`) — it will cause `derived_invalid_export`.
+- **Can remove** **`@wc-ignore-file`** from class-based stores that only use strings in imperative
+  calls (toasts, logging, etc.) — the `state_referenced_locally` warning is expected and benign.
+- **Use `// @wc-ignore`** on the line before a statement to exclude individual strings from
+  extraction. Works for function calls (`game.remember()`, `toast.show()`) and variable declarations.
+- **Inline `/* @wc-ignore */` does NOT work** for strings inside expressions (ternaries,
+  concatenation). Extract the string to a local variable with `// @wc-ignore` on the line before.
+- Always use getter functions (not exported `const` or `$derived`) in messages files.
+- Placeholders use ICU `{0}`, `{1}`, … syntax in the catalog; use template literals in source code.
+- Catalog files live in `src/locales/*.po`; compiled catalogs in `src/locales/.wuchale/`.
 
 ---
 

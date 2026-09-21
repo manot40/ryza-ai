@@ -4,7 +4,7 @@
   import Header from './Header.svelte';
   import { Button } from '$components/ui/button';
   import { Card, CardContent } from '$components/ui/card';
-  import { getDailyRewardLabel } from '$lib/i18n/game-content';
+  import { getDailyRewardLabel } from '$lib/i18n/game-content.svelte';
 
   let streak = $state(0);
   let canClaim = $state(false);

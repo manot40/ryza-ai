@@ -18,7 +18,7 @@ import {
   getQuestClearedToast,
   getNoActiveQuestLine,
   getQuestClearedMemory,
-} from '$lib/i18n/game-content';
+} from '$lib/i18n/game-content.svelte';
 
 export interface QuestReward {
   exp: number;

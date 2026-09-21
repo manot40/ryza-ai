@@ -1,7 +1,7 @@
 // @wc-ignore-file
 import { config } from './config.svelte';
 import { game } from './game.svelte';
-import { getWorldName } from '$lib/i18n/game-content';
+import { getWorldName } from '$lib/i18n/game-content.svelte';
 
 export const TODS = ['mor', 'aft', 'eve', 'ngt'] as const;
 export type Tod = (typeof TODS)[number];
