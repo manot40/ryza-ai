@@ -114,7 +114,7 @@ scripts/
 
 The project uses **wuchale** for compile-first i18n. Two patterns are used depending on file type.
 
-> **Important nuance about** **`state_referenced_locally`**:
+> **Important note about** **`state_referenced_locally`**:
 >
 > When wuchale transforms strings inside class methods, Svelte emits a `state_referenced_locally`
 > warning. This does **not** mean the strings are stale — it means they are not reactively tracked.
@@ -122,7 +122,28 @@ The project uses **wuchale** for compile-first i18n. Two patterns are used depen
 > is read at call time, which is correct. The warning only matters if the string is used in a
 > reactive context (template binding, `$effect` dependency) where it needs to update automatically.
 >
->For workaround, the translated string can be placed outside the class as constant or getter function if the text is string template. You can look on `src/lib/talk-loop.svelte.ts` for example.
+> For workaround, the translated string can be placed outside the class as constant or getter function if the text is string template:
+>
+> ```ts
+> //# mystore.svelte.ts
+>
+> /** This would be transpiled by wuchale as $derived on runtime */
+> const tlKey = 'Translate Value';
+> /** Would also be transpiled by wuchale */
+> const tlGetter = (str: string) => `foo ${str}`;
+>
+> class MyController {
+>   ...
+>   showToast() {
+>     // This won't trigger any warning,
+>     // since we read the translated value as getter
+>     toast.show(tlKey);
+>     // Bar shouldn't translated so we put `@wc-ignore`
+>     // @wc-ignore
+>     this.message = tlGetter('bar');
+>   }
+> }
+> ```
 
 **Pattern A — Direct inlining:**
 

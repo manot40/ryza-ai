@@ -1,4 +1,4 @@
-import { getItemName } from '$lib/i18n/game-content';
+import { getItemName } from '$lib/i18n/game-content.svelte';
 
 export interface ItemDef {
   name: string;

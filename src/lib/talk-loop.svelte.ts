@@ -14,7 +14,7 @@ import { sound } from '$lib/audio/sound';
 import { voiceBank } from '$lib/audio/voicebank';
 import { alarm, todForHour } from '$lib/stores/alarm.svelte';
 import { Langs } from '$lib/i18n/langs';
-import { getGreeting } from '$lib/i18n/game-content';
+import { getGreeting } from '$lib/i18n/game-content.svelte';
 import {
   chat as apiChat,
   speak as apiSpeak,

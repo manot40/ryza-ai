@@ -1814,78 +1814,795 @@ msgstr "文字模式"
 msgid "Chat Mode"
 msgstr "闲聊模式"
 
+#: src/lib/i18n/game-content.svelte.ts
 #: src/lib/stores/session.svelte.ts
 msgid "Daily login bonus is available!"
 msgstr "每日登录奖励已送达！"
 
 #: src/components/views/WorldView.svelte
 #: src/components/views/WorldView.svelte
+#: src/lib/i18n/game-content.svelte.ts
 #: src/lib/talk-loop.svelte.ts
 msgid "No ship, no leaving Kurken Island (finish Main Quest 8)"
 msgstr "还没有船，去不了库肯岛以外（完成主线8「造船出海」）"
 
+#: src/lib/i18n/game-content.svelte.ts
 #: src/lib/talk-loop.svelte.ts
 msgid "You sailed! The world map is open"
 msgstr "出航成功！世界地图已解锁"
 
+#: src/lib/i18n/game-content.svelte.ts
 #: src/lib/talk-loop.svelte.ts
 msgid "API key is not configured"
 msgstr "未配置 API 密钥"
 
+#: src/lib/i18n/game-content.svelte.ts
 #: src/lib/talk-loop.svelte.ts
 msgid "Not enough stamina…!"
 msgstr "精力不足…！"
 
+#. 0: msg
 #. 0: em
+#: src/lib/i18n/game-content.svelte.ts
 #: src/lib/talk-loop.svelte.ts
 msgid "Network error: {0}"
 msgstr "网络错误: {0}"
 
+#. 0: place
 #. 0: label
+#: src/lib/i18n/game-content.svelte.ts
 #: src/lib/talk-loop.svelte.ts
 msgid "Travel: {0}"
 msgstr "移动：{0}"
 
+#: src/lib/i18n/game-content.svelte.ts
 #: src/lib/stores/session.svelte.ts
 #: src/lib/talk-loop.svelte.ts
 msgid "Rested safely at home — stamina fully restored!"
 msgstr "在安全的家里睡了一觉，精力完全恢复！"
 
+#. 0: slot
 #. 0: index + 1
+#: src/lib/i18n/game-content.svelte.ts
 #: src/lib/stores/session.svelte.ts
 msgid "Game saved to slot {0}"
 msgstr "已保存到存档槽 {0}"
 
+#. 0: slot
 #. 0: index + 1
+#: src/lib/i18n/game-content.svelte.ts
 #: src/lib/stores/session.svelte.ts
 msgid "Game loaded from slot {0}"
 msgstr "已从存档槽 {0} 读取"
 
-#~ msgid "Quest cleared! Claimed +{0} EXP, +{1} G."
-#~ msgstr "任务完成！获得 +{0} EXP / +{1} G"
+#. 0: reward.exp; 1: reward.money
+#: src/lib/i18n/game-content.svelte.ts
+msgid "Quest cleared! Claimed +{0} EXP, +{1} G."
+msgstr "任务完成！获得 +{0} EXP / +{1} G"
 
-#~ msgid "Quest cleared! Reward claimed."
-#~ msgstr "任务完成！已领取奖励"
+#: src/lib/i18n/game-content.svelte.ts
+msgid "Quest cleared! Reward claimed."
+msgstr "任务完成！已领取奖励"
 
-#~ msgid "No active quest right now. Let’s ask for a new objective."
-#~ msgstr "目前没有任务。去想想新的目标吧。"
+#: src/lib/i18n/game-content.svelte.ts
+msgid "No active quest right now. Let’s ask for a new objective."
+msgstr "目前没有任务。去想想新的目标吧。"
 
-#~ msgid "Cleared \"{0}\"! +{1}EXP / +{2}G"
-#~ msgstr "完成「{0}」！ +{1}EXP / +{2}G"
+#. 0: title; 1: reward.exp; 2: reward.money
+#: src/lib/i18n/game-content.svelte.ts
+msgid "Cleared \"{0}\"! +{1}EXP / +{2}G"
+msgstr "完成「{0}」！ +{1}EXP / +{2}G"
 
 #: src/components/sheets/InventorySheet.svelte
+#: src/lib/i18n/game-content.svelte.ts
 msgid "Not enough Gold to upgrade bag!"
 msgstr "金币不足，无法升级背包！"
 
 #. 0: targetTier.toUpperCase()
+#. 0: up
 #: src/components/sheets/InventorySheet.svelte
+#: src/lib/i18n/game-content.svelte.ts
 msgid "Bag upgraded to {0}! Capacity increased."
 msgstr "背包已升级至 {0}！容量提升。"
 
 #: src/components/sheets/InventorySheet.svelte
+#: src/lib/i18n/game-content.svelte.ts
 msgid "Failed to upgrade bag."
 msgstr "升级背包失败。"
 
 #: src/lib/stores/session.svelte.ts
 msgid "Kurken Island"
-msgstr ""
+msgstr "库肯岛"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_1"
+msgid "Let’s Talk First"
+msgstr "先来聊聊天吧"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_1"
+msgid "Chat with Ryza and get used to each other."
+msgstr "和莱莎对话，更熟悉彼此一点。"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_1"
+msgid "Talk to Ryza 4 times"
+msgstr "和莱莎聊4次"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_2"
+msgid "Explore the Island"
+msgstr "在岛各处冒险"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_2"
+msgid "Open the world map and travel somewhere else."
+msgstr "打开世界地图，移动到别的地方。"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_2"
+msgid "Move to another stage twice"
+msgstr "移动到别的舞台2次"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_3"
+msgid "Gathering Adventure"
+msgstr "采集素材的冒险"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_3"
+msgid "Collect adventuring materials. Fill that bag!"
+msgstr "冒险要用的材料采集。把背包装满吧。"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_3"
+msgid "Gather 3 materials"
+msgstr "采集3个素材"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_4"
+msgid "First Synthesis"
+msgstr "第一次调和"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_4"
+msgid "Try alchemy with the materials you gathered!"
+msgstr "用采集来的素材，和莱莎一起挑战调和！"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_4"
+msgid "Craft successfully once"
+msgstr "成功调和1次"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_5"
+msgid "Monster in the Way"
+msgstr "挡路的魔物"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_5"
+msgid "A monster showed up. Break through with crafted items."
+msgstr "冒险途中冒出魔物了。用调和道具突破吧。"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_5"
+msgid "Win one battle"
+msgstr "赢得1次战斗"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_6"
+msgid "A Day Running the Shop"
+msgstr "经营店铺一整天"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_6"
+msgid "Set out spare items and earn some pocket money."
+msgstr "摆出不需要的道具，赚点零花钱。"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_6"
+msgid "Sell items at the shop"
+msgstr "在店里卖出道具"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_7"
+msgid "Gather Ship Parts"
+msgstr "收集造船材料"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_7"
+msgid "Collect 4 ship parts"
+msgstr "凑齐4个船部件"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_8"
+msgid "Set Sail, Free!"
+msgstr "乘船自由远航"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_8"
+msgid "Finish the ship and leave Kurken Island! The world map opens."
+msgstr "完成造船，离开库肯岛！世界地图就此解锁。"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_8"
+msgid "Pay 200G and sail"
+msgstr "用200G出航"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_1"
+msgid "A New Recipe"
+msgstr "新配方"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_1"
+msgid "Dream up a synthesis you have never tried."
+msgstr "和莱莎一起想一个从没试过的调和。"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_1"
+msgid "Craft successfully once"
+msgstr "成功调和1次"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_2"
+msgid "Spring Materials"
+msgstr "水源地的材料"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_2"
+msgid "Search near the waterfall pool at the spring."
+msgstr "去库肯岛水源瀑布潭附近找新材料。"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_2"
+msgid "Gather 2 materials"
+msgstr "采集2个素材"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_3"
+msgid "Stargazing"
+msgstr "去看星星"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_3"
+msgid "Walk together to the star-viewing height at night."
+msgstr "夜里一起走到库克群岛的观星高台。"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_3"
+msgid "Move to a night stage"
+msgstr "移动到夜晚的舞台"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_4"
+msgid "Ruined Village Resident"
+msgstr "废村的住客"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_4"
+msgid "Deal with whatever bothers you in the forgotten ruins."
+msgstr "去被遗忘的废村，收拾挡路的家伙。"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_4"
+msgid "Win one battle"
+msgstr "赢得1次战斗"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_5"
+msgid "Street Vendor Day"
+msgstr "移动贩卖的一天"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_5"
+msgid "How about a little business at the harbor plaza?"
+msgstr "在港口广场做点小买卖怎么样？"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_5"
+msgid "Sell items at the shop"
+msgstr "在店里卖出道具"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_6"
+msgid "Memory Lane"
+msgstr "回忆往事"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_6"
+msgid "Recall the day we first met, slowly."
+msgstr "慢慢回忆两人初次见面的那天。"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_6"
+msgid "Talk to Ryza 3 times"
+msgstr "和莱莎聊3次"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_7"
+msgid "Snack Hunt"
+msgstr "寻找点心"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_7"
+msgid "Gather sweet ingredients for my snack."
+msgstr "采集甜点的材料，给莱莎做点心。"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_7"
+msgid "Gather 2 materials"
+msgstr "采集2个素材"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_8"
+msgid "Ruins Expedition"
+msgstr "遗迹探索"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_8"
+msgid "Let’s look deeper into the sealed sanctuary."
+msgstr "一起走到封印祭殿的深处看看。"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_8"
+msgid "Move to another stage"
+msgstr "移动到别的舞台"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_obstacle"
+msgid "Good stuff grows deeper in, apparently."
+msgstr "好素材好像得往深处走才采得到。"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_obstacle"
+msgid "Synthesis fails easy — gather spare materials first."
+msgstr "调和容易失手，材料先多备点吧。"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_obstacle"
+msgid "Um, if something too strong shows up we can run… probably."
+msgstr "啊，遇到太强跑掉也没关系啦…大概。"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_obstacle"
+msgid "Not sure it will sell, but worth a try!"
+msgstr "不一定卖得动，但不试试怎么知道！"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_obstacle"
+msgid "Every part is huge. One trip won’t carry them."
+msgstr "每个部件都又大又重，一趟可搬不完。"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_obstacle"
+msgid "The roads have felt a bit odd lately."
+msgstr "最近路上的样子有点怪怪的。"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_obstacle"
+msgid "Sailing costs money. Let’s earn some at the shop."
+msgstr "出航还需要资金。开店赚一笔吧。"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_praise"
+msgid "Amazing, you cleared it!"
+msgstr "厉害，通关恭喜！"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_praise"
+msgid "Let’s keep going with the next quest"
+msgstr "下一个任务也加油吧"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_praise"
+msgid "Awesome! What adventure next?"
+msgstr "太棒了！下次去什么样的冒险？"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Emeralia Grass"
+msgstr "翡翠草"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Sea Urchin"
+msgstr "海胆"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Distilled Water"
+msgstr "蒸馏水"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Forest Honey"
+msgstr "森林蜂蜜"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Radiant Shell"
+msgstr "光辉贝壳"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Magic Ore Shard"
+msgstr "魔石矿碎片"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Vitality Mushroom"
+msgstr "元气菇"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Driftwood Log"
+msgstr "漂流木"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Ironwood Grain"
+msgstr "坚铁木"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Sailcloth Scrap"
+msgstr "帆布碎片"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Healing Bottle"
+msgstr "回复药（草豆）"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Bomb Vial"
+msgstr "爆弹瓶"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Guardian Charm Ring"
+msgstr "守护指轮"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Ancient Relic"
+msgstr "古代遗物"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Stamina Apple"
+msgstr "体力苹果"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "recipe"
+msgid "Healing Bottle"
+msgstr "回复瓶"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "recipe"
+msgid "Bomb Vial"
+msgstr "爆弹瓶"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "recipe"
+msgid "Guardian Charm Ring"
+msgstr "守护指轮"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Kurken Island Area"
+msgstr "库肯岛周边地区"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Cleria Region"
+msgstr "克莱莉亚地区"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Nemed Region"
+msgstr "内梅德地区"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Underworld Orim"
+msgstr "异界奥里姆"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Royal Capital Area"
+msgstr "王都周边地区"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Kurken Island"
+msgstr "库肯岛"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Pixie Forest"
+msgstr "小妖精之森"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Traveler’s Road"
+msgstr "旅人之道"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Sunken Mine"
+msgstr "水没坑道"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Hidden Cove"
+msgstr "隐秘入江"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Meteor Castle"
+msgstr "流星古城"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Weissberg Volcano"
+msgstr "魏斯伯格火山"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Maple Delta"
+msgstr "枫叶三角洲"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Liese Gorge"
+msgstr "丽泽峡谷"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Pynnor Holy Tower"
+msgstr "皮奥尼尔圣塔"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Forgotten Village"
+msgstr "被遗忘的废村"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Old Mansion"
+msgstr "陈旧大宅"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Kark Isles"
+msgstr "库克群岛"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Code of the Universe"
+msgstr "万象大典"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Mining Highway"
+msgstr "采掘街道"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Sardonica"
+msgstr "萨尔多尼卡"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Astrard Heights"
+msgstr "阿斯特拉德高地"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Magic Stone Path"
+msgstr "魔石搬运路"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Scintilla Mine"
+msgstr "欣蒂拉矿山"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Poluta Hills"
+msgstr "波鲁塔丘陵"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Nemed Great Forest"
+msgstr "内梅德大森林"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Flower Road Farmland"
+msgstr "花道田园"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Dragon Tail Mountain Path"
+msgstr "龙尾大山道"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Abandoned Mountain Temple"
+msgstr "山顶的废神殿"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Urdis Sanctuary"
+msgstr "乌尔迪斯的圣迹"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Bird’s Pass"
+msgstr "鸟之峠"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Eternity’s Coffer"
+msgstr "悠远之匣"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Capital Outskirts"
+msgstr "王都近郊"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Ashra-am Baird"
+msgstr "王都阿斯拉・阿姆・伯特"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Windcall Valley"
+msgstr "风鸣谷"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Capital South"
+msgstr "王都南方"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Northern Lands"
+msgstr "北方大地"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Dragon’s Coffin"
+msgstr "灵龙之棺"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Ancient Mana Workshop"
+msgstr "古代玛娜工房"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Maiden’s Tomb"
+msgstr "地下少女墓所"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Submerged City"
+msgstr "水底星都"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Mirage Land"
+msgstr "蜃景湿地"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Valley of Dragon Bones"
+msgstr "传承龙骨谷"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Spire Reservoir"
+msgstr "尖塔储水池"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Magic Stone Lighthouse"
+msgstr "魔石灯塔"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Ryza’s Home"
+msgstr "莱莎的家"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Goat Pasture"
+msgstr "山羊牧场"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Resting Plaza"
+msgstr "安憩广场"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Waterfall Basin"
+msgstr "水源瀑布潭"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Secret Hideout Front"
+msgstr "秘密藏身处前"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Floral Circle"
+msgstr "彩花圆环"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Lantern Tree"
+msgstr "提灯树"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Stump Stage"
+msgstr "树桩舞台"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Opposite Shore Beach"
+msgstr "对岸沙滩"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Giant Weasel Flower Garden"
+msgstr "大鼬花园"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Old Road Ruins"
+msgstr "旧街道遗迹"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Fork Tree"
+msgstr "分岔大树"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Altar of the Rare Ones"
+msgstr "罕见者祭坛"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Star-viewing Heights"
+msgstr "观星高台"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgid "Full Stamina Recovery"
+msgstr "体力完全恢复"
+
+#. 0: r.amount
+#: src/lib/i18n/game-content.svelte.ts
+msgid "{0} Gold"
+msgstr "{0} 金币"
+
+#. 0: r.money; 1: r.exp
+#: src/lib/i18n/game-content.svelte.ts
+msgid "{0} Gold + EXP +{1} + Full Heal"
+msgstr "{0} 金币 + EXP +{1} + 完全回复"
+
+#. 0: r.money; 1: relic
+#: src/lib/i18n/game-content.svelte.ts
+msgid "Treasure Chest: {0} Gold + {1}"
+msgstr "宝箱：{0} 金币 + {1}"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgid "Ryza Game Content"
+msgstr "莱莎 游戏内容"
