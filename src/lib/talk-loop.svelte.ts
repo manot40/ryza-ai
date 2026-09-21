@@ -1,4 +1,3 @@
-// @wc-ignore-file
 import { config, type StateConfig } from '$lib/stores/config.svelte';
 import { game } from '$lib/stores/game.svelte';
 import { memory } from '$lib/stores/memory.svelte';
@@ -15,16 +14,7 @@ import { sound } from '$lib/audio/sound';
 import { voiceBank } from '$lib/audio/voicebank';
 import { alarm, todForHour } from '$lib/stores/alarm.svelte';
 import { Langs } from '$lib/i18n/langs';
-import {
-  getGreeting,
-  getMoveToast,
-  getNetworkErrorToast,
-  getNoApiKeyToast,
-  getNoStaminaToast,
-  getRestFullToast,
-  getSailedToast,
-  getWorldLockedToast,
-} from '$lib/i18n/game-content';
+import { getGreeting } from '$lib/i18n/game-content';
 import {
   chat as apiChat,
   speak as apiSpeak,
@@ -35,6 +25,14 @@ import {
 import { TypewriterController } from '$lib/typewriter';
 
 const RPG_MODES: Record<string, number> = { chat: 1, story: 1, immersive: 1 };
+
+const tlApiKeyMissing = 'API key is not configured';
+const tlNoStamina = 'Not enough stamina…!';
+const tlNetworkError = (em: string) => `Network error: ${em}`;
+const tlNoShip = 'No ship, no leaving Kurken Island (finish Main Quest 8)';
+const tlTravel = (label: string) => `Travel: ${label}`;
+const tlRestSafely = 'Rested safely at home — stamina fully restored!';
+const tlYouSailed = 'You sailed! The world map is open';
 
 export class TalkLoopController {
   speaking = $state(false);
@@ -101,17 +99,15 @@ export class TalkLoopController {
   /* --------------------------------------------------- Prompt Contexts */
   private _peopleBlock(st: StateConfig): string {
     if (!world.npcs) return '';
+    // @wc-ignore
     const lines = ['## この世界の人々（ライザ以外）'];
     const stageId = String(st.stage || HOME_STAGE);
     const day = Number(st.day) || 1;
     const here = world.npcsAt(stageId, day);
 
-    lines.push(
-      '- いま同じ場所にいる人：' +
-        (here.length
-          ? here.map((n) => world.npcName(n.id) + (n.note ? `（${n.note}）` : '')).join('、')
-          : 'いない')
-    );
+    // prettier-ignore
+    // @wc-ignore
+    lines.push('- いま同じ場所にいる人：' + (here.length ? here.map((n) => world.npcName(n.id) + (n.note ? `（${n.note}）` : '')).join('、') : 'いない'));
 
     const known: Record<string, { id: string; note?: string }> = {};
     (world.npcs.npcs || []).forEach((n) => {
@@ -125,10 +121,9 @@ export class TalkLoopController {
       .slice(0, 16);
 
     if (met.length) {
-      lines.push(
-        '- これまでに会った人：' +
-          met.map((n) => world.npcName(n.id) + (n.note ? `（${n.note}）` : '')).join('、')
-      );
+      // prettier-ignore
+      // @wc-ignore
+      lines.push('- これまでに会った人：' + met.map((n) => world.npcName(n.id) + (n.note ? `（${n.note}）` : '')).join('、'));
     }
     return lines.join('\n');
   }
@@ -143,6 +138,7 @@ export class TalkLoopController {
           ? world.todStartHour(String(st.tod || 'aft'))
           : new Date().getHours();
 
+    // @wc-ignore
     return `## 現在時刻\n- 同伴 ${st.day || 1}日目／${world.todLabel(String(st.tod || 'aft'))}（約${hour}時）`;
   }
 
@@ -165,14 +161,14 @@ export class TalkLoopController {
     const llm = config.section('llm') || {};
 
     if (!llm.apiKey) {
-      toast.err(getNoApiKeyToast());
+      toast.err(tlApiKeyMissing);
       viewStore.setView('settings');
       return;
     }
 
     const cost = game.turnCost(String(st.mode || 'chat'), String(st.style || 'normal'));
     if (game.faint() || !game.canAct(cost)) {
-      toast.err(getNoStaminaToast());
+      toast.err(tlNoStamina);
       this.showFaint();
       return;
     }
@@ -243,7 +239,8 @@ export class TalkLoopController {
       this.speaking = false;
       const em = (err as Error)?.message || 'UNKNOWN';
       if (em !== 'NO_KEY') this.retryVisible = true;
-      toast.err(em === 'NO_KEY' ? getNoApiKeyToast() : getNetworkErrorToast(em));
+      toast.err(em === 'NO_KEY' ? tlApiKeyMissing : tlNetworkError(em));
+      // @wc-ignore
       const fallback = '（……うまく聞こえなかった。もう一回言って？）';
       this.displayText = fallback;
       this.pushPage(fallback);
@@ -412,7 +409,7 @@ export class TalkLoopController {
   gotoStage(stageId: string): void {
     const areaId = world.areaOf(stageId);
     if (areaId && world.locked(areaId)) {
-      toast.err(getWorldLockedToast());
+      toast.err(tlNoShip);
       return;
     }
 
@@ -426,12 +423,13 @@ export class TalkLoopController {
 
     const place = world.find(stageId);
     if (place) {
-      toast.show(getMoveToast(world.placeLabel(stageId, place.stage)));
+      toast.show(tlTravel(world.placeLabel(stageId, place.stage)));
     }
 
     const npcs = world.npcsAt(stageId, Number(st.day) || 1);
     const names = game.meetCharas(npcs);
     if (names.length) {
+      // @wc-ignore
       game.remember(names.join('、') + ' と出会った。');
     }
 
@@ -455,18 +453,20 @@ export class TalkLoopController {
     avatarService.loadScene(HOME_STAGE, tod);
     sound.setPlace(HOME_STAGE, tod, world.backgroundFor(HOME_STAGE));
     game.refill();
+    // @wc-ignore
     game.remember('安全なおうちでぐっすり眠った。');
     if (fromStage !== HOME_STAGE) {
       quests.progressEvent('explore');
     }
     overlayStore.closeFaint();
     viewStore.setView('talk');
-    toast.show(getRestFullToast());
+    toast.show(tlRestSafely);
   }
 
   onSailed(): void {
+    // @wc-ignore
     game.remember('船でクーケン島を出航した！');
-    toast.show(getSailedToast());
+    toast.show(tlYouSailed);
     viewStore.setView('world');
   }
 
@@ -496,7 +496,7 @@ export class TalkLoopController {
       if (id) {
         const area = world.areaOf(id);
         if (area && world.locked(area)) {
-          toast.err(getWorldLockedToast());
+          toast.err(tlNoShip);
         } else {
           dest = id;
         }
@@ -534,8 +534,9 @@ export class TalkLoopController {
 
     if (fromTod === 'ngt' && nextTod === 'mor' && dest === HOME_STAGE) {
       game.refill();
+      // @wc-ignore
       game.remember('安全なおうちでぐっすり眠った。');
-      toast.show(getRestFullToast());
+      toast.show(tlRestSafely);
     }
 
     if (nextTod !== fromTod) {

@@ -1813,3 +1813,79 @@ msgstr "文字模式"
 #: src/components/views/TalkView.svelte
 msgid "Chat Mode"
 msgstr "闲聊模式"
+
+#: src/lib/stores/session.svelte.ts
+msgid "Daily login bonus is available!"
+msgstr "每日登录奖励已送达！"
+
+#: src/components/views/WorldView.svelte
+#: src/components/views/WorldView.svelte
+#: src/lib/talk-loop.svelte.ts
+msgid "No ship, no leaving Kurken Island (finish Main Quest 8)"
+msgstr "还没有船，去不了库肯岛以外（完成主线8「造船出海」）"
+
+#: src/lib/talk-loop.svelte.ts
+msgid "You sailed! The world map is open"
+msgstr "出航成功！世界地图已解锁"
+
+#: src/lib/talk-loop.svelte.ts
+msgid "API key is not configured"
+msgstr "未配置 API 密钥"
+
+#: src/lib/talk-loop.svelte.ts
+msgid "Not enough stamina…!"
+msgstr "精力不足…！"
+
+#. 0: em
+#: src/lib/talk-loop.svelte.ts
+msgid "Network error: {0}"
+msgstr "网络错误: {0}"
+
+#. 0: label
+#: src/lib/talk-loop.svelte.ts
+msgid "Travel: {0}"
+msgstr "移动：{0}"
+
+#: src/lib/stores/session.svelte.ts
+#: src/lib/talk-loop.svelte.ts
+msgid "Rested safely at home — stamina fully restored!"
+msgstr "在安全的家里睡了一觉，精力完全恢复！"
+
+#. 0: index + 1
+#: src/lib/stores/session.svelte.ts
+msgid "Game saved to slot {0}"
+msgstr "已保存到存档槽 {0}"
+
+#. 0: index + 1
+#: src/lib/stores/session.svelte.ts
+msgid "Game loaded from slot {0}"
+msgstr "已从存档槽 {0} 读取"
+
+#~ msgid "Quest cleared! Claimed +{0} EXP, +{1} G."
+#~ msgstr "任务完成！获得 +{0} EXP / +{1} G"
+
+#~ msgid "Quest cleared! Reward claimed."
+#~ msgstr "任务完成！已领取奖励"
+
+#~ msgid "No active quest right now. Let’s ask for a new objective."
+#~ msgstr "目前没有任务。去想想新的目标吧。"
+
+#~ msgid "Cleared \"{0}\"! +{1}EXP / +{2}G"
+#~ msgstr "完成「{0}」！ +{1}EXP / +{2}G"
+
+#: src/components/sheets/InventorySheet.svelte
+msgid "Not enough Gold to upgrade bag!"
+msgstr "金币不足，无法升级背包！"
+
+#. 0: targetTier.toUpperCase()
+#: src/components/sheets/InventorySheet.svelte
+msgid "Bag upgraded to {0}! Capacity increased."
+msgstr "背包已升级至 {0}！容量提升。"
+
+#: src/components/sheets/InventorySheet.svelte
+msgid "Failed to upgrade bag."
+msgstr "升级背包失败。"
+
+#: src/lib/stores/session.svelte.ts
+msgid "Kurken Island"
+msgstr ""

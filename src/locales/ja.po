@@ -1813,3 +1813,79 @@ msgstr "テキストモード"
 #: src/components/views/TalkView.svelte
 msgid "Chat Mode"
 msgstr "雑談モード"
+
+#: src/lib/stores/session.svelte.ts
+msgid "Daily login bonus is available!"
+msgstr "デイリーログインボーナスが届いています！"
+
+#: src/components/views/WorldView.svelte
+#: src/components/views/WorldView.svelte
+#: src/lib/talk-loop.svelte.ts
+msgid "No ship, no leaving Kurken Island (finish Main Quest 8)"
+msgstr "船がないとクーケン島の外へは出られない（メイン8をクリア！）"
+
+#: src/lib/talk-loop.svelte.ts
+msgid "You sailed! The world map is open"
+msgstr "出航成功！世界の扉が開いたよ"
+
+#: src/lib/talk-loop.svelte.ts
+msgid "API key is not configured"
+msgstr "APIキーが設定されていません"
+
+#: src/lib/talk-loop.svelte.ts
+msgid "Not enough stamina…!"
+msgstr "元気が足りません…！"
+
+#. 0: em
+#: src/lib/talk-loop.svelte.ts
+msgid "Network error: {0}"
+msgstr "通信エラー: {0}"
+
+#. 0: label
+#: src/lib/talk-loop.svelte.ts
+msgid "Travel: {0}"
+msgstr "移動：{0}"
+
+#: src/lib/stores/session.svelte.ts
+#: src/lib/talk-loop.svelte.ts
+msgid "Rested safely at home — stamina fully restored!"
+msgstr "安全なおうちで眠って、元気が満タンになった！"
+
+#. 0: index + 1
+#: src/lib/stores/session.svelte.ts
+msgid "Game saved to slot {0}"
+msgstr "スロット {0} にセーブしました"
+
+#. 0: index + 1
+#: src/lib/stores/session.svelte.ts
+msgid "Game loaded from slot {0}"
+msgstr "スロット {0} からロードしました"
+
+#~ msgid "Quest cleared! Claimed +{0} EXP, +{1} G."
+#~ msgstr "クエストクリア！ +{0} EXP / +{1} G を獲得しました"
+
+#~ msgid "Quest cleared! Reward claimed."
+#~ msgstr "クエストクリア！報酬を獲得しました"
+
+#~ msgid "No active quest right now. Let’s ask for a new objective."
+#~ msgstr "今はクエストなし。新しいお題を考えてもらおう。"
+
+#~ msgid "Cleared \"{0}\"! +{1}EXP / +{2}G"
+#~ msgstr "「{0}」をクリア！ +{1}EXP / +{2}G"
+
+#: src/components/sheets/InventorySheet.svelte
+msgid "Not enough Gold to upgrade bag!"
+msgstr "ゴールドが足りなくてバッグを拡張できません！"
+
+#. 0: targetTier.toUpperCase()
+#: src/components/sheets/InventorySheet.svelte
+msgid "Bag upgraded to {0}! Capacity increased."
+msgstr "バッグを{0}に拡張しました！容量が増加しました。"
+
+#: src/components/sheets/InventorySheet.svelte
+msgid "Failed to upgrade bag."
+msgstr "バッグの拡張に失敗しました。"
+
+#: src/lib/stores/session.svelte.ts
+msgid "Kurken Island"
+msgstr ""

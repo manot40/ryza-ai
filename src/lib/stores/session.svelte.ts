@@ -1,4 +1,3 @@
-// @wc-ignore-file
 import { config } from './config.svelte';
 import { game } from './game.svelte';
 import { memory } from './memory.svelte';
@@ -9,16 +8,16 @@ import { world } from './world.svelte';
 import { avatarService } from '$lib/avatar/avatar-service.svelte';
 import { sound } from '$lib/audio/sound';
 import { toast } from './toast.svelte';
-import {
-  getDailyBonusNudge,
-  getLoadSlotToast,
-  getRestFullToast,
-  getSaveSlotToast,
-} from '$lib/i18n/game-content';
 
 export const MEM_KEY = 'ryza.memory.v1';
 export const SAVE_KEY = 'ryza.saves.v1';
 export const HOME_STAGE = 'stage_01_001_04';
+
+const tlDailyBonusAvailable = 'Daily login bonus is available!';
+const tlGameSaved = (index: number) => `Game saved to slot ${index + 1}`;
+const tlGameLoaded = (index: number) => `Game loaded from slot ${index + 1}`;
+const tlKurkenIsland = 'Kurken Island';
+const tlRestSafely = 'Rested safely at home — stamina fully restored!';
 
 export interface DiaryEntry {
   who: 'user' | 'ryza';
@@ -136,7 +135,7 @@ export class SessionStore {
     return {
       at: Date.now(),
       day: Number(st.day) || 1,
-      label: place ? `${place.area} / ${place.stage}` : st.stage || 'Kurken Island',
+      label: place ? `${place.area} / ${place.stage}` : st.stage || tlKurkenIsland,
       settings: JSON.parse(config.exportJSON()),
       history: [...this.history],
       memory: [...this.diary],
@@ -185,7 +184,7 @@ export class SessionStore {
     const current = this.loadSlots();
     current[index] = this.createSnapshot();
     this.writeSlots(current);
-    toast.show(getSaveSlotToast(index + 1));
+    toast.show(tlGameSaved(index + 1));
     return true;
   }
 
@@ -195,7 +194,7 @@ export class SessionStore {
     const snap = current[index];
     if (!snap) return false;
     this.applySnapshot(snap);
-    toast.show(getLoadSlotToast(index + 1));
+    toast.show(tlGameLoaded(index + 1));
     return true;
   }
 
@@ -223,8 +222,9 @@ export class SessionStore {
 
     if (prev === 'ngt' && tod === 'mor' && s.stage === HOME_STAGE) {
       game.refill();
+      // @wc-ignore
       game.remember('安全なおうちでぐっすり眠った。');
-      toast.show(getRestFullToast());
+      toast.show(tlRestSafely);
     }
 
     avatarService.loadScene(s.stage, tod);
@@ -261,7 +261,7 @@ export class SessionStore {
     daily.load();
     if (daily.available()) {
       setTimeout(() => {
-        toast.show(getDailyBonusNudge());
+        toast.show(tlDailyBonusAvailable);
       }, 3200);
     }
   }

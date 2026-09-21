@@ -1,3 +1,4 @@
+// @wc-ignore-file
 import { Langs } from './langs';
 
 export type ContentLocale = 'en' | 'ja' | 'zh' | 'id';

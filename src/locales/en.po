@@ -1813,3 +1813,79 @@ msgstr "Text Mode"
 #: src/components/views/TalkView.svelte
 msgid "Chat Mode"
 msgstr "Chat Mode"
+
+#: src/lib/stores/session.svelte.ts
+msgid "Daily login bonus is available!"
+msgstr "Daily login bonus is available!"
+
+#: src/components/views/WorldView.svelte
+#: src/components/views/WorldView.svelte
+#: src/lib/talk-loop.svelte.ts
+msgid "No ship, no leaving Kurken Island (finish Main Quest 8)"
+msgstr "No ship, no leaving Kurken Island (finish Main Quest 8)"
+
+#: src/lib/talk-loop.svelte.ts
+msgid "You sailed! The world map is open"
+msgstr "You sailed! The world map is open"
+
+#: src/lib/talk-loop.svelte.ts
+msgid "API key is not configured"
+msgstr "API key is not configured"
+
+#: src/lib/talk-loop.svelte.ts
+msgid "Not enough stamina…!"
+msgstr "Not enough stamina…!"
+
+#. 0: em
+#: src/lib/talk-loop.svelte.ts
+msgid "Network error: {0}"
+msgstr "Network error: {0}"
+
+#. 0: label
+#: src/lib/talk-loop.svelte.ts
+msgid "Travel: {0}"
+msgstr "Travel: {0}"
+
+#: src/lib/stores/session.svelte.ts
+#: src/lib/talk-loop.svelte.ts
+msgid "Rested safely at home — stamina fully restored!"
+msgstr "Rested safely at home — stamina fully restored!"
+
+#. 0: index + 1
+#: src/lib/stores/session.svelte.ts
+msgid "Game saved to slot {0}"
+msgstr "Game saved to slot {0}"
+
+#. 0: index + 1
+#: src/lib/stores/session.svelte.ts
+msgid "Game loaded from slot {0}"
+msgstr "Game loaded from slot {0}"
+
+#~ msgid "Quest cleared! Claimed +{0} EXP, +{1} G."
+#~ msgstr "Quest cleared! Claimed +{0} EXP, +{1} G."
+
+#~ msgid "Quest cleared! Reward claimed."
+#~ msgstr "Quest cleared! Reward claimed."
+
+#~ msgid "No active quest right now. Let’s ask for a new objective."
+#~ msgstr "No active quest right now. Let’s ask for a new objective."
+
+#~ msgid "Cleared \"{0}\"! +{1}EXP / +{2}G"
+#~ msgstr "Cleared \"{0}\"! +{1}EXP / +{2}G"
+
+#: src/components/sheets/InventorySheet.svelte
+msgid "Not enough Gold to upgrade bag!"
+msgstr "Not enough Gold to upgrade bag!"
+
+#. 0: targetTier.toUpperCase()
+#: src/components/sheets/InventorySheet.svelte
+msgid "Bag upgraded to {0}! Capacity increased."
+msgstr "Bag upgraded to {0}! Capacity increased."
+
+#: src/components/sheets/InventorySheet.svelte
+msgid "Failed to upgrade bag."
+msgstr "Failed to upgrade bag."
+
+#: src/lib/stores/session.svelte.ts
+msgid "Kurken Island"
+msgstr "Kurken Island"

@@ -1813,3 +1813,79 @@ msgstr "Mode Teks"
 #: src/components/views/TalkView.svelte
 msgid "Chat Mode"
 msgstr "Mode Obrolan"
+
+#: src/lib/stores/session.svelte.ts
+msgid "Daily login bonus is available!"
+msgstr "Bonus login harian telah tersedia!"
+
+#: src/components/views/WorldView.svelte
+#: src/components/views/WorldView.svelte
+#: src/lib/talk-loop.svelte.ts
+msgid "No ship, no leaving Kurken Island (finish Main Quest 8)"
+msgstr "Belum punya kapal, belum bisa meninggalkan Pulau Kurken (selesaikan Misi Utama 8)"
+
+#: src/lib/talk-loop.svelte.ts
+msgid "You sailed! The world map is open"
+msgstr "Berhasil berlayar! Peta dunia telah terbuka"
+
+#: src/lib/talk-loop.svelte.ts
+msgid "API key is not configured"
+msgstr "Kunci API belum dikonfigurasi"
+
+#: src/lib/talk-loop.svelte.ts
+msgid "Not enough stamina…!"
+msgstr "Stamina tidak cukup…!"
+
+#. 0: em
+#: src/lib/talk-loop.svelte.ts
+msgid "Network error: {0}"
+msgstr "Kesalahan jaringan: {0}"
+
+#. 0: label
+#: src/lib/talk-loop.svelte.ts
+msgid "Travel: {0}"
+msgstr "Perjalanan: {0}"
+
+#: src/lib/stores/session.svelte.ts
+#: src/lib/talk-loop.svelte.ts
+msgid "Rested safely at home — stamina fully restored!"
+msgstr "Beristirahat di rumah yang aman — stamina pulih sepenuhnya!"
+
+#. 0: index + 1
+#: src/lib/stores/session.svelte.ts
+msgid "Game saved to slot {0}"
+msgstr "Permainan disimpan ke slot {0}"
+
+#. 0: index + 1
+#: src/lib/stores/session.svelte.ts
+msgid "Game loaded from slot {0}"
+msgstr "Permainan dimuat dari slot {0}"
+
+#~ msgid "Quest cleared! Claimed +{0} EXP, +{1} G."
+#~ msgstr "Misi selesai! Mendapatkan +{0} EXP / +{1} G"
+
+#~ msgid "Quest cleared! Reward claimed."
+#~ msgstr "Misi selesai! Hadiah telah diambil"
+
+#~ msgid "No active quest right now. Let’s ask for a new objective."
+#~ msgstr "Tidak ada misi aktif saat ini. Mari minta tujuan baru."
+
+#~ msgid "Cleared \"{0}\"! +{1}EXP / +{2}G"
+#~ msgstr "Selesaikan \"{0}\"! +{1}EXP / +{2}G"
+
+#: src/components/sheets/InventorySheet.svelte
+msgid "Not enough Gold to upgrade bag!"
+msgstr "Gold tidak cukup untuk meningkatkan tas!"
+
+#. 0: targetTier.toUpperCase()
+#: src/components/sheets/InventorySheet.svelte
+msgid "Bag upgraded to {0}! Capacity increased."
+msgstr "Tas ditingkatkan ke {0}! Kapasitas bertambah."
+
+#: src/components/sheets/InventorySheet.svelte
+msgid "Failed to upgrade bag."
+msgstr "Gagal meningkatkan tas."
+
+#: src/lib/stores/session.svelte.ts
+msgid "Kurken Island"
+msgstr ""
