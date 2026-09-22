@@ -7,7 +7,7 @@
   import { world } from '$lib/stores/world.svelte';
   import { viewStore } from '$lib/stores/view.svelte';
 
-  const appState = $derived(config.section('state') || {});
+  const appState = $derived(config.get('state'));
   const isVoice = $derived(appState.style !== 'text');
 
   const modes = [
@@ -19,11 +19,11 @@
   ];
 
   function selectMode(m: string) {
-    config.set('state.mode', m);
+    config.setState('mode', m);
   }
 
   function selectStyle(s: string) {
-    config.set('state.style', s);
+    config.setState('style', s);
   }
 
   function goToWorld() {

@@ -24,6 +24,7 @@
     { id: 'chara', label: 'Character Profile', icon: '/assets/icons/profile.svg' },
     { id: 'skin', label: 'Costumes', icon: '/assets/icons/charaedit.svg' },
     { id: 'memory', label: 'Memories', icon: '/assets/icons/save_data.svg' },
+    { id: 'chat_history', label: 'Chat History', icon: '/assets/icons/voicetoggle.svg' },
     { id: 'settings', label: 'Settings', icon: '/assets/icons/charaedit.svg' },
   ];
 
@@ -51,7 +52,7 @@
         <div class="flex flex-col text-left">
           <Sheet.Title class="text-gold font-bold text-base leading-tight">Ryza</Sheet.Title>
           <Sheet.Description class="text-xs text-muted-foreground mt-0.5">
-            Days together: {config.section('state')?.day || 1}
+            Days together: {config.get('state')?.day || 1}
           </Sheet.Description>
         </div>
       </Sheet.Header>

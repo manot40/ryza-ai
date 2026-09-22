@@ -11,6 +11,7 @@ export const VIEWS = [
   'chara',
   'skin',
   'memory',
+  'chat_history',
   'settings',
   'welcome',
 ] as const;

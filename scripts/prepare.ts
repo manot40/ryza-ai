@@ -3,7 +3,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { exec } from 'node:child_process';
 
-import pkg from '../package.json';
+import pkg from '../config/version.json';
 
 const VERSION = pkg.version;
 const VERSION_LOCAL = './static/assets/VERSION';
@@ -31,7 +31,7 @@ try {
   console.info('Web assets download completed!');
 
   console.info('Extracting assets...');
-  exec(`unzip ${TMP_FILE} -d _extracted assets/assets/**`, (err) => {
+  exec(`unzip ${TMP_FILE} -o -d _extracted assets/assets/**`, (err) => {
     if (err) throw err;
     if (fs.existsSync('./static/assets'))
       // prettier-ignore

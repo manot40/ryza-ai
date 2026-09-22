@@ -119,6 +119,94 @@ export class AvatarEngine {
   private _faceRef: { x: number; y: number } | null = null;
   private _raf = 0;
   private _running = false;
+  readonly PLAYER_ZOOM_MIN = 1.0;
+  readonly PLAYER_ZOOM_MAX = 2.5;
+  readonly PLAYER_ZOOM_STEP = 0.25;
+  readonly PLAYER_PAN_LIMIT = 0.35;
+  private _playerZoom = 1;
+  private _charPanX = 0;
+  private _charPanY = 0;
+  private _variantState: { variant: string; applied: boolean } = { variant: '', applied: false };
+  private _variantNoticed: Record<string, number> = {};
+
+  takeVariantMiss(): { skin: string; variant: string } | null {
+    const st = this._variantState || {};
+    if (!st.variant || st.applied) return null;
+    const key = `${this._loadedSkelId || ''}\0${st.variant}`;
+    if (this._variantNoticed[key]) return null;
+    this._variantNoticed[key] = 1;
+    return { skin: this._loadedSkelId || '', variant: st.variant };
+  }
+
+  playerZoom(): number {
+    return this._playerZoom || 1;
+  }
+
+  charPan(): { x: number; y: number } {
+    return { x: this._charPanX || 0, y: this._charPanY || 0 };
+  }
+
+  panBy(dxPx: number, dyPx: number): { x: number; y: number } {
+    const v = this._view;
+    if (!v || !v.worldW || !v.cssW || !v.cssH) return this.charPan();
+    const cam = this._playerWindow(v);
+    const perX = cam.worldW / v.cssW;
+    const perY = cam.worldH / v.cssH;
+    this._charPanX = this._clampPan(this._charPanX + dxPx * perX, cam.worldW);
+    // Screen Y grows downwards, world Y upwards: the sprite follows the finger
+    this._charPanY = this._clampPan(this._charPanY - dyPx * perY, cam.worldH);
+    this._placeCharacter();
+    return this.charPan();
+  }
+
+  private _clampPan(value: number, span: number): number {
+    const lim = span * this.PLAYER_PAN_LIMIT;
+    return Math.max(-lim, Math.min(lim, value || 0));
+  }
+
+  private _clampCharPan(): void {
+    const v = this._view;
+    if (!v) return;
+    const cam = this._playerWindow(v);
+    if (!cam || !cam.worldW) return;
+    this._charPanX = this._clampPan(this._charPanX, cam.worldW);
+    this._charPanY = this._clampPan(this._charPanY, cam.worldH);
+  }
+
+  private _playerWindow<T extends { left: number; bottom: number; worldW: number; worldH: number }>(
+    win: T
+  ): T {
+    if (!win || !win.worldW) return win;
+    const zoom = this._playerZoom || 1;
+    const w = win.worldW / zoom;
+    const h = win.worldH / zoom;
+    const cx = win.left + win.worldW / 2;
+    const cy = win.bottom + win.worldH / 2 + win.worldH * (zoom - 1) * 0.12;
+    return {
+      ...win,
+      left: cx - w / 2,
+      bottom: cy - h / 2,
+      worldW: w,
+      worldH: h,
+    };
+  }
+
+  zoomBy(delta: number): number {
+    let z = this._playerZoom || 1;
+    z = Math.max(this.PLAYER_ZOOM_MIN, Math.min(this.PLAYER_ZOOM_MAX, z + delta));
+    if (z === this._playerZoom) return z;
+    this._playerZoom = z;
+    this._applyCamera();
+    return z;
+  }
+
+  zoomReset(): number {
+    this._playerZoom = 1;
+    this._charPanX = 0;
+    this._charPanY = 0;
+    this._applyCamera();
+    return 1;
+  }
 
   init(canvas: HTMLCanvasElement): Promise<this> {
     this.host = makeHost(canvas);
@@ -209,18 +297,51 @@ export class AvatarEngine {
     return String(id || 'crf_skn_002_0001').replace(/_(01|99)$/, '');
   }
 
+  outfitPostures(outfitId?: string): string[] {
+    let base = '';
+    try {
+      const id = outfitId == null ? config.get('state')?.skin : outfitId;
+      base = this.outfitOf(id);
+    } catch {
+      base = this.outfitOf(outfitId);
+    }
+    const out: string[] = [];
+    if (!base) return out;
+    (this.skinsIndex || []).forEach((s) => {
+      if (!s || !s.hasSpine || !s.skel) return;
+      if (String(s.id).indexOf(base) !== 0) return;
+      const m = /_(01|99)$/.exec(String(s.id));
+      if (!m) return;
+      const p = m[1] === '99' ? 'posture_standing' : 'posture_sitting';
+      if (out.indexOf(p) < 0) out.push(p);
+    });
+    return out;
+  }
+
+  postureSwitchable(): boolean {
+    return this.outfitPostures().length > 1;
+  }
+
+  shouldResetPosture(): boolean {
+    return this.postureKey() !== 'posture_standing';
+  }
+
   private _scenePostures(): string[] {
     const cfg = this.sceneConfig?.config as unknown as { midgroundPostures?: string[] } | undefined;
     return cfg?.midgroundPostures || [];
   }
 
   postureKey(): string {
-    if (!this.supportsBothPostures()) return 'posture_standing';
+    let want = 'posture_standing';
     try {
-      const want = config.section('state')?.posture;
-      if (want === 'posture_standing' || want === 'posture_sitting') return want;
+      const stored = config.get('state')?.posture;
+      if (stored === 'posture_standing' || stored === 'posture_sitting') want = stored;
     } catch {}
-    return 'posture_standing';
+    const have = this.outfitPostures();
+    if (have.length && have.indexOf(want) < 0) {
+      want = have.indexOf('posture_standing') >= 0 ? 'posture_standing' : have[0];
+    }
+    return want;
   }
 
   private _loadedPosture(): string {
@@ -240,7 +361,7 @@ export class AvatarEngine {
 
   private _asmrOn(): boolean {
     try {
-      return config.section('state')?.mode === 'asmr';
+      return config.get('state')?.mode === 'asmr';
     } catch {
       return false;
     }
@@ -378,6 +499,7 @@ export class AvatarEngine {
       L._atlasBaseTex = pages.map((p) => p.texture);
     }
     const variant = this._cleanVariant(this._atlasVariant);
+    this._variantState = { variant, applied: false };
     if (!variant) {
       for (let i = 0; i < pages.length; i++) {
         if (L._atlasBaseTex[i]) pages[i].setTexture(L._atlasBaseTex[i]);
@@ -390,26 +512,38 @@ export class AvatarEngine {
       for (let i = 0; i < pages.length; i++) {
         pages[i].setTexture(L._atlasVarTex[i] || L._atlasBaseTex[i]);
       }
+      this._variantState.applied = true;
       done();
       return;
     }
     const newTex: unknown[] = new Array(pages.length).fill(null);
     let pending = pages.length;
+    let any = false;
     const finish = () => {
+      pending--;
+      if (pending > 0) return;
+      if (!any) {
+        done();
+        return;
+      }
       this._disposeVariantTex(L);
       L._atlasVarTex = newTex;
       L._atlasVarName = variant;
       for (let i = 0; i < pages.length; i++) {
-        pages[i].setTexture(newTex[i] || L._atlasBaseTex![i]);
+        if (newTex[i]) pages[i].setTexture(newTex[i]);
       }
+      this._variantState.applied = true;
       done();
     };
     for (let idx = 0; idx < pages.length; idx++) {
       const page = pages[idx];
       const urls = this.variantPageUrls(L._atlasUrl || '', page.name, variant);
       this._tryPageUrls(L, urls, (tex) => {
-        newTex[idx] = tex;
-        if (--pending === 0) finish();
+        if (tex) {
+          newTex[idx] = tex;
+          any = true;
+        }
+        finish();
       });
     }
   }
@@ -450,6 +584,7 @@ export class AvatarEngine {
         worldH: h,
       };
     }
+
     this._view = {
       left: win.left,
       bottom: win.bottom,
@@ -459,7 +594,9 @@ export class AvatarEngine {
       cssH: L.cssH,
     };
     this._viewAuth = active;
-    host.mvp.ortho2d(win.left, win.bottom, win.worldW, win.worldH);
+    this._clampCharPan();
+    const camWin = this._playerWindow(win);
+    host.mvp.ortho2d(camWin.left, camWin.bottom, camWin.worldW, camWin.worldH);
     if (host.gl) host.gl.viewport(0, 0, host.canvas.width, host.canvas.height);
     this._placeCharacter();
   }
@@ -520,8 +657,8 @@ export class AvatarEngine {
         if (Math.abs(frac - target) > 0.1) sy += (target - frac) * v.worldH;
       }
     }
-    L.skeleton.x = sx;
-    L.skeleton.y = sy;
+    L.skeleton.x = sx + (this._charPanX || 0);
+    L.skeleton.y = sy + (this._charPanY || 0);
     L.skeleton.scaleX = L.skeleton.scaleY = sc;
   }
 
@@ -743,7 +880,7 @@ export class AvatarEngine {
             this._applySceneConstraints(L, cfg);
             this._cacheMidBind(L);
             this.resize();
-            const outfit = skinId || config.section('state')?.skin || 'crf_skn_002_0001';
+            const outfit = skinId || config.get('state')?.skin || 'crf_skn_002_0001';
             this.loadSkin(outfit, cb);
           });
         });
@@ -785,7 +922,7 @@ export class AvatarEngine {
     if (this._talking || this._tension > 0.66) return 'strong';
     let mode = '';
     try {
-      mode = config.section('state')?.mode;
+      mode = config.get('state')?.mode;
     } catch {}
     return mode === 'asmr' ? 'weak' : 'normal';
   }
@@ -1420,7 +1557,7 @@ export class AvatarEngine {
     const light = this.sceneConfig?.config?.light;
     let rimOn = !this._hideChara && light && light.rimEnabled !== false;
     try {
-      if (config.section('app')?.rim === false) rimOn = false;
+      if (config.get('app')?.rim === false) rimOn = false;
     } catch {}
 
     gl.clearColor(0.16, 0.11, 0.07, 1);

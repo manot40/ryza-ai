@@ -30,11 +30,28 @@ describe('WelcomeStore', () => {
 
     welcome.mark('talk');
     expect(welcome.done('talk')).toBe(true);
-    expect(config.section('state').welcome.talk).toBe(true);
+    expect(config.get('state').welcome.talk).toBe(true);
 
     for (const step of WELCOME_STEPS) {
       welcome.mark(step.id);
     }
     expect(welcome.allDone()).toBe(true);
+  });
+
+  it('manages 3-step groups and activity counters', () => {
+    expect(welcome.groups).toHaveLength(3);
+    const step1 = welcome.groups[0];
+    const step2 = welcome.groups[1];
+
+    expect(welcome.isOpen(step1)).toBe(true);
+    expect(welcome.isOpen(step2)).toBe(false);
+
+    welcome.bumpDay(3);
+    expect(welcome.isOpen(step2)).toBe(true);
+
+    welcome.markActivity('touch', 1);
+    expect(welcome.activity('touch')).toBe(1);
+
+    expect(welcome.groupDone(step1)).toBe(false);
   });
 });

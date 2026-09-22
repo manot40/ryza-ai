@@ -181,7 +181,7 @@ describe('GameStore', () => {
 
   describe('cheat mode behavior', () => {
     it('ignores stamina cost and money deduction when cheat is on', () => {
-      config.set('app.cheat', true);
+      config.setApp('cheat', true);
       expect(game.spend(9999)).toBe(true);
       expect(game.canAct(9999)).toBe(true);
       expect(game.canPay(9999)).toBe(true);

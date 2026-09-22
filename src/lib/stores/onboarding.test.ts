@@ -36,7 +36,7 @@ describe('OnboardingStore', () => {
   it('skips onboarding and marks onboardingDone', () => {
     store.skip();
     expect(store.stage).toBe('done');
-    expect(config.section('state').onboardingDone).toBe(true);
+    expect(config.get('state').onboardingDone).toBe(true);
     expect(store.isDone).toBe(true);
   });
 
@@ -48,10 +48,10 @@ describe('OnboardingStore', () => {
       gender: 'other',
     });
 
-    expect(config.section('profile').name).toBe('Adventurer');
-    expect(config.section('profile').birthday).toBe('2000-01-01');
-    expect(config.section('profile').gender).toBe('other');
-    expect(config.section('chara').callMe).toBe('Adventurer');
+    expect(config.get('profile').name).toBe('Adventurer');
+    expect(config.get('profile').birthday).toBe('2000-01-01');
+    expect(config.get('profile').gender).toBe('other');
+    expect(config.get('chara').callMe).toBe('Adventurer');
 
     store.nextQuestion();
     expect(store.questionIndex).toBe(1);
@@ -59,10 +59,10 @@ describe('OnboardingStore', () => {
 
   it('saves text answers and choice answers', () => {
     store.saveTextAnswer('profile.appearance', 'Red coat and hat');
-    expect(config.section('profile').appearance).toBe('Red coat and hat');
+    expect(config.get('profile').appearance).toBe('Red coat and hat');
 
     store.saveChoiceAnswer('profile.interest', ['Gathering', 'Exploring']);
-    expect(config.section('profile').interest).toBe('Gathering、Exploring');
+    expect(config.get('profile').interest).toBe('Gathering、Exploring');
   });
 
   it('advances through questions into prologue', () => {
@@ -95,6 +95,6 @@ describe('OnboardingStore', () => {
     // Final tutorial line advances to finish
     store.nextTutorial();
     expect(store.stage).toBe('done');
-    expect(config.section('state').onboardingDone).toBe(true);
+    expect(config.get('state').onboardingDone).toBe(true);
   });
 });

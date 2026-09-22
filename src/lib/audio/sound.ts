@@ -184,8 +184,8 @@ export class SoundManager {
   }
 
   private _gain(bus: 'bgm' | 'ambient' | 'voice' | 'se'): number {
-    const app = config.section('app') || {};
-    const ch = config.section('audio') || {};
+    const app = config.get('app');
+    const ch = config.get('audio');
     const master = Number(app.volume != null ? app.volume : 0.9);
     const g = Number(ch[bus] != null ? ch[bus] : 1);
     return clamp(master * g, 0, 1);
@@ -308,7 +308,7 @@ export class SoundManager {
   tapVoice(overlayId?: string): void {
     if (typeof Audio === 'undefined') return;
     const loc = getVoiceLocale().tap;
-    const style = config.section('state')?.mode === 'asmr' ? 'asmr' : 'normal';
+    const style = config.get('state')?.mode === 'asmr' ? 'asmr' : 'normal';
     const key = (overlayId || '').replace(/_active$/, '').replace(/_idle$/, '');
     if (!key) return;
 

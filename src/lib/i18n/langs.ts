@@ -22,6 +22,26 @@ export const TTS_LANGS: Record<string, string> = {
   id: 'Auto',
 };
 
+export const STT_TAGS: Record<string, string> = {
+  zh: 'zh-CN',
+  'zh-tw': 'zh-TW',
+  ja: 'ja-JP',
+  en: 'en-US',
+  hi: 'hi-IN',
+  id: 'id-ID',
+  'pt-br': 'pt-BR',
+};
+
+export const STT_ISO: Record<string, string> = {
+  zh: 'zh',
+  'zh-tw': 'zh',
+  ja: 'ja',
+  en: 'en',
+  hi: 'hi',
+  id: 'id',
+  'pt-br': 'pt',
+};
+
 export const ALL_LANGS: readonly LangOption[] = [
   { v: 'auto', k: 'lang.auto' },
   { v: 'en', k: 'lang.en' },
@@ -32,18 +52,21 @@ export const ALL_LANGS: readonly LangOption[] = [
 
 export const Langs = {
   ui(): string {
-    return (config.section('app') || {}).lang || 'en';
+    return config.get('app').lang || 'en';
   },
   voice(): string {
-    const v = (config.section('voice') || {}).lang || 'auto';
+    const v = config.get('voice').lang || 'auto';
     return v === 'auto' ? Langs.ui() : v;
   },
   llm(): string {
-    const v = (config.section('llm') || {}).lang || 'auto';
+    const v = config.get('llm').lang || 'auto';
     return v === 'auto' ? Langs.ui() : v;
   },
+  reply(): string {
+    return this.llm();
+  },
   tts(): string {
-    const v = (config.section('tts') || {}).lang || 'auto';
+    const v = config.get('tts').lang || 'auto';
     return v === 'auto' ? Langs.llm() : v;
   },
   name(lg: string): string {
@@ -52,6 +75,14 @@ export const Langs = {
   ttsLangType(lg: string): string {
     return TTS_LANGS[lg] || 'Auto';
   },
+  sttTag(lg: string): string {
+    return STT_TAGS[lg] || lg || 'ja-JP';
+  },
+  STT_TAGS,
+  sttLang(lg: string): string {
+    return STT_ISO[lg] || lg || '';
+  },
+  STT_ISO,
   ALL: ALL_LANGS,
 };
 

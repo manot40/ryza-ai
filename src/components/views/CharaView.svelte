@@ -8,6 +8,8 @@
   import { Input } from '$components/ui/input';
   import { Textarea } from '$components/ui/textarea';
   import { Card, CardHeader, CardTitle, CardContent } from '$components/ui/card';
+  import { confirmDialog } from '$lib/stores/confirm.svelte';
+  import { toast } from '$lib/stores/toast.svelte';
 
   let playerName = $state('');
   let callMe = $state('');
@@ -27,8 +29,8 @@
   let savedNotice = $state(false);
 
   onMount(() => {
-    const p = config.section('profile') || {};
-    const c = config.section('chara') || {};
+    const p = config.get('profile');
+    const c = config.get('chara');
     playerName = p.name || '';
     callMe = c.callMe || '';
     birthday = p.birthday || '';
@@ -47,26 +49,44 @@
   });
 
   function handleSave() {
-    config.set('profile.name', playerName);
-    config.set('profile.birthday', birthday);
-    config.set('profile.gender', gender);
-    config.set('profile.appearance', appearance);
-    config.set('profile.background', background);
-    config.set('profile.hobby', hobby);
-    config.set('profile.interest', interest);
-    config.set('profile.futureGoals', futureGoals);
+    config.setProfile({
+      name: playerName,
+      birthday,
+      gender,
+      appearance,
+      background,
+      hobby,
+      interest,
+      futureGoals,
+    });
 
-    config.set('chara.callMe', callMe);
-    config.set('chara.personality', personality);
-    config.set('chara.likes', likes);
-    config.set('chara.dislikes', dislikes);
-    config.set('chara.situation', situation);
-    config.set('chara.extra', extra);
+    config.setChara({
+      callMe,
+      personality,
+      likes,
+      dislikes,
+      situation,
+      extra,
+    });
 
     savedNotice = true;
     setTimeout(() => {
       savedNotice = false;
     }, 2000);
+  }
+
+  async function handleClearHistory() {
+    const ok = await confirmDialog.ask({
+      title: 'Clear chat memory?',
+      description: 'Are you sure you want to clear the current conversation history? This cannot be undone.',
+      confirmText: 'Clear Memory',
+      cancelText: 'Cancel',
+      destructive: true,
+    });
+    if (!ok) return;
+
+    session.clearHistory();
+    toast.show('Chat history cleared');
   }
 </script>
 
@@ -272,8 +292,14 @@
   {/if}
 </div>
 
-<div class="p-4 border-t border-border/40 bg-card/40">
+<div class="p-4 border-t border-border/40 bg-card/40 flex flex-col gap-2">
   <Button class="w-full bg-gold text-background font-bold hover:bg-gold/90" onclick={handleSave}>
     Save Profile
+  </Button>
+  <Button
+    variant="outline"
+    class="w-full border-destructive/40 text-destructive hover:bg-destructive/10 font-bold"
+    onclick={handleClearHistory}>
+    Clear chat memory
   </Button>
 </div>

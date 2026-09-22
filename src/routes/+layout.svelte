@@ -41,6 +41,7 @@
   import AlarmOverlay from '$components/overlays/AlarmOverlay.svelte';
   import QuestClearOverlay from '$components/overlays/QuestClearOverlay.svelte';
   import FaintOverlay from '$components/overlays/FaintOverlay.svelte';
+  import ConfirmDialog from '$components/overlays/ConfirmDialog.svelte';
 
   let { children } = $props();
 
@@ -49,7 +50,7 @@
   let phoneEl: HTMLElement | null = null;
   let uiZoom = $state(1);
 
-  const appState = $derived(config.section('state') || {});
+  const appState = $derived(config.get('state'));
 
   function updateZoom() {
     if (!browser) return;
@@ -100,7 +101,7 @@
     // Boot audio and session services
     Promise.all([config.hydrate(), world.init(), voiceBank.load(), sound.init()]).then(() => {
       sound.setCatalog(Object.keys(world.scenes || {}));
-      const st = config.section('state') || {};
+      const st = config.get('state');
       sound.setPlace(st.stage, st.tod, world.backgroundFor(st.stage));
       sound.setRoute(st.onboardingDone ? 'talk' : 'title');
       session.init();
@@ -177,10 +178,12 @@
     <Confetti bind:this={confettiRef} class="pointer-events-none absolute inset-0 z-25" />
 
     <!-- Persistent Top Chrome -->
-    <TopBar
-      onOpenDrawer={() => (viewStore.drawerOpen = true)}
-      onOpenSideMenu={() => (viewStore.sideMenuOpen = true)}
-      onSelectView={(v) => viewStore.setView(v)} />
+    {#if viewStore.activeView !== 'world'}
+      <TopBar
+        onOpenDrawer={() => (viewStore.drawerOpen = true)}
+        onOpenSideMenu={() => (viewStore.sideMenuOpen = true)}
+        onSelectView={(v) => viewStore.setView(v)} />
+    {/if}
 
     <!-- Navigation Drawer & Quick Menu -->
     <Drawer
@@ -195,7 +198,11 @@
       onToggleChara={() => avatarService.toggleChara()} />
 
     <!-- Main View Outlet -->
-    <div class="relative z-20 flex-1 flex flex-col overflow-hidden pt-14 pointer-events-none">
+    <div
+      class="relative z-20 flex-1 flex flex-col overflow-hidden pointer-events-none {viewStore.activeView ===
+      'world'
+        ? 'pt-0'
+        : 'pt-14'}">
       {@render children()}
     </div>
 
@@ -204,6 +211,9 @@
 
     <!-- Global Dialog Modal -->
     <AppModal />
+
+    <!-- Global Confirmation Alert Dialog -->
+    <ConfirmDialog />
 
     <!-- Bottom Sheets -->
     <ModeSheet />

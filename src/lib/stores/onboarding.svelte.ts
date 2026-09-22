@@ -137,7 +137,7 @@ export class OnboardingStore {
   }
 
   private get state() {
-    return config.section('state') || {};
+    return config.get('state');
   }
 
   start(): void {
@@ -148,27 +148,35 @@ export class OnboardingStore {
   }
 
   skip(): void {
-    config.set('state.onboardingDone', true);
+    config.setState('onboardingDone', true);
     this.stage = 'done';
     sound.setRoute(this.state.onboardingDone ? 'talk' : 'title');
   }
 
   saveIdentity(identity: IdentityAnswer): void {
     const trimmed = identity.name.trim();
-    config.set('profile.name', trimmed);
-    config.set('profile.birthday', identity.birthday);
-    config.set('profile.gender', identity.gender);
+    config.setProfile({
+      name: trimmed,
+      birthday: identity.birthday,
+      gender: identity.gender,
+    });
     if (trimmed) {
-      config.set('chara.callMe', trimmed);
+      config.setChara('callMe', trimmed);
     }
   }
 
   saveTextAnswer(field: string, text: string): void {
-    config.set(field, text.trim());
+    const [section, prop] = field.split('.');
+    if (section && prop) {
+      config.mutator(section as never, prop as never, text.trim() as never);
+    }
   }
 
   saveChoiceAnswer(field: string, choices: string[]): void {
-    config.set(field, choices.join('、'));
+    const [section, prop] = field.split('.');
+    if (section && prop) {
+      config.mutator(section as never, prop as never, choices.join('、') as never);
+    }
   }
 
   nextQuestion(): void {
@@ -204,7 +212,7 @@ export class OnboardingStore {
       this.tutorialIndex++;
     } else {
       this.stage = 'done';
-      config.set('state.onboardingDone', true);
+      config.setState('onboardingDone', true);
     }
   }
 }

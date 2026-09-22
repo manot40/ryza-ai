@@ -1,47 +1,59 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { config } from '$lib/stores/config.svelte';
-  import { viewStore } from '$lib/stores/view.svelte';
+  import { toast } from '$lib/stores/toast.svelte';
   import Header from './Header.svelte';
   import { avatarService } from '$lib/avatar/avatar-service.svelte';
+  import { crfStore } from '$lib/avatar/crfstore';
   import { Button } from '$components/ui/button';
   import { Card, CardContent } from '$components/ui/card';
+  import { UploadIcon } from '@lucide/svelte';
 
   interface SkinItem {
     id: string;
     hasSpine?: boolean;
-    preview?: string;
+    preview?: string | null;
+    imported?: boolean;
   }
 
   let skins = $state<SkinItem[]>([]);
   let loading = $state(true);
+  let fileInput: HTMLInputElement | null = null;
 
   const currentSkin = $derived(
-    String(config.section('state')?.skin || 'crf_skn_002_0001').replace(/_(01|99)$/, '')
+    String(config.get('state')?.skin || 'crf_skn_002_0001').replace(/_(01|99)$/, '')
   );
 
-  onMount(async () => {
+  async function loadAllSkins() {
+    loading = true;
     try {
+      const imported = await crfStore.entries();
       const res = await fetch('/assets/_index/skins.json');
+      let raw: SkinItem[] = [];
       if (res.ok) {
-        const raw: SkinItem[] = await res.json();
-        const seen: Record<string, SkinItem> = {};
-        const list: SkinItem[] = [];
-
-        raw.forEach((s) => {
-          const oid = String(s.id).replace(/_(01|99)$/, '');
-          if (seen[oid]) {
-            if (s.hasSpine) seen[oid].hasSpine = true;
-            if (!seen[oid].preview && s.preview) seen[oid].preview = s.preview;
-            return;
-          }
-          seen[oid] = { id: oid, hasSpine: Boolean(s.hasSpine), preview: s.preview };
-          list.push(seen[oid]);
-        });
-        skins = list;
+        raw = await res.json();
       }
+      const combined: SkinItem[] = [...imported, ...raw];
+      const seen: Record<string, SkinItem> = {};
+      const list: SkinItem[] = [];
+
+      combined.forEach((s) => {
+        const oid = String(s.id).replace(/_(01|99)$/, '');
+        if (seen[oid]) {
+          if (s.hasSpine) seen[oid].hasSpine = true;
+          if (!seen[oid].preview && s.preview) seen[oid].preview = s.preview;
+          return;
+        }
+        seen[oid] = {
+          id: oid,
+          hasSpine: Boolean(s.hasSpine),
+          preview: s.preview,
+          imported: Boolean(s.imported),
+        };
+        list.push(seen[oid]);
+      });
+      skins = list;
     } catch {
-      // Fallback default skins if index json is absent
       skins = [
         { id: 'crf_skn_002_0001', hasSpine: true },
         { id: 'crf_skn_002_0002', hasSpine: true },
@@ -50,20 +62,53 @@
     } finally {
       loading = false;
     }
+  }
+
+  onMount(() => {
+    loadAllSkins();
   });
+
+  async function handleFileSelect(e: Event) {
+    const target = e.target as HTMLInputElement;
+    const file = target.files?.[0];
+    if (!file) return;
+    target.value = '';
+    try {
+      toast.show('Importing costume...');
+      const v = await crfStore.importZip(file);
+      config.setState('skin', v.id);
+      avatarService.loadSkin(v.id);
+      await loadAllSkins();
+      toast.show(`Imported: ${v.id}`);
+    } catch (err: unknown) {
+      toast.err(`Import failed: ${(err as Error)?.message || 'Unknown error'}`);
+    }
+  }
 
   function handleEquip(outfit: SkinItem) {
     if (!outfit.hasSpine) return;
-    config.set('state.skin', outfit.id);
+    config.setState('skin', outfit.id);
     avatarService.loadSkin(outfit.id);
   }
 </script>
 
+<input bind:this={fileInput} type="file" accept=".zip" class="hidden" onchange={handleFileSelect} />
+
 <!-- View Header -->
 <Header title="Costumes">
-  <span class="text-xs text-muted-foreground">
-    {skins.length} Outfits
-  </span>
+  <div class="flex items-center gap-2">
+    <Button
+      variant="outline"
+      size="sm"
+      class="h-7 text-xs flex items-center gap-1 bg-card/60 backdrop-blur-md rounded-full border-border/40 hover:bg-card/90"
+      onclick={() => fileInput?.click()}>
+      <UploadIcon class="size-3.5" />
+      <span>Import ZIP</span>
+    </Button>
+    <span class="text-xs text-muted-foreground">
+      {skins.length} Outfits
+    </span>
+  </div>
 </Header>
 
 <!-- Outfits Grid -->

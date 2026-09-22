@@ -50,6 +50,10 @@
     engine.setAtlasVariant(name, cb);
   }
 
+  export function takeVariantMiss(): { skin: string; variant: string } | null {
+    return engine.takeVariantMiss();
+  }
+
   export function poke(part: string): string | null {
     return engine.poke(part);
   }
@@ -72,13 +76,95 @@
     engine.loadSkin(newSkinId, cb);
   }
 
+  export function zoomBy(delta: number): number {
+    return engine.zoomBy(delta);
+  }
+
+  export function zoomReset(): number {
+    return engine.zoomReset();
+  }
+
+  export function playerZoom(): number {
+    return engine.playerZoom();
+  }
+
+  export function panBy(dx: number, dy: number): { x: number; y: number } {
+    return engine.panBy(dx, dy);
+  }
+
+  export function charPan(): { x: number; y: number } {
+    return engine.charPan();
+  }
+
+  export function postureKey(): string {
+    return engine.postureKey();
+  }
+
+  export function supportsBothPostures(): boolean {
+    return engine.supportsBothPostures();
+  }
+
+  export function postureSwitchable(): boolean {
+    return engine.postureSwitchable();
+  }
+
+  export function shouldResetPosture(): boolean {
+    return engine.shouldResetPosture();
+  }
+
+  let drag = { id: null as number | null, x: 0, y: 0 };
+  let dragMoved = false;
+
   function handlePointerDown(e: PointerEvent) {
+    if (!canvas) return;
+    drag.id = e.pointerId;
+    drag.x = e.clientX;
+    drag.y = e.clientY;
+    dragMoved = false;
+    try {
+      (e.target as HTMLElement)?.setPointerCapture?.(e.pointerId);
+    } catch {}
+
+    const rect = canvas.getBoundingClientRect();
+    const z = engine._cssZoom(canvas);
+    const x = (e.clientX - rect.left) / z;
+    const y = (e.clientY - rect.top) / z;
+    engine.setPointer(x, y, true);
+  }
+
+  function handlePointerMove(e: PointerEvent) {
     if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
     const z = engine._cssZoom(canvas);
     const x = (e.clientX - rect.left) / z;
     const y = (e.clientY - rect.top) / z;
     engine.setPointer(x, y, true);
+
+    if (drag.id === e.pointerId) {
+      const dx = (e.clientX - drag.x) / z;
+      const dy = (e.clientY - drag.y) / z;
+      if (Math.abs(dx) + Math.abs(dy) >= 6) {
+        drag.x = e.clientX;
+        drag.y = e.clientY;
+        dragMoved = true;
+        engine.panBy(dx, dy);
+      }
+    }
+  }
+
+  function handlePointerUp(e: PointerEvent) {
+    if (!canvas) return;
+    const wasMoved = dragMoved;
+    if (drag.id === e.pointerId) {
+      drag.id = null;
+      dragMoved = false;
+    }
+    if (wasMoved) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const z = engine._cssZoom(canvas);
+    const x = (e.clientX - rect.left) / z;
+    const y = (e.clientY - rect.top) / z;
 
     const part = engine.hitPartAt(x, y);
     if (part) {
@@ -92,17 +178,15 @@
     }
   }
 
-  function handlePointerMove(e: PointerEvent) {
-    if (!canvas) return;
-    const rect = canvas.getBoundingClientRect();
-    const z = engine._cssZoom(canvas);
-    const x = (e.clientX - rect.left) / z;
-    const y = (e.clientY - rect.top) / z;
-    engine.setPointer(x, y, true);
-  }
-
   function handlePointerLeave() {
     engine.setPointer(0, 0, false);
+    drag.id = null;
+    dragMoved = false;
+  }
+
+  function handleWheel(e: WheelEvent) {
+    e.preventDefault();
+    engine.zoomBy(e.deltaY < 0 ? engine.PLAYER_ZOOM_STEP : -engine.PLAYER_ZOOM_STEP);
   }
 
   let containerEl: HTMLDivElement | null = null;
@@ -157,7 +241,9 @@
   class="relative h-full w-full overflow-hidden {className}"
   onpointerdown={handlePointerDown}
   onpointermove={handlePointerMove}
-  onpointerleave={handlePointerLeave}>
+  onpointerup={handlePointerUp}
+  onpointerleave={handlePointerLeave}
+  onwheel={handleWheel}>
   <canvas bind:this={canvas} class="h-full w-full touch-none select-none"></canvas>
   {#each ripples as r (r.id)}
     <div

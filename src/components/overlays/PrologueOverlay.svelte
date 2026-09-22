@@ -18,7 +18,7 @@
     const src = sound.prologue(onboarding.prologueIndex);
     const audio = new Audio(src);
     audioEl = audio;
-    audio.volume = Number(config.section('app')?.volume) || 0.9;
+    audio.volume = Number(config.get('app')?.volume) || 0.9;
     avatarService.setTalking(true);
 
     audio.onended = () => {

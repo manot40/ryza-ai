@@ -21,8 +21,8 @@ export function persona(
   customChara?: Partial<CharaConfig> | null,
   customProfile?: Partial<ProfileConfig> | null
 ): string {
-  const c = customChara || config.section('chara');
-  const p = customProfile || config.section('profile');
+  const c = customChara || config.get('chara');
+  const p = customProfile || config.get('profile');
   const lines: string[] = [];
   lines.push('あなたは『ライザ』（ライザリン・シュタウト）です。');
   lines.push('');

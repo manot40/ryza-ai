@@ -7,7 +7,7 @@
   import { cn } from '$lib/utils';
 
   const { class: className }: { class?: string } = $props();
-  const appState = $derived(config.section('state') || {});
+  const appState = $derived(config.get('state'));
 
   const todNames: Record<string, string> = {
     mor: 'Morning',
@@ -18,7 +18,7 @@
 
   function handleAdvanceTod() {
     const next = world.nextTod(appState.tod);
-    config.set('state.tod', next);
+    config.setState('tod', next);
     avatarService.loadScene(appState.stage, next);
   }
 </script>

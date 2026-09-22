@@ -1,7 +1,8 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { config, DEFAULTS, SETTINGS_KEY, applyMigrations, type Settings } from './config.svelte';
 import { cloneDeep } from 'es-toolkit';
 import { LocalStorageMock } from '../../../tests/utils';
+
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import config, { DEFAULTS, SETTINGS_KEY, applyMigrations, mutator } from './config.svelte';
 
 describe('config store', () => {
   let mockStorage: LocalStorageMock;
@@ -50,17 +51,50 @@ describe('config store', () => {
     });
 
     it('returns slice via section()', () => {
-      const llm = config.section('llm');
+      const llm = config.get('llm');
       expect(llm.model).toBe('gpt-4o-mini');
-      const app = config.section('app');
+      const app = config.get('app');
       expect(app.lang).toBe('en');
     });
   });
 
-  describe('set and persistence', () => {
-    it('sets nested properties and persists to localStorage', () => {
-      config.set('app.lang', 'ja');
-      expect(config.section('app').lang).toBe('ja');
+  describe('mutators and persistence', () => {
+    it('mutates section properties via mutator and dedicated mutators', () => {
+      config.setApp('lang', 'ja');
+      expect(config.get('app').lang).toBe('ja');
+
+      config.setLLM('model', 'claude-3-5-sonnet');
+      expect(config.get('llm').model).toBe('claude-3-5-sonnet');
+
+      config.setTTS({ provider: 'qwen', qwenModel: 'qwen3-custom' });
+      expect(config.get('tts').provider).toBe('qwen');
+      expect(config.get('tts').qwenModel).toBe('qwen3-custom');
+
+      config.setMemory('turnsPerSession', 16);
+      expect(config.get('memory').turnsPerSession).toBe(16);
+
+      config.setSTT('model', 'whisper-large');
+      expect(config.get('stt').model).toBe('whisper-large');
+
+      config.setVoice('lang', 'ja');
+      expect(config.get('voice').lang).toBe('ja');
+
+      config.setChara({ likes: 'alchemy' });
+      expect(config.get('chara').likes).toBe('alchemy');
+
+      config.setProfile({ name: 'Ryza Fan' });
+      expect(config.get('profile').name).toBe('Ryza Fan');
+
+      config.setAudio('bgm', 0.8);
+      expect(config.get('audio').bgm).toBe(0.8);
+
+      config.setState('stage', 'stage_02');
+      expect(config.get('state').stage).toBe('stage_02');
+    });
+
+    it('persists to localStorage when flushed', () => {
+      config.setApp('lang', 'ja');
+      config.flushSave();
 
       const storedRaw = mockStorage.getItem(SETTINGS_KEY);
       expect(storedRaw).not.toBeNull();
@@ -68,12 +102,13 @@ describe('config store', () => {
       expect(stored.app.lang).toBe('ja');
     });
 
-    it('creates nested objects if intermediate keys are missing', () => {
-      config.set('tts.modeHints.chat', 'whisper');
-      expect(config.section('tts').modeHints.chat).toBe('whisper');
+    it('generic mutator supports both property mutation and partial patch', () => {
+      mutator('app', 'vibration', false);
+      expect(config.get('app').vibration).toBe(false);
 
-      const stored = JSON.parse(mockStorage.getItem(SETTINGS_KEY)!);
-      expect(stored.tts.modeHints.chat).toBe('whisper');
+      mutator('llm', { temperature: 0.2, maxTokens: 800 });
+      expect(config.get('llm').temperature).toBe(0.2);
+      expect(config.get('llm').maxTokens).toBe(800);
     });
   });
 
@@ -123,14 +158,14 @@ describe('config store', () => {
 
   describe('reset, exportJSON, importJSON, and eraseAll', () => {
     it('reset restores default values and persists', () => {
-      config.set('app.lang', 'zh');
-      config.set('llm.model', 'claude-3-opus');
-      expect(config.section('app').lang).toBe('zh');
+      config.setApp('lang', 'zh');
+      config.setLLM('model', 'claude-3-opus');
+      expect(config.get('app').lang).toBe('zh');
 
       config.reset();
 
-      expect(config.section('app').lang).toBe('en');
-      expect(config.section('llm').model).toBe('gpt-4o-mini');
+      expect(config.get('app').lang).toBe('en');
+      expect(config.get('llm').model).toBe('gpt-4o-mini');
       const stored = JSON.parse(mockStorage.getItem(SETTINGS_KEY)!);
       expect(stored.app.lang).toBe('en');
     });
@@ -149,9 +184,9 @@ describe('config store', () => {
 
       config.importJSON(JSON.stringify(payload));
 
-      expect(config.section('app').lang).toBe('ja');
-      expect(config.section('state').skin).toBe('crf_skn_002_0001');
-      expect(config.section('llm').model).toBe('gpt-4o-mini'); // Preserved default
+      expect(config.get('app').lang).toBe('ja');
+      expect(config.get('state').skin).toBe('crf_skn_002_0001');
+      expect(config.get('llm').model).toBe('gpt-4o-mini'); // Preserved default
       const stored = JSON.parse(mockStorage.getItem(SETTINGS_KEY)!);
       expect(stored.app.lang).toBe('ja');
     });
@@ -161,13 +196,13 @@ describe('config store', () => {
       mockStorage.setItem('ryza.game.v1', '{"gold":100}');
       mockStorage.setItem('other.key', 'keep');
 
-      config.set('app.lang', 'zh');
+      config.setApp('lang', 'zh');
       config.eraseAll();
 
       expect(mockStorage.getItem('ryza.settings.v1')).toBeNull();
       expect(mockStorage.getItem('ryza.game.v1')).toBeNull();
       expect(mockStorage.getItem('other.key')).toBe('keep');
-      expect(config.section('app').lang).toBe('en');
+      expect(config.get('app').lang).toBe('en');
     });
   });
 
@@ -198,24 +233,24 @@ describe('config store', () => {
       await config.hydrate();
 
       expect(fetchMock).toHaveBeenCalledWith('/config/providers.json');
-      expect(config.section('llm').baseUrl).toBe('https://api.openai.com/v1');
-      expect(config.section('llm').model).toBe('gpt-4o');
-      expect(config.section('llm').apiKey).toBe('sk-provider-key');
-      expect(config.section('llm').temperature).toBe(0.7);
+      expect(config.get('llm').baseUrl).toBe('https://api.openai.com/v1');
+      expect(config.get('llm').model).toBe('gpt-4o');
+      expect(config.get('llm').apiKey).toBe('sk-provider-key');
+      expect(config.get('llm').temperature).toBe(0.7);
 
-      expect(config.section('tts').baseUrl).toBe('https://tts.example.com/v1');
-      expect(config.section('tts').apiKey).toBe('tts-provider-key');
-      expect(config.section('tts').modelClone).toBe('clone-v2');
-      expect(config.section('tts').modelPreset).toBe('preset-v2');
-      expect(config.section('tts').reference).toBe('assets/voice/ref.wav');
+      expect(config.get('tts').baseUrl).toBe('https://tts.example.com/v1');
+      expect(config.get('tts').apiKey).toBe('tts-provider-key');
+      expect(config.get('tts').modelClone).toBe('clone-v2');
+      expect(config.get('tts').modelPreset).toBe('preset-v2');
+      expect(config.get('tts').reference).toBe('assets/voice/ref.wav');
 
       const stored = JSON.parse(mockStorage.getItem(SETTINGS_KEY)!);
       expect(stored.llm.apiKey).toBe('sk-provider-key');
     });
 
     it('updates baseUrl if host differs from provider', async () => {
-      config.set('llm.baseUrl', 'https://old-host.com/v1');
-      config.set('llm.apiKey', 'custom-key');
+      config.setLLM('baseUrl', 'https://old-host.com/v1');
+      config.setLLM('apiKey', 'custom-key');
 
       const providerData = {
         llm: {
@@ -236,7 +271,7 @@ describe('config store', () => {
       await config.hydrate();
 
       // Because host mismatched, it updates
-      expect(config.section('llm').baseUrl).toBe('https://new-host.com/v1');
+      expect(config.get('llm').baseUrl).toBe('https://new-host.com/v1');
     });
 
     it('handles 404 response gracefully', async () => {

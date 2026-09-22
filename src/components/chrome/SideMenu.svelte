@@ -24,7 +24,7 @@
   ];
 
   async function selectLanguage(lang: SupportedUiLocale) {
-    config.set('app.lang', lang);
+    config.setApp('lang', lang);
     await loadLocale(lang);
     showLangSelect = false;
     open = false;
@@ -107,8 +107,8 @@
           <div class="space-y-1">
             {#each languages as lang}
               <Button
-                variant={config.section('app')?.lang === lang.id ? 'secondary' : 'ghost'}
-                class="w-full justify-start text-sm {config.section('app')?.lang === lang.id
+                variant={config.get('app')?.lang === lang.id ? 'secondary' : 'ghost'}
+                class="w-full justify-start text-sm {config.get('app')?.lang === lang.id
                   ? 'font-semibold text-gold'
                   : ''}"
                 onclick={() => selectLanguage(lang.id)}>

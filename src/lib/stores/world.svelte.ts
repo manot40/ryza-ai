@@ -111,6 +111,62 @@ export const TALK_ALIASES: Record<string, string> = {
   tao: 'stage_01_002_01',
 };
 
+export const WORLD_MAP_FIELDS: Record<string, [number, number, number]> = {
+  field_01_001: [0.73, 0.9, 2.35],
+  field_01_002: [0.854, 0.647, 2.55],
+  field_01_003: [0.657, 0.508, 2.15],
+  field_01_004: [0.524, 0.654, 2.35],
+  field_01_005: [0.4, 0.746, 2.15],
+  field_01_006: [0.87, 0.41, 2.35],
+  field_01_007: [0.88, 0.12, 2.15],
+  field_01_008: [0.645, 0.117, 2.15],
+  field_01_009: [0.445, 0.328, 2.15],
+  field_01_010: [0.418, 0.133, 2.15],
+  field_01_011: [0.296, 0.431, 2.15],
+  field_01_012: [0.24, 0.18, 2.15],
+  field_01_013: [0.193, 0.694, 2.15],
+  field_01_014: [0.089, 0.785, 2.15],
+  field_02_001: [0.317, 0.24, 2.15],
+  field_02_002: [0.541, 0.222, 2.15],
+  field_02_003: [0.283, 0.648, 2.15],
+  field_02_004: [0.881, 0.365, 2.15],
+  field_02_005: [0.679, 0.66, 2.15],
+  field_03_001: [0.573, 0.792, 2.15],
+  field_03_002: [0.621, 0.317, 2.15],
+  field_03_003: [0.805, 0.784, 2.15],
+  field_03_004: [0.251, 0.645, 2.15],
+  field_03_005: [0.235, 0.246, 2.15],
+  field_04_001: [0.473, 0.519, 2.15],
+  field_04_002: [0.588, 0.867, 2.15],
+  field_04_003: [0.585, 0.258, 2.15],
+  field_05_001: [0.483, 0.562, 2.15],
+  field_05_002: [0.124, 0.644, 2.15],
+  field_05_003: [0.751, 0.511, 2.15],
+  field_05_004: [0.133, 0.846, 2.15],
+  field_05_005: [0.36, 0.3, 2.15],
+  field_05_006: [0.6, 0.72, 2.15],
+  field_05_007: [0.82, 0.3, 2.15],
+  field_05_008: [0.3, 0.86, 2.15],
+  field_05_009: [0.66, 0.14, 2.15],
+  field_05_010: [0.18, 0.44, 2.15],
+  field_01_015: [0.5, 0.5, 2.15],
+};
+
+export const WORLD_MAP_STAGES: Record<string, [number, number]> = {
+  stage_01_001_01: [-0.24, 0.06],
+  stage_01_001_02: [-0.08, -0.83],
+  stage_01_001_04: [-0.84, -0.25],
+  stage_01_001_05: [-0.84, 0.73],
+  stage_01_001_06: [0.09, 0.73],
+  stage_01_001_08: [0.34, -0.15],
+  stage_01_002_01: [-0.25, 0.83],
+  stage_01_002_02: [-1.29, 0.33],
+  stage_01_002_03: [0.3, -0.4],
+  stage_01_001_09: [0.42, -0.52],
+  stage_01_001_10: [-0.3, 0.55],
+  stage_01_002_04: [-0.6, -0.35],
+};
+
 export class WorldStore {
   hierarchy = $state<WorldHierarchy | null>(null);
   npcs = $state<NpcPlacementDoc | null>(null);
@@ -218,6 +274,11 @@ export class WorldStore {
     return s ? s.areaId : null;
   }
 
+  fieldOf(stageId?: string | null): string | null {
+    const s = this.find(stageId);
+    return s ? s.fieldId : null;
+  }
+
   stagesInField(fieldId: string): WorldStage[] {
     const hit = this.findField(fieldId);
     return hit ? hit.field.stages.slice() : [];
@@ -253,7 +314,7 @@ export class WorldStore {
 
   llmDrivesClock(): boolean {
     try {
-      return Boolean(config.section('app')?.timeMode === 'flow');
+      return Boolean(config.get('app')?.timeMode === 'flow');
     } catch {
       return false;
     }
@@ -544,6 +605,37 @@ export class WorldStore {
   locked(areaId: string): boolean {
     return !game.sailed && areaId !== 'area_01';
   }
+}
+
+export function fallbackFieldPos(fields: WorldField[], fieldId: string): [number, number, number] {
+  const n = fields.length;
+  let i = 0;
+  for (let k = 0; k < n; k++) {
+    if (fields[k].id === fieldId) {
+      i = k;
+      break;
+    }
+  }
+  const ang = (i / Math.max(1, n)) * Math.PI * 2 - Math.PI / 2;
+  return [0.5 + Math.cos(ang) * 0.16, 0.5 + Math.sin(ang) * 0.16, 2.15];
+}
+
+export function fallbackStagePos(
+  stages: WorldStage[],
+  stageId: string,
+  baseFieldPos: [number, number, number]
+): [number, number, number] {
+  const n = stages.length;
+  let i = 0;
+  for (let k = 0; k < n; k++) {
+    if (stages[k].id === stageId) {
+      i = k;
+      break;
+    }
+  }
+  const ang = (i / Math.max(1, n)) * Math.PI * 2 - Math.PI / 2;
+  const r = 0.045 + 0.001 * (i % 4);
+  return [baseFieldPos[0] + Math.cos(ang) * r, baseFieldPos[1] + Math.sin(ang) * r, baseFieldPos[2] || 2.15];
 }
 
 export const world = new WorldStore();

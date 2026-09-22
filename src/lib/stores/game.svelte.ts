@@ -72,6 +72,7 @@ export interface GameState {
   flags: Record<string, unknown>;
   sailed: boolean;
   quest?: unknown;
+  welcome_activity?: Record<string, number>;
 }
 
 export const GAME_DEFAULTS: GameState = {
@@ -80,6 +81,7 @@ export const GAME_DEFAULTS: GameState = {
   money: 30,
   bagYou: 'normal',
   bagRyza: 'normal',
+  welcome_activity: {},
   inventory: [
     { id: 'emeralia', count: 3 },
     { id: 'wasser', count: 2 },
@@ -173,6 +175,7 @@ export class GameStore {
   flags = $state<Record<string, unknown>>({});
   sailed = $state<boolean>(false);
   quest = $state<unknown>(null);
+  welcome_activity = $state<Record<string, number>>({});
   _onQuestDelta?: (delta: unknown, origin: string) => void;
 
   private emitter = createEmitter<GameEvents>();
@@ -196,6 +199,7 @@ export class GameStore {
       flags: this.flags,
       sailed: this.sailed,
       quest: this.quest,
+      welcome_activity: this.welcome_activity,
     };
   }
 
@@ -218,6 +222,10 @@ export class GameStore {
     this.memory = Array.isArray(merged.memory) ? merged.memory : [];
     this.flags = merged.flags && typeof merged.flags === 'object' ? merged.flags : {};
     this.sailed = Boolean(merged.sailed);
+    this.welcome_activity =
+      merged.welcome_activity && typeof merged.welcome_activity === 'object'
+        ? (merged.welcome_activity as Record<string, number>)
+        : {};
     this.bagYou = BAGS[merged.bagYou] ? merged.bagYou : 'normal';
     this.bagRyza = BAGS[merged.bagRyza] ? merged.bagRyza : 'normal';
     this.quest = merged.quest || null;
@@ -265,7 +273,7 @@ export class GameStore {
   }
 
   cheat(): boolean {
-    return Boolean(config.section('app')?.cheat);
+    return Boolean(config.get('app')?.cheat);
   }
 
   level(): number {

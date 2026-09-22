@@ -22,7 +22,7 @@
 
   $effect(() => {
     // Sync current values when question index changes
-    const profile = config.section('profile') || {};
+    const profile = config.get('profile');
     if (currentQ.type === 'identity') {
       idName = profile.name || '';
       idBirthday = profile.birthday || '';

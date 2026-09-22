@@ -1,137 +1,24 @@
 // @wc-ignore-file
-import { cloneDeep, merge } from 'es-toolkit';
-import { set } from 'es-toolkit/compat';
+import type {
+  AppConfig,
+  AudioConfig,
+  CharaConfig,
+  ConfigField,
+  ConfigSetter,
+  LlmConfig,
+  MemoryConfig,
+  ProfileConfig,
+  Settings,
+  StateConfig,
+  SttConfig,
+  TtsConfig,
+  VoiceConfig,
+} from './config.types';
+
 import { destr } from 'destr';
+import { cloneDeep, merge } from 'es-toolkit';
 
 export const SETTINGS_KEY = 'ryza.settings.v1';
-
-export interface LlmConfig {
-  baseUrl: string;
-  model: string;
-  apiKey: string;
-  temperature: number;
-  maxTokens: number;
-  historyTurns: number;
-  contextWindow: number;
-  thinking: 'auto' | 'off' | 'on';
-  thinkingEffort: 'default' | 'off' | 'low' | 'medium' | 'high' | 'max';
-  thinkingStyle: 'auto' | 'none' | 'openai' | 'openrouter' | 'qwen' | 'glm';
-  lang: string;
-}
-
-export interface MemoryConfig {
-  enabled: boolean;
-  turnsPerSession: number;
-  sessionCap: number;
-  summaryCap: number;
-}
-
-export interface TtsConfig {
-  provider: 'openai' | 'qwen' | string;
-  providerStyle: string;
-  baseUrl: string;
-  apiKey: string;
-  mode: 'clone' | 'preset' | 'off' | string;
-  modelClone: string;
-  modelPreset: string;
-  presetVoice: string;
-  cloneVoice?: string;
-  format: string;
-  reference: string;
-  styleHint: string;
-  modeHints: Record<string, string>;
-  qwenBaseUrl: string;
-  qwenApiKey: string;
-  qwenModel: string;
-  qwenVoice: string;
-  qwenCloneTarget: string;
-  lang: string;
-}
-
-export interface VoiceConfig {
-  lang: string;
-}
-
-export interface CharaConfig {
-  personality: string;
-  likes: string;
-  dislikes: string;
-  situation: string;
-  callMe: string;
-  extra: string;
-}
-
-export interface ProfileConfig {
-  name: string;
-  birthday: string;
-  gender: string;
-  appearance: string;
-  background: string;
-  hobby: string;
-  interest: string;
-  interestExtra: string;
-  storyStart: string;
-  futureGoals: string;
-  personality: string;
-}
-
-export interface AudioConfig {
-  bgm: number;
-  ambient: number;
-  voice: number;
-  se: number;
-}
-
-export interface AppConfig {
-  lang: string;
-  voice: boolean;
-  volume: number;
-  textSpeed: number;
-  vibration: boolean;
-  fullscreen: boolean;
-  rim: boolean;
-  showBubble: boolean;
-  timeMode: 'real' | 'flow' | 'manual' | string;
-  flowSpeed: number;
-  cheat: boolean;
-}
-
-export interface StateWelcomeConfig {
-  talk: boolean;
-  map: boolean;
-  alarm: boolean;
-  skin: boolean;
-  quest: boolean;
-}
-
-export interface StateConfig {
-  mode: string;
-  style: string;
-  skin: string;
-  stage: string;
-  tod: string;
-  posture: string;
-  postureMigrated?: boolean;
-  day: number;
-  lastDayDate: string;
-  gameHour: number;
-  gameClockAt: number;
-  todManualUntil: number;
-  onboardingDone: boolean;
-  welcome: StateWelcomeConfig;
-}
-
-export interface Settings {
-  llm: LlmConfig;
-  memory: MemoryConfig;
-  tts: TtsConfig;
-  voice: VoiceConfig;
-  chara: CharaConfig;
-  profile: ProfileConfig;
-  audio: AudioConfig;
-  app: AppConfig;
-  state: StateConfig;
-}
 
 export const DEFAULTS: Settings = {
   /* ---- LLM (OpenAI-compatible) ---- */
@@ -157,6 +44,15 @@ export const DEFAULTS: Settings = {
     summaryCap: 8,
   },
 
+  /* Speech input: transcription endpoint */
+  stt: {
+    provider: 'whisper',
+    baseUrl: '',
+    apiKey: '',
+    model: 'whisper-1',
+    engine: 'auto',
+  },
+
   /* ---- TTS providers ---- */
   tts: {
     provider: 'openai',
@@ -176,6 +72,14 @@ export const DEFAULTS: Settings = {
     qwenModel: 'qwen3-tts-flash',
     qwenVoice: 'Cherry',
     qwenCloneTarget: 'qwen3-tts-vc-2026-01-22',
+    fishBaseUrl: '',
+    fishApiKey: '',
+    fishModel: 's2.1-pro-free',
+    fishVoice: '',
+    voicevoxBaseUrl: 'http://127.0.0.1:50021/',
+    voicevoxVoice: '0',
+    aivisBaseUrl: 'http://127.0.0.1:10101/',
+    aivisVoice: '0',
     lang: 'auto',
   },
 
@@ -218,7 +122,15 @@ export const DEFAULTS: Settings = {
     vibration: true,
     fullscreen: false,
     rim: true,
+    nsfwEnabled: false,
     showBubble: true,
+    stt: 'off',
+    autoSend: false,
+    autoSendDelay: 2000,
+    npcFrequency: 'normal',
+    bargeIn: false,
+    showOriginal: false,
+    quickCollapsed: false,
     timeMode: 'real',
     flowSpeed: 60,
     cheat: false,
@@ -233,6 +145,7 @@ export const DEFAULTS: Settings = {
     tod: 'aft',
     posture: 'posture_standing',
     day: 1,
+    welcome_day: 0,
     lastDayDate: '',
     gameHour: 12,
     gameClockAt: 0,
@@ -242,6 +155,9 @@ export const DEFAULTS: Settings = {
   },
 } satisfies Settings;
 
+const isPatch = <T extends Settings[ConfigField]>(obj: keyof T | Partial<T>): obj is Partial<T> =>
+  typeof obj === 'object' && obj !== null;
+
 export function applyMigrations(target: Settings): void {
   if (target.state && target.state.skin) {
     target.state.skin = String(target.state.skin).replace(/_(01|99)$/, '');
@@ -250,6 +166,10 @@ export function applyMigrations(target: Settings): void {
   if (target.tts && target.tts.provider === 'qwen') {
     if (!target.tts.qwenApiKey && target.tts.apiKey) target.tts.qwenApiKey = target.tts.apiKey;
     if (!target.tts.qwenBaseUrl && target.tts.baseUrl) target.tts.qwenBaseUrl = target.tts.baseUrl;
+  }
+  /* One-time migration: fishVoice catalog reset */
+  if (target.tts && target.tts.fishVoice === '2bc96959c27d41cc87d517b83569d43a') {
+    target.tts.fishVoice = '';
   }
   /* One-time migration: `posture_sitting` default reset */
   if (target.state && !target.state.postureMigrated) {
@@ -281,37 +201,159 @@ function loadInitial(): Settings {
 let data = $state<Settings>(loadInitial());
 let _hydrated: Promise<void> | null = null;
 
-function save(): void {
+let saveTimer: ReturnType<typeof setTimeout> | null = null;
+let lastSaved = $state(Date.now());
+
+function flushSave(): void {
+  if (saveTimer) {
+    clearTimeout(saveTimer);
+    saveTimer = null;
+  }
   if (typeof localStorage === 'undefined') return;
   try {
     localStorage.setItem(SETTINGS_KEY, JSON.stringify(data));
+    lastSaved = Date.now();
   } catch {
     // Ignore storage quota or access errors
   }
 }
 
+function save(immediate = false): void {
+  lastSaved = Date.now();
+  if (immediate) {
+    flushSave();
+    return;
+  }
+  if (saveTimer) clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    saveTimer = null;
+    flushSave();
+  }, 300);
+}
+
+function get(): Settings;
+function get<K extends ConfigField>(key: K): Settings[K];
+function get(key?: ConfigField) {
+  const snap = $state.snapshot(data);
+  if (!key) return snap;
+  return snap[key];
+}
+
+export function mutator<K extends ConfigField, P extends keyof Settings[K]>(
+  key: K,
+  prop: P,
+  val: Settings[K][P]
+): void;
+export function mutator<K extends ConfigField>(key: K, patch: Partial<Settings[K]>): void;
+export function mutator<K extends ConfigField, P extends keyof Settings[K]>(
+  key: K,
+  propOrPatch: P | Partial<Settings[K]>,
+  val?: Settings[K][P]
+): void {
+  if (isPatch(propOrPatch)) data[key] = { ...data[key], ...propOrPatch };
+  else data[key] = { ...data[key], [propOrPatch]: val };
+  save();
+}
+
+const setLLM: ConfigSetter<LlmConfig> = (
+  payload: keyof LlmConfig | Partial<LlmConfig>,
+  value?: LlmConfig[keyof LlmConfig]
+): void => {
+  if (isPatch(payload)) mutator('llm', payload);
+  else if (value) mutator('llm', payload, value);
+};
+const setMemory: ConfigSetter<MemoryConfig> = (
+  payload: keyof MemoryConfig | Partial<MemoryConfig>,
+  value?: MemoryConfig[keyof MemoryConfig]
+): void => {
+  if (isPatch(payload)) mutator('memory', payload);
+  else if (value) mutator('memory', payload, value);
+};
+const setSTT: ConfigSetter<SttConfig> = (
+  payload: keyof SttConfig | Partial<SttConfig>,
+  value?: SttConfig[keyof SttConfig]
+): void => {
+  if (isPatch(payload)) mutator('stt', payload);
+  else if (value) mutator('stt', payload, value);
+};
+const setTTS: ConfigSetter<TtsConfig> = (
+  payload: keyof TtsConfig | Partial<TtsConfig>,
+  value?: TtsConfig[keyof TtsConfig]
+): void => {
+  if (isPatch(payload)) mutator('tts', payload);
+  else if (value) mutator('tts', payload, value);
+};
+const setVoice: ConfigSetter<VoiceConfig> = (
+  payload: keyof VoiceConfig | Partial<VoiceConfig>,
+  value?: VoiceConfig[keyof VoiceConfig]
+): void => {
+  if (isPatch(payload)) mutator('voice', payload);
+  else if (value) mutator('voice', payload, value);
+};
+const setChara: ConfigSetter<CharaConfig> = (
+  payload: keyof CharaConfig | Partial<CharaConfig>,
+  value?: CharaConfig[keyof CharaConfig]
+): void => {
+  if (isPatch(payload)) mutator('chara', payload);
+  else if (value) mutator('chara', payload, value);
+};
+const setProfile: ConfigSetter<ProfileConfig> = (
+  payload: keyof ProfileConfig | Partial<ProfileConfig>,
+  value?: ProfileConfig[keyof ProfileConfig]
+): void => {
+  if (isPatch(payload)) mutator('profile', payload);
+  else if (value) mutator('profile', payload, value);
+};
+const setAudio: ConfigSetter<AudioConfig> = (
+  payload: keyof AudioConfig | Partial<AudioConfig>,
+  value?: AudioConfig[keyof AudioConfig]
+): void => {
+  if (isPatch(payload)) mutator('audio', payload);
+  else if (value) mutator('audio', payload, value);
+};
+const setApp: ConfigSetter<AppConfig> = (
+  payload: keyof AppConfig | Partial<AppConfig>,
+  value?: AppConfig[keyof AppConfig]
+): void => {
+  if (isPatch(payload)) mutator('app', payload);
+  else if (value) mutator('app', payload, value);
+};
+const setState: ConfigSetter<StateConfig> = (
+  payload: keyof StateConfig | Partial<StateConfig>,
+  value?: StateConfig[keyof StateConfig]
+): void => {
+  if (isPatch(payload)) data.state = { ...data.state, ...payload };
+  else if (value) data.state = { ...data.state, [payload]: value };
+  save();
+};
+
 export const config = {
-  get(): Settings {
-    return data;
-  },
+  get,
+  mutator,
+  setLLM,
+  setMemory,
+  setSTT,
+  setTTS,
+  setVoice,
+  setChara,
+  setProfile,
+  setAudio,
+  setApp,
+  setState,
 
-  section<K extends keyof Settings>(name: K): Settings[K] {
-    return data[name];
-  },
-
-  set(path: string, value: unknown): void {
-    set(data, path, value);
-    save();
-  },
-
+  flushSave,
   save,
+
+  get lastSaved(): number {
+    return lastSaved;
+  },
 
   reset(): void {
     const fresh = cloneDeep(DEFAULTS);
-    for (const k of Object.keys(fresh) as (keyof Settings)[]) {
-      (data as Record<keyof Settings, unknown>)[k] = fresh[k];
+    for (const k of Object.keys(fresh) as ConfigField[]) {
+      (data as Record<ConfigField, unknown>)[k] = fresh[k];
     }
-    save();
+    flushSave();
   },
 
   exportJSON(): string {
@@ -323,27 +365,33 @@ export const config = {
     const patch = typeof parsed === 'object' && parsed !== null ? parsed : {};
     const merged = merge(cloneDeep(DEFAULTS), patch) as Settings;
     applyMigrations(merged);
-    for (const k of Object.keys(merged) as (keyof Settings)[]) {
-      (data as Record<keyof Settings, unknown>)[k] = merged[k];
+    for (const k of Object.keys(merged) as ConfigField[]) {
+      (data as Record<ConfigField, unknown>)[k] = merged[k];
     }
-    save();
+    flushSave();
   },
 
   eraseAll(): void {
+    if (saveTimer) {
+      clearTimeout(saveTimer);
+      saveTimer = null;
+    }
+
     if (typeof localStorage !== 'undefined') {
       const doomed: string[] = [];
       for (let i = 0; i < localStorage.length; i++) {
         const k = localStorage.key(i);
         if (k && k.startsWith('ryza.')) doomed.push(k);
       }
-      for (const k of doomed) {
-        localStorage.removeItem(k);
-      }
+      for (const k of doomed) localStorage.removeItem(k);
     }
+
     const fresh = cloneDeep(DEFAULTS);
-    for (const k of Object.keys(fresh) as (keyof Settings)[]) {
-      (data as Record<keyof Settings, unknown>)[k] = fresh[k];
+    for (const k of Object.keys(fresh) as ConfigField[]) {
+      (data as Record<ConfigField, unknown>)[k] = fresh[k];
     }
+
+    lastSaved = Date.now();
     _hydrated = Promise.resolve();
   },
 
@@ -379,20 +427,27 @@ export const config = {
             if (p.tts.reference_audio) data.tts.reference = p.tts.reference_audio;
           }
         }
-        save();
+        flushSave();
       })
       .catch(() => {});
     return _hydrated;
   },
 
+  /** @internal */
   _resetForTest(): void {
+    if (saveTimer) {
+      clearTimeout(saveTimer);
+      saveTimer = null;
+    }
     _hydrated = null;
     const initial = loadInitial();
-    for (const k of Object.keys(initial) as (keyof Settings)[]) {
-      (data as Record<keyof Settings, unknown>)[k] = initial[k];
+    for (const k of Object.keys(initial) as ConfigField[]) {
+      (data as Record<ConfigField, unknown>)[k] = initial[k];
     }
+    lastSaved = Date.now();
   },
 };
 
+export type * from './config.types';
 export const Config = config;
 export default config;

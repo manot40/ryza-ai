@@ -16,6 +16,30 @@ export const QWEN_TTS_MODELS = [
 
 export const QWEN_TTS_VOICES = ['Cherry', 'Serena', 'Chelsie', 'Ethan', 'longanhuan_v3.6'] as const;
 
+export const FISH_DEFAULT_BASE = 'https://fishaudio.org/api/open/v1';
+export const FISH_MODERN_BASE = 'https://api.fish.audio';
+export const FISH_MODERN_DEFAULT_MODEL = 's2.1-pro-free';
+export const FISH_LEGACY_DEFAULT_MODEL = 'fishaudio-s21pro-flash';
+export const FISH_DEFAULT_VOICE = '';
+export const FISH_TTS_MODELS = [
+  's2.1-pro-free',
+  's2-pro',
+  's1',
+  'fishaudio-s21pro-flash',
+  'fishaudio-s21pro',
+  'fishaudio-s2pro',
+  'fishaudio-s1',
+  'minimax-2.8-turbo',
+  'minimax-2.8-hd',
+  'minimax-2.6-turbo',
+  'minimax-2.6-hd',
+  'qwen3-tts-flash',
+  'qwen-audio-3.0-tts-plus',
+  'qwen-audio-3.0-tts-flash',
+  'cosyvoice-v3-flash',
+  'doubao-tts-2.0',
+] as const;
+
 export const VOICE_BANK_TRANSCRIPT: Record<string, string> = {
   'assets/voice/ryza_wav/prologue_01.wav': 'これは、ライザの夢の世界。あなたと作る一夏の物語。',
   'assets/voice/ryza_wav/prologue_02.wav': 'この世界の主人公はあなた。',
@@ -197,9 +221,116 @@ export async function _fetchAsDataUrl(path: string, raw: boolean = false): Promi
   return `data:audio/wav;base64,${b64}`;
 }
 
-export async function _downloadUrl(url: string, localProxyFn: (u: string) => string): Promise<string> {
-  const res = await fetch(localProxyFn(qwenHttpsUrl(url)));
+export async function _downloadUrl(
+  url: string,
+  localProxyFn: (u: string) => string,
+  apiKey?: string
+): Promise<string> {
+  const headers = new Headers();
+  if (apiKey) headers.set('Authorization', `Bearer ${apiKey}`);
+  const res = await fetch(localProxyFn(qwenHttpsUrl(url)), { headers });
   if (!res.ok) throw new Error(`音频下载失败 HTTP ${res.status}`);
   const blob = await res.blob();
   return URL.createObjectURL(blob);
+}
+
+export function fishApiRoot(baseUrl?: string): string {
+  let s = String(baseUrl || '').trim();
+  if (!s) return FISH_DEFAULT_BASE;
+  s = s.replace(/\/+$/, '');
+  s = s.replace(/\/speech\/tts\/jobs$/i, '');
+  s = s.replace(/\/speech\/tts$/i, '');
+  s = s.replace(/\/v1\/tts$/i, '');
+  if (/api\.fish\.audio/i.test(s)) return FISH_MODERN_BASE;
+  if (/^https?:\/\/fishaudio\.org$/i.test(s)) return FISH_DEFAULT_BASE;
+  if (/^https?:\/\/fishaudio\.org\/v1$/i.test(s)) return FISH_DEFAULT_BASE;
+  if (/\/api\/open\/v\d+$/i.test(s)) return s;
+  if (/fishaudio\.org$/i.test(s)) return `${s}/api/open/v1`;
+  return s;
+}
+
+export function fishApiStyle(root?: string): 'modern' | 'legacy' {
+  return /api\.fish\.audio/i.test(String(root || '')) ? 'modern' : 'legacy';
+}
+
+export function fishTtsUrl(baseUrl?: string): string {
+  const root = fishApiRoot(baseUrl);
+  return fishApiStyle(root) === 'modern' ? `${root}/v1/tts` : `${root}/speech/tts`;
+}
+
+export function fishLanguage(lg?: string): string {
+  const map: Record<string, string> = {
+    ja: 'ja',
+    zh: 'zh',
+    'zh-tw': 'zh-TW',
+    en: 'en',
+    hi: 'hi',
+    id: 'id',
+    'pt-br': 'pt-BR',
+  };
+  return (lg && map[lg]) || '';
+}
+
+export function fishWantsInstruction(model?: string): boolean {
+  return /qwen-audio/i.test(String(model || ''));
+}
+
+export function fishWantsEmotion(model?: string): boolean {
+  return /minimax/i.test(String(model || ''));
+}
+
+export function fishEmotion(emotion?: string): string {
+  const e = String(emotion || '');
+  const map: Record<string, string> = {
+    happy: 'happy',
+    laughing: 'happy',
+    tease: 'surprised',
+    shy: 'calm',
+    cuddle: 'calm',
+    sad: 'sad',
+    crying: 'sad',
+    angry: 'angry',
+    neutral: 'calm',
+  };
+  return map[e] || '';
+}
+
+export function fishSampleUrls(customReference?: string): string[] {
+  const urls: string[] = [];
+  const seen: Record<string, boolean> = {};
+  function add(u?: string) {
+    const s = String(u || '').trim();
+    if (!s || seen[s]) return;
+    seen[s] = true;
+    urls.push(s);
+  }
+  if (customReference) add(customReference);
+  for (let i = 1; i <= 9; i++) {
+    const n = i < 10 ? `0${i}` : `${i}`;
+    add(`assets/voice/ryza_wav/prologue_${n}.wav`);
+    add(`assets/audio/prologue/jp/prologue_${n}.m4a`);
+  }
+  return urls;
+}
+
+export function audioMimeFrom(buf: ArrayBuffer, contentType?: string): string {
+  const ct = String(contentType || '')
+    .split(';')[0]
+    .trim()
+    .toLowerCase();
+  if (ct.startsWith('audio/')) return ct;
+  if (ct.includes('mpeg')) return 'audio/mpeg';
+  const u = new Uint8Array(buf || []);
+  if (u.length >= 4 && u[0] === 0x52 && u[1] === 0x49 && u[2] === 0x46 && u[3] === 0x46) {
+    return 'audio/wav';
+  }
+  if (u.length >= 3 && u[0] === 0x49 && u[1] === 0x44 && u[2] === 0x33) return 'audio/mpeg';
+  if (u.length >= 2 && u[0] === 0xff && (u[1] & 0xe0) === 0xe0) return 'audio/mpeg';
+  return '';
+}
+
+export function redactSecret(value: string, secret?: string): string {
+  const out = String(value || '');
+  const key = String(secret || '');
+  return key ? out.split(key).join('[redacted]') : out;
 }

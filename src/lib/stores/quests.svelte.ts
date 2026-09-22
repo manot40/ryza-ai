@@ -283,7 +283,7 @@ export const MONSTERS = [
 ];
 
 function ctx_area(): string {
-  const st = config.section('state') || {};
+  const st = config.get('state');
   const m = /^stage_(\d\d)_/.exec(st.stage || 'stage_01_001_04');
   return m ? 'area_' + m[1] : 'area_01';
 }
@@ -475,7 +475,7 @@ export class QuestStore {
   }
 
   async generate(useLLM: boolean): Promise<Quest> {
-    const llm = config.section('llm');
+    const llm = config.get('llm');
     if (!useLLM || !llm?.apiKey) {
       return this.startNo(9);
     }

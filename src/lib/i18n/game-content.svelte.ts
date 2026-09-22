@@ -641,3 +641,73 @@ export function getBagUpgradedToast(tier: string): string {
 export function getBagUpgradeFailedToast(): string {
   return 'Failed to upgrade bag.';
 }
+
+export type FailKind = 'nokey' | 'auth' | 'model' | 'timeout' | 'net' | 'other';
+
+export function getFailBubble(kind: FailKind): string {
+  switch (kind) {
+    case 'nokey':
+      // @wc-context: fail_bubble_nokey
+      return '（……ねえ、設定でAPIキーを入れないと、あたしの声が届かないみたい。）';
+    case 'auth':
+      // @wc-context: fail_bubble_auth
+      return '（……あれ、鍵が合ってないみたい。設定を見直してくれる？）';
+    case 'model':
+      // @wc-context: fail_bubble_model
+      return '（……そのモデル名、あたしには呼べないみたい。設定を確認して。）';
+    case 'timeout':
+      // @wc-context: fail_bubble_timeout
+      return '（……返事を待ってるのに、届いてないみたい。設定のベースURLとモデル名、見てくれる？）';
+    case 'net':
+      // @wc-context: fail_bubble_net
+      return '（……そのアドレスに辿り着けないみたい。設定のベースURL、合ってる？）';
+    default:
+      // @wc-context: fail_bubble_other
+      return '（……ごめん、今ちょっと繋がらないみたい。少し待ってからもう一回。）';
+  }
+}
+
+export function getFailKindBubble(kind: FailKind | string): string {
+  return getFailBubble(kind as FailKind);
+}
+
+export function getWelcomeGroupTitle(no: number): string {
+  switch (no) {
+    case 1:
+      // @wc-context: welcome_group
+      return 'Beginner Missions';
+    case 2:
+      // @wc-context: welcome_group
+      return 'Intermediate Missions';
+    case 3:
+      // @wc-context: welcome_group
+      return 'Advanced Missions';
+    default:
+      // @wc-context: welcome_group
+      return `Mission Step ${no}`;
+  }
+}
+
+export function getWelcomeMissionText(activity: string): string {
+  switch (activity) {
+    case 'mission_clear':
+      // @wc-context: welcome_mission
+      return 'Clear daily quests';
+    case 'touch':
+      // @wc-context: welcome_mission
+      return 'Interact with Ryza';
+    case 'talk':
+      // @wc-context: welcome_mission
+      return 'Chat in conversation';
+    case 'login_bonus':
+      // @wc-context: welcome_mission
+      return 'Claim login bonus';
+    default:
+      return activity;
+  }
+}
+
+export function getWelcomeGroupClearedToast(rewardGold: number, rewardExp: number): string {
+  // @wc-context: welcome_toast
+  return `Step completed! Claimed ${rewardGold} Gold & ${rewardExp} EXP!`;
+}

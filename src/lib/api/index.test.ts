@@ -1,5 +1,17 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { localProxy, upstreamUrl, replyLang, translate, chat, complete, listModels, Api } from './index';
+import {
+  localProxy,
+  upstreamUrl,
+  replyLang,
+  translate,
+  chat,
+  complete,
+  listModels,
+  Api,
+  createTransportError,
+  isTransportError,
+  fetchTransport,
+} from './index';
 import { config } from '$lib/stores/config.svelte';
 import { LocalStorageMock } from '../../../tests/utils';
 
@@ -34,26 +46,28 @@ describe('api index module', () => {
 
   describe('replyLang', () => {
     it('returns configured LLM language or fallback', () => {
-      config.set('app.lang', 'en');
-      config.set('llm.lang', 'auto');
+      config.setApp('lang', 'en');
+      config.setLLM('lang', 'auto');
       expect(replyLang()).toBe('en');
 
-      config.set('llm.lang', 'ja');
+      config.setLLM('lang', 'ja');
       expect(replyLang()).toBe('ja');
     });
   });
 
   describe('translate', () => {
     it('returns original text if target language is empty or matches replyLang', async () => {
-      config.set('llm.lang', 'ja');
+      config.setLLM('lang', 'ja');
       expect(await translate('こんにちは', 'ja')).toBe('こんにちは');
       expect(await translate('こんにちは', '')).toBe('こんにちは');
     });
 
     it('invokes LLM translation when target language differs', async () => {
-      config.set('llm.apiKey', 'sk-test');
-      config.set('llm.baseUrl', 'https://api.example.com/v1');
-      config.set('llm.lang', 'ja');
+      config.setLLM({
+        apiKey: 'sk-test',
+        baseUrl: 'https://api.example.com/v1',
+        lang: 'ja',
+      });
 
       const mockResponse = {
         choices: [{ message: { content: 'Hello there!' } }],
@@ -73,13 +87,15 @@ describe('api index module', () => {
 
   describe('chat & complete', () => {
     it('rejects chat when no API key is set', async () => {
-      config.set('llm.apiKey', '');
+      config.setLLM('apiKey', '');
       await expect(chat([], 'Hello')).rejects.toThrow('NO_KEY');
     });
 
     it('sends chat request, strips tags and returns TaggedReply', async () => {
-      config.set('llm.apiKey', 'sk-test');
-      config.set('llm.baseUrl', 'https://api.example.com/v1');
+      config.setLLM({
+        apiKey: 'sk-test',
+        baseUrl: 'https://api.example.com/v1',
+      });
 
       const mockReply = {
         choices: [
@@ -108,8 +124,10 @@ describe('api index module', () => {
     });
 
     it('performs minimal completion for summaries', async () => {
-      config.set('llm.apiKey', 'sk-test');
-      config.set('llm.baseUrl', 'https://api.example.com/v1');
+      config.setLLM({
+        apiKey: 'sk-test',
+        baseUrl: 'https://api.example.com/v1',
+      });
 
       const mockReply = {
         choices: [{ message: { content: '・Summary of the day' } }],
@@ -131,8 +149,10 @@ describe('api index module', () => {
 
   describe('listModels', () => {
     it('fetches and sorts model list', async () => {
-      config.set('llm.apiKey', 'sk-test');
-      config.set('llm.baseUrl', 'https://api.example.com/v1');
+      config.setLLM({
+        apiKey: 'sk-test',
+        baseUrl: 'https://api.example.com/v1',
+      });
 
       const mockData = {
         data: [{ id: 'gpt-4o' }, { id: 'gpt-3.5-turbo' }],
@@ -151,6 +171,42 @@ describe('api index module', () => {
       expect(models.length).toBe(2);
       expect(models[0].id).toBe('gpt-3.5-turbo');
       expect(models[1].id).toBe('gpt-4o');
+    });
+  });
+
+  describe('Transport Error classification', () => {
+    it('creates transport errors with code and custom or default messages', () => {
+      const err = createTransportError('timeout');
+      expect(err.code).toBe('timeout');
+      expect(isTransportError(err)).toBe(true);
+      expect(err.message).toContain('Timed out');
+
+      const netErr = createTransportError('net', 'Custom net error');
+      expect(netErr.code).toBe('net');
+      expect(isTransportError(netErr)).toBe(true);
+      expect(netErr.message).toBe('Custom net error');
+
+      expect(isTransportError(new Error('regular'))).toBe(false);
+      expect(isTransportError(null)).toBe(false);
+    });
+
+    it('classifies TimeoutError into transport timeout', async () => {
+      const timeoutError = new Error('The operation was aborted due to timeout');
+      timeoutError.name = 'TimeoutError';
+      vi.stubGlobal('fetch', vi.fn().mockRejectedValue(timeoutError));
+
+      await expect(fetchTransport('https://example.com', {}, 1000)).rejects.toMatchObject({
+        code: 'timeout',
+      });
+    });
+
+    it('classifies network connection failure into transport net', async () => {
+      const netError = new TypeError('Failed to fetch');
+      vi.stubGlobal('fetch', vi.fn().mockRejectedValue(netError));
+
+      await expect(fetchTransport('https://example.com', {}, 1000)).rejects.toMatchObject({
+        code: 'net',
+      });
     });
   });
 });

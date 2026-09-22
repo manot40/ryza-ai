@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { SessionStore, MEM_KEY, SAVE_KEY, type SaveSlotSnapshot } from './session.svelte';
+import { SessionStore, MEM_KEY, SAVE_KEY, CHAT_HISTORY_KEY, type SaveSlotSnapshot } from './session.svelte';
 import { config } from './config.svelte';
 import { game } from './game.svelte';
 import { memory } from './memory.svelte';
@@ -66,13 +66,23 @@ describe('SessionStore', () => {
       expect(mockStorage.getItem(MEM_KEY)).toBe('[]');
     });
 
-    it('manages turn history', () => {
+    it('manages turn history and persists to localStorage', () => {
       session.pushHistory({ role: 'user', content: 'Turn 1' });
-      session.pushHistory({ role: 'assistant', content: 'Turn 1 answer' });
+      session.pushHistory({ role: 'assistant', content: 'Turn 1 answer', voiceKey: 'v_voice_1' });
       expect(session.history).toHaveLength(2);
+      expect(session.history[1].voiceKey).toBe('v_voice_1');
+      expect(session.history[0].id).toBeDefined();
+      expect(session.history[0].at).toBeDefined();
+
+      const raw = mockStorage.getItem(CHAT_HISTORY_KEY);
+      expect(raw).not.toBeNull();
+      const parsed = JSON.parse(raw!);
+      expect(parsed).toHaveLength(2);
+      expect(parsed[1].voiceKey).toBe('v_voice_1');
 
       session.clearHistory();
       expect(session.history).toHaveLength(0);
+      expect(mockStorage.getItem(CHAT_HISTORY_KEY)).toBe('[]');
     });
   });
 
@@ -86,8 +96,8 @@ describe('SessionStore', () => {
     });
 
     it('saves and loads snapshots to slot index', () => {
-      config.set('state.stage', 'stage_01_001_04');
-      config.set('state.day', 3);
+      config.setState('stage', 'stage_01_001_04');
+      config.setState('day', 3);
       session.pushHistory({ role: 'user', content: 'Saved history' });
       session.remember('ryza', 'Saved diary');
 
@@ -100,14 +110,14 @@ describe('SessionStore', () => {
       expect(slots[1]?.history[0].content).toBe('Saved history');
 
       // Change active state
-      config.set('state.day', 99);
+      config.setState('day', 99);
       session.clearHistory();
       expect(session.history).toHaveLength(0);
 
       // Load slot 1
       const loadOk = session.loadSlot(1);
       expect(loadOk).toBe(true);
-      expect(config.section('state').day).toBe(3);
+      expect(config.get('state').day).toBe(3);
       expect(session.history[0].content).toBe('Saved history');
     });
 
@@ -117,44 +127,62 @@ describe('SessionStore', () => {
       expect(session.loadSlot(-1)).toBe(false);
       expect(session.loadSlot(3)).toBe(false);
     });
+
+    it('handles localStorage quota exception gracefully', () => {
+      const setItemSpy = vi.spyOn(localStorage, 'setItem').mockImplementation(() => {
+        throw new Error('QuotaExceededError');
+      });
+
+      const ok = session.saveSlot(0);
+      expect(ok).toBe(false);
+
+      setItemSpy.mockRestore();
+    });
+
+    it('rejects incomplete snapshot on load', () => {
+      // @ts-expect-error test invalid snapshot shape
+      expect(session.applySnapshot(null)).toBe(false);
+      // @ts-expect-error test invalid snapshot shape
+      expect(session.applySnapshot({ at: Date.now() })).toBe(false);
+    });
   });
 
   describe('Clock & Day Cycle', () => {
     it('tickDay increments state.day on date rollover', () => {
-      config.set('state.day', 1);
-      config.set('state.lastDayDate', 'Yesterday Date');
+      config.setState('day', 1);
+      config.setState('lastDayDate', 'Yesterday Date');
 
       session.tickDay();
-      expect(config.section('state').day).toBe(2);
-      expect(config.section('state').lastDayDate).toBe(new Date().toDateString());
+      expect(config.get('state').day).toBe(2);
+      expect(config.get('state').lastDayDate).toBe(new Date().toDateString());
 
       // Calling again on the same day does not double-increment
       session.tickDay();
-      expect(config.section('state').day).toBe(2);
+      expect(config.get('state').day).toBe(2);
     });
 
     it('tickTime respects real time mode and updates tod', () => {
-      config.set('app.timeMode', 'real');
+      config.setApp('timeMode', 'real');
       session.tickTime();
       const expectedTod = world.hourToTod(new Date().getHours());
-      expect(config.section('state').tod).toBe(expectedTod);
+      expect(config.get('state').tod).toBe(expectedTod);
     });
 
     it('tickTime respects manual mode without changing tod', () => {
-      config.set('app.timeMode', 'manual');
-      config.set('state.tod', 'ngt');
+      config.setApp('timeMode', 'manual');
+      config.setState('tod', 'ngt');
       session.tickTime();
-      expect(config.section('state').tod).toBe('ngt');
+      expect(config.get('state').tod).toBe('ngt');
     });
 
     it('refills stamina when transition from ngt to mor at home', () => {
-      config.set('state.stage', 'stage_01_001_04');
-      config.set('state.tod', 'ngt');
+      config.setState('stage', 'stage_01_001_04');
+      config.setState('tod', 'ngt');
       game.spend(30, 'test');
       expect(game.stamina).toBeLessThan(game.max());
 
       session.setTod('mor');
-      expect(config.section('state').tod).toBe('mor');
+      expect(config.get('state').tod).toBe('mor');
       expect(game.stamina).toBe(game.max());
     });
   });

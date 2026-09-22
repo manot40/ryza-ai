@@ -155,4 +155,21 @@ describe('WorldStore', () => {
     expect(h1).toBe(h2);
     expect(h1).not.toBe(h3);
   });
+
+  it('provides world map coordinates and fallback positioning', async () => {
+    const { WORLD_MAP_FIELDS, WORLD_MAP_STAGES, fallbackFieldPos, fallbackStagePos } =
+      await import('./world.svelte');
+    expect(WORLD_MAP_FIELDS['field_01_001']).toEqual([0.73, 0.9, 2.35]);
+    expect(WORLD_MAP_STAGES['stage_01_001_04']).toEqual([-0.84, -0.25]);
+
+    const fields = mockHierarchy.areas[0].fields;
+    const fPos = fallbackFieldPos(fields, 'field_01_001');
+    expect(fPos.length).toBe(3);
+    expect(typeof fPos[0]).toBe('number');
+
+    const stages = fields[0].stages;
+    const sPos = fallbackStagePos(stages, 'stage_01_001_01', [0.5, 0.5, 2.15]);
+    expect(sPos.length).toBe(3);
+    expect(typeof sPos[0]).toBe('number');
+  });
 });

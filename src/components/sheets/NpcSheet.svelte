@@ -7,7 +7,7 @@
   import { game } from '$lib/stores/game.svelte';
   import { toast } from '$lib/stores/toast.svelte';
 
-  const appState = $derived(config.section('state') || {});
+  const appState = $derived(config.get('state'));
   const currentStageId = $derived(overlayStore.npcStageId || appState.stage || 'stage_01_001_04');
   const stageName = $derived(world.stageName(currentStageId) || currentStageId);
   const npcs = $derived(world.npcsAt(currentStageId, appState.day || 1));

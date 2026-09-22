@@ -31,14 +31,16 @@ describe('+server /_proxy', () => {
 
       expect(res.status).toBe(204);
       expect(res.headers.get('Access-Control-Allow-Origin')).toBe('*');
-      expect(res.headers.get('Access-Control-Allow-Headers')).toBe('Authorization, Content-Type, api-key');
+      expect(res.headers.get('Access-Control-Allow-Headers')).toBe(
+        'Authorization, Content-Type, api-key, model'
+      );
       expect(res.headers.get('Access-Control-Allow-Methods')).toBe('GET, POST, OPTIONS');
       expect(mockFetch).not.toHaveBeenCalled();
     });
   });
 
-  describe('HTTPS-only validation', () => {
-    it('GET rejects a non-https target with 400 and does not call fetch', async () => {
+  describe('HTTPS / Loopback validation', () => {
+    it('GET rejects a non-https non-loopback target with 400 and does not call fetch', async () => {
       const event = makeEvent(
         'GET',
         `https://local.test/_proxy?u=${encodeURIComponent('http://insecure.example.com')}`
@@ -49,7 +51,7 @@ describe('+server /_proxy', () => {
       expect(mockFetch).not.toHaveBeenCalled();
     });
 
-    it('POST rejects a non-https target with 400 and does not call fetch', async () => {
+    it('POST rejects a non-https non-loopback target with 400 and does not call fetch', async () => {
       const event = makeEvent(
         'POST',
         `https://local.test/_proxy?u=${encodeURIComponent('http://insecure.example.com')}`
@@ -58,6 +60,28 @@ describe('+server /_proxy', () => {
 
       expect(res.status).toBe(400);
       expect(mockFetch).not.toHaveBeenCalled();
+    });
+
+    it('allows http target on localhost / loopback', async () => {
+      mockFetch.mockResolvedValueOnce(new Response('ok', { status: 200 }));
+      const event = makeEvent(
+        'GET',
+        `https://local.test/_proxy?u=${encodeURIComponent('http://127.0.0.1:50021/version')}`
+      );
+      const res = await GET(event);
+      expect(res.status).toBe(200);
+      expect(mockFetch).toHaveBeenCalledTimes(1);
+    });
+
+    it('allows http target on [::1]', async () => {
+      mockFetch.mockResolvedValueOnce(new Response('ok', { status: 200 }));
+      const event = makeEvent(
+        'GET',
+        `https://local.test/_proxy?u=${encodeURIComponent('http://[::1]:50021/version')}`
+      );
+      const res = await GET(event);
+      expect(res.status).toBe(200);
+      expect(mockFetch).toHaveBeenCalledTimes(1);
     });
 
     it('GET returns 400 when the u param is missing', async () => {
@@ -107,6 +131,19 @@ describe('+server /_proxy', () => {
       const [, opts] = mockFetch.mock.calls[0];
       const headers = (opts as RequestInit).headers as Headers;
       expect(headers.get('api-key')).toBe('my-api-key');
+    });
+
+    it('forwards the model header', async () => {
+      mockFetch.mockResolvedValueOnce(new Response('ok', { status: 200 }));
+
+      const event = makeEvent('GET', `https://local.test/_proxy?u=${encodeURIComponent(UPSTREAM)}`, {
+        headers: { model: 's2.1-pro-free' },
+      });
+      await GET(event);
+
+      const [, opts] = mockFetch.mock.calls[0];
+      const headers = (opts as RequestInit).headers as Headers;
+      expect(headers.get('model')).toBe('s2.1-pro-free');
     });
 
     it('injects a User-Agent that starts with RyzaChat/', async () => {

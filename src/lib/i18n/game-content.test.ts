@@ -225,4 +225,16 @@ describe('game-content localization module', () => {
       '宝箱：500G + 古代の遺物'
     );
   });
+
+  it('translates welcome mission getters and fail bubbles', async () => {
+    const { getWelcomeGroupTitle, getWelcomeMissionText, getWelcomeGroupClearedToast, getFailKindBubble } =
+      await import('./game-content.svelte');
+
+    expect(await t('en', () => getWelcomeGroupTitle(1))).toBe('Beginner Missions');
+    expect(await t('en', () => getWelcomeMissionText('talk'))).toBe('Chat in conversation');
+    expect(await t('en', () => getWelcomeGroupClearedToast(300, 40))).toBe(
+      'Step completed! Claimed 300 Gold & 40 EXP!'
+    );
+    expect(await t('en', () => getFailKindBubble('auth'))).toContain('鍵が合ってない');
+  });
 });

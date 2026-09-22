@@ -30,6 +30,7 @@ msgstr "Misi"
 
 #: src/components/chrome/Drawer.svelte
 #: src/components/views/WorldView.svelte
+#: src/components/views/WorldView.svelte
 msgid "World Map"
 msgstr "Peta Dunia"
 
@@ -62,12 +63,16 @@ msgstr "Pengaturan"
 
 #: src/components/chrome/Drawer.svelte
 #: src/components/chrome/Drawer.svelte
+#: src/components/views/HistoryView.svelte
+#: src/components/views/HistoryView.svelte
 #: src/components/views/TalkView.svelte
 #: src/components/views/TalkView.svelte
+#: src/components/views/TalkView.svelte
+#: src/components/views/WorldMapView.svelte
 msgid "Ryza"
 msgstr "Ryza"
 
-#. 0: config.section('state')?.day || 1
+#. 0: config.get('state')?.day || 1
 #: src/components/chrome/Drawer.svelte
 msgid "Days together: {0}"
 msgstr "Bersama selama {0} hari"
@@ -78,31 +83,31 @@ msgstr "Edisi Rekonstruksi Offline · Tanpa server resmi"
 
 #: src/components/chrome/SideMenu.svelte
 #: src/components/sheets/LanguageSheet.svelte
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LangTab.svelte
+#: src/components/views/settings/LangTab.svelte
+#: src/components/views/settings/LangTab.svelte
+#: src/components/views/settings/LangTab.svelte
 msgid "English"
 msgstr "English"
 
 #: src/components/chrome/SideMenu.svelte
 #: src/components/sheets/LanguageSheet.svelte
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LangTab.svelte
 msgid "日本語"
 msgstr "日本語"
 
 #: src/components/chrome/SideMenu.svelte
 #: src/components/sheets/LanguageSheet.svelte
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LangTab.svelte
 msgid "简体中文"
 msgstr "简体中文"
 
 #: src/components/chrome/SideMenu.svelte
 #: src/components/sheets/LanguageSheet.svelte
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LangTab.svelte
+#: src/components/views/settings/LangTab.svelte
+#: src/components/views/settings/LangTab.svelte
+#: src/components/views/settings/LangTab.svelte
 msgid "Bahasa Indonesia"
 msgstr "Bahasa Indonesia"
 
@@ -273,9 +278,11 @@ msgid "Repeat Days"
 msgstr "Hari Pengulangan"
 
 #: src/components/views/AlarmView.svelte
+#: src/components/views/CharaView.svelte
+#: src/components/views/HistoryView.svelte
 #: src/components/views/MemoryView.svelte
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/DataTab.svelte
+#: src/components/views/settings/DataTab.svelte
 #: src/routes/+layout.svelte
 msgid "Cancel"
 msgstr "Batal"
@@ -359,7 +366,6 @@ msgid "Current Situation"
 msgstr "Situasi Saat Ini"
 
 #: src/components/views/CharaView.svelte
-#: src/components/views/SettingsView.svelte
 msgid "Settings saved successfully!"
 msgstr "Pengaturan berhasil disimpan!"
 
@@ -382,6 +388,7 @@ msgid "Day {0}"
 msgstr "Hari ke-{0}"
 
 #: src/components/views/DailyView.svelte
+#: src/components/views/WelcomeView.svelte
 msgid "Claimed"
 msgstr "Sudah Diklaim"
 
@@ -400,10 +407,6 @@ msgstr "Sudah Diklaim Hari Ini"
 #: src/components/views/MemoryView.svelte
 msgid "Clear All Memories"
 msgstr "Hapus Semua Kenangan"
-
-#: src/components/views/MemoryView.svelte
-msgid "Are you sure you want to erase all conversation memories and summaries? This cannot be undone."
-msgstr "Apakah Anda yakin ingin menghapus semua kenangan percakapan dan ringkasan? Tindakan ini tidak dapat dibatalkan."
 
 #: src/components/views/MemoryView.svelte
 #: src/components/views/MemoryView.svelte
@@ -513,21 +516,17 @@ msgstr "Selesai"
 msgid "Recent Completed Quests"
 msgstr "Misi yang Baru Selesai"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/DataTab.svelte
 msgid "Reset All Settings"
 msgstr "Reset Semua Pengaturan"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/DataTab.svelte
 msgid "Are you sure you want to reset all settings to defaults? Your game progress will be preserved."
 msgstr "Apakah Anda yakin ingin mengatur ulang semua pengaturan ke default? Progres permainan akan tetap aman."
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/DataTab.svelte
 msgid "Reset Settings"
 msgstr "Atur Ulang"
-
-#: src/components/views/SettingsView.svelte
-msgid "Save All"
-msgstr "Simpan Semua"
 
 #: src/components/views/SettingsView.svelte
 msgid "LLM"
@@ -549,53 +548,50 @@ msgstr "Permainan"
 msgid "Data"
 msgstr "Data"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "API Base URL"
 msgstr "URL Dasar API"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Model Name"
 msgstr "Nama Model"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "API Key"
 msgstr "Kunci API"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Temperature"
 msgstr "Temperatur"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Voice Synthesis (TTS)"
 msgstr "Sintesis Suara (TTS)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/AudioTab.svelte
 msgid "Volume Controls"
 msgstr "Kontrol Volume"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/AudioTab.svelte
 msgid "Background Music (BGM)"
 msgstr "Musik Latar (BGM)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/AudioTab.svelte
 msgid "Voice Volume"
 msgstr "Volume Suara"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/AudioTab.svelte
 msgid "Sound Effects (SE)"
 msgstr "Efek Suara (SE)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Cheat Mode"
 msgstr "Mode Curang"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/DataTab.svelte
 msgid "Data Management"
 msgstr "Manajemen Data"
-
-#: src/components/views/SettingsView.svelte
-msgid "Settings saved!"
-msgstr "Pengaturan tersimpan!"
 
 #. 0: skins.length
 #: src/components/views/SkinView.svelte
@@ -713,14 +709,6 @@ msgid "Embark on an adventure and advance your main quest line."
 msgstr "Mulailah petualangan dan majukan alur misi utamamu."
 
 #: src/components/views/WelcomeView.svelte
-msgid "All Completed!"
-msgstr "Semua Selesai!"
-
-#: src/components/views/WelcomeView.svelte
-msgid "Tutorial Checklist"
-msgstr "Daftar Tutorial"
-
-#: src/components/views/WelcomeView.svelte
 msgid "Done"
 msgstr "Selesai"
 
@@ -804,6 +792,7 @@ msgid "Output Style"
 msgstr "Gaya Output"
 
 #: src/components/sheets/ModeSheet.svelte
+#: src/components/views/WorldView.svelte
 msgid "Map"
 msgstr "Peta"
 
@@ -833,7 +822,7 @@ msgid "Gold"
 msgstr "Gold"
 
 #: src/components/sheets/StatusSheet.svelte
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "None"
 msgstr "Tidak ada"
 
@@ -1120,603 +1109,572 @@ msgstr "Simpan"
 msgid "Load"
 msgstr "Muat"
 
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
-msgid "Chloe"
-msgstr "Chloe"
-
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "明るく元気な若い女性の声。親しみやすい口調で。"
 msgstr "Suara wanita muda yang ceria dan energik. Dengan nada yang ramah."
 
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
-msgid "Cherry"
-msgstr "Cherry"
-
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Please enter API Base URL first"
 msgstr "Harap masukkan URL Dasar API terlebih dahulu"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Fetching models list..."
 msgstr "Mengambil daftar model..."
 
 #. 0: llmModelsList.length
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Found {0} models!"
 msgstr "Ditemukan {0} model!"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "No models found, enter model manually."
 msgstr "Model tidak ditemukan, masukkan model secara manual."
 
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
+#: src/components/views/SkinView.svelte
+#: src/components/views/settings/LlmTab.svelte
+#: src/components/views/settings/LlmTab.svelte
+#: src/components/views/settings/TtsTab.svelte
+#: src/components/views/settings/TtsTab.svelte
+#: src/components/views/settings/TtsTab.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Unknown error"
 msgstr "Kesalahan tidak diketahui"
 
 #. 0: (e as Error)?.message || 'Unknown error'
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Failed to fetch models: {0}"
 msgstr "Gagal mengambil model: {0}"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "API Key is required to test LLM"
 msgstr "Kunci API diperlukan untuk menguji LLM"
 
-#: src/components/views/SettingsView.svelte
-msgid "Testing LLM connection..."
-msgstr "Menguji koneksi LLM..."
-
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "短く一言、あいさつして。"
 msgstr "Beri salam singkat satu kalimat."
 
 #. 0: res.text
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Ryza: {0}"
 msgstr "Ryza: {0}"
 
 #. 0: (e as Error)?.message || 'Unknown error'
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "LLM Test Failed: {0}"
 msgstr "Uji LLM Gagal: {0}"
 
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Please enter Qwen API Key first"
 msgstr "Harap masukkan Kunci API Qwen terlebih dahulu"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Fetching Qwen models..."
 msgstr "Mengambil model Qwen..."
 
 #. 0: qwenModelsList.length
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Found {0} Qwen models!"
 msgstr "Ditemukan {0} model Qwen!"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "No models returned from endpoint."
 msgstr "Tidak ada model yang dikembalikan dari titik akhir."
 
 #. 0: (e as Error)?.message || 'Unknown error'
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Failed to fetch Qwen models: {0}"
 msgstr "Gagal mengambil model Qwen: {0}"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Cloning voice from reference sample..."
 msgstr "Mengkloning suara dari sampel referensi..."
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Voice successfully cloned!"
 msgstr "Suara berhasil dikloning!"
 
 #. 0: (e as Error)?.message || 'Unknown error'
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Voice cloning failed: {0}"
 msgstr "Kloning suara gagal: {0}"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "TTS API Key is required"
 msgstr "Kunci API TTS diperlukan"
 
-#: src/components/views/SettingsView.svelte
-msgid "Please enter a valid TTS model name"
-msgstr "Harap masukkan nama model TTS yang valid"
-
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Synthesizing voice test..."
 msgstr "Melakukan uji sintesis suara..."
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "やあ、聞こえてる？"
 msgstr "Hei, bisa dengar?"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "TTS is disabled or produced no audio"
 msgstr "TTS dinonaktifkan atau tidak menghasilkan audio"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Voice synthesis test succeeded!"
 msgstr "Uji sintesis suara berhasil!"
 
 #. 0: (e as Error)?.message || 'Unknown error'
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "TTS Test Failed: {0}"
 msgstr "Uji TTS Gagal: {0}"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/DataTab.svelte
 msgid "Configuration copied to clipboard!"
 msgstr "Konfigurasi disalin ke papan klip!"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/DataTab.svelte
 msgid "Settings imported successfully!"
 msgstr "Pengaturan berhasil diimpor!"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/DataTab.svelte
 msgid "Invalid JSON"
 msgstr "JSON tidak valid"
 
+#. 0: (err as Error)?.message || 'Unknown error'
 #. 0: (e as Error)?.message || 'Invalid JSON'
-#: src/components/views/SettingsView.svelte
+#: src/components/views/SkinView.svelte
+#: src/components/views/settings/DataTab.svelte
 msgid "Import failed: {0}"
 msgstr "Impor gagal: {0}"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Large Language Model (LLM)"
 msgstr "Model Bahasa Besar (LLM)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "OpenAI-compatible URL ending in /v1. Dev config seeds from config/providers.json."
 msgstr "URL yang kompatibel dengan OpenAI berakhiran /v1. Konfigurasi pengembang disiapkan dari config/providers.json."
 
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Fetching..."
 msgstr "Mengambil..."
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Fetch Models"
 msgstr "Ambil Model"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Fetch to populate dropdown or type manually"
 msgstr "Ambil untuk mengisi dropdown atau ketik manual"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Stored only in local storage"
 msgstr "Hanya disimpan di penyimpanan lokal"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Max Tokens"
 msgstr "Token Maksimum"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "History Turns"
 msgstr "Giliran Riwayat"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Context Window (tokens)"
 msgstr "Jendela Konteks (Token)"
 
 #. 0: estimatedContext
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "0 = guess from model id. Auto resolved: {0} tokens."
 msgstr "0 = tebak dari id model. Terpecahkan otomatis: {0} token."
 
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Auto"
 msgstr "Otomatis"
 
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Off"
 msgstr "Nonaktif"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "On"
 msgstr "Aktif"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Thinking Mode"
 msgstr "Mode Berpikir"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Default"
 msgstr "Default"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Low"
 msgstr "Rendah"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Medium"
 msgstr "Sedang"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "High"
 msgstr "Tinggi"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Max"
 msgstr "Maksimal"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Effort"
 msgstr "Tingkat Usaha"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "OpenAI"
 msgstr "OpenAI"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "OpenRouter"
 msgstr "OpenRouter"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Qwen"
 msgstr "Qwen"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "GLM"
 msgstr "GLM"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Protocol Style"
 msgstr "Gaya Protokol"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Reasoning & Thinking"
 msgstr "Penalaran & Pemikiran"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Testing..."
 msgstr "Menguji..."
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "OpenAI Compatible (Chat/Voice Clone)"
 msgstr "Kompatibel OpenAI (Obrolan/Kloning Suara)"
 
-#: src/components/views/SettingsView.svelte
-msgid "OpenAI Audio Speech (/v1/audio/speech)"
-msgstr "Audio Ucapan OpenAI (/v1/audio/speech)"
-
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "DashScope / Qwen TTS"
 msgstr "DashScope / Qwen TTS"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Service Provider"
 msgstr "Penyedia Layanan"
 
-#: src/components/views/SettingsView.svelte
-msgid "Standard /v1/audio/speech"
-msgstr "Standar /v1/audio/speech"
-
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "audio.cpp Compatible"
 msgstr "Kompatibel audio.cpp"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Request Payload Style"
 msgstr "Gaya Payload Permintaan"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Leave empty for public DashScope endpoint"
 msgstr "Biarkan kosong untuk titik akhir publik DashScope"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Qwen Base URL"
 msgstr "URL Dasar Qwen"
 
-#: src/components/views/SettingsView.svelte
-msgid "DashScope API Key"
-msgstr "Kunci API DashScope"
-
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Qwen API Key"
 msgstr "Kunci API Qwen"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Fetch Qwen Models"
 msgstr "Ambil Model Qwen"
 
-#: src/components/views/SettingsView.svelte
-msgid "Qwen Model ID"
-msgstr "ID Model Qwen"
-
-#. 0: qwenVoice
-#: src/components/views/SettingsView.svelte
+#. 0: tts.qwenVoice
+#: src/components/views/settings/TtsTab.svelte
 msgid "{0} (Custom / Cloned)"
 msgstr "{0} (Kustom / Kloning)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Voice ID or Preset"
 msgstr "ID Suara atau Preset"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Cloning..."
 msgstr "Mengkloning..."
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Clone Voice from Ryza Sample"
 msgstr "Kloning Suara dari Sampel Ryza"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Voice Clone Target Model"
 msgstr "Model Target Kloning Suara"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Voice Clone"
 msgstr "Kloning Suara"
 
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Off (Disabled)"
 msgstr "Nonaktif (Dimatikan)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Voice Mode"
 msgstr "Mode Suara"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "TTS Base URL"
 msgstr "URL Dasar TTS"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "TTS API Key"
 msgstr "Kunci API TTS"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Voice Clone (Ryza's original voice)"
 msgstr "Kloning Suara (Suara asli Ryza)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Preset Voice"
 msgstr "Suara Preset"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "TTS Mode"
 msgstr "Mode TTS"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Voice Clone Model ID"
 msgstr "ID Model Kloning Suara"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Reference Audio Path"
 msgstr "Jalur Audio Referensi"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Preset Model ID"
 msgstr "ID Model Preset"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Preset Voice Name"
 msgstr "Nama Suara Preset"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Voice Style Hint"
 msgstr "Petunjuk Gaya Suara"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Sets voice personality; delivery tone (ASMR whisper, story) layers on top automatically."
 msgstr "Menentukan kepribadian suara; nada penyampaian (bisikan ASMR, cerita) ditumpuk di atasnya secara otomatis."
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Synthesizing..."
 msgstr "Mensintesis..."
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LangTab.svelte
 msgid "4-Axis Language Matrix"
 msgstr "Matriks Bahasa 4-Sumbu"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LangTab.svelte
 msgid "Configure UI strings, shipped voice recordings, character replies, and TTS speech independently."
 msgstr "Konfigurasikan teks antarmuka, rekaman suara bawaan, balasan karakter, dan sintesis suara secara mandiri."
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LangTab.svelte
 msgid "Interface Language (UI)"
 msgstr "Bahasa Antarmuka (UI)"
 
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LangTab.svelte
+#: src/components/views/settings/LangTab.svelte
 msgid "Auto (Follow Interface)"
 msgstr "Otomatis (Ikuti Antarmuka)"
 
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LangTab.svelte
+#: src/components/views/settings/LangTab.svelte
 msgid "日本語 (Japanese)"
 msgstr "Bahasa Jepang (Japanese)"
 
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LangTab.svelte
+#: src/components/views/settings/LangTab.svelte
+#: src/components/views/settings/LangTab.svelte
 msgid "简体中文 (Chinese)"
 msgstr "Bahasa Mandarin (Chinese)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LangTab.svelte
 msgid "Recorded Voice Packs"
 msgstr "Paket Rekaman Suara"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LangTab.svelte
 msgid "Language used for shipped sound clips and alarm wake-up voices."
 msgstr "Bahasa yang digunakan untuk klip audio bawaan dan suara bangun alarm."
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LangTab.svelte
 msgid "日本語 (Japanese — Recommended for character authenticity)"
 msgstr "Bahasa Jepang (Disarankan demi keaslian karakter)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LangTab.svelte
 msgid "Ryza Replies (Character Chat Text)"
 msgstr "Balasan Ryza (Teks Obrolan Karakter)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LangTab.svelte
 msgid "The language Ryza writes in the dialogue text. Set to 日本語 to keep dialogue Japanese regardless of UI language."
 msgstr "Bahasa yang ditulis Ryza dalam teks dialog. Atur ke Bahasa Jepang untuk menjaga dialog tetap Jepang terlepas dari bahasa UI."
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LangTab.svelte
 msgid "Auto (Same as Ryza Replies)"
 msgstr "Otomatis (Sama dengan Balasan Ryza)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LangTab.svelte
 msgid "Speech Synthesis Language (TTS)"
 msgstr "Bahasa Sintesis Suara (TTS)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LangTab.svelte
 msgid "If speech language differs from Ryza replies, the line will be automatically translated by the LLM before sending to TTS."
 msgstr "Jika bahasa sintesis suara berbeda dari balasan Ryza, kalimat akan diterjemahkan secara otomatis oleh LLM sebelum dikirim ke TTS."
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Presentation & Feedback"
 msgstr "Tampilan & Umpan Balik"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Voice Playback"
 msgstr "Pemutaran Suara"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Master audio voice toggle"
 msgstr "Sakelar utama pemutaran suara"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Show Speech Bubble"
 msgstr "Tampilkan Gelembung Dialog"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Talk bubbles over the stage"
 msgstr "Gelembung percakapan di atas panggung"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Vibration"
 msgstr "Getaran"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Haptic feedback on taps and events"
 msgstr "Umpan balik haptik saat ketukan dan acara"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Rim Light"
 msgstr "Lampu Tepi (Rim Light)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Character edge lighting shader"
 msgstr "Shader pencahayaan tepi karakter"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Text Typewriter Speed"
 msgstr "Kecepatan Mesin Tik Teks"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Time Passage"
 msgstr "Perjalanan Waktu"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Real Clock (Follows device system time)"
 msgstr "Waktu Nyata (Mengikuti waktu sistem perangkat)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "In-Game Flow (Simulated time progression)"
 msgstr "Waktu Dalam Game (Pergerakan waktu simulasi)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Manual Only (TOD toggle in top bar)"
 msgstr "Hanya Manual (Tombol waktu di bilah atas)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Time Mode"
 msgstr "Mode Waktu"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Slow (1 real min = 15 game mins)"
 msgstr "Lambat (1 menit nyata = 15 menit game)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Standard (1 real min = 1 game hr)"
 msgstr "Standar (1 menit nyata = 1 jam game)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Fast (1 real min = 3 game hrs)"
 msgstr "Cepat (1 menit nyata = 3 jam game)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Very Fast (1 real min = 6 game hrs)"
 msgstr "Sangat Cepat (1 menit nyata = 6 jam game)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "In-Game Flow Speed"
 msgstr "Kecepatan Waktu Dalam Game"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Long Term Memory"
 msgstr "Ingatan Jangka Panjang"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Enable Memory Summaries"
 msgstr "Aktifkan Ringkasan Ingatan"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Fold sessions into summary cards"
 msgstr "Lipat sesi menjadi kartu ringkasan"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Turns / Session"
 msgstr "Giliran / Sesi"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Session Cap"
 msgstr "Batas Sesi"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Summary Cap"
 msgstr "Batas Ringkasan"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Game Balance"
 msgstr "Keseimbangan Permainan"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Infinite stamina (🍎∞) and coins"
 msgstr "Stamina (🍎∞) dan koin tak terbatas"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/AudioTab.svelte
 msgid "Master Volume"
 msgstr "Volume Utama"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/AudioTab.svelte
 msgid "Ambient Sound"
 msgstr "Suara Sekitar"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/DataTab.svelte
 msgid "📥 Export Settings JSON (Copy & Download)"
 msgstr "📥 Ekspor Pengaturan JSON (Salin & Unduh)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/DataTab.svelte
 msgid "📤 Import Settings JSON..."
 msgstr "📤 Impor Pengaturan JSON..."
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/DataTab.svelte
 msgid "⚠️ Reset All Settings to Defaults"
 msgstr "⚠️ Atur Ulang Semua Pengaturan ke Default"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/DataTab.svelte
 msgid "Import Configuration JSON"
 msgstr "Impor Konfigurasi JSON"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/DataTab.svelte
 msgid "Paste exported configuration JSON below to restore settings."
 msgstr "Tempelkan JSON konfigurasi yang diekspor di bawah untuk memulihkan pengaturan."
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/DataTab.svelte
 msgid "Apply Configuration"
 msgstr "Terapkan Konfigurasi"
 
@@ -2606,3 +2564,623 @@ msgstr "Peti Harta: {0} Gold + {1}"
 #: src/lib/i18n/game-content.svelte.ts
 msgid "Ryza Game Content"
 msgstr "Konten Game Ryza"
+
+#: src/lib/talk-loop.svelte.ts
+msgid "LLM Authentication failed (check API Key)"
+msgstr "Autentikasi LLM gagal (periksa API Key)"
+
+#: src/lib/talk-loop.svelte.ts
+msgid "LLM Model not supported (check model name in Settings)"
+msgstr "Model LLM tidak didukung (periksa nama model di Pengaturan)"
+
+#: src/lib/audio/voice-input.svelte.ts
+msgid "Microphone access denied"
+msgstr "Akses mikrofon ditolak"
+
+#: src/lib/audio/voice-input.svelte.ts
+msgid "Switched to server speech recognition"
+msgstr "Beralih ke pengenalan suara server"
+
+#. 0: err
+#: src/lib/audio/voice-input.svelte.ts
+msgid "Microphone error: {0}"
+msgstr "Kesalahan mikrofon: {0}"
+
+#: src/lib/audio/voice-input.svelte.ts
+msgid "Speech recognition unstable"
+msgstr "Pengenalan suara tidak stabil"
+
+#: src/lib/audio/voice-input.svelte.ts
+msgid "Speech recognition unavailable"
+msgstr "Pengenalan suara tidak tersedia"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "welcome_group"
+msgid "Beginner Missions"
+msgstr "Misi Pemula"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "welcome_group"
+msgid "Intermediate Missions"
+msgstr "Misi Menengah"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "welcome_group"
+msgid "Advanced Missions"
+msgstr "Misi Lanjutan"
+
+#. 0: no
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "welcome_group"
+msgid "Mission Step {0}"
+msgstr "Tahap Misi {0}"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "welcome_mission"
+msgid "Clear daily quests"
+msgstr "Selesaikan misi harian"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "welcome_mission"
+msgid "Interact with Ryza"
+msgstr "Berinteraksi dengan Ryza"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "welcome_mission"
+msgid "Chat in conversation"
+msgstr "Mengobrol dalam percakapan"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "welcome_mission"
+msgid "Claim login bonus"
+msgstr "Klaim bonus login"
+
+#. 0: rewardGold; 1: rewardExp
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "welcome_toast"
+msgid "Step completed! Claimed {0} Gold & {1} EXP!"
+msgstr "Tahap selesai! Mendapatkan {0} Gold & {1} EXP!"
+
+#: src/lib/talk-loop.svelte.ts
+msgid "No voice to replay"
+msgstr "Tidak ada suara untuk diputar ulang"
+
+#: src/lib/talk-loop.svelte.ts
+msgid "No voice to favorite"
+msgstr "Tidak ada suara untuk difavoritkan"
+
+#: src/components/views/HistoryView.svelte
+#: src/lib/talk-loop.svelte.ts
+msgid "Added to favorites ★"
+msgstr "Ditambahkan ke favorit ★"
+
+#: src/components/views/HistoryView.svelte
+#: src/lib/talk-loop.svelte.ts
+msgid "Removed from favorites"
+msgstr "Dihapus dari favorit"
+
+#: src/components/views/MemoryView.svelte
+msgid "Are you sure you want to erase all conversation memories, summaries, and episodic records? This cannot be undone."
+msgstr "Apakah Anda yakin ingin menghapus semua memori percakapan, ringkasan, dan catatan episodik? Ini tidak dapat diurungkan."
+
+#: src/components/views/MemoryView.svelte
+msgid "Story Digest"
+msgstr "Ringkasan Cerita"
+
+#: src/components/views/MemoryView.svelte
+msgid "Episodic Records"
+msgstr "Catatan Episodik"
+
+#. 0: longTerm.entries.length
+#: src/components/views/MemoryView.svelte
+msgid "{0} records"
+msgstr "{0} catatan"
+
+#: src/components/views/SkinView.svelte
+msgid "Importing costume..."
+msgstr "Mengimpor kostum..."
+
+#. 0: v.id
+#: src/components/views/SkinView.svelte
+msgid "Imported: {0}"
+msgstr "Diimpor: {0}"
+
+#: src/components/views/SkinView.svelte
+msgid "Import ZIP"
+msgstr "Impor ZIP"
+
+#: src/components/views/TalkView.svelte
+#: src/components/views/WorldMapView.svelte
+msgid "Zoom In"
+msgstr "Perbesar"
+
+#: src/components/views/TalkView.svelte
+#: src/components/views/WorldMapView.svelte
+msgid "Zoom Out"
+msgstr "Perkecil"
+
+#: src/components/views/TalkView.svelte
+#: src/components/views/WorldMapView.svelte
+msgid "Reset Zoom"
+msgstr "Atur Ulang Zoom"
+
+#: src/components/views/TalkView.svelte
+msgid "Toggle Posture"
+msgstr "Ganti Postur"
+
+#: src/components/views/TalkView.svelte
+msgid "Sit"
+msgstr "Duduk"
+
+#: src/components/views/TalkView.svelte
+msgid "Stand"
+msgstr "Berdiri"
+
+#: src/components/views/TalkView.svelte
+msgid "Replay Voice"
+msgstr "Putar Ulang Suara"
+
+#: src/components/views/TalkView.svelte
+msgid "Favorite Voice"
+msgstr "Favoritkan Suara"
+
+#: src/components/views/TalkView.svelte
+msgid "Expand Actions"
+msgstr "Buka Tindakan"
+
+#: src/components/views/TalkView.svelte
+msgid "Collapse Actions"
+msgstr "Tutup Tindakan"
+
+#: src/components/views/TalkView.svelte
+msgid "ライザ"
+msgstr "Ryza"
+
+#: src/components/views/TalkView.svelte
+msgid "Voice Input"
+msgstr "Input Suara"
+
+#: src/components/views/WorldMapView.svelte
+msgid "Area locked"
+msgstr "Area terkunci"
+
+#: src/components/views/WorldMapView.svelte
+msgid "World Map Plate"
+msgstr "Peta Dunia"
+
+#: src/components/views/WorldMapView.svelte
+msgid "Pin"
+msgstr "Pin"
+
+#: src/components/views/WorldMapView.svelte
+msgid "Ring"
+msgstr "Cincin"
+
+#: src/components/views/WorldMapView.svelte
+msgid "Stage Pin"
+msgstr "Pin Tahap"
+
+#: src/components/views/WorldMapView.svelte
+msgid "Current Location"
+msgstr "Lokasi Saat Ini"
+
+#: src/components/views/WorldMapView.svelte
+#: src/components/views/WorldMapView.svelte
+#: src/components/views/WorldMapView.svelte
+msgid "Current"
+msgstr "Saat Ini"
+
+#: src/components/views/WorldMapView.svelte
+#: src/components/views/WorldView.svelte
+msgid "List"
+msgstr "Daftar"
+
+#: src/components/views/WorldMapView.svelte
+msgid "Escape"
+msgstr "Tutup"
+
+#: src/components/views/WorldMapView.svelte
+msgid "Select Area"
+msgstr "Pilih Area"
+
+#: src/components/views/WorldMapView.svelte
+msgid "No ship, no leaving Kurken Island"
+msgstr "Belum ada kapal, tidak bisa meninggalkan Pulau Kurken"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Clear Quests"
+msgstr "Selesaikan Misi"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Interact with Ryza"
+msgstr "Berinteraksi dengan Ryza"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Chat Conversations"
+msgstr "Percakapan Obrolan"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Claim Login Bonus"
+msgstr "Klaim Bonus Login"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Complete main or side quests"
+msgstr "Selesaikan misi utama atau sampingan"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Tap Ryza to interact with her"
+msgstr "Ketuk Ryza untuk berinteraksi dengannya"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Have friendly dialogue turns with Ryza"
+msgstr "Lakukan percakapan ramah dengan Ryza"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Collect daily calendar rewards"
+msgstr "Kumpulkan hadiah kalender harian"
+
+#. 0: reward.money; 1: reward.exp
+#: src/components/views/WelcomeView.svelte
+msgid "Claimed +{0} Gold, +{1} EXP!"
+msgstr "Mendapatkan +{0} Gold, +{1} EXP!"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Steps"
+msgstr "Tahap"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Milestones"
+msgstr "Pencapaian"
+
+#. 0: g.day
+#: src/components/views/WelcomeView.svelte
+msgid "🔒 D.{0}"
+msgstr "🔒 H.{0}"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Step Locked"
+msgstr "Tahap Terkunci"
+
+#. 0: currentGroup.day
+#: src/components/views/WelcomeView.svelte
+msgid "Unlocks on Day {0} of your journey. Keep visiting Ryza!"
+msgstr "Terbuka pada Hari ke-{0} perjalanan Anda. Terus kunjungi Ryza!"
+
+#. 0: currentGroup.title
+#: src/components/views/WelcomeView.svelte
+msgid "{0} Reward"
+msgstr "Hadiah {0}"
+
+#: src/components/views/WelcomeView.svelte
+msgid "300 Gold & 40 EXP"
+msgstr "300 Gold & 40 EXP"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Claim Reward"
+msgstr "Klaim Hadiah"
+
+#: src/components/views/WelcomeView.svelte
+msgid "In Progress"
+msgstr "Sedang Berjalan"
+
+#: src/components/views/settings/TtsTab.svelte
+#: src/components/views/settings/TtsTab.svelte
+msgid "Fish Audio API Key is required"
+msgstr "API Key Fish Audio diperlukan"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Cloning Ryza voice via Fish Audio..."
+msgstr "Mengkloning suara Ryza melalui Fish Audio..."
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Voice successfully cloned to Fish Audio!"
+msgstr "Suara berhasil dikloning ke Fish Audio!"
+
+#. 0: (e as Error)?.message || 'Unknown error'
+#: src/components/views/settings/TtsTab.svelte
+msgid "Fish Audio clone failed: {0}"
+msgstr "Kloning Fish Audio gagal: {0}"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Qwen API Key is required"
+msgstr "API Key Qwen diperlukan"
+
+#: src/components/views/SettingsView.svelte
+msgid "STT"
+msgstr "STT"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Fish Audio (api.fish.audio)"
+msgstr "Fish Audio (api.fish.audio)"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "VOICEVOX (Local Engine)"
+msgstr "VOICEVOX (Engine Lokal)"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "AivisSpeech (Local Engine)"
+msgstr "AivisSpeech (Engine Lokal)"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Qwen Model Name"
+msgstr "Nama Model Qwen"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Fish Audio Base URL"
+msgstr "URL Dasar Fish Audio"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Fish Audio API Key"
+msgstr "API Key Fish Audio"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Leave empty or click clone below"
+msgstr "Biarkan kosong atau klik kloning di bawah"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Clone Voice to Fish Audio"
+msgstr "Kloning Suara ke Fish Audio"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Voice ID (Normal Voice)"
+msgstr "ID Suara (Suara Normal)"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Optional ASMR whisper voice ID"
+msgstr "ID suara bisikan ASMR opsional"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Voice ID (ASMR Mode Voice)"
+msgstr "ID Suara (Mode ASMR)"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "VOICEVOX Engine URL"
+msgstr "URL Engine VOICEVOX"
+
+#: src/components/views/settings/TtsTab.svelte
+#: src/components/views/settings/TtsTab.svelte
+msgid "Local loopback synthesis engine. No API key needed."
+msgstr "Engine sintesis loopback lokal. Tidak perlu API key."
+
+#: src/components/views/settings/TtsTab.svelte
+#: src/components/views/settings/TtsTab.svelte
+msgid "Speaker Style ID"
+msgstr "ID Gaya Pembicara"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "AivisSpeech Engine URL"
+msgstr "URL Engine AivisSpeech"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Speech-to-Text (STT) & Voice Input"
+msgstr "Input Suara (STT) & Mikrofon"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Configure microphone transcription, VAD auto-send, and hands-free interruption."
+msgstr "Konfigurasikan transkripsi mikrofon, pengiriman otomatis VAD, dan interupsi suara."
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Voice Input Master"
+msgstr "Master Input Suara"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Enable microphone button in chat"
+msgstr "Aktifkan tombol mikrofon di obrolan"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Auto (Browser WebSpeech with fallback)"
+msgstr "Otomatis (WebSpeech peramban dengan cadangan)"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Browser Built-in WebSpeech API"
+msgstr "WebSpeech API Bawaan Peramban"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Server Audio Capture (Whisper API)"
+msgstr "Penangkapan Audio Server (Whisper API)"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Transcription Engine"
+msgstr "Engine Transkripsi"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Auto Send on Silence"
+msgstr "Kirim Otomatis saat Hening"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Send message automatically when you pause"
+msgstr "Kirim pesan otomatis saat Anda jeda"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Barge-In (Voice Interruption)"
+msgstr "Interupsi Suara (Barge-In)"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Interrupt Ryza's speech when you start speaking"
+msgstr "Potong suara Ryza saat Anda mulai berbicara"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Server STT Endpoint URL"
+msgstr "URL Endpoint STT Server"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Server STT API Key"
+msgstr "API Key STT Server"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "STT Model"
+msgstr "Model STT"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Show Original Text"
+msgstr "Tampilkan Teks Asli"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Display original text alongside translations"
+msgstr "Tampilkan teks asli di samping terjemahan"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "NSFW Costume Permission"
+msgstr "Izin Kostum NSFW"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Allow Ryza to undress or switch to bikini textures"
+msgstr "Izinkan Ryza berganti ke varian bikini"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Restrained (Ryza rarely brings in others)"
+msgstr "Tertahan (Ryza jarang membawa orang lain)"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Normal (Natural conversational balance)"
+msgstr "Normal (Keseimbangan percakapan alami)"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Frequent (Island friends chime in often)"
+msgstr "Sering (Teman-teman pulau sering ikut mengobrol)"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Lively (Kurken island banter in full swing)"
+msgstr "Ramai (Canda tawa pulau Kurken sepenuhnya)"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Guest Dialogue Frequency"
+msgstr "Frekuensi Dialog Tamu"
+
+#: src/components/views/WorldView.svelte
+#: src/components/views/WorldView.svelte
+msgid "Close Map"
+msgstr "Tutup Peta"
+
+#: src/components/views/WorldMapView.svelte
+msgid "Drag Locked (Tap to Unlock)"
+msgstr "Geser Terkunci (Ketuk untuk Buka)"
+
+#: src/components/views/WorldMapView.svelte
+msgid "Drag Unlocked (Tap to Lock)"
+msgstr "Geser Terbuka (Ketuk untuk Kunci)"
+
+#: src/components/views/SettingsView.svelte
+msgid "<0/> Saved"
+msgstr "<0/> Tersimpan"
+
+#: src/components/views/settings/LlmTab.svelte
+msgid "Connecting to Ryza (LLM Test)..."
+msgstr "Menghubungkan ke Ryza (Uji LLM)..."
+
+#: src/lib/talk-loop.svelte.ts
+msgid "Timed out: endpoint never answered (check base URL & model name)"
+msgstr "Waktu habis: endpoint tidak merespons (periksa base URL & nama model)"
+
+#: src/lib/talk-loop.svelte.ts
+msgid "Could not reach base URL (check address & CORS)"
+msgstr "Tidak dapat menghubungi base URL (periksa alamat & CORS)"
+
+#: src/lib/stores/session.svelte.ts
+msgid "Could not write the save: this device is out of storage (clear an older slot, or shorten the chat first)"
+msgstr "Tidak dapat menulis simpanan: penyimpanan perangkat penuh (hapus slot lama, atau persingkat percakapannya)"
+
+#: src/lib/stores/session.svelte.ts
+msgid "That save could not be read (its contents are incomplete)"
+msgstr "Simpanan itu tidak dapat dibaca (isinya tidak lengkap)"
+
+#: src/components/views/CharaView.svelte
+msgid "Clear chat memory?"
+msgstr "Hapus memori obrolan?"
+
+#: src/components/views/CharaView.svelte
+msgid "Are you sure you want to clear the current conversation history? This cannot be undone."
+msgstr "Yakin ingin menghapus riwayat percakapan saat ini? Tindakan ini tidak dapat dibatalkan."
+
+#: src/components/views/CharaView.svelte
+msgid "Clear Memory"
+msgstr "Hapus Memori"
+
+#: src/components/views/CharaView.svelte
+#: src/components/views/HistoryView.svelte
+msgid "Chat history cleared"
+msgstr "Riwayat obrolan dihapus"
+
+#: src/components/views/CharaView.svelte
+msgid "Clear chat memory"
+msgstr "Hapus memori obrolan"
+
+#: src/lib/talk-loop.svelte.ts
+msgid "Voice clip no longer in cache"
+msgstr "Klip suara sudah tidak ada di cache"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/HistoryView.svelte
+msgid "Chat History"
+msgstr "Riwayat Obrolan"
+
+#: src/components/views/HistoryView.svelte
+msgid "Clear Chat History?"
+msgstr "Hapus Riwayat Obrolan?"
+
+#: src/components/views/HistoryView.svelte
+msgid "Are you sure you want to clear all dialogue history in this session? Active turns will be reset, but saved memory logs remain intact."
+msgstr "Yakin ingin menghapus semua riwayat dialog di sesi ini? Giliran aktif akan direset, tetapi log memori yang tersimpan tetap utuh."
+
+#: src/components/views/HistoryView.svelte
+msgid "Clear History"
+msgstr "Hapus Riwayat"
+
+#: src/components/views/HistoryView.svelte
+msgid "Clear"
+msgstr "Hapus"
+
+#. 0: counts.all
+#: src/components/views/HistoryView.svelte
+msgid "All ({0})"
+msgstr "Semua ({0})"
+
+#. 0: counts.voiced
+#: src/components/views/HistoryView.svelte
+msgid "<0/> Voiced ({0})"
+msgstr "<0/> Bersuara ({0})"
+
+#. 0: counts.fav
+#: src/components/views/HistoryView.svelte
+msgid "<0/> Favorites ({0})"
+msgstr "<0/> Favorit ({0})"
+
+#: src/components/views/HistoryView.svelte
+msgid "No voice recordings generated yet. Turn on Voice Playback in settings to hear Ryza speak!"
+msgstr "Belum ada rekaman suara yang dibuat. Aktifkan Pemutaran Suara di pengaturan untuk mendengar Ryza berbicara!"
+
+#: src/components/views/HistoryView.svelte
+msgid "No favorite voices yet. Star any dialogue voice clip to pin it to favorites."
+msgstr "Belum ada suara favorit. Tandai klip suara dialog dengan bintang untuk menyematkannya ke favorit."
+
+#: src/components/views/HistoryView.svelte
+msgid "Talk with Ryza in Free Talk or Story mode to build conversation history."
+msgstr "Bercakap dengan Ryza di mode Obrolan Bebas atau Mode Cerita untuk membangun riwayat percakapan."
+
+#: src/components/views/HistoryView.svelte
+msgid "No chat history"
+msgstr "Belum ada riwayat obrolan"
+
+#: src/components/views/HistoryView.svelte
+msgid "Playing..."
+msgstr "Memutar..."
+
+#: src/components/views/HistoryView.svelte
+msgid "Voice clip"
+msgstr "Klip suara"
+
+#: src/components/views/HistoryView.svelte
+msgid "Favorited"
+msgstr "Difavoritkan"
+
+#: src/components/views/HistoryView.svelte
+msgid "Add to favorites"
+msgstr "Tambahkan ke favorit"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "OpenAI Audio Speech (/v1/audio/speech)"
+msgstr "OpenAI Audio Speech (/v1/audio/speech)"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Standard /v1/audio/speech"
+msgstr "Standar /v1/audio/speech"

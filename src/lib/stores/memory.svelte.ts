@@ -99,7 +99,7 @@ export class MemoryStore {
   }
 
   cfg() {
-    const m = config.section('memory') || {};
+    const m = config.get('memory');
     return {
       enabled: m.enabled !== false,
       turnsPerSession: clampInt(m.turnsPerSession, 8, 2, 32),

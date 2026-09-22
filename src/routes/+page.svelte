@@ -12,15 +12,18 @@
   import CharaView from '$components/views/CharaView.svelte';
   import SkinView from '$components/views/SkinView.svelte';
   import MemoryView from '$components/views/MemoryView.svelte';
+  import HistoryView from '$components/views/HistoryView.svelte';
   import SettingsView from '$components/views/SettingsView.svelte';
   import WelcomeView from '$components/views/WelcomeView.svelte';
+
+  import { fade } from 'svelte/transition';
 
   let open = $state(false);
 
   const ANIMATION_TIMEOUT = 300;
   const debActiveView = useDebounceState(() => viewStore.activeView, ANIMATION_TIMEOUT);
   const activeView = $derived.by(() => {
-    const isOpen = debActiveView.value && debActiveView.value !== 'talk';
+    const isOpen = debActiveView.value && debActiveView.value !== 'talk' && debActiveView.value !== 'world';
     return isOpen ? debActiveView.value : viewStore.activeView;
   });
 
@@ -30,7 +33,10 @@
   }
 
   $effect(() => {
-    const isOpen = viewStore.activeView !== 'talk' && VIEWS.includes(viewStore.activeView);
+    const isOpen =
+      viewStore.activeView !== 'talk' &&
+      viewStore.activeView !== 'world' &&
+      VIEWS.includes(viewStore.activeView);
     const setter = () => (open = isOpen);
 
     if (!isOpen) {
@@ -49,15 +55,22 @@
     <TalkView />
   </div>
 
+  <!-- Dedicated Full-Screen World Map Overlay -->
+  {#if viewStore.activeView === 'world'}
+    <div
+      class="fixed inset-0 z-40 pointer-events-auto flex flex-col bg-[#0d1016] text-foreground overflow-hidden"
+      transition:fade={{ duration: 150 }}>
+      <WorldView onClose={() => viewStore.setView('talk')} />
+    </div>
+  {/if}
+
   <!-- Other Views overlay on top when active -->
   <Sheet.Root {open} onOpenChange={closeSheet}>
     <Sheet.Content
       side="bottom"
       class="w-full max-w-xl mx-auto bg-background/95 border border-border/60 rounded-t-2xl"
       showCloseButton={false}>
-      {#if activeView === 'world'}
-        <WorldView />
-      {:else if activeView === 'quest'}
+      {#if activeView === 'quest'}
         <QuestView />
       {:else if activeView === 'daily'}
         <DailyView />
@@ -69,6 +82,8 @@
         <SkinView />
       {:else if activeView === 'memory'}
         <MemoryView />
+      {:else if activeView === 'chat_history'}
+        <HistoryView />
       {:else if activeView === 'settings'}
         <SettingsView />
       {:else if activeView === 'welcome'}

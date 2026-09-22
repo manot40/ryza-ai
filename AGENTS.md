@@ -27,8 +27,8 @@ src/
 │   ├── views/                  # TalkView, WorldView, QuestView, DailyView, AlarmView,
 │   │                           # CharaView, SkinView, MemoryView, SettingsView, WelcomeView
 │   ├── sheets/                 # ModeSheet, InventorySheet, StatusSheet, NpcSheet
-│   ├── overlays/               # QuestClearOverlay, AlarmOverlay, AppModal
-│   └── ui/                     # bits-ui / shadcn-svelte styled primitives (Button, Card, Sheet, etc.)
+│   ├── overlays/               # ConfirmDialog, QuestClearOverlay, AlarmOverlay, AppModal
+│   └── ui/                     # bits-ui / shadcn-svelte styled primitives (Button, Card, Sheet, AlertDialog, etc.)
 │
 ├── lib/
 │   ├── avatar/                 # Spine 2D avatar integration
@@ -47,6 +47,7 @@ src/
 │   │   ├── view.svelte.ts      # View navigation router store
 │   │   ├── overlay.svelte.ts   # Sheet and modal overlay visibility store
 │   │   ├── toast.svelte.ts     # Reactive toast notifications with highest z-index
+│   │   ├── confirm.svelte.ts   # Global Promise-based confirmation dialog store (shadcn AlertDialog)
 │   │   └── nsfw.svelte.ts      # Spine atlas variant manager (nsfw vs default)
 │   ├── api/                    # LLM + TTS transport, SSE streaming parser, system prompt builder
 │   ├── audio/                  # SoundManager (BGM/ambient/SFX), VoiceBankService (alarm/quest voice lines)
@@ -100,6 +101,18 @@ scripts/
   `quests.clear()` triggers `sound.se('quest_clear')`, bursts confetti, and opens `QuestClearOverlay`. Closing the overlay calls `quests.takeNext()` and triggers `talkLoop.playWellDone()` to play Ryza's voiced "おつかれさま！" clip matching the time of day and style.
 - **World Map & Guests**:
   World map has 5 areas. Island departure is locked until Quest #8 (ship construction) is completed (`game.sailed`). Guests resolve deterministically based on `(npc, day)` from `npc_placement.json` and appear on area tabs, field headers, and stage cards.
+- **Global Confirmation Dialog (`confirmDialog`)**:
+  Promise-based modal confirmation prompts use `confirmDialog.ask(options)` from `$lib/stores/confirm.svelte`, rendered via `ConfirmDialog.svelte` with shadcn-svelte `AlertDialog`. Do not use native `window.confirm()` or `window.alert()`. Supports `title`, `description`, `confirmText`, `cancelText`, and `destructive` styling:
+  ```ts
+  const ok = await confirmDialog.ask({
+    title: 'Clear chat memory?',
+    description: 'Are you sure you want to clear current conversation history?',
+    confirmText: 'Clear',
+    cancelText: 'Cancel',
+    destructive: true,
+  });
+  if (!ok) return;
+  ```
 
 ### Language & Localization
 
@@ -173,8 +186,8 @@ The project uses **wuchale** for compile-first i18n. Two patterns are used depen
 
   ```ts
   const TOAST = {
-    NO_STAMINA: "Not enough stamina…!",
-    NETWORK_ERROR: "Network error: {0}",
+    NO_STAMINA: 'Not enough stamina…!',
+    NETWORK_ERROR: 'Network error: {0}',
   };
 
   export function getToast(key: keyof typeof TOAST): string {

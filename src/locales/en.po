@@ -30,6 +30,7 @@ msgstr "Quests"
 
 #: src/components/chrome/Drawer.svelte
 #: src/components/views/WorldView.svelte
+#: src/components/views/WorldView.svelte
 msgid "World Map"
 msgstr "World Map"
 
@@ -62,12 +63,16 @@ msgstr "Settings"
 
 #: src/components/chrome/Drawer.svelte
 #: src/components/chrome/Drawer.svelte
+#: src/components/views/HistoryView.svelte
+#: src/components/views/HistoryView.svelte
 #: src/components/views/TalkView.svelte
 #: src/components/views/TalkView.svelte
+#: src/components/views/TalkView.svelte
+#: src/components/views/WorldMapView.svelte
 msgid "Ryza"
 msgstr "Ryza"
 
-#. 0: config.section('state')?.day || 1
+#. 0: config.get('state')?.day || 1
 #: src/components/chrome/Drawer.svelte
 msgid "Days together: {0}"
 msgstr "Days together: {0}"
@@ -78,31 +83,31 @@ msgstr "Offline Rebuilt Edition · No official server"
 
 #: src/components/chrome/SideMenu.svelte
 #: src/components/sheets/LanguageSheet.svelte
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LangTab.svelte
+#: src/components/views/settings/LangTab.svelte
+#: src/components/views/settings/LangTab.svelte
+#: src/components/views/settings/LangTab.svelte
 msgid "English"
 msgstr "English"
 
 #: src/components/chrome/SideMenu.svelte
 #: src/components/sheets/LanguageSheet.svelte
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LangTab.svelte
 msgid "日本語"
 msgstr "日本語"
 
 #: src/components/chrome/SideMenu.svelte
 #: src/components/sheets/LanguageSheet.svelte
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LangTab.svelte
 msgid "简体中文"
 msgstr "简体中文"
 
 #: src/components/chrome/SideMenu.svelte
 #: src/components/sheets/LanguageSheet.svelte
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LangTab.svelte
+#: src/components/views/settings/LangTab.svelte
+#: src/components/views/settings/LangTab.svelte
+#: src/components/views/settings/LangTab.svelte
 msgid "Bahasa Indonesia"
 msgstr "Bahasa Indonesia"
 
@@ -273,9 +278,11 @@ msgid "Repeat Days"
 msgstr "Repeat Days"
 
 #: src/components/views/AlarmView.svelte
+#: src/components/views/CharaView.svelte
+#: src/components/views/HistoryView.svelte
 #: src/components/views/MemoryView.svelte
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/DataTab.svelte
+#: src/components/views/settings/DataTab.svelte
 #: src/routes/+layout.svelte
 msgid "Cancel"
 msgstr "Cancel"
@@ -359,7 +366,6 @@ msgid "Current Situation"
 msgstr "Current Situation"
 
 #: src/components/views/CharaView.svelte
-#: src/components/views/SettingsView.svelte
 msgid "Settings saved successfully!"
 msgstr "Settings saved successfully!"
 
@@ -382,6 +388,7 @@ msgid "Day {0}"
 msgstr "Day {0}"
 
 #: src/components/views/DailyView.svelte
+#: src/components/views/WelcomeView.svelte
 msgid "Claimed"
 msgstr "Claimed"
 
@@ -400,10 +407,6 @@ msgstr "Already Claimed Today"
 #: src/components/views/MemoryView.svelte
 msgid "Clear All Memories"
 msgstr "Clear All Memories"
-
-#: src/components/views/MemoryView.svelte
-msgid "Are you sure you want to erase all conversation memories and summaries? This cannot be undone."
-msgstr "Are you sure you want to erase all conversation memories and summaries? This cannot be undone."
 
 #: src/components/views/MemoryView.svelte
 #: src/components/views/MemoryView.svelte
@@ -513,21 +516,17 @@ msgstr "Completed"
 msgid "Recent Completed Quests"
 msgstr "Recent Completed Quests"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/DataTab.svelte
 msgid "Reset All Settings"
 msgstr "Reset All Settings"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/DataTab.svelte
 msgid "Are you sure you want to reset all settings to defaults? Your game progress will be preserved."
 msgstr "Are you sure you want to reset all settings to defaults? Your game progress will be preserved."
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/DataTab.svelte
 msgid "Reset Settings"
 msgstr "Reset Settings"
-
-#: src/components/views/SettingsView.svelte
-msgid "Save All"
-msgstr "Save All"
 
 #: src/components/views/SettingsView.svelte
 msgid "LLM"
@@ -549,53 +548,50 @@ msgstr "Game"
 msgid "Data"
 msgstr "Data"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "API Base URL"
 msgstr "API Base URL"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Model Name"
 msgstr "Model Name"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "API Key"
 msgstr "API Key"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Temperature"
 msgstr "Temperature"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Voice Synthesis (TTS)"
 msgstr "Voice Synthesis (TTS)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/AudioTab.svelte
 msgid "Volume Controls"
 msgstr "Volume Controls"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/AudioTab.svelte
 msgid "Background Music (BGM)"
 msgstr "Background Music (BGM)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/AudioTab.svelte
 msgid "Voice Volume"
 msgstr "Voice Volume"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/AudioTab.svelte
 msgid "Sound Effects (SE)"
 msgstr "Sound Effects (SE)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Cheat Mode"
 msgstr "Cheat Mode"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/DataTab.svelte
 msgid "Data Management"
 msgstr "Data Management"
-
-#: src/components/views/SettingsView.svelte
-msgid "Settings saved!"
-msgstr "Settings saved!"
 
 #. 0: skins.length
 #: src/components/views/SkinView.svelte
@@ -713,14 +709,6 @@ msgid "Embark on an adventure and advance your main quest line."
 msgstr "Embark on an adventure and advance your main quest line."
 
 #: src/components/views/WelcomeView.svelte
-msgid "All Completed!"
-msgstr "All Completed!"
-
-#: src/components/views/WelcomeView.svelte
-msgid "Tutorial Checklist"
-msgstr "Tutorial Checklist"
-
-#: src/components/views/WelcomeView.svelte
 msgid "Done"
 msgstr "Done"
 
@@ -804,6 +792,7 @@ msgid "Output Style"
 msgstr "Output Style"
 
 #: src/components/sheets/ModeSheet.svelte
+#: src/components/views/WorldView.svelte
 msgid "Map"
 msgstr "Map"
 
@@ -833,7 +822,7 @@ msgid "Gold"
 msgstr "Gold"
 
 #: src/components/sheets/StatusSheet.svelte
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "None"
 msgstr "None"
 
@@ -1120,603 +1109,572 @@ msgstr "Save"
 msgid "Load"
 msgstr "Load"
 
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
-msgid "Chloe"
-msgstr "Chloe"
-
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "明るく元気な若い女性の声。親しみやすい口調で。"
 msgstr "明るく元気な若い女性の声。親しみやすい口調で。"
 
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
-msgid "Cherry"
-msgstr "Cherry"
-
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Please enter API Base URL first"
 msgstr "Please enter API Base URL first"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Fetching models list..."
 msgstr "Fetching models list..."
 
 #. 0: llmModelsList.length
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Found {0} models!"
 msgstr "Found {0} models!"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "No models found, enter model manually."
 msgstr "No models found, enter model manually."
 
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
+#: src/components/views/SkinView.svelte
+#: src/components/views/settings/LlmTab.svelte
+#: src/components/views/settings/LlmTab.svelte
+#: src/components/views/settings/TtsTab.svelte
+#: src/components/views/settings/TtsTab.svelte
+#: src/components/views/settings/TtsTab.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Unknown error"
 msgstr "Unknown error"
 
 #. 0: (e as Error)?.message || 'Unknown error'
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Failed to fetch models: {0}"
 msgstr "Failed to fetch models: {0}"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "API Key is required to test LLM"
 msgstr "API Key is required to test LLM"
 
-#: src/components/views/SettingsView.svelte
-msgid "Testing LLM connection..."
-msgstr "Testing LLM connection..."
-
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "短く一言、あいさつして。"
 msgstr "短く一言、あいさつして。"
 
 #. 0: res.text
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Ryza: {0}"
 msgstr "Ryza: {0}"
 
 #. 0: (e as Error)?.message || 'Unknown error'
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "LLM Test Failed: {0}"
 msgstr "LLM Test Failed: {0}"
 
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Please enter Qwen API Key first"
 msgstr "Please enter Qwen API Key first"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Fetching Qwen models..."
 msgstr "Fetching Qwen models..."
 
 #. 0: qwenModelsList.length
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Found {0} Qwen models!"
 msgstr "Found {0} Qwen models!"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "No models returned from endpoint."
 msgstr "No models returned from endpoint."
 
 #. 0: (e as Error)?.message || 'Unknown error'
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Failed to fetch Qwen models: {0}"
 msgstr "Failed to fetch Qwen models: {0}"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Cloning voice from reference sample..."
 msgstr "Cloning voice from reference sample..."
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Voice successfully cloned!"
 msgstr "Voice successfully cloned!"
 
 #. 0: (e as Error)?.message || 'Unknown error'
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Voice cloning failed: {0}"
 msgstr "Voice cloning failed: {0}"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "TTS API Key is required"
 msgstr "TTS API Key is required"
 
-#: src/components/views/SettingsView.svelte
-msgid "Please enter a valid TTS model name"
-msgstr "Please enter a valid TTS model name"
-
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Synthesizing voice test..."
 msgstr "Synthesizing voice test..."
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "やあ、聞こえてる？"
 msgstr "やあ、聞こえてる？"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "TTS is disabled or produced no audio"
 msgstr "TTS is disabled or produced no audio"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Voice synthesis test succeeded!"
 msgstr "Voice synthesis test succeeded!"
 
 #. 0: (e as Error)?.message || 'Unknown error'
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "TTS Test Failed: {0}"
 msgstr "TTS Test Failed: {0}"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/DataTab.svelte
 msgid "Configuration copied to clipboard!"
 msgstr "Configuration copied to clipboard!"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/DataTab.svelte
 msgid "Settings imported successfully!"
 msgstr "Settings imported successfully!"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/DataTab.svelte
 msgid "Invalid JSON"
 msgstr "Invalid JSON"
 
+#. 0: (err as Error)?.message || 'Unknown error'
 #. 0: (e as Error)?.message || 'Invalid JSON'
-#: src/components/views/SettingsView.svelte
+#: src/components/views/SkinView.svelte
+#: src/components/views/settings/DataTab.svelte
 msgid "Import failed: {0}"
 msgstr "Import failed: {0}"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Large Language Model (LLM)"
 msgstr "Large Language Model (LLM)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "OpenAI-compatible URL ending in /v1. Dev config seeds from config/providers.json."
 msgstr "OpenAI-compatible URL ending in /v1. Dev config seeds from config/providers.json."
 
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Fetching..."
 msgstr "Fetching..."
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Fetch Models"
 msgstr "Fetch Models"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Fetch to populate dropdown or type manually"
 msgstr "Fetch to populate dropdown or type manually"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Stored only in local storage"
 msgstr "Stored only in local storage"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Max Tokens"
 msgstr "Max Tokens"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "History Turns"
 msgstr "History Turns"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Context Window (tokens)"
 msgstr "Context Window (tokens)"
 
 #. 0: estimatedContext
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "0 = guess from model id. Auto resolved: {0} tokens."
 msgstr "0 = guess from model id. Auto resolved: {0} tokens."
 
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Auto"
 msgstr "Auto"
 
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Off"
 msgstr "Off"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "On"
 msgstr "On"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Thinking Mode"
 msgstr "Thinking Mode"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Default"
 msgstr "Default"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Low"
 msgstr "Low"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Medium"
 msgstr "Medium"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "High"
 msgstr "High"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Max"
 msgstr "Max"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Effort"
 msgstr "Effort"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "OpenAI"
 msgstr "OpenAI"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "OpenRouter"
 msgstr "OpenRouter"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Qwen"
 msgstr "Qwen"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "GLM"
 msgstr "GLM"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Protocol Style"
 msgstr "Protocol Style"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Reasoning & Thinking"
 msgstr "Reasoning & Thinking"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LlmTab.svelte
 msgid "Testing..."
 msgstr "Testing..."
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "OpenAI Compatible (Chat/Voice Clone)"
 msgstr "OpenAI Compatible (Chat/Voice Clone)"
 
-#: src/components/views/SettingsView.svelte
-msgid "OpenAI Audio Speech (/v1/audio/speech)"
-msgstr "OpenAI Audio Speech (/v1/audio/speech)"
-
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "DashScope / Qwen TTS"
 msgstr "DashScope / Qwen TTS"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Service Provider"
 msgstr "Service Provider"
 
-#: src/components/views/SettingsView.svelte
-msgid "Standard /v1/audio/speech"
-msgstr "Standard /v1/audio/speech"
-
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "audio.cpp Compatible"
 msgstr "audio.cpp Compatible"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Request Payload Style"
 msgstr "Request Payload Style"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Leave empty for public DashScope endpoint"
 msgstr "Leave empty for public DashScope endpoint"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Qwen Base URL"
 msgstr "Qwen Base URL"
 
-#: src/components/views/SettingsView.svelte
-msgid "DashScope API Key"
-msgstr "DashScope API Key"
-
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Qwen API Key"
 msgstr "Qwen API Key"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Fetch Qwen Models"
 msgstr "Fetch Qwen Models"
 
-#: src/components/views/SettingsView.svelte
-msgid "Qwen Model ID"
-msgstr "Qwen Model ID"
-
-#. 0: qwenVoice
-#: src/components/views/SettingsView.svelte
+#. 0: tts.qwenVoice
+#: src/components/views/settings/TtsTab.svelte
 msgid "{0} (Custom / Cloned)"
 msgstr "{0} (Custom / Cloned)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Voice ID or Preset"
 msgstr "Voice ID or Preset"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Cloning..."
 msgstr "Cloning..."
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Clone Voice from Ryza Sample"
 msgstr "Clone Voice from Ryza Sample"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Voice Clone Target Model"
 msgstr "Voice Clone Target Model"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Voice Clone"
 msgstr "Voice Clone"
 
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Off (Disabled)"
 msgstr "Off (Disabled)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Voice Mode"
 msgstr "Voice Mode"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "TTS Base URL"
 msgstr "TTS Base URL"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "TTS API Key"
 msgstr "TTS API Key"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Voice Clone (Ryza's original voice)"
 msgstr "Voice Clone (Ryza's original voice)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Preset Voice"
 msgstr "Preset Voice"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "TTS Mode"
 msgstr "TTS Mode"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Voice Clone Model ID"
 msgstr "Voice Clone Model ID"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Reference Audio Path"
 msgstr "Reference Audio Path"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Preset Model ID"
 msgstr "Preset Model ID"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Preset Voice Name"
 msgstr "Preset Voice Name"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Voice Style Hint"
 msgstr "Voice Style Hint"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Sets voice personality; delivery tone (ASMR whisper, story) layers on top automatically."
 msgstr "Sets voice personality; delivery tone (ASMR whisper, story) layers on top automatically."
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/TtsTab.svelte
 msgid "Synthesizing..."
 msgstr "Synthesizing..."
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LangTab.svelte
 msgid "4-Axis Language Matrix"
 msgstr "4-Axis Language Matrix"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LangTab.svelte
 msgid "Configure UI strings, shipped voice recordings, character replies, and TTS speech independently."
 msgstr "Configure UI strings, shipped voice recordings, character replies, and TTS speech independently."
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LangTab.svelte
 msgid "Interface Language (UI)"
 msgstr "Interface Language (UI)"
 
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LangTab.svelte
+#: src/components/views/settings/LangTab.svelte
 msgid "Auto (Follow Interface)"
 msgstr "Auto (Follow Interface)"
 
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LangTab.svelte
+#: src/components/views/settings/LangTab.svelte
 msgid "日本語 (Japanese)"
 msgstr "日本語 (Japanese)"
 
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LangTab.svelte
+#: src/components/views/settings/LangTab.svelte
+#: src/components/views/settings/LangTab.svelte
 msgid "简体中文 (Chinese)"
 msgstr "简体中文 (Chinese)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LangTab.svelte
 msgid "Recorded Voice Packs"
 msgstr "Recorded Voice Packs"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LangTab.svelte
 msgid "Language used for shipped sound clips and alarm wake-up voices."
 msgstr "Language used for shipped sound clips and alarm wake-up voices."
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LangTab.svelte
 msgid "日本語 (Japanese — Recommended for character authenticity)"
 msgstr "日本語 (Japanese — Recommended for character authenticity)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LangTab.svelte
 msgid "Ryza Replies (Character Chat Text)"
 msgstr "Ryza Replies (Character Chat Text)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LangTab.svelte
 msgid "The language Ryza writes in the dialogue text. Set to 日本語 to keep dialogue Japanese regardless of UI language."
 msgstr "The language Ryza writes in the dialogue text. Set to 日本語 to keep dialogue Japanese regardless of UI language."
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LangTab.svelte
 msgid "Auto (Same as Ryza Replies)"
 msgstr "Auto (Same as Ryza Replies)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LangTab.svelte
 msgid "Speech Synthesis Language (TTS)"
 msgstr "Speech Synthesis Language (TTS)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/LangTab.svelte
 msgid "If speech language differs from Ryza replies, the line will be automatically translated by the LLM before sending to TTS."
 msgstr "If speech language differs from Ryza replies, the line will be automatically translated by the LLM before sending to TTS."
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Presentation & Feedback"
 msgstr "Presentation & Feedback"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Voice Playback"
 msgstr "Voice Playback"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Master audio voice toggle"
 msgstr "Master audio voice toggle"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Show Speech Bubble"
 msgstr "Show Speech Bubble"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Talk bubbles over the stage"
 msgstr "Talk bubbles over the stage"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Vibration"
 msgstr "Vibration"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Haptic feedback on taps and events"
 msgstr "Haptic feedback on taps and events"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Rim Light"
 msgstr "Rim Light"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Character edge lighting shader"
 msgstr "Character edge lighting shader"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Text Typewriter Speed"
 msgstr "Text Typewriter Speed"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Time Passage"
 msgstr "Time Passage"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Real Clock (Follows device system time)"
 msgstr "Real Clock (Follows device system time)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "In-Game Flow (Simulated time progression)"
 msgstr "In-Game Flow (Simulated time progression)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Manual Only (TOD toggle in top bar)"
 msgstr "Manual Only (TOD toggle in top bar)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Time Mode"
 msgstr "Time Mode"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Slow (1 real min = 15 game mins)"
 msgstr "Slow (1 real min = 15 game mins)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Standard (1 real min = 1 game hr)"
 msgstr "Standard (1 real min = 1 game hr)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Fast (1 real min = 3 game hrs)"
 msgstr "Fast (1 real min = 3 game hrs)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Very Fast (1 real min = 6 game hrs)"
 msgstr "Very Fast (1 real min = 6 game hrs)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "In-Game Flow Speed"
 msgstr "In-Game Flow Speed"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Long Term Memory"
 msgstr "Long Term Memory"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Enable Memory Summaries"
 msgstr "Enable Memory Summaries"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Fold sessions into summary cards"
 msgstr "Fold sessions into summary cards"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Turns / Session"
 msgstr "Turns / Session"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Session Cap"
 msgstr "Session Cap"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Summary Cap"
 msgstr "Summary Cap"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Game Balance"
 msgstr "Game Balance"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/GameTab.svelte
 msgid "Infinite stamina (🍎∞) and coins"
 msgstr "Infinite stamina (🍎∞) and coins"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/AudioTab.svelte
 msgid "Master Volume"
 msgstr "Master Volume"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/AudioTab.svelte
 msgid "Ambient Sound"
 msgstr "Ambient Sound"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/DataTab.svelte
 msgid "📥 Export Settings JSON (Copy & Download)"
 msgstr "📥 Export Settings JSON (Copy & Download)"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/DataTab.svelte
 msgid "📤 Import Settings JSON..."
 msgstr "📤 Import Settings JSON..."
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/DataTab.svelte
 msgid "⚠️ Reset All Settings to Defaults"
 msgstr "⚠️ Reset All Settings to Defaults"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/DataTab.svelte
 msgid "Import Configuration JSON"
 msgstr "Import Configuration JSON"
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/DataTab.svelte
 msgid "Paste exported configuration JSON below to restore settings."
 msgstr "Paste exported configuration JSON below to restore settings."
 
-#: src/components/views/SettingsView.svelte
+#: src/components/views/settings/DataTab.svelte
 msgid "Apply Configuration"
 msgstr "Apply Configuration"
 
@@ -2606,3 +2564,623 @@ msgstr "Treasure Chest: {0} Gold + {1}"
 #: src/lib/i18n/game-content.svelte.ts
 msgid "Ryza Game Content"
 msgstr "Ryza Game Content"
+
+#: src/lib/talk-loop.svelte.ts
+msgid "LLM Authentication failed (check API Key)"
+msgstr "LLM Authentication failed (check API Key)"
+
+#: src/lib/talk-loop.svelte.ts
+msgid "LLM Model not supported (check model name in Settings)"
+msgstr "LLM Model not supported (check model name in Settings)"
+
+#: src/lib/audio/voice-input.svelte.ts
+msgid "Microphone access denied"
+msgstr "Microphone access denied"
+
+#: src/lib/audio/voice-input.svelte.ts
+msgid "Switched to server speech recognition"
+msgstr "Switched to server speech recognition"
+
+#. 0: err
+#: src/lib/audio/voice-input.svelte.ts
+msgid "Microphone error: {0}"
+msgstr "Microphone error: {0}"
+
+#: src/lib/audio/voice-input.svelte.ts
+msgid "Speech recognition unstable"
+msgstr "Speech recognition unstable"
+
+#: src/lib/audio/voice-input.svelte.ts
+msgid "Speech recognition unavailable"
+msgstr "Speech recognition unavailable"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "welcome_group"
+msgid "Beginner Missions"
+msgstr "Beginner Missions"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "welcome_group"
+msgid "Intermediate Missions"
+msgstr "Intermediate Missions"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "welcome_group"
+msgid "Advanced Missions"
+msgstr "Advanced Missions"
+
+#. 0: no
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "welcome_group"
+msgid "Mission Step {0}"
+msgstr "Mission Step {0}"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "welcome_mission"
+msgid "Clear daily quests"
+msgstr "Clear daily quests"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "welcome_mission"
+msgid "Interact with Ryza"
+msgstr "Interact with Ryza"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "welcome_mission"
+msgid "Chat in conversation"
+msgstr "Chat in conversation"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "welcome_mission"
+msgid "Claim login bonus"
+msgstr "Claim login bonus"
+
+#. 0: rewardGold; 1: rewardExp
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "welcome_toast"
+msgid "Step completed! Claimed {0} Gold & {1} EXP!"
+msgstr "Step completed! Claimed {0} Gold & {1} EXP!"
+
+#: src/lib/talk-loop.svelte.ts
+msgid "No voice to replay"
+msgstr "No voice to replay"
+
+#: src/lib/talk-loop.svelte.ts
+msgid "No voice to favorite"
+msgstr "No voice to favorite"
+
+#: src/components/views/HistoryView.svelte
+#: src/lib/talk-loop.svelte.ts
+msgid "Added to favorites ★"
+msgstr "Added to favorites ★"
+
+#: src/components/views/HistoryView.svelte
+#: src/lib/talk-loop.svelte.ts
+msgid "Removed from favorites"
+msgstr "Removed from favorites"
+
+#: src/components/views/MemoryView.svelte
+msgid "Are you sure you want to erase all conversation memories, summaries, and episodic records? This cannot be undone."
+msgstr "Are you sure you want to erase all conversation memories, summaries, and episodic records? This cannot be undone."
+
+#: src/components/views/MemoryView.svelte
+msgid "Story Digest"
+msgstr "Story Digest"
+
+#: src/components/views/MemoryView.svelte
+msgid "Episodic Records"
+msgstr "Episodic Records"
+
+#. 0: longTerm.entries.length
+#: src/components/views/MemoryView.svelte
+msgid "{0} records"
+msgstr "{0} records"
+
+#: src/components/views/SkinView.svelte
+msgid "Importing costume..."
+msgstr "Importing costume..."
+
+#. 0: v.id
+#: src/components/views/SkinView.svelte
+msgid "Imported: {0}"
+msgstr "Imported: {0}"
+
+#: src/components/views/SkinView.svelte
+msgid "Import ZIP"
+msgstr "Import ZIP"
+
+#: src/components/views/TalkView.svelte
+#: src/components/views/WorldMapView.svelte
+msgid "Zoom In"
+msgstr "Zoom In"
+
+#: src/components/views/TalkView.svelte
+#: src/components/views/WorldMapView.svelte
+msgid "Zoom Out"
+msgstr "Zoom Out"
+
+#: src/components/views/TalkView.svelte
+#: src/components/views/WorldMapView.svelte
+msgid "Reset Zoom"
+msgstr "Reset Zoom"
+
+#: src/components/views/TalkView.svelte
+msgid "Toggle Posture"
+msgstr "Toggle Posture"
+
+#: src/components/views/TalkView.svelte
+msgid "Sit"
+msgstr "Sit"
+
+#: src/components/views/TalkView.svelte
+msgid "Stand"
+msgstr "Stand"
+
+#: src/components/views/TalkView.svelte
+msgid "Replay Voice"
+msgstr "Replay Voice"
+
+#: src/components/views/TalkView.svelte
+msgid "Favorite Voice"
+msgstr "Favorite Voice"
+
+#: src/components/views/TalkView.svelte
+msgid "Expand Actions"
+msgstr "Expand Actions"
+
+#: src/components/views/TalkView.svelte
+msgid "Collapse Actions"
+msgstr "Collapse Actions"
+
+#: src/components/views/TalkView.svelte
+msgid "ライザ"
+msgstr "ライザ"
+
+#: src/components/views/TalkView.svelte
+msgid "Voice Input"
+msgstr "Voice Input"
+
+#: src/components/views/WorldMapView.svelte
+msgid "Area locked"
+msgstr "Area locked"
+
+#: src/components/views/WorldMapView.svelte
+msgid "World Map Plate"
+msgstr "World Map Plate"
+
+#: src/components/views/WorldMapView.svelte
+msgid "Pin"
+msgstr "Pin"
+
+#: src/components/views/WorldMapView.svelte
+msgid "Ring"
+msgstr "Ring"
+
+#: src/components/views/WorldMapView.svelte
+msgid "Stage Pin"
+msgstr "Stage Pin"
+
+#: src/components/views/WorldMapView.svelte
+msgid "Current Location"
+msgstr "Current Location"
+
+#: src/components/views/WorldMapView.svelte
+#: src/components/views/WorldMapView.svelte
+#: src/components/views/WorldMapView.svelte
+msgid "Current"
+msgstr "Current"
+
+#: src/components/views/WorldMapView.svelte
+#: src/components/views/WorldView.svelte
+msgid "List"
+msgstr "List"
+
+#: src/components/views/WorldMapView.svelte
+msgid "Escape"
+msgstr "Escape"
+
+#: src/components/views/WorldMapView.svelte
+msgid "Select Area"
+msgstr "Select Area"
+
+#: src/components/views/WorldMapView.svelte
+msgid "No ship, no leaving Kurken Island"
+msgstr "No ship, no leaving Kurken Island"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Clear Quests"
+msgstr "Clear Quests"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Interact with Ryza"
+msgstr "Interact with Ryza"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Chat Conversations"
+msgstr "Chat Conversations"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Claim Login Bonus"
+msgstr "Claim Login Bonus"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Complete main or side quests"
+msgstr "Complete main or side quests"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Tap Ryza to interact with her"
+msgstr "Tap Ryza to interact with her"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Have friendly dialogue turns with Ryza"
+msgstr "Have friendly dialogue turns with Ryza"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Collect daily calendar rewards"
+msgstr "Collect daily calendar rewards"
+
+#. 0: reward.money; 1: reward.exp
+#: src/components/views/WelcomeView.svelte
+msgid "Claimed +{0} Gold, +{1} EXP!"
+msgstr "Claimed +{0} Gold, +{1} EXP!"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Steps"
+msgstr "Steps"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Milestones"
+msgstr "Milestones"
+
+#. 0: g.day
+#: src/components/views/WelcomeView.svelte
+msgid "🔒 D.{0}"
+msgstr "🔒 D.{0}"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Step Locked"
+msgstr "Step Locked"
+
+#. 0: currentGroup.day
+#: src/components/views/WelcomeView.svelte
+msgid "Unlocks on Day {0} of your journey. Keep visiting Ryza!"
+msgstr "Unlocks on Day {0} of your journey. Keep visiting Ryza!"
+
+#. 0: currentGroup.title
+#: src/components/views/WelcomeView.svelte
+msgid "{0} Reward"
+msgstr "{0} Reward"
+
+#: src/components/views/WelcomeView.svelte
+msgid "300 Gold & 40 EXP"
+msgstr "300 Gold & 40 EXP"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Claim Reward"
+msgstr "Claim Reward"
+
+#: src/components/views/WelcomeView.svelte
+msgid "In Progress"
+msgstr "In Progress"
+
+#: src/components/views/settings/TtsTab.svelte
+#: src/components/views/settings/TtsTab.svelte
+msgid "Fish Audio API Key is required"
+msgstr "Fish Audio API Key is required"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Cloning Ryza voice via Fish Audio..."
+msgstr "Cloning Ryza voice via Fish Audio..."
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Voice successfully cloned to Fish Audio!"
+msgstr "Voice successfully cloned to Fish Audio!"
+
+#. 0: (e as Error)?.message || 'Unknown error'
+#: src/components/views/settings/TtsTab.svelte
+msgid "Fish Audio clone failed: {0}"
+msgstr "Fish Audio clone failed: {0}"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Qwen API Key is required"
+msgstr "Qwen API Key is required"
+
+#: src/components/views/SettingsView.svelte
+msgid "STT"
+msgstr "STT"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Fish Audio (api.fish.audio)"
+msgstr "Fish Audio (api.fish.audio)"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "VOICEVOX (Local Engine)"
+msgstr "VOICEVOX (Local Engine)"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "AivisSpeech (Local Engine)"
+msgstr "AivisSpeech (Local Engine)"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Qwen Model Name"
+msgstr "Qwen Model Name"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Fish Audio Base URL"
+msgstr "Fish Audio Base URL"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Fish Audio API Key"
+msgstr "Fish Audio API Key"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Leave empty or click clone below"
+msgstr "Leave empty or click clone below"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Clone Voice to Fish Audio"
+msgstr "Clone Voice to Fish Audio"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Voice ID (Normal Voice)"
+msgstr "Voice ID (Normal Voice)"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Optional ASMR whisper voice ID"
+msgstr "Optional ASMR whisper voice ID"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Voice ID (ASMR Mode Voice)"
+msgstr "Voice ID (ASMR Mode Voice)"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "VOICEVOX Engine URL"
+msgstr "VOICEVOX Engine URL"
+
+#: src/components/views/settings/TtsTab.svelte
+#: src/components/views/settings/TtsTab.svelte
+msgid "Local loopback synthesis engine. No API key needed."
+msgstr "Local loopback synthesis engine. No API key needed."
+
+#: src/components/views/settings/TtsTab.svelte
+#: src/components/views/settings/TtsTab.svelte
+msgid "Speaker Style ID"
+msgstr "Speaker Style ID"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "AivisSpeech Engine URL"
+msgstr "AivisSpeech Engine URL"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Speech-to-Text (STT) & Voice Input"
+msgstr "Speech-to-Text (STT) & Voice Input"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Configure microphone transcription, VAD auto-send, and hands-free interruption."
+msgstr "Configure microphone transcription, VAD auto-send, and hands-free interruption."
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Voice Input Master"
+msgstr "Voice Input Master"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Enable microphone button in chat"
+msgstr "Enable microphone button in chat"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Auto (Browser WebSpeech with fallback)"
+msgstr "Auto (Browser WebSpeech with fallback)"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Browser Built-in WebSpeech API"
+msgstr "Browser Built-in WebSpeech API"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Server Audio Capture (Whisper API)"
+msgstr "Server Audio Capture (Whisper API)"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Transcription Engine"
+msgstr "Transcription Engine"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Auto Send on Silence"
+msgstr "Auto Send on Silence"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Send message automatically when you pause"
+msgstr "Send message automatically when you pause"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Barge-In (Voice Interruption)"
+msgstr "Barge-In (Voice Interruption)"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Interrupt Ryza's speech when you start speaking"
+msgstr "Interrupt Ryza's speech when you start speaking"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Server STT Endpoint URL"
+msgstr "Server STT Endpoint URL"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Server STT API Key"
+msgstr "Server STT API Key"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "STT Model"
+msgstr "STT Model"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Show Original Text"
+msgstr "Show Original Text"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Display original text alongside translations"
+msgstr "Display original text alongside translations"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "NSFW Costume Permission"
+msgstr "NSFW Costume Permission"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Allow Ryza to undress or switch to bikini textures"
+msgstr "Allow Ryza to undress or switch to bikini textures"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Restrained (Ryza rarely brings in others)"
+msgstr "Restrained (Ryza rarely brings in others)"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Normal (Natural conversational balance)"
+msgstr "Normal (Natural conversational balance)"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Frequent (Island friends chime in often)"
+msgstr "Frequent (Island friends chime in often)"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Lively (Kurken island banter in full swing)"
+msgstr "Lively (Kurken island banter in full swing)"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Guest Dialogue Frequency"
+msgstr "Guest Dialogue Frequency"
+
+#: src/components/views/WorldView.svelte
+#: src/components/views/WorldView.svelte
+msgid "Close Map"
+msgstr "Close Map"
+
+#: src/components/views/WorldMapView.svelte
+msgid "Drag Locked (Tap to Unlock)"
+msgstr "Drag Locked (Tap to Unlock)"
+
+#: src/components/views/WorldMapView.svelte
+msgid "Drag Unlocked (Tap to Lock)"
+msgstr "Drag Unlocked (Tap to Lock)"
+
+#: src/components/views/SettingsView.svelte
+msgid "<0/> Saved"
+msgstr "<0/> Saved"
+
+#: src/components/views/settings/LlmTab.svelte
+msgid "Connecting to Ryza (LLM Test)..."
+msgstr "Connecting to Ryza (LLM Test)..."
+
+#: src/lib/talk-loop.svelte.ts
+msgid "Timed out: endpoint never answered (check base URL & model name)"
+msgstr "Timed out: endpoint never answered (check base URL & model name)"
+
+#: src/lib/talk-loop.svelte.ts
+msgid "Could not reach base URL (check address & CORS)"
+msgstr "Could not reach base URL (check address & CORS)"
+
+#: src/lib/stores/session.svelte.ts
+msgid "Could not write the save: this device is out of storage (clear an older slot, or shorten the chat first)"
+msgstr "Could not write the save: this device is out of storage (clear an older slot, or shorten the chat first)"
+
+#: src/lib/stores/session.svelte.ts
+msgid "That save could not be read (its contents are incomplete)"
+msgstr "That save could not be read (its contents are incomplete)"
+
+#: src/components/views/CharaView.svelte
+msgid "Clear chat memory?"
+msgstr "Clear chat memory?"
+
+#: src/components/views/CharaView.svelte
+msgid "Are you sure you want to clear the current conversation history? This cannot be undone."
+msgstr "Are you sure you want to clear the current conversation history? This cannot be undone."
+
+#: src/components/views/CharaView.svelte
+msgid "Clear Memory"
+msgstr "Clear Memory"
+
+#: src/components/views/CharaView.svelte
+#: src/components/views/HistoryView.svelte
+msgid "Chat history cleared"
+msgstr "Chat history cleared"
+
+#: src/components/views/CharaView.svelte
+msgid "Clear chat memory"
+msgstr "Clear chat memory"
+
+#: src/lib/talk-loop.svelte.ts
+msgid "Voice clip no longer in cache"
+msgstr "Voice clip no longer in cache"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/HistoryView.svelte
+msgid "Chat History"
+msgstr "Chat History"
+
+#: src/components/views/HistoryView.svelte
+msgid "Clear Chat History?"
+msgstr "Clear Chat History?"
+
+#: src/components/views/HistoryView.svelte
+msgid "Are you sure you want to clear all dialogue history in this session? Active turns will be reset, but saved memory logs remain intact."
+msgstr "Are you sure you want to clear all dialogue history in this session? Active turns will be reset, but saved memory logs remain intact."
+
+#: src/components/views/HistoryView.svelte
+msgid "Clear History"
+msgstr "Clear History"
+
+#: src/components/views/HistoryView.svelte
+msgid "Clear"
+msgstr "Clear"
+
+#. 0: counts.all
+#: src/components/views/HistoryView.svelte
+msgid "All ({0})"
+msgstr "All ({0})"
+
+#. 0: counts.voiced
+#: src/components/views/HistoryView.svelte
+msgid "<0/> Voiced ({0})"
+msgstr "<0/> Voiced ({0})"
+
+#. 0: counts.fav
+#: src/components/views/HistoryView.svelte
+msgid "<0/> Favorites ({0})"
+msgstr "<0/> Favorites ({0})"
+
+#: src/components/views/HistoryView.svelte
+msgid "No voice recordings generated yet. Turn on Voice Playback in settings to hear Ryza speak!"
+msgstr "No voice recordings generated yet. Turn on Voice Playback in settings to hear Ryza speak!"
+
+#: src/components/views/HistoryView.svelte
+msgid "No favorite voices yet. Star any dialogue voice clip to pin it to favorites."
+msgstr "No favorite voices yet. Star any dialogue voice clip to pin it to favorites."
+
+#: src/components/views/HistoryView.svelte
+msgid "Talk with Ryza in Free Talk or Story mode to build conversation history."
+msgstr "Talk with Ryza in Free Talk or Story mode to build conversation history."
+
+#: src/components/views/HistoryView.svelte
+msgid "No chat history"
+msgstr "No chat history"
+
+#: src/components/views/HistoryView.svelte
+msgid "Playing..."
+msgstr "Playing..."
+
+#: src/components/views/HistoryView.svelte
+msgid "Voice clip"
+msgstr "Voice clip"
+
+#: src/components/views/HistoryView.svelte
+msgid "Favorited"
+msgstr "Favorited"
+
+#: src/components/views/HistoryView.svelte
+msgid "Add to favorites"
+msgstr "Add to favorites"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "OpenAI Audio Speech (/v1/audio/speech)"
+msgstr "OpenAI Audio Speech (/v1/audio/speech)"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Standard /v1/audio/speech"
+msgstr "Standard /v1/audio/speech"

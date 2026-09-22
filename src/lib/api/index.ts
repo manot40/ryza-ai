@@ -30,10 +30,27 @@ import {
   resolvedContext as resolveContextFromThinking,
   type ModelEntry,
 } from './thinking';
+import { Providers } from './providers';
 import {
   QWEN_DEFAULT_BASE,
   QWEN_TTS_MODELS,
   QWEN_TTS_VOICES,
+  FISH_DEFAULT_BASE,
+  FISH_MODERN_BASE,
+  FISH_MODERN_DEFAULT_MODEL,
+  FISH_LEGACY_DEFAULT_MODEL,
+  FISH_DEFAULT_VOICE,
+  FISH_TTS_MODELS,
+  fishApiRoot,
+  fishApiStyle,
+  fishTtsUrl,
+  fishLanguage,
+  fishWantsInstruction,
+  fishWantsEmotion,
+  fishEmotion,
+  fishSampleUrls,
+  audioMimeFrom,
+  redactSecret,
   VOICE_BANK_TRANSCRIPT,
   MODE_TTS,
   MODE_PLAY_FX,
@@ -154,6 +171,46 @@ export function apiErrorMessage(j: unknown, status: number, raw?: string): strin
   return `HTTP ${status}${snippet ? `: ${snippet}` : ''}`;
 }
 
+export interface TransportError extends Error {
+  code: 'timeout' | 'net';
+}
+
+export function isTransportError(err: unknown): err is TransportError {
+  return Boolean(
+    err &&
+    typeof err === 'object' &&
+    'code' in err &&
+    ((err as { code: unknown }).code === 'timeout' || (err as { code: unknown }).code === 'net')
+  );
+}
+
+export function createTransportError(code: 'timeout' | 'net', message?: string): TransportError {
+  const defaultMsg =
+    code === 'timeout'
+      ? 'Timed out: the endpoint never answered (check the base URL and model name in Settings)'
+      : 'Could not reach that base URL (wrong address, CORS refused, or the local server is not running)';
+  const err = new Error(message || defaultMsg) as TransportError;
+  err.code = code;
+  return err;
+}
+
+export async function fetchTransport(url: string, init: RequestInit, timeoutMs: number): Promise<Response> {
+  try {
+    return await fetch(url, {
+      ...init,
+      signal: AbortSignal.timeout(timeoutMs),
+    });
+  } catch (err: unknown) {
+    if (isTransportError(err)) throw err;
+    const name = (err as Error)?.name || '';
+    const msg = String((err as Error)?.message || '');
+    if (name === 'TimeoutError' || /timeout|timed out|abort/i.test(msg)) {
+      throw createTransportError('timeout');
+    }
+    throw createTransportError('net');
+  }
+}
+
 export async function request<T = unknown>(
   url: string,
   body: unknown,
@@ -166,12 +223,15 @@ export async function request<T = unknown>(
     headers.set('api-key', apiKey);
   }
 
-  const res = await fetch(url, {
-    body: JSON.stringify(body),
-    method: 'POST',
-    signal: AbortSignal.timeout(timeoutMs),
-    headers,
-  });
+  const res = await fetchTransport(
+    url,
+    {
+      body: JSON.stringify(body),
+      method: 'POST',
+      headers,
+    },
+    timeoutMs
+  );
 
   if (!res.ok) {
     throw new Error(apiErrorMessage(null, res.status, await res.text()));
@@ -199,7 +259,7 @@ export async function requestGet<T = unknown>(
     headers.set('api-key', apiKey);
   }
 
-  const res = await fetch(url, { signal: AbortSignal.timeout(timeoutMs), headers });
+  const res = await fetchTransport(url, { headers }, timeoutMs);
   if (!res.ok) {
     throw new Error(apiErrorMessage(null, res.status, await res.text()));
   }
@@ -213,6 +273,93 @@ export async function requestGet<T = unknown>(
   }
   (result as { _headers?: Headers })._headers = res.headers;
   return result;
+}
+
+export async function requestAudio(
+  url: string,
+  body: unknown,
+  apiKey: string = '',
+  timeoutMs: number = 180000,
+  extraHeaders?: Record<string, string>,
+  errorMap?: (status: number, raw: string, apiKey: string) => string
+): Promise<string> {
+  const headers = new Headers({ 'Content-Type': 'application/json' });
+  if (apiKey) {
+    headers.set('Authorization', `Bearer ${apiKey}`);
+    headers.set('api-key', apiKey);
+  }
+  if (extraHeaders) {
+    for (const [k, v] of Object.entries(extraHeaders)) {
+      headers.set(k, v);
+    }
+  }
+
+  const res = await fetchTransport(
+    url,
+    {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(body),
+    },
+    timeoutMs
+  );
+
+  const buf = await res.arrayBuffer();
+  const ct = res.headers.get('content-type') || '';
+  const mime = audioMimeFrom(buf, ct);
+  if (res.ok && mime) {
+    return URL.createObjectURL(new Blob([buf], { type: mime }));
+  }
+
+  const raw = new TextDecoder('utf-8').decode(buf);
+  let j: unknown = null;
+  try {
+    j = JSON.parse(raw);
+  } catch {}
+
+  if (
+    res.ok &&
+    j &&
+    typeof j === 'object' &&
+    ((j as { audio_url?: string }).audio_url || (j as { audioUrl?: string }).audioUrl)
+  ) {
+    const audioUrl = (j as { audio_url?: string }).audio_url || (j as { audioUrl?: string }).audioUrl;
+    return _downloadUrl(audioUrl!, localProxy, apiKey);
+  }
+
+  const msg = errorMap ? errorMap(res.status, raw, apiKey) : apiErrorMessage(j, res.status, raw);
+  throw new Error(msg);
+}
+
+export async function requestForm<T = unknown>(
+  url: string,
+  form: FormData,
+  apiKey: string = '',
+  timeoutMs: number = 180000,
+  errorMap?: (status: number, raw: string, apiKey: string) => string
+): Promise<T> {
+  const headers = new Headers();
+  if (apiKey) headers.set('Authorization', `Bearer ${apiKey}`);
+
+  const res = await fetchTransport(
+    url,
+    {
+      method: 'POST',
+      headers,
+      body: form,
+    },
+    timeoutMs
+  );
+
+  const text = await res.text();
+  let j: unknown = null;
+  try {
+    j = JSON.parse(text);
+  } catch {}
+
+  if (res.ok) return j as T;
+  const msg = errorMap ? errorMap(res.status, text, apiKey) : apiErrorMessage(j, res.status, text);
+  throw new Error(msg);
 }
 
 export function choiceText(j: unknown): string {
@@ -245,7 +392,7 @@ export function setModelMeta(m: ModelEntry | null): void {
 }
 
 export function resolvedContext(): number {
-  return resolveContextFromThinking(config.section('llm'), _modelMeta);
+  return resolveContextFromThinking(config.get('llm'), _modelMeta);
 }
 
 export function replyLang(): string {
@@ -256,7 +403,7 @@ export async function translate(text: string, toLang: string): Promise<string> {
   if (!text || !toLang || toLang === replyLang()) {
     return text;
   }
-  const llm = config.section('llm');
+  const llm = config.get('llm');
   if (!llm.apiKey) return text;
 
   try {
@@ -284,6 +431,53 @@ export async function translate(text: string, toLang: string): Promise<string> {
   }
 }
 
+export async function transcribe(blob: Blob, opts?: { lang?: string; timeout?: number }): Promise<string> {
+  const cred = Providers.sttCredentials(config.get('stt'));
+  if (!cred.baseUrl) throw new Error('NO_STT_URL');
+  if (!blob || !blob.size) throw new Error('NO_AUDIO');
+
+  const boundary = '----ryza' + Date.now().toString(36) + Math.random().toString(36).slice(2);
+  const head: string[] = [];
+  function field(name: string, value: string) {
+    head.push(`--${boundary}\r\nContent-Disposition: form-data; name="${name}"\r\n\r\n${value}\r\n`);
+  }
+  if (cred.model) field('model', cred.model);
+  const iso = opts?.lang ? Langs.sttLang(opts.lang) : '';
+  if (iso) field('language', iso);
+  field('response_format', 'json');
+  const headText =
+    head.join('') +
+    `--${boundary}\r\nContent-Disposition: form-data; name="file"; filename="speech.wav"\r\nContent-Type: audio/wav\r\n\r\n`;
+  const body = new Blob([headText, blob, `\r\n--${boundary}--\r\n`], {
+    type: `multipart/form-data; boundary=${boundary}`,
+  });
+
+  const headers = new Headers();
+  if (cred.apiKey) {
+    headers.set('Authorization', `Bearer ${cred.apiKey}`);
+    headers.set('api-key', cred.apiKey);
+  }
+
+  const res = await fetch(localProxy(upstreamUrl(cred.baseUrl, '/audio/transcriptions')), {
+    method: 'POST',
+    headers,
+    body,
+    signal: AbortSignal.timeout(opts?.timeout || 60000),
+  });
+
+  if (!res.ok) {
+    const raw = await res.text();
+    let j: unknown = null;
+    try {
+      j = JSON.parse(raw);
+    } catch {}
+    throw new Error(apiErrorMessage(j, res.status, raw));
+  }
+
+  const j = (await res.json()) as { text?: string };
+  return String(j?.text || '').trim();
+}
+
 export interface ChatOptions {
   mode?: string;
   style?: string;
@@ -301,10 +495,10 @@ export async function chat(
   userText: string,
   opts: ChatOptions = {}
 ): Promise<TaggedReply> {
-  const llm = config.section('llm');
+  const llm = config.get('llm');
   if (!llm.apiKey) throw new Error('NO_KEY');
 
-  const st = config.section('state');
+  const st = config.get('state');
   const outLang = opts.lang || replyLang();
   const system = buildSystemPrompt({
     mode: opts.mode || st.mode,
@@ -360,7 +554,7 @@ export async function complete(
   user: string,
   opts: { temperature?: number; maxTokens?: number; timeout?: number } = {}
 ): Promise<string> {
-  const llm = config.section('llm');
+  const llm = config.get('llm');
   if (!llm.apiKey) throw new Error('NO_KEY');
 
   const j = await request(
@@ -381,7 +575,7 @@ export async function complete(
 }
 
 export async function listModels(): Promise<ModelEntry[]> {
-  const llm = config.section('llm');
+  const llm = config.get('llm');
   if (!llm.apiKey) throw new Error('NO_KEY');
   if (!llm.baseUrl) throw new Error('NO_URL');
 
@@ -407,7 +601,7 @@ export async function listModels(): Promise<ModelEntry[]> {
 }
 
 export async function listQwenTtsModels(): Promise<ModelEntry[]> {
-  const tts = config.section('tts');
+  const tts = config.get('tts');
   if (!tts.qwenApiKey) throw new Error('NO_KEY');
   const root = qwenApiRoot(tts.qwenBaseUrl);
   const urls = [`${root}/compatible-mode/v1/models`, `${root}/api/v1/models`];
@@ -422,32 +616,47 @@ export async function listQwenTtsModels(): Promise<ModelEntry[]> {
   return [];
 }
 
-export async function speak(text: string, lang?: string, mode?: string): Promise<string | null> {
-  const tts = config.section('tts');
+export async function speak(
+  text: string,
+  lang?: string,
+  mode?: string,
+  emotion?: string
+): Promise<string | null> {
+  const tts = config.get('tts');
   if (tts.mode === 'off') return null;
-  mode = mode || config.section('state')?.mode || 'chat';
+  const currentMode = mode || config.get('state')?.mode || 'chat';
 
-  const provider = tts.provider || 'openai';
-  if (provider === 'qwen') return _qwenSpeak(text, lang, mode);
+  const cred = Providers.credentials(tts);
+  if (cred.capabilities.local) {
+    return Providers.speakLocal(cred, { text, fetch });
+  }
+  if (cred.id === 'qwen') return _qwenSpeak(text, lang, currentMode);
+  if (cred.id === 'fish') return _fishSpeak(text, lang, currentMode, emotion);
+
+  if (!cred.apiKey) throw new Error('NO_KEY');
   if (!tts.apiKey) throw new Error('NO_KEY');
 
-  if (provider === 'openai-speech') {
-    return _openaiSpeechSpeak(text, lang, mode);
+  if (tts.provider === 'openai-speech') {
+    return _openaiSpeechSpeak(text, lang, currentMode);
   }
 
   const audio: Record<string, unknown> = { format: tts.format || 'wav' };
-  audio.voice = tts.mode === 'clone' ? 'pending' : tts.presetVoice || 'Chloe';
+  if (tts.mode === 'clone') {
+    audio.voice = 'pending';
+  } else {
+    audio.voice = cred.voice || 'Chloe';
+  }
 
-  const model = tts.mode === 'clone' ? tts.modelClone : tts.modelPreset;
+  const model = cred.model;
   if (isPlaceholderModel(model)) {
     throw new Error('NO_MODEL');
   }
-  const styleHint = ttsStyleFor(mode, tts);
+  const styleHint = ttsStyleFor(currentMode, tts);
 
   async function send(voiceField: string) {
     audio.voice = voiceField;
     const j = await request(
-      localProxy(upstreamUrl(tts.baseUrl, '/chat/completions')),
+      localProxy(upstreamUrl(cred.baseUrl, '/chat/completions')),
       {
         model,
         messages: [
@@ -456,7 +665,7 @@ export async function speak(text: string, lang?: string, mode?: string): Promise
         ],
         audio,
       },
-      tts.apiKey,
+      cred.apiKey,
       180000
     );
     const data = (j as { choices?: Array<{ message?: { audio?: { data?: string } } }> })?.choices?.[0]
@@ -473,7 +682,7 @@ export async function speak(text: string, lang?: string, mode?: string): Promise
 }
 
 export async function _openaiSpeechSpeak(text: string, _lang?: string, _mode?: string): Promise<string> {
-  const tts = config.section('tts');
+  const tts = config.get('tts');
   if (!tts.apiKey) throw new Error('NO_KEY');
 
   const model = tts.mode === 'clone' ? tts.modelClone : tts.modelPreset;
@@ -555,7 +764,7 @@ interface QwenEnrollResponse {
 }
 
 export async function _qwenSpeak(text: string, lang?: string, mode?: string): Promise<string> {
-  const tts = config.section('tts');
+  const tts = config.get('tts');
   if (!tts.qwenApiKey) throw new Error('NO_KEY');
   const lg = lang || Langs.tts() || 'ja';
   const langType = Langs.ttsLangType(lg);
@@ -596,7 +805,7 @@ export async function _qwenSpeak(text: string, lang?: string, mode?: string): Pr
 }
 
 export async function qwenCloneVoice(): Promise<string> {
-  const tts = config.section('tts');
+  const tts = config.get('tts');
   if (!tts.qwenApiKey) throw new Error('NO_KEY');
   const target = String(tts.qwenCloneTarget || 'qwen3-tts-vc-2026-01-22').trim();
   const dataUri = await _fetchAsDataUrl(tts.reference);
@@ -618,6 +827,185 @@ export async function qwenCloneVoice(): Promise<string> {
   const resObj = j instanceof Blob ? null : (j as QwenEnrollResponse);
   const vid = resObj?.output?.voice_id || resObj?.output?.voice;
   if (!vid) throw new Error(apiErrorMessage(j, 200, '') || '未返回 voice_id');
+  return vid;
+}
+
+export function fishErrorMessage(
+  status: number,
+  raw: string,
+  apiKey: string,
+  phase: 'tts' | 'clone'
+): string {
+  const label = phase === 'clone' ? '音色创建' : '语音合成';
+  if (status === 401) return `Fish Audio：API key 无效或缺失（HTTP 401，${label}）`;
+  if (status === 403) return `Fish Audio：权限不足、模型不可用或音色无权访问（HTTP 403，${label}）`;
+  if (status === 429) return `Fish Audio：超出速率或额度限制（HTTP 429，${label}）`;
+  let j: unknown = null;
+  try {
+    j = JSON.parse(String(raw || ''));
+  } catch {}
+  const detail = redactSecret(apiErrorMessage(j, status, raw), apiKey);
+  return `Fish Audio ${label}失败${detail ? `：${detail}` : `（HTTP ${status}）`}`;
+}
+
+let _fishCloneWait: Promise<string> | null = null;
+
+export async function _fishSpeak(
+  text: string,
+  lang?: string,
+  mode?: string,
+  emotion?: string
+): Promise<string> {
+  const tts = config.get('tts');
+  if (!tts.fishApiKey) throw new Error('NO_KEY');
+  const root = fishApiRoot(tts.fishBaseUrl);
+  const style = fishApiStyle(root);
+
+  async function synthModern(voice: string) {
+    const body: Record<string, unknown> = {
+      text,
+      format: tts.format === 'mp3' ? 'mp3' : 'wav',
+    };
+    if (voice) body.reference_id = voice;
+    const model = String(tts.fishModel || '').trim() || FISH_MODERN_DEFAULT_MODEL;
+    return requestAudio(
+      localProxy(fishTtsUrl(tts.fishBaseUrl)),
+      body,
+      tts.fishApiKey,
+      180000,
+      { model },
+      (st, raw, key) => fishErrorMessage(st, raw, key, 'tts')
+    );
+  }
+
+  async function synthLegacy(voice: string) {
+    const model = String(tts.fishModel || '').trim() || FISH_LEGACY_DEFAULT_MODEL;
+    const lg = lang || Langs.tts() || 'ja';
+    const body: Record<string, unknown> = {
+      text,
+      voiceId: voice,
+      reference_id: voice,
+      modelId: model,
+      format: tts.format === 'mp3' ? 'mp3' : 'wav',
+    };
+    const fishLang = fishLanguage(lg);
+    if (fishLang) body.language = fishLang;
+    if (fishWantsInstruction(model)) {
+      const styleHint = ttsStyleFor(mode || 'chat', tts);
+      if (styleHint) body.instruction = styleHint;
+    }
+    if (fishWantsEmotion(model)) {
+      const emo = fishEmotion(emotion);
+      if (emo) body.emotion = emo;
+    }
+    return requestAudio(
+      localProxy(fishTtsUrl(tts.fishBaseUrl)),
+      body,
+      tts.fishApiKey,
+      180000,
+      undefined,
+      (st, raw, key) => fishErrorMessage(st, raw, key, 'tts')
+    );
+  }
+
+  const synth = style === 'modern' ? synthModern : synthLegacy;
+  const voice = (mode === 'asmr' && tts.fishVoiceAsmr ? tts.fishVoiceAsmr : tts.fishVoice || '').trim();
+  if (voice) return synth(voice);
+
+  if (style === 'modern') {
+    return synth('');
+  }
+
+  if (_fishCloneWait) return _fishCloneWait.then(synth);
+  _fishCloneWait = fishCloneVoice().then(
+    (vid) => {
+      try {
+        config.setTTS('fishVoice', vid);
+      } catch {}
+      _fishCloneWait = null;
+      return vid;
+    },
+    (err) => {
+      _fishCloneWait = null;
+      throw err;
+    }
+  );
+  return _fishCloneWait.then(synth);
+}
+
+export async function listFishVoices(): Promise<Array<{ id: string; title: string }>> {
+  const tts = config.get('tts');
+  if (!tts.fishApiKey) throw new Error('NO_KEY');
+  const root = fishApiRoot(tts.fishBaseUrl);
+  const modern = fishApiStyle(root) === 'modern';
+  const url = modern
+    ? `${root}/model?page_size=100&page_number=1`
+    : `${root}/voices?pageSize=100&includePersonal=true`;
+  const j = await requestGet<{ items?: Array<Record<string, unknown>> }>(
+    localProxy(url),
+    tts.fishApiKey,
+    20000
+  );
+  const items = (j as { items?: Array<Record<string, unknown>> })?.items || [];
+  const out: Array<{ id: string; title: string }> = [];
+  const seen: Record<string, number> = {};
+  items.forEach((it) => {
+    if (!it) return;
+    const id = String(it.voiceId || it.voice_id || it.id || it._id || '');
+    if (!id || seen[id]) return;
+    seen[id] = 1;
+    out.push({ id, title: String(it.title || it.name || id) });
+  });
+  return out;
+}
+
+export async function fishCloneVoice(): Promise<string> {
+  const tts = config.get('tts');
+  if (!tts.fishApiKey) throw new Error('NO_KEY');
+  if (fishApiStyle(fishApiRoot(tts.fishBaseUrl)) === 'modern') {
+    throw new Error(
+      'Fish Audio（api.fish.audio）不支持本地样本自动克隆——请在 fish.audio 里创建音色，把它的 id 填到「Fish 音色」'
+    );
+  }
+  const sampleUrls = fishSampleUrls(tts.reference);
+  const parts = await Promise.all(
+    sampleUrls.map(async (url) => {
+      try {
+        const r = await fetch(url);
+        if (!r.ok) return null;
+        const blob = await r.blob();
+        if (!blob || !blob.size) return null;
+        return { blob, name: url.split('/').pop() || 'sample.wav' };
+      } catch {
+        return null;
+      }
+    })
+  );
+  const files = parts.filter(Boolean) as Array<{ blob: Blob; name: string }>;
+  const wavs = files.filter((f) => /\.wav$/i.test(f.name));
+  const chosenFiles = wavs.length ? wavs : files;
+  if (!chosenFiles.length) {
+    throw new Error('找不到本地莱莎原声（需要 assets/audio/prologue/jp/*.m4a 或 voice/ryza_wav/*.wav）');
+  }
+
+  const fd = new FormData();
+  fd.append('name', 'ryza');
+  fd.append('description', 'Local Ryza prologue clone');
+  fd.append('visibility', 'private');
+  fd.append('languages', JSON.stringify(['ja', 'zh', 'en']));
+  chosenFiles.forEach((f) => {
+    fd.append('audioFiles', f.blob, f.name);
+  });
+
+  const j = await requestForm<{ voiceId?: string; voice_id?: string }>(
+    localProxy(`${fishApiRoot(tts.fishBaseUrl)}/voices`),
+    fd,
+    tts.fishApiKey,
+    180000,
+    (st, raw, key) => fishErrorMessage(st, raw, key, 'clone')
+  );
+  const vid = j?.voiceId || j?.voice_id;
+  if (!vid) throw new Error(apiErrorMessage(j, 200, '') || '未返回 voiceId');
   return vid;
 }
 
@@ -647,23 +1035,40 @@ export const Api = {
   QWEN_DEFAULT_BASE,
   QWEN_TTS_MODELS,
   QWEN_TTS_VOICES,
+  FISH_DEFAULT_BASE,
+  FISH_MODERN_BASE,
+  FISH_MODERN_DEFAULT_MODEL,
+  FISH_LEGACY_DEFAULT_MODEL,
+  FISH_DEFAULT_VOICE,
+  FISH_TTS_MODELS,
   _qwenApiRoot: qwenApiRoot,
   _qwenTtsUrl: qwenTtsUrl,
   _qwenHttpsUrl: qwenHttpsUrl,
   _qwenTtsKind: qwenTtsKind,
   _qwenDefaultVoice: qwenDefaultVoice,
-  ttsStyleFor: (mode: string) => ttsStyleFor(mode, config.section('tts')),
+  _fishApiRoot: fishApiRoot,
+  _fishApiStyle: fishApiStyle,
+  _fishTtsUrl: fishTtsUrl,
+  _fishLanguage: fishLanguage,
+  _fishWantsInstruction: fishWantsInstruction,
+  _fishWantsEmotion: fishWantsEmotion,
+  _fishEmotion: fishEmotion,
+  ttsStyleFor: (mode: string) => ttsStyleFor(mode, config.get('tts')),
   replyLang,
   translate,
+  transcribe,
   chat,
   complete,
   listModels,
   listQwenTtsModels,
+  listFishVoices,
   speak,
   _openaiSpeechSpeak,
   _qwenSpeak,
-  _downloadUrl: (url: string) => _downloadUrl(url, localProxy),
+  _fishSpeak,
+  _downloadUrl: (url: string, apiKey?: string) => _downloadUrl(url, localProxy, apiKey),
   qwenCloneVoice,
+  fishCloneVoice,
   _b64ToUrl,
   _pcmToWav,
   _fetchAsDataUrl,

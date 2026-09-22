@@ -41,7 +41,7 @@ describe('TalkLoopController', () => {
 
   describe('API Key and Stamina Guardrails', () => {
     it('blocks say() when apiKey is missing', async () => {
-      config.set('llm.apiKey', '');
+      config.setLLM('apiKey', '');
       await controller.say('Hello!');
 
       expect(api.chat).not.toHaveBeenCalled();
@@ -50,7 +50,7 @@ describe('TalkLoopController', () => {
     });
 
     it('blocks say() and opens faint overlay when stamina is depleted', async () => {
-      config.set('llm.apiKey', 'test-key');
+      config.setLLM('apiKey', 'test-key');
       game.spend(game.stamina, 'test');
       expect(game.faint()).toBe(true);
 
@@ -62,7 +62,7 @@ describe('TalkLoopController', () => {
 
   describe('Successful Talk Turn', () => {
     it('sends prompt, handles reply, applies delta and emotion, updates history and pages', async () => {
-      config.set('llm.apiKey', 'test-key');
+      config.setLLM('apiKey', 'test-key');
       const setEmotionSpy = vi.spyOn(avatarService, 'setEmotion');
 
       const mockReply = {
@@ -79,7 +79,7 @@ describe('TalkLoopController', () => {
 
       // Verify history
       expect(session.history).toHaveLength(2);
-      expect(session.history[0]).toEqual({ role: 'user', content: 'Good morning!' });
+      expect(session.history[0]).toMatchObject({ role: 'user', content: 'Good morning!' });
       expect(session.history[1].role).toBe('assistant');
 
       // Verify diary
@@ -100,37 +100,65 @@ describe('TalkLoopController', () => {
   });
 
   describe('Error Handling', () => {
-    it('handles LLM error gracefully with fallback text and retry option', async () => {
-      config.set('llm.apiKey', 'test-key');
-      (api.chat as unknown as ReturnType<typeof vi.fn>).mockRejectedValueOnce(new Error('Network timeout'));
+    it('handles generic LLM error gracefully with fallback text and retry option', async () => {
+      config.setLLM('apiKey', 'test-key');
+      (api.chat as unknown as ReturnType<typeof vi.fn>).mockRejectedValueOnce(
+        new Error('Internal server error 500')
+      );
 
       await controller.say('Hello?');
 
       expect(controller.isThinking).toBe(false);
       expect(controller.retryVisible).toBe(true);
-      expect(controller.displayText).toContain('うまく聞こえなかった');
+      expect(controller.displayText).toContain('繋がらないみたい');
+    });
+
+    it('handles timeout error with specific settings advice', async () => {
+      config.setLLM('apiKey', 'test-key');
+      const err = new Error('Timed out');
+      (err as unknown as { code: string }).code = 'timeout';
+      (api.chat as unknown as ReturnType<typeof vi.fn>).mockRejectedValueOnce(err);
+
+      await controller.say('Hello?');
+
+      expect(controller.isThinking).toBe(false);
+      expect(controller.retryVisible).toBe(true);
+      expect(controller.displayText).toContain('返事を待ってるのに');
+    });
+
+    it('handles network error with specific URL advice', async () => {
+      config.setLLM('apiKey', 'test-key');
+      const err = new Error('Failed to fetch');
+      (err as unknown as { code: string }).code = 'net';
+      (api.chat as unknown as ReturnType<typeof vi.fn>).mockRejectedValueOnce(err);
+
+      await controller.say('Hello?');
+
+      expect(controller.isThinking).toBe(false);
+      expect(controller.retryVisible).toBe(true);
+      expect(controller.displayText).toContain('そのアドレスに辿り着けないみたい');
     });
   });
 
   describe('Greetings and Scenes', () => {
     it('greets with day 1 line when day is 1', () => {
-      config.set('state.day', 1);
-      config.set('llm.lang', 'ja');
+      config.setState('day', 1);
+      config.setLLM('lang', 'ja');
       controller.greet();
       expect(controller.displayText).toContain('やあ、会えたね');
 
-      config.set('llm.lang', 'en');
+      config.setLLM('lang', 'en');
       controller.greet();
       expect(controller.displayText).toContain('Hey, there you are');
     });
 
     it('greets with day N line when day > 1', () => {
-      config.set('state.day', 5);
-      config.set('llm.lang', 'ja');
+      config.setState('day', 5);
+      config.setLLM('lang', 'ja');
       controller.greet();
       expect(controller.displayText).toContain('今日も、会えたね');
 
-      config.set('llm.lang', 'en');
+      config.setLLM('lang', 'en');
       controller.greet();
       expect(controller.displayText).toContain('There you are again today');
     });
@@ -141,7 +169,7 @@ describe('TalkLoopController', () => {
 
       controller.sleepHome();
 
-      expect(config.section('state').stage).toBe('stage_01_001_04');
+      expect(config.get('state').stage).toBe('stage_01_001_04');
       expect(game.stamina).toBe(game.max());
       expect(overlayStore.faintOpen).toBe(false);
     });

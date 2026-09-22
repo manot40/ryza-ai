@@ -39,15 +39,113 @@ export function todForHour(h: number): 'night' | 'morning' | 'daytime' | 'evenin
   return 'night';
 }
 
+export interface NativeAlarmBridge {
+  isSupported?: () => boolean;
+  schedule?: (alarmsJson: string) => boolean | Promise<boolean>;
+  list?: () => string | Promise<string>;
+  cancel?: (id: string) => boolean | Promise<boolean>;
+}
+
+declare global {
+  interface Window {
+    RyzaAlarm?: NativeAlarmBridge;
+    RyzaAlarmNative?: {
+      onFire?: (id: string) => void;
+      sync?: () => void;
+    };
+  }
+}
+
 export class AlarmStore {
   items = $state<AlarmItem[]>([]);
   private _timer: ReturnType<typeof setInterval> | null = null;
   private _fired: Record<string, boolean> = {};
   private voicePicker: VoicePicker | null = null;
   private envPathResolver: EnvPathResolver | null = null;
+  private _native: NativeAlarmBridge | null = null;
+  private _onFireCb: ((a: AlarmItem, clip?: VoiceClip | null) => void) | null = null;
 
   constructor() {
+    if (typeof window !== 'undefined') {
+      window.RyzaAlarmNative = {
+        onFire: (id: string) => {
+          const item = this.get(id);
+          if (item) {
+            const h = parseInt(String(item.time || '07:00').slice(0, 2), 10);
+            const clip = this.pickClip(item.type, item.style || 'normal', todForHour(isNaN(h) ? 7 : h));
+            this._onFireCb?.(item, clip);
+          }
+        },
+        sync: () => {
+          this.load();
+        },
+      };
+
+      if (window.RyzaAlarm) {
+        this.setNative(window.RyzaAlarm);
+      }
+    }
     this.load();
+  }
+
+  setNative(bridge: NativeAlarmBridge | null): void {
+    this._native = bridge;
+    this.pushNative();
+  }
+
+  nativeReady(): boolean {
+    try {
+      return Boolean(this._native && (!this._native.isSupported || this._native.isSupported()));
+    } catch {
+      return false;
+    }
+  }
+
+  private _clipFor(a: AlarmItem): string {
+    const h = parseInt(String(a.time || '07:00').slice(0, 2), 10);
+    const clip = this.pickClip(a.type, a.style || 'normal', todForHour(isNaN(h) ? 7 : h));
+    return typeof clip === 'string' ? clip : (clip?.src as string) || '';
+  }
+
+  pushNative(): boolean {
+    if (!this.nativeReady() || typeof this._native?.schedule !== 'function') return false;
+    try {
+      const payload = JSON.stringify(
+        this.items.map((a) => ({
+          id: a.id,
+          time: a.time,
+          days: a.days || [],
+          enabled: a.enabled !== false,
+          type: a.type,
+          style: a.style || 'normal',
+          snoozeMin: a.snoozeMin == null ? 5 : a.snoozeMin,
+          volume: a.volume == null ? 1 : a.volume,
+          vibrate: a.vibrate !== false,
+          audio: this._clipFor(a),
+        }))
+      );
+      this._native.schedule(payload);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  pickClip(type: string, style: string, tod: string): VoiceClip | null {
+    if (this.voicePicker) {
+      return this.voicePicker(type, style, tod);
+    }
+    if (typeof window !== 'undefined') {
+      const vb = (
+        window as unknown as {
+          VoiceBank?: { pick?: (t: string, s: string, tod: string) => VoiceClip | null };
+        }
+      ).VoiceBank;
+      if (vb && typeof vb.pick === 'function') {
+        return vb.pick(type, style, tod);
+      }
+    }
+    return null;
   }
 
   setVoiceBank(picker: VoicePicker, resolver?: EnvPathResolver): void {
@@ -66,6 +164,16 @@ export class AlarmStore {
     } catch {
       this.items = [];
     }
+
+    if (!this.items.length && this.nativeReady() && typeof this._native?.list === 'function') {
+      try {
+        const remote = JSON.parse(String(this._native.list() || '[]')) as AlarmItem[];
+        if (Array.isArray(remote) && remote.length) {
+          this.items = remote;
+          this.save();
+        }
+      } catch {}
+    }
     return this.items;
   }
 
@@ -74,6 +182,7 @@ export class AlarmStore {
     try {
       localStorage.setItem(ALARM_KEY, JSON.stringify(this.items));
     } catch {}
+    this.pushNative();
   }
 
   add(a: Partial<AlarmItem>): AlarmItem {
@@ -120,6 +229,7 @@ export class AlarmStore {
   }
 
   start(onFire?: (a: AlarmItem, clip?: VoiceClip | null) => void): void {
+    this._onFireCb = onFire || null;
     this.stop();
     this._timer = setInterval(() => {
       this._tick(onFire);
@@ -151,19 +261,29 @@ export class AlarmStore {
       a._snoozeUntil = null;
       this.save();
 
-      let clip: VoiceClip | null = null;
-      if (this.voicePicker) {
-        clip = this.voicePicker(a.type, a.style || 'normal', todForHour(now.getHours()));
-      } else if (typeof window !== 'undefined') {
-        const vb = (
-          window as unknown as {
-            VoiceBank?: { pick?: (t: string, s: string, tod: string) => VoiceClip | null };
-          }
-        ).VoiceBank;
-        if (vb && typeof vb.pick === 'function') {
-          clip = vb.pick(a.type, a.style || 'normal', todForHour(now.getHours()));
-        }
+      // Screen WakeLock request on alarm ring
+      if (typeof navigator !== 'undefined' && 'wakeLock' in navigator) {
+        navigator.wakeLock
+          .request('screen')
+          .then((lock) => {
+            setTimeout(() => {
+              lock.release().catch(() => {});
+            }, 30000);
+          })
+          .catch(() => {});
       }
+
+      // Web Notification fallback
+      if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
+        try {
+          new Notification('Ryza Alarm', {
+            body: a.type === 'goodMorning' ? 'Good morning! Time to wake up.' : 'Alarm ringing!',
+            icon: '/favicon.ico',
+          });
+        } catch {}
+      }
+
+      const clip = this.pickClip(a.type, a.style || 'normal', todForHour(now.getHours()));
       onFire && onFire(a, clip);
     });
   }

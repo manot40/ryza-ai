@@ -6,17 +6,44 @@
   import { viewStore } from '$lib/stores/view.svelte';
   import { overlayStore } from '$lib/stores/overlay.svelte';
   import { talkLoop } from '$lib/talk-loop.svelte';
+  import { avatarService } from '$lib/avatar/avatar-service.svelte';
+  import { voiceInput } from '$lib/audio/voice-input.svelte';
 
   import { Input } from '$components/ui/input';
   import { Button } from '$components/ui/button';
-  import { CogIcon } from '@lucide/svelte';
+  import {
+    CogIcon,
+    MicIcon,
+    PlayIcon,
+    StarIcon,
+    PlusIcon,
+    MinusIcon,
+    TargetIcon,
+    ChevronRightIcon,
+    ChevronLeftIcon,
+  } from '@lucide/svelte';
   import VoiceToggle from '$lib/fx/voice-toggle.svelte';
 
   let inputText = $state('');
   let panelCollapsed = $state(false);
 
-  const appState = $derived(config.section('state') || {});
-  const isVoiceActive = $derived(appState.style !== 'text' && config.section('app')?.voice !== false);
+  const appState = $derived(config.get('state'));
+  const isVoiceActive = $derived(appState.style !== 'text' && config.get('app')?.voice !== false);
+
+  const quickCollapsed = $derived(Boolean(config.get('app')?.quickCollapsed));
+  function toggleQuickCollapsed() {
+    config.setApp('quickCollapsed', !quickCollapsed);
+  }
+
+  const postureSwitchable = $derived(avatarService.postureSwitchable());
+  const currentPosture = $derived(appState.posture || avatarService.postureKey());
+  function togglePosture() {
+    const next = currentPosture === 'posture_standing' ? 'posture_sitting' : 'posture_standing';
+    avatarService.setPosture(next);
+  }
+
+  const canStt = $derived(voiceInput.supported);
+  const isListening = $derived(voiceInput.state === 'listening');
 
   function modeLabel(m?: string): string {
     switch (m) {
@@ -42,7 +69,7 @@
   let speedIdx = $state(0);
 
   onMount(() => {
-    const savedSpeed = Number(config.section('app')?.textSpeed);
+    const savedSpeed = Number(config.get('app')?.textSpeed);
     const matched = textSpeeds.findIndex((s) => s.ms === savedSpeed);
     if (matched >= 0) {
       speedIdx = matched;
@@ -57,7 +84,7 @@
   function cycleSpeed() {
     speedIdx = (speedIdx + 1) % textSpeeds.length;
     talkLoop.typewriter.speed = textSpeeds[speedIdx].ms;
-    config.set('app.textSpeed', textSpeeds[speedIdx].ms);
+    config.setApp('textSpeed', textSpeeds[speedIdx].ms);
   }
 
   function handleSend() {
@@ -76,7 +103,7 @@
 
   function toggleVoiceStyle() {
     const nextStyle = appState.style === 'text' ? 'normal' : 'text';
-    config.set('state.style', nextStyle);
+    config.setState('style', nextStyle);
   }
 
   onDestroy(() => {
@@ -131,42 +158,124 @@
     </div>
 
     <!-- Quick Action Floating Buttons -->
-    <div class="flex flex-col gap-2.5 pointer-events-auto">
-      <Button
-        variant="outline"
-        size="icon"
-        class="size-12 rounded-full bg-card/70 backdrop-blur-md border-border/50 shadow-md hover:bg-card/90"
-        onclick={() => viewStore.setView('skin')}
-        title="Shop">
-        <img src="/assets/icons/shop.svg" alt="" class="size-6" />
-      </Button>
+    <div class="flex flex-col gap-2 items-end pointer-events-auto">
+      <!-- Zoom Row -->
+      <div
+        class="flex items-center gap-1 bg-card/60 backdrop-blur-md p-1 rounded-full border border-border/40 shadow-sm">
+        <Button
+          variant="ghost"
+          size="icon"
+          class="size-8 rounded-full text-foreground/80 hover:bg-muted/40"
+          onclick={() => avatarService.zoomBy(0.25)}
+          title="Zoom In">
+          <PlusIcon class="size-4" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="icon"
+          class="size-8 rounded-full text-foreground/80 hover:bg-muted/40"
+          onclick={() => avatarService.zoomBy(-0.25)}
+          title="Zoom Out">
+          <MinusIcon class="size-4" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="icon"
+          class="size-8 rounded-full text-foreground/80 hover:bg-muted/40"
+          onclick={() => avatarService.zoomReset()}
+          title="Reset Zoom">
+          <TargetIcon class="size-4" />
+        </Button>
+      </div>
 
-      <Button
-        variant="outline"
-        size="icon"
-        class="size-12 rounded-full bg-card/70 backdrop-blur-md border-border/50 shadow-md hover:bg-card/90"
-        onclick={() => viewStore.setView('quest')}
-        title="Quests">
-        <img src="/assets/icons/quest.svg" alt="" class="size-6" />
-      </Button>
+      <!-- Posture Toggle Button (available whenever outfit has both variants) -->
+      {#if postureSwitchable}
+        <Button
+          variant="outline"
+          class="h-9 px-3 rounded-full bg-card/70 backdrop-blur-md border-border/50 text-xs font-semibold shadow-md hover:bg-card/90"
+          onclick={togglePosture}
+          title="Toggle Posture">
+          {currentPosture === 'posture_standing' ? 'Sit' : 'Stand'}
+        </Button>
+      {/if}
 
-      <Button
-        variant="outline"
-        size="icon"
-        class="size-12 rounded-full bg-card/70 backdrop-blur-md border-border/50 shadow-md hover:bg-card/90"
-        onclick={() => overlayStore.openSheet('inv')}
-        title="Inventory">
-        <img src="/assets/icons/bag.svg" alt="" class="size-6" />
-      </Button>
+      <!-- Voice Replay & Favorite -->
+      <div class="flex items-center gap-1.5">
+        <Button
+          variant="outline"
+          size="icon"
+          class="size-9 rounded-full bg-card/70 backdrop-blur-md border-border/50 shadow-md hover:bg-card/90"
+          onclick={() => talkLoop.replayLastVoice()}
+          title="Replay Voice">
+          <PlayIcon class="size-4 text-foreground/80 fill-current" />
+        </Button>
+        <Button
+          variant="outline"
+          size="icon"
+          class="size-9 rounded-full bg-card/70 backdrop-blur-md border-border/50 shadow-md hover:bg-card/90"
+          onclick={() => talkLoop.favLastVoice()}
+          title="Favorite Voice">
+          <StarIcon
+            class="size-4 {talkLoop.isLastVoiceFav() ? 'text-gold fill-gold' : 'text-foreground/80'}" />
+        </Button>
+      </div>
 
-      <Button
-        variant="outline"
-        size="icon"
-        class="size-12 rounded-full bg-card/70 backdrop-blur-md border-border/50 shadow-md hover:bg-card/90"
-        onclick={() => viewStore.setView('settings')}
-        title="Settings">
-        <CogIcon class="size-6" />
-      </Button>
+      <!-- Quick Navigation Column with Toggle -->
+      <div class="flex items-center gap-1">
+        <!-- @todo hidden until it's ready -->
+        <Button
+          variant="ghost"
+          size="icon"
+          class="hidden size-6 rounded-full text-muted-foreground hover:text-foreground"
+          onclick={toggleQuickCollapsed}
+          title={quickCollapsed ? 'Expand Actions' : 'Collapse Actions'}>
+          {#if quickCollapsed}
+            <ChevronLeftIcon class="size-4" />
+          {:else}
+            <ChevronRightIcon class="size-4" />
+          {/if}
+        </Button>
+
+        {#if !quickCollapsed}
+          <div class="flex flex-col gap-2 transition-all">
+            <Button
+              variant="outline"
+              size="icon"
+              class="size-11 rounded-full bg-card/70 backdrop-blur-md border-border/50 shadow-md hover:bg-card/90"
+              onclick={() => viewStore.setView('skin')}
+              title="Shop">
+              <img src="/assets/icons/shop.svg" alt="" class="size-5" />
+            </Button>
+
+            <Button
+              variant="outline"
+              size="icon"
+              class="size-11 rounded-full bg-card/70 backdrop-blur-md border-border/50 shadow-md hover:bg-card/90"
+              onclick={() => viewStore.setView('quest')}
+              title="Quests">
+              <img src="/assets/icons/quest.svg" alt="" class="size-5" />
+            </Button>
+
+            <Button
+              variant="outline"
+              size="icon"
+              class="size-11 rounded-full bg-card/70 backdrop-blur-md border-border/50 shadow-md hover:bg-card/90"
+              onclick={() => overlayStore.openSheet('inv')}
+              title="Inventory">
+              <img src="/assets/icons/bag.svg" alt="" class="size-5" />
+            </Button>
+
+            <Button
+              variant="outline"
+              size="icon"
+              class="size-11 rounded-full bg-card/70 backdrop-blur-md border-border/50 shadow-md hover:bg-card/90"
+              onclick={() => viewStore.setView('settings')}
+              title="Settings">
+              <CogIcon class="size-5" />
+            </Button>
+          </div>
+        {/if}
+      </div>
     </div>
   </div>
 
@@ -215,7 +324,7 @@
     </div>
 
     <div class="flex flex-col gap-2">
-      {#if config.section('app')?.showBubble !== false}
+      {#if config.get('app')?.showBubble !== false}
         <!-- Dialogue Bubble Card -->
         <!-- svelte-ignore a11y_click_events_have_key_events -->
         <!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -240,7 +349,15 @@
                 alt="Ryza"
                 class="size-8 rounded-full border border-gold/40 object-cover" />
               <div class="flex flex-col">
-                <span class="text-xs font-bold text-gold leading-none">Ryza</span>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-xs font-bold text-gold leading-none">Ryza</span>
+                  {#if talkLoop.currentSpeaker && talkLoop.currentSpeaker !== 'ライザ' && talkLoop.currentSpeaker !== 'Ryza'}
+                    <span
+                      class="text-[10px] bg-primary/20 text-primary px-1.5 py-0.5 rounded-full font-medium">
+                      {talkLoop.currentSpeaker}
+                    </span>
+                  {/if}
+                </div>
                 <span class="text-[10px] text-muted-foreground leading-tight mt-0.5">
                   {modeLabel(appState.mode)}
                 </span>
@@ -269,7 +386,8 @@
           </div>
 
           <!-- Dialogue Text / Thinking Dots -->
-          <div class="min-h-12 text-sm leading-relaxed text-foreground font-normal overflow-y-auto max-h-32">
+          <div
+            class="min-h-12 text-sm leading-relaxed text-foreground font-normal overflow-y-auto max-h-32 flex flex-col gap-1.5">
             {#if talkLoop.isThinking}
               <div class="flex items-center gap-1.5 py-2 text-gold animate-pulse">
                 <span class="w-2 h-2 rounded-full bg-gold"></span>
@@ -278,7 +396,12 @@
                 <span class="text-xs text-muted-foreground ml-1.5">Ryza is thinking...</span>
               </div>
             {:else}
-              {talkLoop.displayText}
+              <div>{talkLoop.displayText}</div>
+              {#if talkLoop.translationDisplay && config.get('app')?.showOriginal !== false}
+                <div class="text-xs text-muted-foreground pt-1 border-t border-border/20 italic">
+                  {talkLoop.translationDisplay}
+                </div>
+              {/if}
             {/if}
           </div>
         </div>
@@ -313,6 +436,19 @@
           title="Clear Input">
           <img src="/assets/icons/asterisk.svg" alt="" class="w-4 h-4 opacity-70" />
         </Button>
+
+        {#if canStt}
+          <Button
+            variant="ghost"
+            size="icon"
+            class="size-10 rounded-full {isListening
+              ? 'text-destructive bg-destructive/20 animate-pulse'
+              : 'text-muted-foreground hover:text-foreground hover:bg-muted/40'}"
+            onclick={() => voiceInput.toggle()}
+            title="Voice Input">
+            <MicIcon class="w-4 h-4 {isListening ? '' : 'opacity-70'}" />
+          </Button>
+        {/if}
 
         <Button
           size="icon"

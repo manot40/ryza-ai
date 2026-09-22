@@ -43,38 +43,38 @@ describe('langs module', () => {
   describe('4-axis language resolution', () => {
     it('resolves ui() to app.lang or fallback en', () => {
       expect(Langs.ui()).toBe('en');
-      config.set('app.lang', 'ja');
+      config.setApp('lang', 'ja');
       expect(Langs.ui()).toBe('ja');
     });
 
     it('resolves voice() to ui() when auto, or explicit language', () => {
-      config.set('app.lang', 'zh');
-      config.set('voice.lang', 'auto');
+      config.setApp('lang', 'zh');
+      config.setVoice('lang', 'auto');
       expect(Langs.voice()).toBe('zh');
 
-      config.set('voice.lang', 'ja');
+      config.setVoice('lang', 'ja');
       expect(Langs.voice()).toBe('ja');
     });
 
     it('resolves llm() to ui() when auto, or explicit language', () => {
-      config.set('app.lang', 'ja');
-      config.set('llm.lang', 'auto');
+      config.setApp('lang', 'ja');
+      config.setLLM('lang', 'auto');
       expect(Langs.llm()).toBe('ja');
 
-      config.set('llm.lang', 'en');
+      config.setLLM('lang', 'en');
       expect(Langs.llm()).toBe('en');
     });
 
     it('resolves tts() to llm() when auto, or explicit language (cascading)', () => {
-      config.set('app.lang', 'zh');
-      config.set('llm.lang', 'auto');
-      config.set('tts.lang', 'auto');
+      config.setApp('lang', 'zh');
+      config.setLLM('lang', 'auto');
+      config.setTTS('lang', 'auto');
       expect(Langs.tts()).toBe('zh');
 
-      config.set('llm.lang', 'ja');
+      config.setLLM('lang', 'ja');
       expect(Langs.tts()).toBe('ja');
 
-      config.set('tts.lang', 'en');
+      config.setTTS('lang', 'en');
       expect(Langs.tts()).toBe('en');
     });
   });

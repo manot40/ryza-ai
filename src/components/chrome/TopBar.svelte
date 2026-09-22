@@ -16,7 +16,7 @@
 
   let { onOpenDrawer, onOpenSideMenu, onSelectView }: Props = $props();
 
-  const appState = $derived(config.section('state') || {});
+  const appState = $derived(config.get('state'));
   const modeLabels: Record<string, string> = {
     chat: 'Free Talk',
     story: 'Story',

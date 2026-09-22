@@ -14,10 +14,10 @@
     { id: 'id', label: 'Bahasa Indonesia' },
   ];
 
-  const currentLang = $derived(config.section('app')?.lang || Langs.ui() || 'en');
+  const currentLang = $derived(config.get('app')?.lang || Langs.ui() || 'en');
 
   async function selectLanguage(langId: string) {
-    config.set('app.lang', langId);
+    config.setApp('lang', langId);
     try {
       await loadLocale(langId);
     } catch {}
