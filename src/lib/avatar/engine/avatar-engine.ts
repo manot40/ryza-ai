@@ -1082,6 +1082,10 @@ export class AvatarEngine {
     this.motion.syncAdditives(name, finalType, false, false, keep, L, this.gesture, this._sittingId, inten);
   }
 
+  get currentEmotion(): string {
+    return this._emotion;
+  }
+
   setEmotion(emotion: string, attitude: string, immediate?: boolean): void {
     const names = ['neutral', 'happy', 'laughing', 'tease', 'shy', 'cuddle', 'sad', 'crying', 'angry'];
     const atts = ['agree', 'deny', 'question'];

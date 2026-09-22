@@ -31,6 +31,15 @@ import {
   type ModelEntry,
 } from './thinking';
 import { Providers } from './providers';
+export {
+  resolveEmotionAdaptation,
+  normalizeEmotion,
+  getEmotionPrompt,
+  type EmotionContext,
+  type EmotionAdaptation,
+  type TtsEmotionStrategy,
+} from './tts-emotion';
+import { resolveEmotionAdaptation } from './tts-emotion';
 import {
   QWEN_DEFAULT_BASE,
   QWEN_TTS_MODELS,
@@ -627,17 +636,30 @@ export async function speak(
   const currentMode = mode || config.get('state')?.mode || 'chat';
 
   const cred = Providers.credentials(tts);
+  const speechLang = lang || Langs.tts() || 'ja';
   if (cred.capabilities.local) {
-    return Providers.speakLocal(cred, { text, fetch });
+    const adaptation = resolveEmotionAdaptation({
+      text,
+      emotion,
+      mode: currentMode,
+      lang: speechLang,
+      model: cred.model,
+      provider: cred.id,
+    });
+    return Providers.speakLocal(cred, {
+      text,
+      fetch,
+      queryModifier: adaptation.queryModifier,
+    });
   }
-  if (cred.id === 'qwen') return _qwenSpeak(text, lang, currentMode);
-  if (cred.id === 'fish') return _fishSpeak(text, lang, currentMode, emotion);
+  if (cred.id === 'qwen') return _qwenSpeak(text, speechLang, currentMode, emotion);
+  if (cred.id === 'fish') return _fishSpeak(text, speechLang, currentMode, emotion);
 
   if (!cred.apiKey) throw new Error('NO_KEY');
   if (!tts.apiKey) throw new Error('NO_KEY');
 
   if (tts.provider === 'openai-speech') {
-    return _openaiSpeechSpeak(text, lang, currentMode);
+    return _openaiSpeechSpeak(text, speechLang, currentMode, emotion);
   }
 
   const audio: Record<string, unknown> = { format: tts.format || 'wav' };
@@ -652,6 +674,18 @@ export async function speak(
     throw new Error('NO_MODEL');
   }
   const styleHint = ttsStyleFor(currentMode, tts);
+  const adaptation = resolveEmotionAdaptation(
+    {
+      text,
+      emotion,
+      mode: currentMode,
+      lang: speechLang,
+      model,
+      provider: cred.id,
+    },
+    styleHint
+  );
+  const finalStyleHint = adaptation.instruction || styleHint;
 
   async function send(voiceField: string) {
     audio.voice = voiceField;
@@ -660,7 +694,7 @@ export async function speak(
       {
         model,
         messages: [
-          { role: 'user', content: styleHint },
+          { role: 'user', content: finalStyleHint },
           { role: 'assistant', content: text },
         ],
         audio,
@@ -681,7 +715,12 @@ export async function speak(
   return send(String(audio.voice));
 }
 
-export async function _openaiSpeechSpeak(text: string, _lang?: string, _mode?: string): Promise<string> {
+export async function _openaiSpeechSpeak(
+  text: string,
+  _lang?: string,
+  _mode?: string,
+  emotion?: string
+): Promise<string> {
   const tts = config.get('tts');
   if (!tts.apiKey) throw new Error('NO_KEY');
 
@@ -728,8 +767,19 @@ export async function _openaiSpeechSpeak(text: string, _lang?: string, _mode?: s
       body.voice_ref = { type: 'base64', data };
       body.response_format = 'wav';
       if (isIrodori) {
+        const adaptation = resolveEmotionAdaptation(
+          {
+            text,
+            emotion,
+            mode: _mode || 'chat',
+            lang: _lang || 'ja',
+            model: tts.modelClone,
+            provider: 'openai-speech',
+          },
+          tts.styleHint
+        );
         body.options = {
-          instruction: tts.styleHint || undefined,
+          instruction: adaptation.instruction || tts.styleHint || undefined,
           duration_scale: 1.05,
           num_inference_steps: 50,
         };
@@ -763,7 +813,12 @@ interface QwenEnrollResponse {
   [key: string]: unknown;
 }
 
-export async function _qwenSpeak(text: string, lang?: string, mode?: string): Promise<string> {
+export async function _qwenSpeak(
+  text: string,
+  lang?: string,
+  mode?: string,
+  emotion?: string
+): Promise<string> {
   const tts = config.get('tts');
   if (!tts.qwenApiKey) throw new Error('NO_KEY');
   const lg = lang || Langs.tts() || 'ja';
@@ -783,9 +838,21 @@ export async function _qwenSpeak(text: string, lang?: string, mode?: string): Pr
 
   if (qwenWantsInstructions(model)) {
     const style = ttsStyleFor(mode || 'chat', tts);
-    if (style) {
-      if (kind === 'speech') input.instruction = style;
-      else input.instructions = style;
+    const adaptation = resolveEmotionAdaptation(
+      {
+        text,
+        emotion,
+        mode: mode || 'chat',
+        lang: lg,
+        model,
+        provider: 'qwen',
+      },
+      style
+    );
+    const finalStyle = adaptation.instruction || style;
+    if (finalStyle) {
+      if (kind === 'speech') input.instruction = finalStyle;
+      else input.instructions = finalStyle;
     }
   }
 
@@ -868,6 +935,20 @@ export async function _fishSpeak(
     };
     if (voice) body.reference_id = voice;
     const model = String(tts.fishModel || '').trim() || FISH_MODERN_DEFAULT_MODEL;
+    const adaptation = resolveEmotionAdaptation(
+      {
+        text,
+        emotion,
+        mode: mode || 'chat',
+        lang: lang || Langs.tts() || 'ja',
+        model,
+        provider: 'fish',
+      },
+      ttsStyleFor(mode || 'chat', tts)
+    );
+    if (adaptation.payload) {
+      Object.assign(body, adaptation.payload);
+    }
     return requestAudio(
       localProxy(fishTtsUrl(tts.fishBaseUrl)),
       body,
@@ -890,13 +971,23 @@ export async function _fishSpeak(
     };
     const fishLang = fishLanguage(lg);
     if (fishLang) body.language = fishLang;
-    if (fishWantsInstruction(model)) {
-      const styleHint = ttsStyleFor(mode || 'chat', tts);
-      if (styleHint) body.instruction = styleHint;
+    const baseStyle = fishWantsInstruction(model) ? ttsStyleFor(mode || 'chat', tts) : undefined;
+    const adaptation = resolveEmotionAdaptation(
+      {
+        text,
+        emotion,
+        mode: mode || 'chat',
+        lang: lg,
+        model,
+        provider: 'fish',
+      },
+      baseStyle
+    );
+    if (adaptation.payload) {
+      Object.assign(body, adaptation.payload);
     }
-    if (fishWantsEmotion(model)) {
-      const emo = fishEmotion(emotion);
-      if (emo) body.emotion = emo;
+    if (adaptation.instruction && fishWantsInstruction(model)) {
+      body.instruction = adaptation.instruction;
     }
     return requestAudio(
       localProxy(fishTtsUrl(tts.fishBaseUrl)),
@@ -1063,6 +1154,7 @@ export const Api = {
   listQwenTtsModels,
   listFishVoices,
   speak,
+  resolveEmotionAdaptation,
   _openaiSpeechSpeak,
   _qwenSpeak,
   _fishSpeak,

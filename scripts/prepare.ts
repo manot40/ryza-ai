@@ -6,7 +6,7 @@ import { exec } from 'node:child_process';
 import pkg from '../config/version.json';
 
 const VERSION = pkg.version;
-const VERSION_LOCAL = './static/assets/VERSION';
+const VERSION_LOCAL = './.assets/VERSION';
 const TMP_FILE = path.join(os.tmpdir(), `ryza-${VERSION}.zip`);
 const RELEASE_URL = 'https://github.com/zeroa234/ryza-ai-revive/releases';
 
@@ -33,11 +33,11 @@ try {
   console.info('Extracting assets...');
   exec(`unzip ${TMP_FILE} -o -d _extracted assets/assets/**`, (err) => {
     if (err) throw err;
-    if (fs.existsSync('./static/assets'))
+    if (fs.existsSync('./.assets'))
       // prettier-ignore
-      fs.rmSync('./static/assets', { force:true, recursive: true });
+      fs.rmSync('./.assets', { force:true, recursive: true });
 
-    fs.renameSync('_extracted/assets/assets', 'static/assets');
+    fs.renameSync('_extracted/assets/assets', './.assets');
     fs.rmSync('_extracted', { recursive: true });
     fs.rmSync(TMP_FILE, { force: true });
     fs.writeFileSync(VERSION_LOCAL, VERSION);

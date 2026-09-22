@@ -188,4 +188,51 @@ describe('TalkLoopController', () => {
       vi.useRealTimers();
     });
   });
+
+  describe('Speech Synthesis Emotion Propagation', () => {
+    it('passes reply.emotion to api.speak during say()', async () => {
+      config.setLLM('apiKey', 'test-key');
+      config.setLLM('lang', 'ja');
+      config.setTTS('lang', 'ja');
+      config.setApp('voice', true);
+      config.setTTS('mode', 'preset');
+
+      const mockReply = {
+        text: 'こんにちは！元気だよ！',
+        emotion: 'happy',
+        attitude: 'agree',
+      };
+      (api.chat as unknown as ReturnType<typeof vi.fn>).mockResolvedValueOnce(mockReply);
+      (api.speak as unknown as ReturnType<typeof vi.fn>).mockResolvedValueOnce('blob:mock-voice-url');
+
+      await controller.say('こんにちは！');
+
+      expect(api.speak).toHaveBeenCalledWith('こんにちは！元気だよ！', 'ja', 'chat', 'happy');
+    });
+
+    it('passes explicit emotion to api.speak during speakThen()', async () => {
+      config.setLLM('lang', 'ja');
+      config.setTTS('lang', 'ja');
+      config.setApp('voice', true);
+      config.setTTS('mode', 'preset');
+      (api.speak as unknown as ReturnType<typeof vi.fn>).mockResolvedValueOnce('blob:mock-voice-url');
+
+      await controller.speakThen('えへへ、照れるな', 'shy');
+
+      expect(api.speak).toHaveBeenCalledWith('えへへ、照れるな', 'ja', 'chat', 'shy');
+    });
+
+    it('falls back to avatarService.currentEmotion if emotion omitted in speakThen()', async () => {
+      config.setLLM('lang', 'ja');
+      config.setTTS('lang', 'ja');
+      config.setApp('voice', true);
+      config.setTTS('mode', 'preset');
+      avatarService.setEmotion('sad', 'agree');
+      (api.speak as unknown as ReturnType<typeof vi.fn>).mockResolvedValueOnce('blob:mock-voice-url');
+
+      await controller.speakThen('悲しいよ…');
+
+      expect(api.speak).toHaveBeenCalledWith('悲しいよ…', 'ja', 'chat', 'sad');
+    });
+  });
 });

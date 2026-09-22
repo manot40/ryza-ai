@@ -38,6 +38,10 @@
     engine.setEmotion(emotion, attitude, immediate);
   }
 
+  export function currentEmotion(): string {
+    return engine.currentEmotion;
+  }
+
   export function setTalking(on: boolean) {
     engine.setTalking(on);
   }

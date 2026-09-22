@@ -126,7 +126,12 @@ function pick(
 
 async function voicevoxSpeak(
   row: ProviderRow,
-  ctx: { text: string; fetch: typeof fetch; creds: ResolvedTtsCredentials }
+  ctx: {
+    text: string;
+    fetch: typeof fetch;
+    creds: ResolvedTtsCredentials;
+    queryModifier?: (query: Record<string, unknown>) => void;
+  }
 ): Promise<string> {
   let base = String(ctx.creds.baseUrl || '').trim();
   if (!base) {
@@ -151,6 +156,9 @@ async function voicevoxSpeak(
     });
     if (!qRes.ok) throw fail('audio_query 失败', qRes.status);
     const query = await qRes.json();
+    if (ctx.queryModifier && query && typeof query === 'object') {
+      ctx.queryModifier(query as Record<string, unknown>);
+    }
 
     const sRes = await ctx.fetch(`${base}synthesis?speaker=${encodeURIComponent(style)}`, {
       method: 'POST',
@@ -214,7 +222,11 @@ export function sttCredentials(stt?: Partial<SttConfig> | null): ResolvedSttCred
 
 export async function speakLocal(
   creds: ResolvedTtsCredentials,
-  ctx: { text: string; fetch?: typeof fetch }
+  ctx: {
+    text: string;
+    fetch?: typeof fetch;
+    queryModifier?: (query: Record<string, unknown>) => void;
+  }
 ): Promise<string> {
   const row = BY_ID[creds.id];
   if (!row || !row.capabilities.local) {
@@ -222,7 +234,12 @@ export async function speakLocal(
     (err as { provider?: string }).provider = creds.id;
     throw err;
   }
-  return voicevoxSpeak(row, { text: ctx.text, fetch: ctx.fetch || fetch, creds });
+  return voicevoxSpeak(row, {
+    text: ctx.text,
+    fetch: ctx.fetch || fetch,
+    creds,
+    queryModifier: ctx.queryModifier,
+  });
 }
 
 export function isLocal(id: string): boolean {

@@ -7,6 +7,7 @@ export class AvatarService {
   instance = $state<Avatar | null>(null);
   hidden = $state(false);
   private _analyser: AnalyserNode | null = null;
+  private _lastEmotion = 'neutral';
 
   setInstance(inst: Avatar | null) {
     this.instance = inst;
@@ -36,7 +37,12 @@ export class AvatarService {
   }
 
   setEmotion(emotion: string, attitude: string = 'agree', immediate?: boolean) {
+    this._lastEmotion = emotion;
     this.instance?.setEmotion(emotion, attitude, immediate);
+  }
+
+  get currentEmotion(): string {
+    return this.instance?.currentEmotion?.() ?? this._lastEmotion;
   }
 
   setTalking(talking: boolean) {

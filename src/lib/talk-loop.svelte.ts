@@ -53,12 +53,13 @@ const tlVoiceNotInCache = 'Voice clip no longer in cache';
 const tlNoVoiceToFav = 'No voice to favorite';
 const tlFavAdded = 'Added to favorites ★';
 const tlFavRemoved = 'Removed from favorites';
+// prettier-ignore
 const ErrorMessages = {
-  nokey: tlApiKeyMissing,
-  auth: tlAuthFailed,
-  model: tlModelNotSupported,
-  timeout: tlTimeout,
-  net: tlNetError,
+  get nokey() { return tlApiKeyMissing },
+  get auth() { return tlAuthFailed },
+  get model() { return tlModelNotSupported },
+  get timeout() { return tlTimeout },
+  get net() { return tlNetError },
 } as Record<FailKind, string>;
 
 export class TalkLoopController {
@@ -296,7 +297,7 @@ export class TalkLoopController {
     return 'other';
   }
 
-  private async prepareSpeech(text: string): Promise<string | null> {
+  private async prepareSpeech(text: string, emotion?: string): Promise<string | null> {
     const st = config.get('state');
     const app = config.get('app');
     const tts = config.get('tts');
@@ -315,8 +316,10 @@ export class TalkLoopController {
       } catch {}
     }
 
+    const targetEmotion = emotion || avatarService.currentEmotion || 'neutral';
+
     try {
-      const url = await apiSpeak(speakText, ttsL, String(st.mode || 'chat'));
+      const url = await apiSpeak(speakText, ttsL, String(st.mode || 'chat'), targetEmotion);
       if (url) {
         const key = `v${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
         try {
@@ -423,7 +426,8 @@ export class TalkLoopController {
       voiceInput.noteAssistantSpeech(mine || reply.text);
 
       // Pre-fetch TTS speech in the background while typewriter renders (Ryza's lines only)
-      const speechPromise = mine ? this.prepareSpeech(mine) : Promise.resolve(null);
+      const targetEmotion = reply.emotion || avatarService.currentEmotion || 'neutral';
+      const speechPromise = mine ? this.prepareSpeech(mine, targetEmotion) : Promise.resolve(null);
 
       const showOthers = () => {
         let i = 0;
@@ -482,7 +486,8 @@ export class TalkLoopController {
   }
 
   async speakThen(text: string, emotion?: string): Promise<void> {
-    const url = await this.prepareSpeech(text);
+    const targetEmotion = emotion || avatarService.currentEmotion || 'neutral';
+    const url = await this.prepareSpeech(text, targetEmotion);
     if (!url) return;
     const st = config.get('state');
     const fx = MODE_PLAY_FX[String(st.mode || 'chat')] || null;
