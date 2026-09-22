@@ -2,9 +2,15 @@
 node_modules
 
 # output
-out
 dist
+dist-ssr
+build
 *.tgz
+*.local
+.svelte-kit
+.wuchale
+.wrangler
+.output
 
 # code coverage
 coverage
@@ -22,6 +28,10 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 .env.production.local
 .env.local
 
+# Vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
 # caches
 .eslintcache
 .cache
@@ -33,5 +43,6 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 # Finder (MacOS) folder config
 .DS_Store
 
-# artifacts
+# agents specific
+.trae
 web/assets

@@ -1,0 +1,3186 @@
+msgid ""
+msgstr ""
+"Source-Language: en\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1\n"
+"X-Plurals-Order: other\n"
+
+#: src/components/chrome/Drawer.svelte
+msgid "Talk"
+msgstr "会話"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/WelcomeView.svelte
+msgid "Welcome Missions"
+msgstr "ウェルカムミッション"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/DailyView.svelte
+msgid "Daily Login"
+msgstr "デイリーログイン"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/QuestView.svelte
+#: src/components/views/TalkView.svelte
+msgid "Quests"
+msgstr "クエスト"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/WorldView.svelte
+#: src/components/views/WorldView.svelte
+msgid "World Map"
+msgstr "ワールドマップ"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/AlarmView.svelte
+msgid "Alarm Clock"
+msgstr "アラーム"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/CharaView.svelte
+msgid "Character Profile"
+msgstr "キャラクター設定"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/SkinView.svelte
+msgid "Costumes"
+msgstr "衣装"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/sheets/StatusSheet.svelte
+#: src/components/views/MemoryView.svelte
+msgid "Memories"
+msgstr "メモリー"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/SettingsView.svelte
+#: src/components/views/TalkView.svelte
+msgid "Settings"
+msgstr "設定"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/HistoryView.svelte
+#: src/components/views/HistoryView.svelte
+#: src/components/views/TalkView.svelte
+#: src/components/views/TalkView.svelte
+#: src/components/views/TalkView.svelte
+#: src/components/views/WorldMapView.svelte
+msgid "Ryza"
+msgstr "ライザ"
+
+#. 0: config.get('state')?.day || 1
+#: src/components/chrome/Drawer.svelte
+msgid "Days together: {0}"
+msgstr "一緒 {0} 日目"
+
+#: src/components/chrome/Drawer.svelte
+msgid "Offline Rebuilt Edition · No official server"
+msgstr "オフライン再構築版 · 公式サーバー接続なし"
+
+#: src/components/chrome/SideMenu.svelte
+#: src/components/sheets/LanguageSheet.svelte
+#: src/components/views/settings/LangTab.svelte
+#: src/components/views/settings/LangTab.svelte
+#: src/components/views/settings/LangTab.svelte
+#: src/components/views/settings/LangTab.svelte
+msgid "English"
+msgstr "English"
+
+#: src/components/chrome/SideMenu.svelte
+#: src/components/sheets/LanguageSheet.svelte
+#: src/components/views/settings/LangTab.svelte
+msgid "日本語"
+msgstr "日本語"
+
+#: src/components/chrome/SideMenu.svelte
+#: src/components/sheets/LanguageSheet.svelte
+#: src/components/views/settings/LangTab.svelte
+msgid "简体中文"
+msgstr "简体中文"
+
+#: src/components/chrome/SideMenu.svelte
+#: src/components/sheets/LanguageSheet.svelte
+#: src/components/views/settings/LangTab.svelte
+#: src/components/views/settings/LangTab.svelte
+#: src/components/views/settings/LangTab.svelte
+#: src/components/views/settings/LangTab.svelte
+msgid "Bahasa Indonesia"
+msgstr "Bahasa Indonesia"
+
+#: src/components/chrome/SideMenu.svelte
+#: src/components/chrome/TopBar.svelte
+msgid "Quick Actions"
+msgstr "クイック操作"
+
+#: src/components/chrome/SideMenu.svelte
+msgid "Shortcuts and display controls"
+msgstr "ショートカットと表示設定"
+
+#: src/components/chrome/SideMenu.svelte
+#: src/routes/+layout.svelte
+msgid "New Conversation"
+msgstr "新しい会話"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/chrome/SideMenu.svelte
+#: src/components/sheets/LanguageSheet.svelte
+#: src/components/views/SettingsView.svelte
+msgid "Language"
+msgstr "言語"
+
+#: src/components/chrome/SideMenu.svelte
+msgid "Toggle Character"
+msgstr "立ち絵の表示/非表示"
+
+#: src/components/chrome/SideMenu.svelte
+msgid "Toggle Fullscreen"
+msgstr "全画面表示"
+
+#: src/components/chrome/SideMenu.svelte
+msgid "← Back"
+msgstr "← 戻る"
+
+#: src/components/TodToggle.svelte
+msgid "Morning"
+msgstr "朝"
+
+#: src/components/TodToggle.svelte
+#: src/components/TodToggle.svelte
+msgid "Noon"
+msgstr "昼"
+
+#: src/components/TodToggle.svelte
+msgid "Evening"
+msgstr "夕"
+
+#: src/components/TodToggle.svelte
+msgid "Night"
+msgstr "夜"
+
+#: src/components/chrome/TopBar.svelte
+#: src/components/chrome/TopBar.svelte
+msgid "Free Talk"
+msgstr "雑談"
+
+#: src/components/chrome/TopBar.svelte
+#: src/components/sheets/ModeSheet.svelte
+msgid "Story"
+msgstr "物語"
+
+#: src/components/chrome/TopBar.svelte
+#: src/components/sheets/ModeSheet.svelte
+msgid "Immersive"
+msgstr "没入"
+
+#: src/components/chrome/TopBar.svelte
+msgid "Open Navigation"
+msgstr "メニューを開く"
+
+#: src/components/chrome/TopBar.svelte
+#: src/components/sheets/ModeSheet.svelte
+msgid "Hideout"
+msgstr "アジト"
+
+#: src/components/views/TalkView.svelte
+msgid "Toggle Voice"
+msgstr "音声切り替え"
+
+#: src/components/views/AlarmView.svelte
+msgid "Sun"
+msgstr "日"
+
+#: src/components/views/AlarmView.svelte
+msgid "Mon"
+msgstr "月"
+
+#: src/components/views/AlarmView.svelte
+msgid "Tue"
+msgstr "火"
+
+#: src/components/views/AlarmView.svelte
+msgid "Wed"
+msgstr "水"
+
+#: src/components/views/AlarmView.svelte
+msgid "Thu"
+msgstr "木"
+
+#: src/components/views/AlarmView.svelte
+msgid "Fri"
+msgstr "金"
+
+#: src/components/views/AlarmView.svelte
+msgid "Sat"
+msgstr "土"
+
+#: src/components/views/AlarmView.svelte
+msgid "Good Morning"
+msgstr "おはよう"
+
+#: src/components/views/AlarmView.svelte
+msgid "Play with Me"
+msgstr "一緒に遊ぼう"
+
+#: src/components/views/AlarmView.svelte
+msgid "Task Reminder"
+msgstr "タスク通知"
+
+#: src/components/views/AlarmView.svelte
+msgid "Well Done"
+msgstr "おつかれさま"
+
+#: src/components/views/AlarmView.svelte
+msgid "Normal Tone"
+msgstr "通常トーン"
+
+#: src/components/views/AlarmView.svelte
+msgid "Whisper Tone"
+msgstr "囁きトーン"
+
+#: src/components/views/AlarmView.svelte
+msgid "+ New Alarm"
+msgstr "+ 新規アラーム"
+
+#: src/components/views/AlarmView.svelte
+msgid "No alarms set yet. Tap + New Alarm to add one!"
+msgstr "アラームはまだありません。「+ 新規アラーム」から追加できます！"
+
+#: src/components/views/AlarmView.svelte
+msgid "Edit Alarm"
+msgstr "アラーム編集"
+
+#: src/components/views/AlarmView.svelte
+msgid "New Alarm"
+msgstr "新規アラーム"
+
+#: src/components/views/AlarmView.svelte
+msgid "Set the wake-up time and Ryza's voiced greeting style"
+msgstr "起床時間とライザのボイスタイプを設定"
+
+#: src/components/views/AlarmView.svelte
+msgid "Time"
+msgstr "時刻"
+
+#: src/components/views/AlarmView.svelte
+msgid "Greeting Type"
+msgstr "挨拶タイプ"
+
+#: src/components/views/AlarmView.svelte
+msgid "Voice Style"
+msgstr "ボイススタイル"
+
+#: src/components/views/AlarmView.svelte
+msgid "Repeat Days"
+msgstr "繰り返し曜日"
+
+#: src/components/views/AlarmView.svelte
+#: src/components/views/CharaView.svelte
+#: src/components/views/HistoryView.svelte
+#: src/components/views/MemoryView.svelte
+#: src/components/views/settings/DataTab.svelte
+#: src/components/views/settings/DataTab.svelte
+#: src/routes/+layout.svelte
+msgid "Cancel"
+msgstr "キャンセル"
+
+#: src/components/views/AlarmView.svelte
+msgid "Save Alarm"
+msgstr "アラーム保存"
+
+#: src/components/views/CharaView.svelte
+msgid "👗 Costumes"
+msgstr "👗 衣装"
+
+#: src/components/views/CharaView.svelte
+msgid "Adventurer Profile"
+msgstr "冒険者プロフィール"
+
+#: src/components/views/CharaView.svelte
+msgid "Adventurer"
+msgstr "冒険者"
+
+#: src/components/views/CharaView.svelte
+msgid "Your Name"
+msgstr "名前"
+
+#: src/components/views/CharaView.svelte
+msgid "You / Senpai"
+msgstr "きみ / 先輩"
+
+#: src/components/views/CharaView.svelte
+msgid "How Ryza Calls You"
+msgstr "ライザからの呼び名"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+#: src/components/views/CharaView.svelte
+msgid "Birthday"
+msgstr "誕生日"
+
+#: src/components/views/CharaView.svelte
+msgid "Male / Female / Other"
+msgstr "男性 / 女性 / その他"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+#: src/components/views/CharaView.svelte
+msgid "Gender"
+msgstr "性別"
+
+#: src/components/views/CharaView.svelte
+msgid "Ryza's Persona & Setting"
+msgstr "ライザのペルソナと設定"
+
+#: src/components/views/CharaView.svelte
+msgid "Energetic, cheerful, loves alchemy..."
+msgstr "元気で明るく、錬金術が大好きな性格..."
+
+#: src/components/views/CharaView.svelte
+msgid "Personality"
+msgstr "性格"
+
+#: src/components/views/CharaView.svelte
+msgid "Alchemy, adventures"
+msgstr "錬金術、冒険"
+
+#: src/components/views/CharaView.svelte
+msgid "Likes"
+msgstr "好きなもの"
+
+#: src/components/views/CharaView.svelte
+msgid "Ghosts, boredom"
+msgstr "おばけ、退屈"
+
+#: src/components/views/CharaView.svelte
+msgid "Dislikes"
+msgstr "苦手なもの"
+
+#: src/components/views/CharaView.svelte
+msgid "Living in the secret hideout on Kurken Island..."
+msgstr "クーケン島のアジトで暮らしている..."
+
+#: src/components/views/CharaView.svelte
+msgid "Current Situation"
+msgstr "現在の状況"
+
+#: src/components/views/CharaView.svelte
+msgid "Settings saved successfully!"
+msgstr "設定を保存しました！"
+
+#: src/components/views/CharaView.svelte
+msgid "Save Profile"
+msgstr "プロフィール保存"
+
+#. 0: claimNotice
+#: src/components/views/DailyView.svelte
+msgid "Claimed: {0}"
+msgstr "受取済: {0}"
+
+#: src/components/views/DailyView.svelte
+msgid "Streak: <0/> Days"
+msgstr "連続: <0/> 日"
+
+#. 0: reward.day
+#: src/components/views/DailyView.svelte
+msgid "Day {0}"
+msgstr "{0}日目"
+
+#: src/components/views/DailyView.svelte
+#: src/components/views/WelcomeView.svelte
+msgid "Claimed"
+msgstr "受取済"
+
+#: src/components/views/DailyView.svelte
+msgid "Ready!"
+msgstr "受取可能！"
+
+#: src/components/views/DailyView.svelte
+msgid "Claim Today's Reward"
+msgstr "本日の報酬を受け取る"
+
+#: src/components/views/DailyView.svelte
+msgid "Already Claimed Today"
+msgstr "本日は受取済です"
+
+#: src/components/views/MemoryView.svelte
+msgid "Clear All Memories"
+msgstr "すべてのメモリーを削除"
+
+#: src/components/views/MemoryView.svelte
+#: src/components/views/MemoryView.svelte
+msgid "Clear All"
+msgstr "すべて消去"
+
+#: src/components/views/MemoryView.svelte
+msgid "Folding..."
+msgstr "要約中..."
+
+#: src/components/views/MemoryView.svelte
+msgid "Fold Summary"
+msgstr "要約をまとめる"
+
+#: src/components/views/MemoryView.svelte
+msgid "Long-Term Summaries"
+msgstr "長期記憶・要約"
+
+#. 0: memory.summaries.length
+#: src/components/views/MemoryView.svelte
+msgid "{0} saved"
+msgstr "{0} 件保存済"
+
+#: src/components/views/MemoryView.svelte
+msgid "No long-term summaries yet. Conversations will fold here as you talk!"
+msgstr "長期要約はまだありません。会話を重ねるとここにまとまります！"
+
+#. 0: item.n
+#: src/components/views/MemoryView.svelte
+msgid "Summary ({0} turns)"
+msgstr "要約 ({0} ターン)"
+
+#: src/components/views/MemoryView.svelte
+msgid "Recent Conversation Sessions"
+msgstr "最近の会話セッション"
+
+#. 0: memory.sessions.length
+#: src/components/views/MemoryView.svelte
+msgid "{0} sessions"
+msgstr "{0} 件のセッション"
+
+#: src/components/views/MemoryView.svelte
+msgid "No active session cards."
+msgstr "アクティブなセッションはありません。"
+
+#: src/components/views/MemoryView.svelte
+msgid "Session Window"
+msgstr "セッション枠"
+
+#: src/components/views/QuestView.svelte
+msgid "Thinking..."
+msgstr "考え中..."
+
+#: src/components/views/QuestView.svelte
+msgid "Ask Ryza"
+msgstr "ライザに頼む"
+
+#: src/components/views/QuestView.svelte
+msgid "Side Quest"
+msgstr "サブクエスト"
+
+#. 0: currentQuest.no
+#: src/components/views/QuestView.svelte
+msgid "Main Quest #{0}"
+msgstr "メインクエスト #{0}"
+
+#. 0: currentQuest.cost
+#: src/components/views/QuestView.svelte
+msgid "Cost: {0} Stamina"
+msgstr "消費: {0} スタミナ"
+
+#: src/components/views/QuestView.svelte
+msgid "Rewards:"
+msgstr "報酬:"
+
+#. 0: currentQuest.reward?.exp || 0
+#: src/components/views/QuestView.svelte
+msgid "+{0} EXP"
+msgstr "+{0} EXP"
+
+#. 0: currentQuest.reward?.money || 0
+#: src/components/views/QuestView.svelte
+msgid "+{0} G"
+msgstr "+{0} G"
+
+#: src/components/views/QuestView.svelte
+msgid "Claim Reward & Continue"
+msgstr "報酬を受け取って進む"
+
+#: src/components/views/QuestView.svelte
+msgid "Talk to Ryza"
+msgstr "ライザと話す"
+
+#: src/components/views/QuestView.svelte
+msgid "Open World Map"
+msgstr "ワールドマップを開く"
+
+#: src/components/views/QuestView.svelte
+msgid "Take Action"
+msgstr "行動する"
+
+#: src/components/views/QuestView.svelte
+msgid "Completed"
+msgstr "完了"
+
+#: src/components/views/QuestView.svelte
+msgid "Recent Completed Quests"
+msgstr "最近クリアしたクエスト"
+
+#: src/components/views/settings/DataTab.svelte
+msgid "Reset All Settings"
+msgstr "すべての設定を初期化"
+
+#: src/components/views/settings/DataTab.svelte
+msgid "Are you sure you want to reset all settings to defaults? Your game progress will be preserved."
+msgstr "すべての設定を初期状態に戻しますか？ゲームの進行状況は維持されます。"
+
+#: src/components/views/settings/DataTab.svelte
+msgid "Reset Settings"
+msgstr "設定を初期化"
+
+#: src/components/views/SettingsView.svelte
+msgid "LLM"
+msgstr "LLM"
+
+#: src/components/views/SettingsView.svelte
+msgid "TTS"
+msgstr "TTS"
+
+#: src/components/views/SettingsView.svelte
+msgid "Audio"
+msgstr "オーディオ"
+
+#: src/components/views/SettingsView.svelte
+msgid "Game"
+msgstr "ゲーム"
+
+#: src/components/views/SettingsView.svelte
+msgid "Data"
+msgstr "データ"
+
+#: src/components/views/settings/LlmTab.svelte
+msgid "API Base URL"
+msgstr "API Base URL"
+
+#: src/components/views/settings/LlmTab.svelte
+#: src/components/views/settings/TtsTab.svelte
+msgid "Model Name"
+msgstr "モデル名"
+
+#: src/components/views/settings/LlmTab.svelte
+msgid "API Key"
+msgstr "API Key"
+
+#: src/components/views/settings/LlmTab.svelte
+msgid "Temperature"
+msgstr "温度 (Temperature)"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Voice Synthesis (TTS)"
+msgstr "音声合成 (TTS)"
+
+#: src/components/views/settings/AudioTab.svelte
+msgid "Volume Controls"
+msgstr "音量調整"
+
+#: src/components/views/settings/AudioTab.svelte
+msgid "Background Music (BGM)"
+msgstr "BGM 音量"
+
+#: src/components/views/settings/AudioTab.svelte
+msgid "Voice Volume"
+msgstr "ボイス音量"
+
+#: src/components/views/settings/AudioTab.svelte
+msgid "Sound Effects (SE)"
+msgstr "効果音 (SE)"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Cheat Mode"
+msgstr "チートモード"
+
+#: src/components/views/settings/DataTab.svelte
+msgid "Data Management"
+msgstr "データ管理"
+
+#. 0: skins.length
+#: src/components/views/SkinView.svelte
+msgid "{0} Outfits"
+msgstr "{0} 着の衣装"
+
+#: src/components/views/SkinView.svelte
+msgid "Loading costumes..."
+msgstr "衣装を読み込み中..."
+
+#: src/components/views/SkinView.svelte
+msgid "No costumes found."
+msgstr "衣装が見つかりませんでした。"
+
+#: src/components/views/SkinView.svelte
+msgid "Equipped"
+msgstr "着用中"
+
+#: src/components/views/SkinView.svelte
+#: src/components/views/WorldView.svelte
+msgid "Locked"
+msgstr "未開放"
+
+#: src/components/views/SkinView.svelte
+msgid "Active"
+msgstr "現在"
+
+#: src/components/views/SkinView.svelte
+msgid "Wear"
+msgstr "着替える"
+
+#: src/components/views/SkinView.svelte
+msgid "Preview Only"
+msgstr "プレビューのみ"
+
+#. 0: game.level()
+#. 0: game.level()
+#: src/components/sheets/StatusSheet.svelte
+#: src/components/views/TalkView.svelte
+msgid "Lv.{0}"
+msgstr "Lv.{0}"
+
+#: src/components/views/TalkView.svelte
+msgid "Toggle Log Panel"
+msgstr "ログパネルの開閉"
+
+#. 0: idx + 1
+#: src/components/views/TalkView.svelte
+msgid "Message {0}"
+msgstr "メッセージ {0}"
+
+#: src/components/views/TalkView.svelte
+msgid "Ryza is thinking..."
+msgstr "ライザが考え中..."
+
+#: src/components/views/TalkView.svelte
+msgid "Text Speed"
+msgstr "テキスト送り速度"
+
+#: src/components/views/TalkView.svelte
+msgid "Say something to Ryza..."
+msgstr "ライザに何か話しかけてみて…"
+
+#: src/components/views/TalkView.svelte
+msgid "Enter"
+msgstr "Enter"
+
+#: src/components/views/TalkView.svelte
+msgid "Clear Input"
+msgstr "入力を消去"
+
+#: src/components/views/TalkView.svelte
+#: src/components/views/TalkView.svelte
+msgid "Send"
+msgstr "送信"
+
+#: src/components/views/WelcomeView.svelte
+msgid "First Conversation"
+msgstr "最初のおしゃべり"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Have a friendly chat with Ryza in the secret hideout."
+msgstr "アジトでライザと楽しくおしゃべりしてみよう。"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Explore the Island"
+msgstr "島を冒険しよう"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Open the world map to explore Kurken Island and other areas."
+msgstr "ワールドマップを開いてクーケン島や各地へ行ってみよう。"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Set an Alarm"
+msgstr "アラームをかけてみよう"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Schedule a voiced wake-up greeting with Ryza."
+msgstr "ライザのボイス付き目覚ましを設定してみよう。"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Wardrobe & Costumes"
+msgstr "衣装部屋へ行こう"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Visit the costume gallery and try out Ryza’s outfits."
+msgstr "衣装一覧を覗いてライザの衣装を試してみよう。"
+
+#: src/components/views/WelcomeView.svelte
+msgid "First Quest"
+msgstr "はじめてのクエスト"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Embark on an adventure and advance your main quest line."
+msgstr "冒険に出てメインクエストを進めてみよう。"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Done"
+msgstr "達成"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Go"
+msgstr "挑戦"
+
+#: src/components/views/WorldView.svelte
+msgid "Here"
+msgstr "現在地"
+
+#: src/components/views/WorldView.svelte
+msgid "Travel"
+msgstr "移動"
+
+#: src/components/chrome/ElectronControls.svelte
+#: src/components/ui/dialog/dialog-content.svelte
+#: src/components/ui/dialog/dialog-footer.svelte
+#: src/components/ui/sheet/sheet-content.svelte
+msgid "Close"
+msgstr "閉じる"
+
+#: src/components/views/TalkView.svelte
+msgid "Voice"
+msgstr "ボイス"
+
+#: src/components/sheets/ModeSheet.svelte
+#: src/components/views/TalkView.svelte
+msgid "Text"
+msgstr "テキスト"
+
+#: src/components/sheets/InventorySheet.svelte
+#: src/components/views/TalkView.svelte
+msgid "Inventory"
+msgstr "インベントリ"
+
+#: src/components/sheets/InventorySheet.svelte
+msgid "Your Bag"
+msgstr "あなたのバッグ"
+
+#: src/components/sheets/InventorySheet.svelte
+msgid "Ryza's Bag"
+msgstr "ライザのバッグ"
+
+#: src/components/sheets/InventorySheet.svelte
+msgid "Bag is empty"
+msgstr "バッグは空です"
+
+#. 0: upgradeCost
+#: src/components/sheets/InventorySheet.svelte
+msgid "Upgrade Bag ({0} G)"
+msgstr "バッグ拡張 ({0} G)"
+
+#. 0: cap
+#: src/components/sheets/InventorySheet.svelte
+msgid "Capacity: <0/> / {0}"
+msgstr "容量: <0/> / {0}"
+
+#: src/components/sheets/ModeSheet.svelte
+msgid "Chat"
+msgstr "雑談"
+
+#: src/components/sheets/ModeSheet.svelte
+msgid "Dialogue Mode"
+msgstr "会話モード"
+
+#: src/components/sheets/ModeSheet.svelte
+msgid "Mode"
+msgstr "モード"
+
+#: src/components/sheets/ModeSheet.svelte
+msgid "🔊 Voice"
+msgstr "🔊 音声"
+
+#: src/components/sheets/ModeSheet.svelte
+msgid "📝 Text Only"
+msgstr "📝 テキストのみ"
+
+#: src/components/sheets/ModeSheet.svelte
+msgid "Output Style"
+msgstr "出力形式"
+
+#: src/components/sheets/ModeSheet.svelte
+#: src/components/views/WorldView.svelte
+msgid "Map"
+msgstr "マップ"
+
+#: src/components/sheets/StatusSheet.svelte
+msgid "Adventure Status"
+msgstr "冒険ステータス"
+
+#: src/components/sheets/StatusSheet.svelte
+msgid "Level"
+msgstr "レベル"
+
+#: src/components/sheets/StatusSheet.svelte
+msgid "Stamina"
+msgstr "スタミナ"
+
+#: src/components/sheets/StatusSheet.svelte
+msgid "EXP Progress"
+msgstr "EXP 進捗"
+
+#. 0: exp.into; 1: exp.span; 2: game.s.exp_total
+#: src/components/sheets/StatusSheet.svelte
+msgid "{0} / {1} (Total: {2})"
+msgstr "{0} / {1} (累計: {2})"
+
+#: src/components/sheets/StatusSheet.svelte
+msgid "Gold"
+msgstr "ゴールド"
+
+#: src/components/sheets/StatusSheet.svelte
+#: src/components/views/settings/LlmTab.svelte
+msgid "None"
+msgstr "なし"
+
+#: src/components/sheets/StatusSheet.svelte
+msgid "Active Quest"
+msgstr "進行中のクエスト"
+
+#: src/components/sheets/StatusSheet.svelte
+msgid "People Met"
+msgstr "出会った人"
+
+#: src/components/sheets/StatusSheet.svelte
+msgid "Ship Construction"
+msgstr "造船の進捗"
+
+#: src/components/sheets/StatusSheet.svelte
+msgid "No memories recorded yet"
+msgstr "まだメモリーが記録されていません"
+
+#: src/components/sheets/NpcSheet.svelte
+msgid "Unmet"
+msgstr "未遭遇"
+
+#: src/components/overlays/TitleOverlay.svelte
+msgid "Start"
+msgstr "スタート"
+
+#: src/components/overlays/TitleOverlay.svelte
+msgid "ライザと話す"
+msgstr "ライザと話す"
+
+#: src/components/overlays/TitleOverlay.svelte
+msgid "Atelier Ryza"
+msgstr "ライザのアトリエ"
+
+#. 0: onboarding.prologueIndex
+#: src/components/overlays/PrologueOverlay.svelte
+msgid "Prologue {0} / 9"
+msgstr "プロローグ {0} / 9"
+
+#: src/components/overlays/PrologueOverlay.svelte
+msgid "\"A summer journey begins on the peaceful island of Kurken...\""
+msgstr "\\"
+
+#: src/components/overlays/PrologueOverlay.svelte
+msgid "Tap screen to continue"
+msgstr "画面をタップして進む"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "First, let's get to know you"
+msgstr "はじめに、あなたのことを教えてね"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Your name, birthday, and gender will help Ryza address you properly."
+msgstr "名前や誕生日、性別を設定すると、ライザが親身に呼びかけてくれます。"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "What do you look like?"
+msgstr "どんな見た目をしているの？"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Give Ryza a hint so she can picture you."
+msgstr "ライザがあなたを思い浮かべられるように教えてね。"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "What kind of journey brought you here?"
+msgstr "どんな旅路を経てここに来たの？"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Your background, hometown, or whatever comes to mind."
+msgstr "経歴や故郷など、思いつくことを教えてね。"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "What do you enjoy doing in your free time?"
+msgstr "普段はどんなことをして過ごしているの？"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Hobbies and pastimes."
+msgstr "趣味や好きなこと。"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "What would you most like to do with Ryza?"
+msgstr "ライザと一緒に何がしたい？"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Select all that appeal to you."
+msgstr "気になるものをすべて選んでね。"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Adventuring and treasure hunting"
+msgstr "冒険やお宝探し"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Running an atelier shop together"
+msgstr "一緒にお店を経営する"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Synthesizing items"
+msgstr "調合・ものづくり"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Relaxing and chatting"
+msgstr "ゆっくりおしゃべりする"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Listening to her stories"
+msgstr "ライザの冒険話を聞く"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "What interests you about alchemy?"
+msgstr "錬金術のどんなところに興味がある？"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Select all that apply."
+msgstr "当てはまるものをすべて選んでね。"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Gathering materials"
+msgstr "素材集め・採取"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Learning recipes"
+msgstr "新しいレシピを覚える"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Fun experiments even if they fail"
+msgstr "失敗しても楽しい実験"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Enhancing equipment"
+msgstr "装備の強化・改良"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Brewing recovery potions"
+msgstr "回復アイテムの調合"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Still new to it, want to learn"
+msgstr "まだ初心者だから教えてほしい"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Where would you like our story to begin?"
+msgstr "ふたりの物語はどこから始めようか？"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Choose a starting point."
+msgstr "始まりのシチュエーションを選んでね。"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Daily life on Kurken Island"
+msgstr "クーケン島での穏やかな日常"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Having known each other for a long time"
+msgstr "昔からの知り合い・幼馴染み"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "What goals do you hope to achieve?"
+msgstr "どんな目標を達成したい？"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "For yourself, and to share with Ryza."
+msgstr "あなた自身のこと、ライザと一緒に叶えたいこと。"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "How would you describe your personality?"
+msgstr "あなたの性格をひと言で表すと？"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Your temperament and way of getting along."
+msgstr "人柄や普段の接し方。"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Question"
+msgstr "質問"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Your name"
+msgstr "あなたのお名前"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Name"
+msgstr "名前"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Finish"
+msgstr "完了"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Next"
+msgstr "次へ"
+
+#: src/components/overlays/OnboardingOverlay.svelte
+msgid "Skip"
+msgstr "スキップ"
+
+#: src/components/overlays/AlarmOverlay.svelte
+msgid "Snooze"
+msgstr "スヌーズ"
+
+#: src/components/overlays/AlarmOverlay.svelte
+#: src/components/overlays/FaintOverlay.svelte
+msgid "Dismiss"
+msgstr "閉じる"
+
+#: src/components/overlays/QuestClearOverlay.svelte
+msgid "Quest Cleared"
+msgstr "クエストクリア"
+
+#: src/components/overlays/QuestClearOverlay.svelte
+msgid "Incredible job! Another adventure well spent!"
+msgstr "すごい！また一つ素敵な冒険ができたね！"
+
+#: src/components/overlays/QuestClearOverlay.svelte
+msgid "Quest Cleared!"
+msgstr "クエストクリア！"
+
+#: src/components/overlays/QuestClearOverlay.svelte
+msgid "OK"
+msgstr "OK"
+
+#: src/components/overlays/FaintOverlay.svelte
+msgid "Out of Stamina"
+msgstr "元気が足りません"
+
+#: src/components/overlays/FaintOverlay.svelte
+msgid "Out of Stamina..."
+msgstr "元気がなくなった…"
+
+#: src/components/overlays/FaintOverlay.svelte
+msgid "When stamina hits zero, Ryza faints from exhaustion. Rest up in a safe place to restore your energy!"
+msgstr "元気がゼロになると、ライザは倒れてしまいます。安全な場所で休んで回復しましょう！"
+
+#: src/components/overlays/FaintOverlay.svelte
+msgid "Cheat: Full Refill"
+msgstr "チート: 全回復"
+
+#: src/components/overlays/FaintOverlay.svelte
+msgid "Go Home and Sleep"
+msgstr "おうちに帰って寝る"
+
+#: src/components/chrome/ElectronControls.svelte
+msgid "Pin on Top"
+msgstr "最前面に固定"
+
+#: src/components/chrome/ElectronControls.svelte
+msgid "Minimize"
+msgstr "最小化"
+
+#: src/routes/+layout.svelte
+msgid "Start a new conversation with Ryza? This resets active chat turns, but your adventure level, inventory, and memories will remain safe."
+msgstr "ライザと新しい会話を始めますか？現在の会話内容はリセットされますが、レベルや所持品、メモリーはそのまま残ります。"
+
+#: src/routes/+layout.svelte
+msgid "Start New Talk"
+msgstr "新しい会話を始める"
+
+#: src/components/views/TalkView.svelte
+msgid "Reply could not be retrieved."
+msgstr "返答を取得できませんでした。"
+
+#: src/components/views/TalkView.svelte
+msgid "Retry"
+msgstr "再試行"
+
+#: src/components/views/CharaView.svelte
+msgid "Save Data (3 Slots)"
+msgstr "セーブデータ (3スロット)"
+
+#: src/components/views/CharaView.svelte
+msgid "Empty Slot"
+msgstr "空きスロット"
+
+#. 0: slot.day; 1: slot.game ? 1 + Math.floor(Math.sqrt(((slot.game as { exp_total?\\: number }).exp_total || 0) / 30)) \\: '?'; 2: new Date(slot.at).toLocaleDateString(); 3: new Date(slot.at).toLocaleTimeString([], { hour\\: '2-digit', minute\\: '2-digit' })
+#: src/components/views/CharaView.svelte
+msgid "Day {0} · Lv.{1} · {2} {3}"
+msgstr "{0}日目 · Lv.{1} · {2} {3}"
+
+#: src/components/views/CharaView.svelte
+msgid "Save"
+msgstr "セーブ"
+
+#: src/components/views/CharaView.svelte
+msgid "Load"
+msgstr "ロード"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "明るく元気な若い女性の声。親しみやすい口調で。"
+msgstr "明るく元気な若い女性の声。親しみやすい口調で。"
+
+#: src/components/views/settings/LlmTab.svelte
+msgid "Please enter API Base URL first"
+msgstr "先に API Base URL を入力してください"
+
+#: src/components/views/settings/LlmTab.svelte
+msgid "Fetching models list..."
+msgstr "モデル一覧を取得中..."
+
+#. 0: llmModelsList.length
+#: src/components/views/settings/LlmTab.svelte
+msgid "Found {0} models!"
+msgstr "{0} 件のモデルが見つかりました！"
+
+#: src/components/views/settings/LlmTab.svelte
+msgid "No models found, enter model manually."
+msgstr "モデルが見つかりませんでした。手動で入力してください。"
+
+#: src/components/views/SkinView.svelte
+#: src/components/views/settings/LlmTab.svelte
+#: src/components/views/settings/LlmTab.svelte
+#: src/components/views/settings/TtsTab.svelte
+#: src/components/views/settings/TtsTab.svelte
+#: src/components/views/settings/TtsTab.svelte
+#: src/components/views/settings/TtsTab.svelte
+msgid "Unknown error"
+msgstr "不明なエラー"
+
+#. 0: (e as Error)?.message || 'Unknown error'
+#: src/components/views/settings/LlmTab.svelte
+msgid "Failed to fetch models: {0}"
+msgstr "モデルの取得に失敗しました: {0}"
+
+#: src/components/views/settings/LlmTab.svelte
+msgid "API Key is required to test LLM"
+msgstr "LLM テストには API キーが必要です"
+
+#: src/components/views/settings/LlmTab.svelte
+msgid "短く一言、あいさつして。"
+msgstr "短く一言、あいさつして。"
+
+#. 0: res.text
+#: src/components/views/settings/LlmTab.svelte
+msgid "Ryza: {0}"
+msgstr "ライザ: {0}"
+
+#. 0: (e as Error)?.message || 'Unknown error'
+#: src/components/views/settings/LlmTab.svelte
+msgid "LLM Test Failed: {0}"
+msgstr "LLM テスト失敗: {0}"
+
+#: src/components/views/settings/TtsTab.svelte
+#: src/components/views/settings/TtsTab.svelte
+msgid "Please enter Qwen API Key first"
+msgstr "先に Qwen API キーを入力してください"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Fetching Qwen models..."
+msgstr "Qwen モデル一覧を取得中..."
+
+#. 0: qwenModelsList.length
+#: src/components/views/settings/TtsTab.svelte
+msgid "Found {0} Qwen models!"
+msgstr "{0} 件の Qwen モデルが見つかりました！"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "No models returned from endpoint."
+msgstr "エンドポイントからモデルが返されませんでした。"
+
+#. 0: (e as Error)?.message || 'Unknown error'
+#: src/components/views/settings/TtsTab.svelte
+msgid "Failed to fetch Qwen models: {0}"
+msgstr "Qwen モデルの取得に失敗しました: {0}"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Cloning voice from reference sample..."
+msgstr "参照音声からボイスをクローン中..."
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Voice successfully cloned!"
+msgstr "ボイスのクローンが完了しました！"
+
+#. 0: (e as Error)?.message || 'Unknown error'
+#: src/components/views/settings/TtsTab.svelte
+msgid "Voice cloning failed: {0}"
+msgstr "ボイスのクローンに失敗しました: {0}"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "TTS API Key is required"
+msgstr "TTS API キーが必要です"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Synthesizing voice test..."
+msgstr "音声合成テストを実行中..."
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "やあ、聞こえてる？"
+msgstr "やあ、聞こえてる？"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "TTS is disabled or produced no audio"
+msgstr "TTS が無効、または音声が生成されませんでした"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Voice synthesis test succeeded!"
+msgstr "音声合成テストが成功しました！"
+
+#. 0: (e as Error)?.message || 'Unknown error'
+#: src/components/views/settings/TtsTab.svelte
+msgid "TTS Test Failed: {0}"
+msgstr "TTS テスト失敗: {0}"
+
+#: src/components/views/settings/DataTab.svelte
+msgid "Configuration copied to clipboard!"
+msgstr "設定をクリップボードにコピーしました！"
+
+#: src/components/views/settings/DataTab.svelte
+msgid "Settings imported successfully!"
+msgstr "設定を正常にインポートしました！"
+
+#: src/components/views/settings/DataTab.svelte
+msgid "Invalid JSON"
+msgstr "無効な JSON です"
+
+#. 0: (err as Error)?.message || 'Unknown error'
+#. 0: (e as Error)?.message || 'Invalid JSON'
+#: src/components/views/SkinView.svelte
+#: src/components/views/settings/DataTab.svelte
+msgid "Import failed: {0}"
+msgstr "インポート失敗: {0}"
+
+#: src/components/views/settings/LlmTab.svelte
+msgid "Large Language Model (LLM)"
+msgstr "大規模言語モデル (LLM)"
+
+#: src/components/views/settings/LlmTab.svelte
+msgid "OpenAI-compatible URL ending in /v1. Dev config seeds from config/providers.json."
+msgstr "/v1 で終わる OpenAI 互換 URL。開発設定は config/providers.json から初期化されます。"
+
+#: src/components/views/settings/LlmTab.svelte
+#: src/components/views/settings/TtsTab.svelte
+msgid "Fetching..."
+msgstr "取得中..."
+
+#: src/components/views/settings/LlmTab.svelte
+msgid "Fetch Models"
+msgstr "モデル取得"
+
+#: src/components/views/settings/LlmTab.svelte
+msgid "Fetch to populate dropdown or type manually"
+msgstr "取得して選択するか、手動で入力してください"
+
+#: src/components/views/settings/LlmTab.svelte
+msgid "Stored only in local storage"
+msgstr "ローカルストレージにのみ保存されます"
+
+#: src/components/views/settings/LlmTab.svelte
+msgid "Max Tokens"
+msgstr "最大トークン数"
+
+#: src/components/views/settings/LlmTab.svelte
+msgid "History Turns"
+msgstr "履歴ターン数"
+
+#: src/components/views/settings/LlmTab.svelte
+msgid "Context Window (tokens)"
+msgstr "コンテキストウィンドウ (トークン)"
+
+#. 0: estimatedContext
+#: src/components/views/settings/LlmTab.svelte
+msgid "0 = guess from model id. Auto resolved: {0} tokens."
+msgstr "0 = モデルIDから自動推定。自動判定: {0} トークン。"
+
+#: src/components/views/settings/LlmTab.svelte
+#: src/components/views/settings/LlmTab.svelte
+msgid "Auto"
+msgstr "自動"
+
+#: src/components/views/settings/LlmTab.svelte
+#: src/components/views/settings/LlmTab.svelte
+msgid "Off"
+msgstr "オフ"
+
+#: src/components/views/settings/LlmTab.svelte
+msgid "On"
+msgstr "オン"
+
+#: src/components/views/settings/LlmTab.svelte
+msgid "Thinking Mode"
+msgstr "思考モード"
+
+#: src/components/views/settings/LlmTab.svelte
+msgid "Default"
+msgstr "デフォルト"
+
+#: src/components/views/settings/LlmTab.svelte
+msgid "Low"
+msgstr "低"
+
+#: src/components/views/settings/LlmTab.svelte
+msgid "Medium"
+msgstr "中"
+
+#: src/components/views/settings/LlmTab.svelte
+msgid "High"
+msgstr "高"
+
+#: src/components/views/settings/LlmTab.svelte
+msgid "Max"
+msgstr "最大"
+
+#: src/components/views/settings/LlmTab.svelte
+msgid "Effort"
+msgstr "思考の深さ"
+
+#: src/components/views/settings/LlmTab.svelte
+msgid "OpenAI"
+msgstr "OpenAI"
+
+#: src/components/views/settings/LlmTab.svelte
+msgid "OpenRouter"
+msgstr "OpenRouter"
+
+#: src/components/views/settings/LlmTab.svelte
+msgid "Qwen"
+msgstr "Qwen"
+
+#: src/components/views/settings/LlmTab.svelte
+msgid "GLM"
+msgstr "GLM"
+
+#: src/components/views/settings/LlmTab.svelte
+msgid "Protocol Style"
+msgstr "プロトコル形式"
+
+#: src/components/views/settings/LlmTab.svelte
+msgid "Reasoning & Thinking"
+msgstr "推論・思考設定"
+
+#: src/components/views/settings/LlmTab.svelte
+msgid "Testing..."
+msgstr "テスト中..."
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "OpenAI Compatible (Chat/Voice Clone)"
+msgstr "OpenAI 互換 (チャット/音声クローン)"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "DashScope / Qwen TTS"
+msgstr "DashScope / Qwen 音声合成"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Service Provider"
+msgstr "プロバイダー"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "audio.cpp Compatible"
+msgstr "audio.cpp 互換"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Request Payload Style"
+msgstr "リクエスト形式"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Leave empty for public DashScope endpoint"
+msgstr "公式 DashScope を使用する場合は空のままにしてください"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Qwen Base URL"
+msgstr "Qwen Base URL"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Qwen API Key"
+msgstr "Qwen API キー"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Fetch Qwen Models"
+msgstr "Qwen モデル取得"
+
+#. 0: tts.qwenVoice
+#: src/components/views/settings/TtsTab.svelte
+msgid "{0} (Custom / Cloned)"
+msgstr "{0} (カスタム / クローン)"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Voice ID or Preset"
+msgstr "ボイス ID またはプリセット"
+
+#: src/components/views/settings/TtsTab.svelte
+#: src/components/views/settings/TtsTab.svelte
+msgid "Cloning..."
+msgstr "クローン中..."
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Clone Voice from Ryza Sample"
+msgstr "ライザのサンプル音声からクローン"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Voice Clone Target Model"
+msgstr "音声クローン対象モデル"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Voice Clone"
+msgstr "ボイスクローン"
+
+#: src/components/views/settings/TtsTab.svelte
+#: src/components/views/settings/TtsTab.svelte
+msgid "Off (Disabled)"
+msgstr "オフ (無効)"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Voice Mode"
+msgstr "ボイスモード"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "TTS Base URL"
+msgstr "TTS Base URL"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "TTS API Key"
+msgstr "TTS API キー"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Voice Clone (Ryza's original voice)"
+msgstr "ボイスクローン (ライザ本人の声)"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Preset Voice"
+msgstr "プリセットボイス"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "TTS Mode"
+msgstr "TTS モード"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Voice Clone Model ID"
+msgstr "ボイスクローンモデル ID"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Reference Audio Path"
+msgstr "参照音声ファイルパス"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Preset Model ID"
+msgstr "プリセットモデル ID"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Preset Voice Name"
+msgstr "プリセットボイス名"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Voice Style Hint"
+msgstr "ボイススタイル指示"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Sets voice personality; delivery tone (ASMR whisper, story) layers on top automatically."
+msgstr "声のトーンや話し方を指定します。ASMRやストーリー等のモードはこの指示をベースに自動で重ねられます。"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Synthesizing..."
+msgstr "合成中..."
+
+#: src/components/views/settings/LangTab.svelte
+msgid "4-Axis Language Matrix"
+msgstr "多言語設定マトリクス"
+
+#: src/components/views/settings/LangTab.svelte
+msgid "Configure UI strings, shipped voice recordings, character replies, and TTS speech independently."
+msgstr "UI言語、収録ボイス、ライザの返答言語、音声合成言語を個別に設定できます。"
+
+#: src/components/views/settings/LangTab.svelte
+msgid "Interface Language (UI)"
+msgstr "インターフェース言語 (UI)"
+
+#: src/components/views/settings/LangTab.svelte
+#: src/components/views/settings/LangTab.svelte
+msgid "Auto (Follow Interface)"
+msgstr "自動 (UI言語に従う)"
+
+#: src/components/views/settings/LangTab.svelte
+#: src/components/views/settings/LangTab.svelte
+msgid "日本語 (Japanese)"
+msgstr "日本語"
+
+#: src/components/views/settings/LangTab.svelte
+#: src/components/views/settings/LangTab.svelte
+#: src/components/views/settings/LangTab.svelte
+msgid "简体中文 (Chinese)"
+msgstr "简体中文"
+
+#: src/components/views/settings/LangTab.svelte
+msgid "Recorded Voice Packs"
+msgstr "収録ボイス言語"
+
+#: src/components/views/settings/LangTab.svelte
+msgid "Language used for shipped sound clips and alarm wake-up voices."
+msgstr "アラーム目覚ましボイスやクエスト完了ボイスに使用する言語。"
+
+#: src/components/views/settings/LangTab.svelte
+msgid "日本語 (Japanese — Recommended for character authenticity)"
+msgstr "日本語 (推奨・キャラクターの原作再現)"
+
+#: src/components/views/settings/LangTab.svelte
+msgid "Ryza Replies (Character Chat Text)"
+msgstr "ライザの返答言語 (チャットテキスト)"
+
+#: src/components/views/settings/LangTab.svelte
+msgid "The language Ryza writes in the dialogue text. Set to 日本語 to keep dialogue Japanese regardless of UI language."
+msgstr "ライザがチャットで話す言語。UI言語に関わらず日本語に保ちたい場合は「日本語」に設定してください。"
+
+#: src/components/views/settings/LangTab.svelte
+msgid "Auto (Same as Ryza Replies)"
+msgstr "自動 (ライザの返答言語と同じ)"
+
+#: src/components/views/settings/LangTab.svelte
+msgid "Speech Synthesis Language (TTS)"
+msgstr "音声合成言語 (TTS)"
+
+#: src/components/views/settings/LangTab.svelte
+msgid "If speech language differs from Ryza replies, the line will be automatically translated by the LLM before sending to TTS."
+msgstr "音声合成言語が返答言語と異なる場合、TTSへの送信前にLLMによって自動翻訳されます。"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Presentation & Feedback"
+msgstr "表示・操作フィードバック"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Voice Playback"
+msgstr "音声再生"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Master audio voice toggle"
+msgstr "ボイス再生のマスター設定"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Show Speech Bubble"
+msgstr "セリフフキダシ表示"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Talk bubbles over the stage"
+msgstr "ステージ上の会話フキダシ"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Vibration"
+msgstr "振動フィードバック"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Haptic feedback on taps and events"
+msgstr "タップ時やイベント発生時の触覚フィードバック"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Rim Light"
+msgstr "リムライト (輪郭光)"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Character edge lighting shader"
+msgstr "キャラクターの輪郭を照らすライティングシェーダー"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Text Typewriter Speed"
+msgstr "文字送り速度"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Time Passage"
+msgstr "時間の経過方式"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Real Clock (Follows device system time)"
+msgstr "リアルタイム (端末のシステム時刻に連動)"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "In-Game Flow (Simulated time progression)"
+msgstr "ゲーム内進行 (シミュレーションによる時間推移)"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Manual Only (TOD toggle in top bar)"
+msgstr "手動のみ (トップバーのボタンで切り替え)"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Time Mode"
+msgstr "時間モード"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Slow (1 real min = 15 game mins)"
+msgstr "低速 (実時間1分 = ゲーム内15分)"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Standard (1 real min = 1 game hr)"
+msgstr "標準 (実時間1分 = ゲーム内1時間)"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Fast (1 real min = 3 game hrs)"
+msgstr "高速 (実時間1分 = ゲーム内3時間)"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Very Fast (1 real min = 6 game hrs)"
+msgstr "超高速 (実時間1分 = ゲーム内6時間)"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "In-Game Flow Speed"
+msgstr "ゲーム内時間進行速度"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Long Term Memory"
+msgstr "長期記憶"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Enable Memory Summaries"
+msgstr "メモリー要約を有効にする"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Fold sessions into summary cards"
+msgstr "会話セッションを要約カードに圧縮・整理します"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Turns / Session"
+msgstr "1セッションあたりのターン数"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Session Cap"
+msgstr "セッション保持上限"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Summary Cap"
+msgstr "要約カード保持上限"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Game Balance"
+msgstr "ゲームバランス"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Infinite stamina (🍎∞) and coins"
+msgstr "スタミナ (🍎∞) と所持金が無制限になります"
+
+#: src/components/views/settings/AudioTab.svelte
+msgid "Master Volume"
+msgstr "マスター音量"
+
+#: src/components/views/settings/AudioTab.svelte
+msgid "Ambient Sound"
+msgstr "環境音"
+
+#: src/components/views/settings/DataTab.svelte
+msgid "📥 Export Settings JSON (Copy & Download)"
+msgstr "📥 設定 JSON をエクスポート (コピー＆保存)"
+
+#: src/components/views/settings/DataTab.svelte
+msgid "📤 Import Settings JSON..."
+msgstr "📤 設定 JSON をインポート..."
+
+#: src/components/views/settings/DataTab.svelte
+msgid "⚠️ Reset All Settings to Defaults"
+msgstr "⚠️ すべての設定を初期値にリセット"
+
+#: src/components/views/settings/DataTab.svelte
+msgid "Import Configuration JSON"
+msgstr "設定 JSON のインポート"
+
+#: src/components/views/settings/DataTab.svelte
+msgid "Paste exported configuration JSON below to restore settings."
+msgstr "エクスポートした設定 JSON を以下に貼り付けて復元します。"
+
+#: src/components/views/settings/DataTab.svelte
+msgid "Apply Configuration"
+msgstr "設定を適用"
+
+#: src/components/views/CharaView.svelte
+msgid "Casual adventurer outfit..."
+msgstr "気楽な冒険者の普段着..."
+
+#: src/components/views/CharaView.svelte
+msgid "Appearance"
+msgstr "外見・服装"
+
+#: src/components/views/CharaView.svelte
+msgid "Traveled from the mainland..."
+msgstr "大陸から海を渡ってやってきた..."
+
+#: src/components/views/CharaView.svelte
+msgid "Background"
+msgstr "経歴・生い立ち"
+
+#: src/components/views/CharaView.svelte
+msgid "Fishing, crafting"
+msgstr "釣り、ものづくり"
+
+#: src/components/views/CharaView.svelte
+msgid "Hobby"
+msgstr "趣味"
+
+#: src/components/views/CharaView.svelte
+msgid "Alchemy, ruins exploration"
+msgstr "錬金術、遺跡探索"
+
+#: src/components/views/CharaView.svelte
+msgid "Interest"
+msgstr "興味・関心"
+
+#: src/components/views/CharaView.svelte
+msgid "Become a renowned explorer..."
+msgstr "誰もが知る立派な冒険者になる..."
+
+#: src/components/views/CharaView.svelte
+msgid "Future Goals"
+msgstr "将来の目標・夢"
+
+#: src/components/views/CharaView.svelte
+msgid "Extra context or custom directives appended to system prompt..."
+msgstr "システムプロンプトに追加する特記事項やカスタム指示..."
+
+#: src/components/views/CharaView.svelte
+msgid "Additional Prompt Instructions"
+msgstr "プロンプト追加指示"
+
+#: src/components/views/TalkView.svelte
+msgid "Shop"
+msgstr "ショップ"
+
+#: src/components/views/WorldView.svelte
+msgid "Guests"
+msgstr "滞在者"
+
+#. 0: npcsHere.length
+#: src/components/views/WorldView.svelte
+msgid "Guests Here ({0})"
+msgstr "この場所の滞在者 ({0})"
+
+#: src/components/views/WorldView.svelte
+msgid "View Details"
+msgstr "詳細を見る"
+
+#. 0: stageName
+#: src/components/sheets/NpcSheet.svelte
+msgid "Guests in {0}"
+msgstr "{0}の滞在者"
+
+#: src/components/sheets/NpcSheet.svelte
+msgid "No guests around here right now."
+msgstr "現在ここには誰もいません。"
+
+#: src/components/views/TalkView.svelte
+msgid "Story Mode"
+msgstr "ストーリーモード"
+
+#: src/components/views/TalkView.svelte
+msgid "Immersive Mode"
+msgstr "没入モード"
+
+#: src/components/views/TalkView.svelte
+msgid "ASMR Mode"
+msgstr "ASMRモード"
+
+#: src/components/views/TalkView.svelte
+msgid "Text Mode"
+msgstr "テキストモード"
+
+#: src/components/views/TalkView.svelte
+msgid "Chat Mode"
+msgstr "雑談モード"
+
+#: src/lib/i18n/game-content.svelte.ts
+#: src/lib/stores/session.svelte.ts
+msgid "Daily login bonus is available!"
+msgstr "デイリーログインボーナスが届いています！"
+
+#: src/components/views/WorldView.svelte
+#: src/components/views/WorldView.svelte
+#: src/lib/i18n/game-content.svelte.ts
+#: src/lib/talk-loop.svelte.ts
+msgid "No ship, no leaving Kurken Island (finish Main Quest 8)"
+msgstr "船がないとクーケン島の外へは出られない（メイン8をクリア！）"
+
+#: src/lib/i18n/game-content.svelte.ts
+#: src/lib/talk-loop.svelte.ts
+msgid "You sailed! The world map is open"
+msgstr "出航成功！世界の扉が開いたよ"
+
+#: src/lib/i18n/game-content.svelte.ts
+#: src/lib/talk-loop.svelte.ts
+msgid "API key is not configured"
+msgstr "APIキーが設定されていません"
+
+#: src/lib/i18n/game-content.svelte.ts
+#: src/lib/talk-loop.svelte.ts
+msgid "Not enough stamina…!"
+msgstr "元気が足りません…！"
+
+#. 0: msg
+#. 0: em
+#: src/lib/i18n/game-content.svelte.ts
+#: src/lib/talk-loop.svelte.ts
+msgid "Network error: {0}"
+msgstr "通信エラー: {0}"
+
+#. 0: place
+#. 0: label
+#: src/lib/i18n/game-content.svelte.ts
+#: src/lib/talk-loop.svelte.ts
+msgid "Travel: {0}"
+msgstr "移動：{0}"
+
+#: src/lib/i18n/game-content.svelte.ts
+#: src/lib/stores/session.svelte.ts
+#: src/lib/talk-loop.svelte.ts
+msgid "Rested safely at home — stamina fully restored!"
+msgstr "安全なおうちで眠って、元気が満タンになった！"
+
+#. 0: slot
+#. 0: index + 1
+#: src/lib/i18n/game-content.svelte.ts
+#: src/lib/stores/session.svelte.ts
+msgid "Game saved to slot {0}"
+msgstr "スロット {0} にセーブしました"
+
+#. 0: slot
+#. 0: index + 1
+#: src/lib/i18n/game-content.svelte.ts
+#: src/lib/stores/session.svelte.ts
+msgid "Game loaded from slot {0}"
+msgstr "スロット {0} からロードしました"
+
+#. 0: reward.exp; 1: reward.money
+#: src/lib/i18n/game-content.svelte.ts
+msgid "Quest cleared! Claimed +{0} EXP, +{1} G."
+msgstr "クエストクリア！ +{0} EXP / +{1} G を獲得しました"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgid "Quest cleared! Reward claimed."
+msgstr "クエストクリア！報酬を獲得しました"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgid "No active quest right now. Let’s ask for a new objective."
+msgstr "今はクエストなし。新しいお題を考えてもらおう。"
+
+#. 0: title; 1: reward.exp; 2: reward.money
+#: src/lib/i18n/game-content.svelte.ts
+msgid "Cleared \"{0}\"! +{1}EXP / +{2}G"
+msgstr "「{0}」をクリア！ +{1}EXP / +{2}G"
+
+#: src/components/sheets/InventorySheet.svelte
+#: src/lib/i18n/game-content.svelte.ts
+msgid "Not enough Gold to upgrade bag!"
+msgstr "ゴールドが足りなくてバッグを拡張できません！"
+
+#. 0: targetTier.toUpperCase()
+#. 0: up
+#: src/components/sheets/InventorySheet.svelte
+#: src/lib/i18n/game-content.svelte.ts
+msgid "Bag upgraded to {0}! Capacity increased."
+msgstr "バッグを{0}に拡張しました！容量が増加しました。"
+
+#: src/components/sheets/InventorySheet.svelte
+#: src/lib/i18n/game-content.svelte.ts
+msgid "Failed to upgrade bag."
+msgstr "バッグの拡張に失敗しました。"
+
+#: src/lib/stores/session.svelte.ts
+msgid "Kurken Island"
+msgstr "クーケン島"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_1"
+msgid "Let’s Talk First"
+msgstr "まずは会話をしてみよう"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_1"
+msgid "Chat with Ryza and get used to each other."
+msgstr "ライザと会話して、お互いのことにもっと慣れる。"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_1"
+msgid "Talk to Ryza 4 times"
+msgstr "ライザと4回話す"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_2"
+msgid "Explore the Island"
+msgstr "島のあちこちを冒険"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_2"
+msgid "Open the world map and travel somewhere else."
+msgstr "ワールドマップを開いて、別の場所へ移動する。"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_2"
+msgid "Move to another stage twice"
+msgstr "別のステージへ2回移動"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_3"
+msgid "Gathering Adventure"
+msgstr "素材集めの冒険"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_3"
+msgid "Collect adventuring materials. Fill that bag!"
+msgstr "冒険の材料集め。バッグに素材を詰めてこよう。"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_3"
+msgid "Gather 3 materials"
+msgstr "素材を3つ集める"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_4"
+msgid "First Synthesis"
+msgstr "はじめての調合"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_4"
+msgid "Try alchemy with the materials you gathered!"
+msgstr "集めた素材で、あたしと一緒に調合に挑戦！"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_4"
+msgid "Craft successfully once"
+msgstr "調合を1回成功させる"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_5"
+msgid "Monster in the Way"
+msgstr "進路を阻む魔物"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_5"
+msgid "A monster showed up. Break through with crafted items."
+msgstr "冒険の途中で魔物が出た。調合アイテムも使って突破しよう。"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_5"
+msgid "Win one battle"
+msgstr "戦闘に1回勝つ"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_6"
+msgid "A Day Running the Shop"
+msgstr "お店を一日経営してみよう"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_6"
+msgid "Set out spare items and earn some pocket money."
+msgstr "いらないアイテムを並べて、お小遣い稼ぎ。"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_6"
+msgid "Sell items at the shop"
+msgstr "お店でアイテムを売る"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_7"
+msgid "Gather Ship Parts"
+msgstr "船の材料を集めて造船"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_7"
+msgid "Collect 4 ship parts"
+msgstr "船の部品を4つそろえる"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_8"
+msgid "Set Sail, Free!"
+msgstr "船で自由に旅へ出よう"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_8"
+msgid "Finish the ship and leave Kurken Island! The world map opens."
+msgstr "造船を完成させて、クーケン島の外へ！世界地図が解放される。"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_chain_8"
+msgid "Pay 200G and sail"
+msgstr "資金200Gで出航する"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_1"
+msgid "A New Recipe"
+msgstr "新しいレシピ"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_1"
+msgid "Dream up a synthesis you have never tried."
+msgstr "まだ作ったことのない調合を、ライザと考える。"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_1"
+msgid "Craft successfully once"
+msgstr "調合を1回成功させる"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_2"
+msgid "Spring Materials"
+msgstr "水源の材料"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_2"
+msgid "Search near the waterfall pool at the spring."
+msgstr "水源の絶壁まわりで、新しい材料を探す。"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_2"
+msgid "Gather 2 materials"
+msgstr "素材を2つ集める"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_3"
+msgid "Stargazing"
+msgstr "星を見に行こう"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_3"
+msgid "Walk together to the star-viewing height at night."
+msgstr "夜のカーク群島、星見の高台まで一緒に歩く。"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_3"
+msgid "Move to a night stage"
+msgstr "夜のステージへ移動"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_4"
+msgid "Ruined Village Resident"
+msgstr "廃村の住人"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_4"
+msgid "Deal with whatever bothers you in the forgotten ruins."
+msgstr "忘れ去られた廃村で、邪魔するやつを退治する。"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_4"
+msgid "Win one battle"
+msgstr "戦闘に1回勝つ"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_5"
+msgid "Street Vendor Day"
+msgstr "移動販売の一日"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_5"
+msgid "How about a little business at the harbor plaza?"
+msgstr "港の広場でちょっと商売してみない？"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_5"
+msgid "Sell items at the shop"
+msgstr "お店でアイテムを売る"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_6"
+msgid "Memory Lane"
+msgstr "思い出話"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_6"
+msgid "Recall the day we first met, slowly."
+msgstr "ふたりが初めて会った日のことを、ゆっくり思い出す。"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_6"
+msgid "Talk to Ryza 3 times"
+msgstr "ライザと3回話す"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_7"
+msgid "Snack Hunt"
+msgstr "おやつ探し"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_7"
+msgid "Gather sweet ingredients for my snack."
+msgstr "甘いものの材料を集めて、あたしのおやつを作る。"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_7"
+msgid "Gather 2 materials"
+msgstr "素材を2つ集める"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_8"
+msgid "Ruins Expedition"
+msgstr "遺跡の探索"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_8"
+msgid "Let’s look deeper into the sealed sanctuary."
+msgstr "封印の祭殿の奥まで、一緒に見て回ろう。"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_pool_8"
+msgid "Move to another stage"
+msgstr "別のステージへ移動"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_obstacle"
+msgid "Good stuff grows deeper in, apparently."
+msgstr "いい素材は少し奥まで入らないと採れないみたい。"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_obstacle"
+msgid "Synthesis fails easy — gather spare materials first."
+msgstr "調合は失敗しやすいから、材料は余裕をもって集めとこ。"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_obstacle"
+msgid "Um, if something too strong shows up we can run… probably."
+msgstr "あ、強いのが出たら逃げてもいいからね…たぶん。"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_obstacle"
+msgid "Not sure it will sell, but worth a try!"
+msgstr "売れるか微妙だけど、やってみないと分からない！"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_obstacle"
+msgid "Every part is huge. One trip won’t carry them."
+msgstr "部品はどれも大きくて、一回じゃ運べそうにない。"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_obstacle"
+msgid "The roads have felt a bit odd lately."
+msgstr "最近道の様子がちょっと変なんだよね。"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_obstacle"
+msgid "Sailing costs money. Let’s earn some at the shop."
+msgstr "出航には資金も必要。お店で稼いでおこう。"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_praise"
+msgid "Amazing, you cleared it!"
+msgstr "すごい、クリアおめでとう！"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_praise"
+msgid "Let’s keep going with the next quest"
+msgstr "次のクエストもがんばろう"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "quest_praise"
+msgid "Awesome! What adventure next?"
+msgstr "すごい！次はどんな冒険にする？"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Emeralia Grass"
+msgstr "エメラリア草"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Sea Urchin"
+msgstr "うに"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Distilled Water"
+msgstr "蒸留水"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Forest Honey"
+msgstr "森のはちみつ"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Radiant Shell"
+msgstr "輝きの貝殻"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Magic Ore Shard"
+msgstr "魔石鉱のかけら"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Vitality Mushroom"
+msgstr "元気茸"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Driftwood Log"
+msgstr "漂流WOOD"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Ironwood Grain"
+msgstr "堅鉄の木目"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Sailcloth Scrap"
+msgstr "帆布布切れ"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Healing Bottle"
+msgstr "回復のボトル"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Bomb Vial"
+msgstr "爆弾瓶"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Guardian Charm Ring"
+msgstr "お守りの指輪"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Ancient Relic"
+msgstr "古代の遺物"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "item"
+msgid "Stamina Apple"
+msgstr "スタミナリンゴ"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "recipe"
+msgid "Healing Bottle"
+msgstr "回復のボトル"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "recipe"
+msgid "Bomb Vial"
+msgstr "爆弾瓶"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "recipe"
+msgid "Guardian Charm Ring"
+msgstr "お守りの指輪"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Kurken Island Area"
+msgstr "クーケン島周辺地域"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Cleria Region"
+msgstr "クレリア地方"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Nemed Region"
+msgstr "ネメド地方"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Underworld Orim"
+msgstr "異界オーリム"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Royal Capital Area"
+msgstr "王都周辺地域"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Kurken Island"
+msgstr "クーケン島"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Pixie Forest"
+msgstr "小妖精の森"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Traveler’s Road"
+msgstr "旅人の道"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Sunken Mine"
+msgstr "水没坑道"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Hidden Cove"
+msgstr "隠された入り江"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Meteor Castle"
+msgstr "流星の古城"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Weissberg Volcano"
+msgstr "火山ヴァイスベルク"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Maple Delta"
+msgstr "メイプルデルタ"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Liese Gorge"
+msgstr "リーゼ峡谷"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Pynnor Holy Tower"
+msgstr "ピオニール聖塔"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Forgotten Village"
+msgstr "忘れ去られた廃村"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Old Mansion"
+msgstr "古びた大邸宅"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Kark Isles"
+msgstr "カーク群島"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Code of the Universe"
+msgstr "万象の大典"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Mining Highway"
+msgstr "採掘街道"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Sardonica"
+msgstr "サルドニカ"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Astrard Heights"
+msgstr "アストラード高地"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Magic Stone Path"
+msgstr "魔石搬送路"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Scintilla Mine"
+msgstr "シンティラ鉱山"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Poluta Hills"
+msgstr "ポルッタ丘陵"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Nemed Great Forest"
+msgstr "ネメド大森林"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Flower Road Farmland"
+msgstr "花道田園"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Dragon Tail Mountain Path"
+msgstr "竜尾大山道"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Abandoned Mountain Temple"
+msgstr "山果ての廃神殿"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Urdis Sanctuary"
+msgstr "ウルディスの聖跡"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Bird’s Pass"
+msgstr "鳥の峠"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Eternity’s Coffer"
+msgstr "悠遠の匣"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Capital Outskirts"
+msgstr "王都近郊"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Ashra-am Baird"
+msgstr "王都アスラ・アム・バート"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Windcall Valley"
+msgstr "風鳴谷"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Capital South"
+msgstr "王都南方"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Northern Lands"
+msgstr "北の大地"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Dragon’s Coffin"
+msgstr "霊なる竜の棺"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Ancient Mana Workshop"
+msgstr "古代マナ工房"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Maiden’s Tomb"
+msgstr "地下乙女の墓所"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Submerged City"
+msgstr "水底の星都"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Mirage Land"
+msgstr "ミラージュラント"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Valley of Dragon Bones"
+msgstr "伝承の竜骨谷"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Spire Reservoir"
+msgstr "尖塔の貯水池"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Magic Stone Lighthouse"
+msgstr "魔石の灯台"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Ryza’s Home"
+msgstr "ライザの家"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Goat Pasture"
+msgstr "ヤギの放牧地"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Resting Plaza"
+msgstr "憩いの広場"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Waterfall Basin"
+msgstr "水源の滝つぼ"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Secret Hideout Front"
+msgstr "隠れ家前"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Floral Circle"
+msgstr "彩花の円環"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Lantern Tree"
+msgstr "ランタン樹"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Stump Stage"
+msgstr "切り株のステージ"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Opposite Shore Beach"
+msgstr "対岸の砂浜"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Giant Weasel Flower Garden"
+msgstr "オオイタチの花園"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Old Road Ruins"
+msgstr "旧街道遺跡"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Fork Tree"
+msgstr "道分かつ大樹"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Altar of the Rare Ones"
+msgstr "稀なる者の祭壇"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "world"
+msgid "Star-viewing Heights"
+msgstr "星見の高台"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgid "Full Stamina Recovery"
+msgstr "スタミナ全回復"
+
+#. 0: r.amount
+#: src/lib/i18n/game-content.svelte.ts
+msgid "{0} Gold"
+msgstr "{0}G"
+
+#. 0: r.money; 1: r.exp
+#: src/lib/i18n/game-content.svelte.ts
+msgid "{0} Gold + EXP +{1} + Full Heal"
+msgstr "{0}G + EXP+{1} + 全回復"
+
+#. 0: r.money; 1: relic
+#: src/lib/i18n/game-content.svelte.ts
+msgid "Treasure Chest: {0} Gold + {1}"
+msgstr "宝箱：{0}G + {1}"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgid "Ryza Game Content"
+msgstr "ライザ ゲームコンテンツ"
+
+#: src/lib/talk-loop.svelte.ts
+msgid "LLM Authentication failed (check API Key)"
+msgstr "LLM認証に失敗しました（APIキーを確認してください）"
+
+#: src/lib/talk-loop.svelte.ts
+msgid "LLM Model not supported (check model name in Settings)"
+msgstr "指定されたLLMモデルはサポートされていません（設定を確認してください）"
+
+#: src/lib/audio/voice-input.svelte.ts
+msgid "Microphone access denied"
+msgstr "マイクへのアクセスが拒否されました"
+
+#: src/lib/audio/voice-input.svelte.ts
+msgid "Switched to server speech recognition"
+msgstr "サーバー音声認識に切り替えました"
+
+#. 0: err
+#: src/lib/audio/voice-input.svelte.ts
+msgid "Microphone error: {0}"
+msgstr "マイクエラー：{0}"
+
+#: src/lib/audio/voice-input.svelte.ts
+msgid "Speech recognition unstable"
+msgstr "音声認識が不安定です"
+
+#: src/lib/audio/voice-input.svelte.ts
+msgid "Speech recognition unavailable"
+msgstr "音声認識は利用できません"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "welcome_group"
+msgid "Beginner Missions"
+msgstr "初心者ミッション"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "welcome_group"
+msgid "Intermediate Missions"
+msgstr "中級者ミッション"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "welcome_group"
+msgid "Advanced Missions"
+msgstr "上級者ミッション"
+
+#. 0: no
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "welcome_group"
+msgid "Mission Step {0}"
+msgstr "ミッションステップ {0}"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "welcome_mission"
+msgid "Clear daily quests"
+msgstr "デイリークエストをクリア"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "welcome_mission"
+msgid "Interact with Ryza"
+msgstr "ライザとふれあう"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "welcome_mission"
+msgid "Chat in conversation"
+msgstr "会話をする"
+
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "welcome_mission"
+msgid "Claim login bonus"
+msgstr "ログインボーナスを受け取る"
+
+#. 0: rewardGold; 1: rewardExp
+#: src/lib/i18n/game-content.svelte.ts
+msgctxt "welcome_toast"
+msgid "Step completed! Claimed {0} Gold & {1} EXP!"
+msgstr "ステップ達成！{0}Gと{1}EXPを獲得しました！"
+
+#: src/lib/talk-loop.svelte.ts
+msgid "No voice to replay"
+msgstr "再生する音声がありません"
+
+#: src/lib/talk-loop.svelte.ts
+msgid "No voice to favorite"
+msgstr "お気に入り登録できる音声がありません"
+
+#: src/components/views/HistoryView.svelte
+#: src/lib/talk-loop.svelte.ts
+msgid "Added to favorites ★"
+msgstr "お気に入りに追加しました ★"
+
+#: src/components/views/HistoryView.svelte
+#: src/lib/talk-loop.svelte.ts
+msgid "Removed from favorites"
+msgstr "お気に入りから解除しました"
+
+#: src/components/views/MemoryView.svelte
+msgid "Are you sure you want to erase all conversation memories, summaries, and episodic records? This cannot be undone."
+msgstr "すべての会話メモリー、要約、エピソード記録を消去してもよろしいですか？この操作は取り消せません。"
+
+#: src/components/views/MemoryView.svelte
+msgid "Story Digest"
+msgstr "ストーリーダイジェスト"
+
+#: src/components/views/MemoryView.svelte
+msgid "Episodic Records"
+msgstr "エピソード記録"
+
+#. 0: longTerm.entries.length
+#: src/components/views/MemoryView.svelte
+msgid "{0} records"
+msgstr "{0} 件"
+
+#: src/components/views/SkinView.svelte
+msgid "Importing costume..."
+msgstr "衣装をインポート中..."
+
+#. 0: v.id
+#: src/components/views/SkinView.svelte
+msgid "Imported: {0}"
+msgstr "インポート完了: {0}"
+
+#: src/components/views/SkinView.svelte
+msgid "Import ZIP"
+msgstr "ZIPをインポート"
+
+#: src/components/views/TalkView.svelte
+#: src/components/views/WorldMapView.svelte
+msgid "Zoom In"
+msgstr "ズームイン"
+
+#: src/components/views/TalkView.svelte
+#: src/components/views/WorldMapView.svelte
+msgid "Zoom Out"
+msgstr "ズームアウト"
+
+#: src/components/views/TalkView.svelte
+#: src/components/views/WorldMapView.svelte
+msgid "Reset Zoom"
+msgstr "ズームリセット"
+
+#: src/components/views/TalkView.svelte
+msgid "Toggle Posture"
+msgstr "姿勢切替"
+
+#: src/components/views/TalkView.svelte
+msgid "Sit"
+msgstr "座る"
+
+#: src/components/views/TalkView.svelte
+msgid "Stand"
+msgstr "立つ"
+
+#: src/components/views/TalkView.svelte
+msgid "Replay Voice"
+msgstr "音声を再生"
+
+#: src/components/views/TalkView.svelte
+msgid "Favorite Voice"
+msgstr "お気に入り登録"
+
+#: src/components/views/TalkView.svelte
+msgid "Expand Actions"
+msgstr "操作を展開"
+
+#: src/components/views/TalkView.svelte
+msgid "Collapse Actions"
+msgstr "操作を折りたたむ"
+
+#: src/components/views/TalkView.svelte
+msgid "ライザ"
+msgstr "ライザ"
+
+#: src/components/views/TalkView.svelte
+msgid "Voice Input"
+msgstr "音声入力"
+
+#: src/components/views/WorldMapView.svelte
+msgid "Area locked"
+msgstr "エリアはロックされています"
+
+#: src/components/views/WorldMapView.svelte
+msgid "World Map Plate"
+msgstr "ワールドマップ"
+
+#: src/components/views/WorldMapView.svelte
+msgid "Pin"
+msgstr "ピン"
+
+#: src/components/views/WorldMapView.svelte
+msgid "Ring"
+msgstr "リング"
+
+#: src/components/views/WorldMapView.svelte
+msgid "Stage Pin"
+msgstr "ステージピン"
+
+#: src/components/views/WorldMapView.svelte
+msgid "Current Location"
+msgstr "現在位置"
+
+#: src/components/views/WorldMapView.svelte
+#: src/components/views/WorldMapView.svelte
+#: src/components/views/WorldMapView.svelte
+msgid "Current"
+msgstr "現在地"
+
+#: src/components/views/WorldMapView.svelte
+#: src/components/views/WorldView.svelte
+msgid "List"
+msgstr "一覧"
+
+#: src/components/views/WorldMapView.svelte
+msgid "Escape"
+msgstr "閉じる"
+
+#: src/components/views/WorldMapView.svelte
+msgid "Select Area"
+msgstr "エリア選択"
+
+#: src/components/views/WorldMapView.svelte
+msgid "No ship, no leaving Kurken Island"
+msgstr "船ができるまでクーケン島から出られません"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Clear Quests"
+msgstr "クエストクリア"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Interact with Ryza"
+msgstr "ライザとふれあう"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Chat Conversations"
+msgstr "会話する"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Claim Login Bonus"
+msgstr "ログインボーナスを受け取る"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Complete main or side quests"
+msgstr "メインまたはサブクエストをクリアする"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Tap Ryza to interact with her"
+msgstr "ライザをタップしてふれあう"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Have friendly dialogue turns with Ryza"
+msgstr "ライザと楽しくおしゃべりする"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Collect daily calendar rewards"
+msgstr "デイリーカレンダーの報酬を受け取る"
+
+#. 0: reward.money; 1: reward.exp
+#: src/components/views/WelcomeView.svelte
+msgid "Claimed +{0} Gold, +{1} EXP!"
+msgstr "+{0}G、+{1}EXPを獲得しました！"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Steps"
+msgstr "ステップ"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Milestones"
+msgstr "マイルストーン"
+
+#. 0: g.day
+#: src/components/views/WelcomeView.svelte
+msgid "🔒 D.{0}"
+msgstr "🔒 {0}日目"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Step Locked"
+msgstr "ステップ未解放"
+
+#. 0: currentGroup.day
+#: src/components/views/WelcomeView.svelte
+msgid "Unlocks on Day {0} of your journey. Keep visiting Ryza!"
+msgstr "旅の{0}日目に解放されます。ライザに会い続けましょう！"
+
+#. 0: currentGroup.title
+#: src/components/views/WelcomeView.svelte
+msgid "{0} Reward"
+msgstr "{0}報酬"
+
+#: src/components/views/WelcomeView.svelte
+msgid "300 Gold & 40 EXP"
+msgstr "300G & 40EXP"
+
+#: src/components/views/WelcomeView.svelte
+msgid "Claim Reward"
+msgstr "報酬を受け取る"
+
+#: src/components/views/WelcomeView.svelte
+msgid "In Progress"
+msgstr "進行中"
+
+#: src/components/views/settings/TtsTab.svelte
+#: src/components/views/settings/TtsTab.svelte
+msgid "Fish Audio API Key is required"
+msgstr "Fish AudioのAPIキーが必要です"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Cloning Ryza voice via Fish Audio..."
+msgstr "Fish Audioでライザの声をクローン中..."
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Voice successfully cloned to Fish Audio!"
+msgstr "Fish Audioへの音声クローンに成功しました！"
+
+#. 0: (e as Error)?.message || 'Unknown error'
+#: src/components/views/settings/TtsTab.svelte
+msgid "Fish Audio clone failed: {0}"
+msgstr "Fish Audioのクローンに失敗しました：{0}"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Qwen API Key is required"
+msgstr "QwenのAPIキーが必要です"
+
+#: src/components/views/SettingsView.svelte
+msgid "STT"
+msgstr "STT"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Fish Audio (api.fish.audio)"
+msgstr "Fish Audio (api.fish.audio)"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "VOICEVOX (Local Engine)"
+msgstr "VOICEVOX (ローカル)"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "AivisSpeech (Local Engine)"
+msgstr "AivisSpeech (ローカル)"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Qwen Model Name"
+msgstr "Qwenモデル名"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Fish Audio Base URL"
+msgstr "Fish Audio ベースURL"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Fish Audio API Key"
+msgstr "Fish Audio APIキー"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Leave empty or click clone below"
+msgstr "空欄のまま、または下のクローンを実行"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Clone Voice to Fish Audio"
+msgstr "Fish Audioに声をクローン"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Voice ID (Normal Voice)"
+msgstr "ボイスID (通常音声)"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Optional ASMR whisper voice ID"
+msgstr "任意のASMR囁きボイスID"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Voice ID (ASMR Mode Voice)"
+msgstr "ボイスID (ASMRモード音声)"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "VOICEVOX Engine URL"
+msgstr "VOICEVOX エンジンURL"
+
+#: src/components/views/settings/TtsTab.svelte
+#: src/components/views/settings/TtsTab.svelte
+msgid "Local loopback synthesis engine. No API key needed."
+msgstr "ローカルループバック合成エンジン。APIキーは不要です。"
+
+#: src/components/views/settings/TtsTab.svelte
+#: src/components/views/settings/TtsTab.svelte
+msgid "Speaker Style ID"
+msgstr "スピーカー・スタイルID"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "AivisSpeech Engine URL"
+msgstr "AivisSpeech エンジンURL"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Speech-to-Text (STT) & Voice Input"
+msgstr "音声入力 (STT)・マイク設定"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Configure microphone transcription, VAD auto-send, and hands-free interruption."
+msgstr "マイク音声認識、VAD自動送信、割り込み発話を設定します。"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Voice Input Master"
+msgstr "音声入力マスター"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Enable microphone button in chat"
+msgstr "会話画面のマイクボタンを有効化"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Auto (Browser WebSpeech with fallback)"
+msgstr "自動 (ブラウザWebSpeech・フォールバックあり)"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Browser Built-in WebSpeech API"
+msgstr "ブラウザ標準 WebSpeech API"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Server Audio Capture (Whisper API)"
+msgstr "サーバー音声キャプチャ (Whisper API)"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Transcription Engine"
+msgstr "文字起こしエンジン"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Auto Send on Silence"
+msgstr "無音検知で自動送信"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Send message automatically when you pause"
+msgstr "発話終了後、メッセージを自動送信"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Barge-In (Voice Interruption)"
+msgstr "割り込み発話 (Barge-In)"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Interrupt Ryza's speech when you start speaking"
+msgstr "自分が話し始めるとライザの音声を中断"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Server STT Endpoint URL"
+msgstr "サーバーSTTエンドポイントURL"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "Server STT API Key"
+msgstr "サーバーSTT APIキー"
+
+#: src/components/views/settings/SttTab.svelte
+msgid "STT Model"
+msgstr "STTモデル"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Show Original Text"
+msgstr "原文を同時に表示"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Display original text alongside translations"
+msgstr "翻訳文と一緒に元のセリフも表示します"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "NSFW Costume Permission"
+msgstr "水着・衣装切り替え許可"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Allow Ryza to undress or switch to bikini textures"
+msgstr "ライザの衣装を軽装・水着アトラスに切り替えることを許可"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Restrained (Ryza rarely brings in others)"
+msgstr "控えめ (他の仲間は滅多に参加しない)"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Normal (Natural conversational balance)"
+msgstr "普通 (自然な会話バランス)"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Frequent (Island friends chime in often)"
+msgstr "多め (島の仲間たちがよく口を挟む)"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Lively (Kurken island banter in full swing)"
+msgstr "にぎやか (クーケン島の掛け合い全開)"
+
+#: src/components/views/settings/GameTab.svelte
+msgid "Guest Dialogue Frequency"
+msgstr "ゲストの対話頻度"
+
+#: src/components/views/WorldView.svelte
+#: src/components/views/WorldView.svelte
+msgid "Close Map"
+msgstr "マップを閉じる"
+
+#: src/components/views/WorldMapView.svelte
+msgid "Drag Locked (Tap to Unlock)"
+msgstr "ドラッグロック中（タップで解除）"
+
+#: src/components/views/WorldMapView.svelte
+msgid "Drag Unlocked (Tap to Lock)"
+msgstr "ドラッグ解除中（タップでロック）"
+
+#: src/components/views/SettingsView.svelte
+msgid "<0/> Saved"
+msgstr "<0/> 保存しました"
+
+#: src/components/views/settings/LlmTab.svelte
+msgid "Connecting to Ryza (LLM Test)..."
+msgstr "ライザに接続中（LLMテスト）..."
+
+#: src/lib/talk-loop.svelte.ts
+msgid "Timed out: endpoint never answered (check base URL & model name)"
+msgstr "タイムアウト: エンドポイントが応答しません（Base URLとモデル名を確認してください）"
+
+#: src/lib/talk-loop.svelte.ts
+msgid "Could not reach base URL (check address & CORS)"
+msgstr "Base URLに接続できません（アドレスとCORSを確認してください）"
+
+#: src/lib/stores/session.svelte.ts
+msgid "Could not write the save: this device is out of storage (clear an older slot, or shorten the chat first)"
+msgstr "セーブを書き込めませんでした: 端末のストレージが不足しています（古いスロットを削除するか、チャットを短くしてください）"
+
+#: src/lib/stores/session.svelte.ts
+msgid "That save could not be read (its contents are incomplete)"
+msgstr "そのセーブを読み込めませんでした（内容が不完全です）"
+
+#: src/components/views/CharaView.svelte
+msgid "Clear chat memory?"
+msgstr "チャットメモリーを削除しますか？"
+
+#: src/components/views/CharaView.svelte
+msgid "Are you sure you want to clear the current conversation history? This cannot be undone."
+msgstr "現在の会話履歴を消去してもよろしいですか？この操作は取り消せません。"
+
+#: src/components/views/CharaView.svelte
+msgid "Clear Memory"
+msgstr "メモリーを削除"
+
+#: src/components/views/CharaView.svelte
+#: src/components/views/HistoryView.svelte
+msgid "Chat history cleared"
+msgstr "チャット履歴を削除しました"
+
+#: src/components/views/CharaView.svelte
+msgid "Clear chat memory"
+msgstr "チャットメモリーを削除"
+
+#: src/lib/talk-loop.svelte.ts
+msgid "Voice clip no longer in cache"
+msgstr "音声クリップがキャッシュに見つかりません"
+
+#: src/components/chrome/Drawer.svelte
+#: src/components/views/HistoryView.svelte
+msgid "Chat History"
+msgstr "チャット履歴"
+
+#: src/components/views/HistoryView.svelte
+msgid "Clear Chat History?"
+msgstr "チャット履歴を削除しますか？"
+
+#: src/components/views/HistoryView.svelte
+msgid "Are you sure you want to clear all dialogue history in this session? Active turns will be reset, but saved memory logs remain intact."
+msgstr "このセッションのすべての対話履歴を消去してもよろしいですか？アクティブなターンはリセットされますが、保存済みのメモリーログはそのまま残ります。"
+
+#: src/components/views/HistoryView.svelte
+msgid "Clear History"
+msgstr "履歴を削除"
+
+#: src/components/views/HistoryView.svelte
+msgid "Clear"
+msgstr "削除"
+
+#. 0: counts.all
+#: src/components/views/HistoryView.svelte
+msgid "All ({0})"
+msgstr "すべて ({0})"
+
+#. 0: counts.voiced
+#: src/components/views/HistoryView.svelte
+msgid "<0/> Voiced ({0})"
+msgstr "<0/> 音声あり ({0})"
+
+#. 0: counts.fav
+#: src/components/views/HistoryView.svelte
+msgid "<0/> Favorites ({0})"
+msgstr "<0/> お気に入り ({0})"
+
+#: src/components/views/HistoryView.svelte
+msgid "No voice recordings generated yet. Turn on Voice Playback in settings to hear Ryza speak!"
+msgstr "生成された音声はまだありません。設定で音声再生をオンにすると、ライザの声が聞けます！"
+
+#: src/components/views/HistoryView.svelte
+msgid "No favorite voices yet. Star any dialogue voice clip to pin it to favorites."
+msgstr "お気に入りの音声はまだありません。対話の音声クリップに星を付けてお気に入りに登録しましょう。"
+
+#: src/components/views/HistoryView.svelte
+msgid "Talk with Ryza in Free Talk or Story mode to build conversation history."
+msgstr "雑談またはストーリーモードでライザと話して、会話履歴を増やしましょう。"
+
+#: src/components/views/HistoryView.svelte
+msgid "No chat history"
+msgstr "チャット履歴はありません"
+
+#: src/components/views/HistoryView.svelte
+msgid "Playing..."
+msgstr "再生中..."
+
+#: src/components/views/HistoryView.svelte
+msgid "Voice clip"
+msgstr "音声クリップ"
+
+#: src/components/views/HistoryView.svelte
+msgid "Favorited"
+msgstr "お気に入り済み"
+
+#: src/components/views/HistoryView.svelte
+msgid "Add to favorites"
+msgstr "お気に入りに追加"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "OpenAI Audio Speech (/v1/audio/speech)"
+msgstr "OpenAI 音声合成 (/v1/audio/speech)"
+
+#: src/components/views/settings/TtsTab.svelte
+msgid "Standard /v1/audio/speech"
+msgstr "標準 /v1/audio/speech"
