@@ -742,19 +742,20 @@ export async function _openaiSpeechSpeak(
   async function send(fmt?: string) {
     const url = localProxy(upstreamUrl(tts.baseUrl, '/audio/speech'));
     const blob = await request(url, body, tts.apiKey, 180000);
+
     if (!(blob instanceof Blob)) throw new Error('接口未返回音频');
-    if (fmt === 'pcm') {
-      const ct = (blob as ResponseBlob)._headers?.get('content-type') || '';
-      let rate = 44100;
-      let ch = 1;
-      const m1 = /rate=(\d+)/.exec(ct);
-      if (m1) rate = parseInt(m1[1], 10);
-      const m2 = /channels=(\d+)/.exec(ct);
-      if (m2) ch = parseInt(m2[1], 10);
-      const buf = await blob.arrayBuffer();
-      return URL.createObjectURL(_pcmToWav(buf, rate, ch, 16));
-    }
-    return URL.createObjectURL(blob);
+    if (fmt !== 'pcm') return URL.createObjectURL(blob);
+
+    const ct = (blob as ResponseBlob)._headers?.get('content-type') || '';
+    // prettier-ignore
+    let rate = 44100, ch = 1;
+    const m1 = /rate=(\d+)/.exec(ct);
+    if (m1) rate = parseInt(m1[1], 10);
+    const m2 = /channels=(\d+)/.exec(ct);
+    if (m2) ch = parseInt(m2[1], 10);
+
+    const buf = await blob.arrayBuffer();
+    return URL.createObjectURL(_pcmToWav(buf, rate, ch, 16));
   }
 
   if (tts.mode === 'clone') {
@@ -793,7 +794,7 @@ export async function _openaiSpeechSpeak(
       if (transcript) inputReferences.push({ type: 'text', text: transcript });
       body.input_references = inputReferences;
     }
-    return send('wav');
+    return send(body.response_format as string);
   }
   return send();
 }
