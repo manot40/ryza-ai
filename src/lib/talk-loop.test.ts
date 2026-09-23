@@ -3,6 +3,7 @@ import { TalkLoopController } from './talk-loop.svelte';
 import { config } from '$lib/stores/config.svelte';
 import { game } from '$lib/stores/game.svelte';
 import { memory } from '$lib/stores/memory.svelte';
+import { longMem } from '$lib/stores/longmem.svelte';
 import { quests } from '$lib/stores/quests.svelte';
 import { session } from '$lib/stores/session.svelte';
 import { overlayStore } from '$lib/stores/overlay.svelte';
@@ -28,8 +29,8 @@ describe('TalkLoopController', () => {
     config._resetForTest();
     game.reset();
     memory.reset();
+    longMem.reset();
     session.clearHistory();
-    session.clearDiary();
     overlayStore.closeAllSheets();
     overlayStore.closeFaint();
     controller = new TalkLoopController();
@@ -82,10 +83,10 @@ describe('TalkLoopController', () => {
       expect(session.history[0]).toMatchObject({ role: 'user', content: 'Good morning!' });
       expect(session.history[1].role).toBe('assistant');
 
-      // Verify diary
-      expect(session.diary).toHaveLength(2);
-      expect(session.diary[0].text).toBe('Good morning!');
-      expect(session.diary[1].text).toBe(mockReply.text);
+      // Verify memory pending ingestion
+      expect(memory.pending).toHaveLength(2);
+      expect(memory.pending[0].text).toBe('Good morning!');
+      expect(memory.pending[1].text).toBe(mockReply.text);
 
       // Verify game state delta application
       expect(game.money).toBe(40); // Initial 30 + 10
@@ -96,6 +97,47 @@ describe('TalkLoopController', () => {
       // Verify recent pages
       expect(controller.recentPages).toContain(mockReply.text);
       expect(controller.displayText).toBe(mockReply.text);
+    });
+
+    it('passes memory.toChatHistory() to apiChat on ongoing turns when memory is enabled', async () => {
+      config.setLLM('apiKey', 'test-key');
+      memory.ingest('Prior question', 'Prior reply');
+
+      const mockReply = { text: 'New reply', emotion: 'smile', attitude: 'agree' };
+      (api.chat as unknown as ReturnType<typeof vi.fn>).mockResolvedValueOnce(mockReply);
+
+      await controller.say('Followup question');
+
+      expect(api.chat).toHaveBeenCalledWith(
+        [
+          { role: 'user', content: 'Prior question' },
+          { role: 'assistant', content: 'Prior reply' },
+        ],
+        'Followup question',
+        expect.any(Object)
+      );
+    });
+
+    it('falls back to sliced session.history when memory is disabled', async () => {
+      config.setLLM('apiKey', 'test-key');
+      config.setMemory('enabled', false);
+
+      session.pushHistory({ role: 'user', content: 'History turn 1' });
+      session.pushHistory({ role: 'assistant', content: 'History turn 2' });
+
+      const mockReply = { text: 'Turn 3 reply' };
+      (api.chat as unknown as ReturnType<typeof vi.fn>).mockResolvedValueOnce(mockReply);
+
+      await controller.say('Turn 3 question');
+
+      expect(api.chat).toHaveBeenCalledWith(
+        [
+          expect.objectContaining({ role: 'user', content: 'History turn 1' }),
+          expect.objectContaining({ role: 'assistant', content: 'History turn 2' }),
+        ],
+        'Turn 3 question',
+        expect.any(Object)
+      );
     });
   });
 

@@ -2671,7 +2671,7 @@ msgstr "Ringkasan Cerita"
 msgid "Episodic Records"
 msgstr "Catatan Episodik"
 
-#. 0: longTerm.entries.length
+#. 0: longMem.entries.length
 #: src/components/views/MemoryView.svelte
 msgid "{0} records"
 msgstr "{0} catatan"

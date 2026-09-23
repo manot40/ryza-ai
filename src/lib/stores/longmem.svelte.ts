@@ -1,6 +1,6 @@
 // @wc-ignore-file
 /**
- * longterm.svelte.ts — Long-term episodic memory: dated entries + compressed digest narrative.
+ * longmem.svelte.ts — Long-term episodic memory: dated entries + compressed digest narrative.
  *
  * Distinct from rolling card memory (memory.svelte.ts):
  * - entries[]: precise facts with date, category, importance 1-5, keywords
@@ -8,7 +8,7 @@
  * - protected categories (promise, confession, etc.) and importance 5 are never silently discarded
  */
 
-export const LONGTERM_KEY = 'ryza.longterm.v1';
+export const LONGMEM_KEY = 'ryza.longmem.v1';
 export const ENTRY_LIMIT = 40;
 export const DIGEST_MAX = 1600;
 export const DIGEST_PROMPT_MAX = 800;
@@ -42,7 +42,7 @@ export const CONSOLIDATE_SYS = [
   '这些类别必须设为 5，除非近期对话明确撤回或解决，否则不删。不要编造日期与细节。',
 ].join('\n');
 
-export interface LongTermEntry {
+export interface LongMemEntry {
   id: string;
   date: string;
   category: string;
@@ -52,18 +52,18 @@ export interface LongTermEntry {
   keywords: string[];
 }
 
-export interface LongTermTurn {
+export interface LongMemTurn {
   role: 'user' | 'assistant';
   text: string;
   at: string;
 }
 
-export interface LongTermSnapshot {
+export interface LongMemSnapshot {
   v: number;
   updatedAt: string;
   digest: string;
-  entries: LongTermEntry[];
-  pending: LongTermTurn[];
+  entries: LongMemEntry[];
+  pending: LongMemTurn[];
 }
 
 function clip(s?: unknown, n: number = SUMMARY_MAX): string {
@@ -82,7 +82,7 @@ function nowInfo(): { iso: string; day: string } {
   };
 }
 
-function validEntry(e: unknown): e is Partial<LongTermEntry> {
+function validEntry(e: unknown): e is Partial<LongMemEntry> {
   return Boolean(
     e &&
     typeof e === 'object' &&
@@ -91,7 +91,7 @@ function validEntry(e: unknown): e is Partial<LongTermEntry> {
   );
 }
 
-function normEntry(e: Partial<LongTermEntry>): LongTermEntry {
+function normEntry(e: Partial<LongMemEntry>): LongMemEntry {
   return {
     id: e.id || 'e' + Math.random().toString(36).slice(2, 9),
     date: clip(e.date, 10) || nowInfo().day,
@@ -106,20 +106,20 @@ function normEntry(e: Partial<LongTermEntry>): LongTermEntry {
   };
 }
 
-function validTurn(t: unknown): t is LongTermTurn {
+function validTurn(t: unknown): t is LongMemTurn {
   return Boolean(
     t &&
     typeof t === 'object' &&
-    ((t as LongTermTurn).role === 'user' || (t as LongTermTurn).role === 'assistant') &&
-    typeof (t as LongTermTurn).text === 'string'
+    ((t as LongMemTurn).role === 'user' || (t as LongMemTurn).role === 'assistant') &&
+    typeof (t as LongMemTurn).text === 'string'
   );
 }
 
-export function isProtected(e: LongTermEntry): boolean {
+export function isProtected(e: LongMemEntry): boolean {
   return PROTECTED_CATEGORIES.includes(e.category) || e.importance >= 5;
 }
 
-export function scoreEntry(e: LongTermEntry, cue?: string): number {
+export function scoreEntry(e: LongMemEntry, cue?: string): number {
   let s = e.importance;
   if (e.status !== 'active') s -= 3;
   if (!cue) return s;
@@ -133,7 +133,7 @@ export function scoreEntry(e: LongTermEntry, cue?: string): number {
   return s;
 }
 
-function sameKey(e: Partial<LongTermEntry>): string {
+function sameKey(e: Partial<LongMemEntry>): string {
   const t = String(e.summary || '')
     .replace(/[\s　]+/g, '')
     .replace(/[。、，．,.!！?？「」『』（）()【】\[\]:：;；…—~〜-]/g, '')
@@ -143,7 +143,7 @@ function sameKey(e: Partial<LongTermEntry>): string {
 
 export function parseConsolidation(
   text?: string
-): { digest?: string; entries?: Partial<LongTermEntry>[] } | null {
+): { digest?: string; entries?: Partial<LongMemEntry>[] } | null {
   let s = String(text || '').trim();
   s = s
     .replace(/^```(?:json)?/i, '')
@@ -165,12 +165,12 @@ export type LLMConsolidator = (
   opts?: { maxTokens?: number }
 ) => Promise<string>;
 
-export class LongTermStore {
-  readonly KEY = LONGTERM_KEY;
+export class LongMemStore {
+  readonly KEY = LONGMEM_KEY;
 
   digest = $state('');
-  entries = $state<LongTermEntry[]>([]);
-  pending = $state<LongTermTurn[]>([]);
+  entries = $state<LongMemEntry[]>([]);
+  pending = $state<LongMemTurn[]>([]);
   updatedAt = $state('');
 
   private _llm: LLMConsolidator | null = null;
@@ -201,7 +201,7 @@ export class LongTermStore {
   persist(): void {
     if (typeof localStorage === 'undefined') return;
     try {
-      const out: LongTermSnapshot = {
+      const out: LongMemSnapshot = {
         v: 1,
         updatedAt: this.updatedAt,
         digest: clip(this.digest, DIGEST_MAX),
@@ -210,6 +210,28 @@ export class LongTermStore {
       };
       localStorage.setItem(this.KEY, JSON.stringify(out));
     } catch {}
+  }
+
+  snapshot(): LongMemSnapshot {
+    return {
+      v: 1,
+      updatedAt: this.updatedAt,
+      digest: clip(this.digest, DIGEST_MAX),
+      entries: JSON.parse(JSON.stringify(this.entries)),
+      pending: JSON.parse(JSON.stringify(this.pending)),
+    };
+  }
+
+  restore(snap?: Partial<LongMemSnapshot> | null): void {
+    if (!snap || typeof snap !== 'object') {
+      this.reset();
+      return;
+    }
+    this.updatedAt = String(snap.updatedAt || '');
+    this.digest = clip(snap.digest, DIGEST_MAX);
+    this.entries = Array.isArray(snap.entries) ? snap.entries.filter(validEntry).map(normEntry) : [];
+    this.pending = Array.isArray(snap.pending) ? snap.pending.filter(validTurn).slice(-PENDING_MAX) : [];
+    this.persist();
   }
 
   enforceLimit(): number {
@@ -230,7 +252,7 @@ export class LongTermStore {
     return fold.length;
   }
 
-  selectEntries(cue?: string, limit: number = SELECT_LIMIT): LongTermEntry[] {
+  selectEntries(cue?: string, limit: number = SELECT_LIMIT): LongMemEntry[] {
     const live = this.entries.filter((e) => e.status === 'active');
     return live
       .map((e) => ({ e, s: scoreEntry(e, cue) }))
@@ -249,7 +271,7 @@ export class LongTermStore {
     return true;
   }
 
-  mergeConsolidation(obj: { digest?: string; entries?: Partial<LongTermEntry>[] } | null): boolean {
+  mergeConsolidation(obj: { digest?: string; entries?: Partial<LongMemEntry>[] } | null): boolean {
     if (!obj) return false;
     let added = 0;
     if (typeof obj.digest === 'string' && obj.digest.trim()) {
@@ -258,18 +280,18 @@ export class LongTermStore {
     const incoming = (Array.isArray(obj.entries) ? obj.entries : []).filter(validEntry).map(normEntry);
 
     incoming.forEach((ne) => {
-      let dup: LongTermEntry | null = null;
+      let dup: LongMemEntry | null = null;
       const key = sameKey(ne);
       this.entries.forEach((e) => {
         if (dup) return;
         if (sameKey(e) === key) dup = e;
       });
       if (dup) {
-        (dup as LongTermEntry).summary = ne.summary;
-        (dup as LongTermEntry).importance = Math.max((dup as LongTermEntry).importance, ne.importance);
-        (dup as LongTermEntry).category = ne.category;
-        (dup as LongTermEntry).keywords = ne.keywords;
-        (dup as LongTermEntry).status = ne.status;
+        (dup as LongMemEntry).summary = ne.summary;
+        (dup as LongMemEntry).importance = Math.max((dup as LongMemEntry).importance, ne.importance);
+        (dup as LongMemEntry).category = ne.category;
+        (dup as LongMemEntry).keywords = ne.keywords;
+        (dup as LongMemEntry).status = ne.status;
       } else {
         this.entries.push(ne);
         added++;
@@ -332,7 +354,7 @@ export class LongTermStore {
     return L.join('\n');
   }
 
-  add(summary: string, opts?: Partial<LongTermEntry>): LongTermEntry | null {
+  add(summary: string, opts?: Partial<LongMemEntry>): LongMemEntry | null {
     const ne = normEntry({
       date: opts?.date,
       category: opts?.category,
@@ -355,8 +377,13 @@ export class LongTermStore {
     return true;
   }
 
-  protectedEntries(): LongTermEntry[] {
+  protectedEntries(): LongMemEntry[] {
     return this.entries.filter(isProtected);
+  }
+
+  clearPending(): void {
+    this.pending = [];
+    this.persist();
   }
 
   reset(): void {
@@ -368,6 +395,7 @@ export class LongTermStore {
   }
 }
 
-export const longTerm = new LongTermStore();
-export const LongTerm = longTerm;
-export default longTerm;
+export const longMem = new LongMemStore();
+export const LongMem = longMem;
+export const longmem = longMem;
+export default longMem;

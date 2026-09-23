@@ -43,7 +43,6 @@ import {
   isOpenAiAudioFamily,
   isVoicevoxFamily,
   strategyMatches,
-  isMiniMaxModel,
   isFishOrMiniMax,
 } from './model-detect';
 

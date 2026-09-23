@@ -184,11 +184,11 @@
           id="settings-memory-turns"
           type="number"
           min="2"
-          value={memory.turnsPerSession ?? 8}
+          value={memory.turnsPerSession ?? 10}
           oninput={(e) =>
             config.setMemory(
               'turnsPerSession',
-              Math.max(2, Number((e.target as HTMLInputElement).value) || 8)
+              Math.max(2, Number((e.target as HTMLInputElement).value) || 10)
             )}
           class="h-8 text-xs" />
       </div>

@@ -2,7 +2,7 @@
 import { config } from './config.svelte';
 import { Api } from '$lib/api';
 
-export const MEMORY_KEY = 'ryza.longmem.v1';
+export const MEMORY_KEY = 'ryza.memory.v1';
 const TEXT_MAX = 2000;
 
 export interface MemoryTurn {
@@ -102,7 +102,7 @@ export class MemoryStore {
     const m = config.get('memory');
     return {
       enabled: m.enabled !== false,
-      turnsPerSession: clampInt(m.turnsPerSession, 8, 2, 32),
+      turnsPerSession: clampInt(m.turnsPerSession, 10, 2, 32),
       sessionCap: clampInt(m.sessionCap, 8, 2, 24),
       summaryCap: clampInt(m.summaryCap, 8, 2, 24),
     };
@@ -236,8 +236,9 @@ export class MemoryStore {
 
   private async flushPending(): Promise<boolean> {
     if (!this.pending.length) return false;
+    const overlap = this.pending.length > 2 ? this.pending.slice(-2) : [];
     const batch = this.pending.slice();
-    this.pending = [];
+    this.pending = [...overlap];
     this.save();
 
     const text = await this.summarize(batch, 'pending');
@@ -297,6 +298,15 @@ export class MemoryStore {
 
   pendingTurns(): number {
     return Math.ceil(this.pending.length / 2);
+  }
+
+  toChatHistory(): Array<{ role: 'user' | 'assistant'; content: string }> {
+    return this.pending.map((t) => ({ role: t.role, content: t.text }));
+  }
+
+  clearPending(): void {
+    this.pending = [];
+    this.save();
   }
 
   get(id: string): MemoryCard | null {

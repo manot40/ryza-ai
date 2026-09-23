@@ -6,7 +6,7 @@ This file is a comprehensive guide for AI coding agents working in this reposito
 
 ## Project Overview
 
-`ryza-ai` is an offline-capable AI companion game featuring Ryza (Reisalin Stout) from the _Atelier Ryza_ series. The user chats with an LLM-powered Ryza through a responsive web client (browser / PWA / Android WebView / Electron desktop). All AI calls pass through a local proxy endpoint to avoid CORS issues and protect credentials.
+`ryza-ai` is an offline-capable AI companion game featuring Ryza (Reisalin Stout) from the _Atelier Ryza_ series. The user chats with an LLM-powered Ryza through a responsive web client (browser / PWA). All AI calls pass through a local proxy endpoint to avoid CORS issues and protect credentials.
 
 **Current State:** The application is fully implemented in **Svelte 5 (Runes) + TypeScript + SvelteKit 2 + Tailwind CSS v4**. The legacy vanilla JS code under `web/js/` is retained as the authoritative reference implementation for data structures, formulas, and game-logic parity.
 
@@ -222,17 +222,30 @@ The project uses **wuchale** for compile-first i18n. Two patterns are used depen
 
 ---
 
-## What is and isn't in the Repo
+## Key Adjustments (Differences from Upstream)
 
-| Item                            | Status        | Notes                                                                                      |
-| ------------------------------- | ------------- | ------------------------------------------------------------------------------------------ |
-| `src/`                          | ✅ Committed  | Full SvelteKit 2 + Svelte 5 application                                                    |
-| `web/js/`                       | ✅ Committed  | Authoritative reference implementation                                                     |
-| `web/vendor/spine-webgl.js`     | ✅ Committed  | Vendored Spine WebGL IIFE runtime                                                          |
-| `config/providers.example.json` | ✅ Committed  | Configuration template                                                                     |
-| `web/assets/`                   | ❌ Gitignored | Extracted from APK release via `bun install`                                               |
-| `config/providers.json`         | ❌ Gitignored | Contains local private API keys                                                            |
-| `config/version.json`           | ✅ Committed  | Single source of truth for versioning (do not edit manually without updating package.json) |
+The SvelteKit implementation diverges from legacy `web/js/` in several key architectural areas:
+
+### Memory Hierarchy & Storage Keys
+
+- **Working Conversation Memory (`memory.svelte.ts`)**:
+  - Uses storage key `'ryza.memory.v1'`.
+  - Implements the 2-layer rolling card memory (`pending` → `sessions` → `summaries`).
+  - Active dialogue turns in `apiChat` are derived directly from `memory.toChatHistory()` (un-summarized turns) rather than an unbounded chat log, avoiding context bloat.
+  - When `flushPending()` rolls into a summary session card, a 1-turn (2 messages: user + assistant) overlap is retained in `pending` to preserve immediate conversational continuity.
+  - Default `turnsPerSession` is 10.
+- **Episodic Long-Term Memory (`longmem.svelte.ts`)**:
+  - Uses storage key `'ryza.longmem.v1'` (renamed from `longterm.svelte.ts` / `'ryza.longterm.v1'`).
+  - Store class: `LongMemStore`, exported as `longMem` (with `longmem` and `LongMem` aliases).
+  - Contains chronological narrative `digest` and structured `entries[]` with dynamic cue-based RAG scoring and protected categories (`promise`, `confession`, etc.).
+  - Implements `snapshot()` and `restore()` methods for save slot persistence.
+- **Chat History & UI Replay (`session.svelte.ts`)**:
+  - `CHAT_HISTORY_KEY` (`'ryza.chathistory.v1'`) strictly powers UI browsing and audio replay/favorites in `HistoryView.svelte`. It is not passed in its entirety to `apiChat`.
+  - Upstream's raw diary (`App.memory` / `session.diary`) is deprecated; `session.remember` is no longer used for chat turns.
+  - Calling `session.clearHistory()` synchronizes by clearing `session.history`, `memory.clearPending()`, and `longMem.clearPending()`.
+- **Save Slots (`SaveSlotSnapshot`)**:
+  - `snap.memory`: Stores `MemorySnapshot` (working conversation cards).
+  - `snap.longmem`: Stores `LongMemSnapshot` (episodic facts & digest).
 
 ---
 

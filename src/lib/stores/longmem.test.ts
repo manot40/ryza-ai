@@ -1,14 +1,21 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { longTerm, isProtected, scoreEntry, parseConsolidation, ENTRY_LIMIT } from './longterm.svelte';
+import {
+  longMem,
+  isProtected,
+  scoreEntry,
+  parseConsolidation,
+  ENTRY_LIMIT,
+  LONGMEM_KEY,
+} from './longmem.svelte';
 import { LocalStorageMock } from '../../../tests/utils';
 
-describe('longTerm memory store', () => {
+describe('longMem store', () => {
   let mockStorage: LocalStorageMock;
 
   beforeEach(() => {
     mockStorage = new LocalStorageMock();
     vi.stubGlobal('localStorage', mockStorage);
-    longTerm.reset();
+    longMem.reset();
   });
 
   afterEach(() => {
@@ -71,15 +78,15 @@ describe('longTerm memory store', () => {
   describe('enforceLimit and folding', () => {
     it('folds excess entries into digest while keeping protected ones', () => {
       for (let i = 0; i < ENTRY_LIMIT + 5; i++) {
-        longTerm.add(`Memory item ${i}`, {
+        longMem.add(`Memory item ${i}`, {
           importance: i === 0 ? 5 : 2,
           category: i === 0 ? 'promise' : 'general',
           date: `2026-09-${String(i + 1).padStart(2, '0')}`,
         });
       }
-      expect(longTerm.entries.length).toBe(ENTRY_LIMIT);
-      expect(longTerm.digest.length).toBeGreaterThan(0);
-      expect(longTerm.entries.find((e) => e.category === 'promise')).toBeDefined();
+      expect(longMem.entries.length).toBe(ENTRY_LIMIT);
+      expect(longMem.digest.length).toBeGreaterThan(0);
+      expect(longMem.entries.find((e) => e.category === 'promise')).toBeDefined();
     });
   });
 
@@ -103,12 +110,43 @@ describe('longTerm memory store', () => {
     });
   });
 
+  describe('snapshot and restore', () => {
+    it('takes snapshot and restores correctly', () => {
+      longMem.digest = 'Snapshot digest';
+      longMem.add('Saved entry', { date: '2026-09-21', category: 'general' });
+      longMem.note('user', 'Pending question', { noConsolidate: true });
+
+      const snap = longMem.snapshot();
+      expect(snap.digest).toBe('Snapshot digest');
+      expect(snap.entries).toHaveLength(1);
+      expect(snap.pending).toHaveLength(1);
+
+      longMem.reset();
+      expect(longMem.digest).toBe('');
+      expect(longMem.entries).toHaveLength(0);
+      expect(longMem.pending).toHaveLength(0);
+
+      longMem.restore(snap);
+      expect(longMem.digest).toBe('Snapshot digest');
+      expect(longMem.entries).toHaveLength(1);
+      expect(longMem.pending).toHaveLength(1);
+      expect(mockStorage.getItem(LONGMEM_KEY)).not.toBeNull();
+    });
+
+    it('clearPending clears pending turns and persists', () => {
+      longMem.note('user', 'Pending note', { noConsolidate: true });
+      expect(longMem.pending).toHaveLength(1);
+      longMem.clearPending();
+      expect(longMem.pending).toHaveLength(0);
+    });
+  });
+
   describe('promptBlock', () => {
     it('generates prompt block with digest and selected entries', () => {
-      longTerm.digest = 'Together we explored Kurken.';
-      longTerm.add('Found a treasure chest', { date: '2026-09-21', keywords: ['chest'] });
+      longMem.digest = 'Together we explored Kurken.';
+      longMem.add('Found a treasure chest', { date: '2026-09-21', keywords: ['chest'] });
 
-      const block = longTerm.promptBlock('chest');
+      const block = longMem.promptBlock('chest');
       expect(block).toContain('## 長期記憶（概略）');
       expect(block).toContain('Together we explored Kurken.');
       expect(block).toContain('## 長期記憶（出来事）');

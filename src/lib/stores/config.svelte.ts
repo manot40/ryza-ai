@@ -39,7 +39,7 @@ export const DEFAULTS: Settings = {
   /* Two-layer conversation memory */
   memory: {
     enabled: true,
-    turnsPerSession: 8,
+    turnsPerSession: 10,
     sessionCap: 8,
     summaryCap: 8,
   },
@@ -260,70 +260,70 @@ const setLLM: ConfigSetter<LlmConfig> = (
   value?: LlmConfig[keyof LlmConfig]
 ): void => {
   if (isPatch(payload)) mutator('llm', payload);
-  else if (value) mutator('llm', payload, value);
+  else if (value !== undefined) mutator('llm', payload, value);
 };
 const setMemory: ConfigSetter<MemoryConfig> = (
   payload: keyof MemoryConfig | Partial<MemoryConfig>,
   value?: MemoryConfig[keyof MemoryConfig]
 ): void => {
   if (isPatch(payload)) mutator('memory', payload);
-  else if (value) mutator('memory', payload, value);
+  else if (value !== undefined) mutator('memory', payload, value);
 };
 const setSTT: ConfigSetter<SttConfig> = (
   payload: keyof SttConfig | Partial<SttConfig>,
   value?: SttConfig[keyof SttConfig]
 ): void => {
   if (isPatch(payload)) mutator('stt', payload);
-  else if (value) mutator('stt', payload, value);
+  else if (value !== undefined) mutator('stt', payload, value);
 };
 const setTTS: ConfigSetter<TtsConfig> = (
   payload: keyof TtsConfig | Partial<TtsConfig>,
   value?: TtsConfig[keyof TtsConfig]
 ): void => {
   if (isPatch(payload)) mutator('tts', payload);
-  else if (value) mutator('tts', payload, value);
+  else if (value !== undefined) mutator('tts', payload, value);
 };
 const setVoice: ConfigSetter<VoiceConfig> = (
   payload: keyof VoiceConfig | Partial<VoiceConfig>,
   value?: VoiceConfig[keyof VoiceConfig]
 ): void => {
   if (isPatch(payload)) mutator('voice', payload);
-  else if (value) mutator('voice', payload, value);
+  else if (value !== undefined) mutator('voice', payload, value);
 };
 const setChara: ConfigSetter<CharaConfig> = (
   payload: keyof CharaConfig | Partial<CharaConfig>,
   value?: CharaConfig[keyof CharaConfig]
 ): void => {
   if (isPatch(payload)) mutator('chara', payload);
-  else if (value) mutator('chara', payload, value);
+  else if (value !== undefined) mutator('chara', payload, value);
 };
 const setProfile: ConfigSetter<ProfileConfig> = (
   payload: keyof ProfileConfig | Partial<ProfileConfig>,
   value?: ProfileConfig[keyof ProfileConfig]
 ): void => {
   if (isPatch(payload)) mutator('profile', payload);
-  else if (value) mutator('profile', payload, value);
+  else if (value !== undefined) mutator('profile', payload, value);
 };
 const setAudio: ConfigSetter<AudioConfig> = (
   payload: keyof AudioConfig | Partial<AudioConfig>,
   value?: AudioConfig[keyof AudioConfig]
 ): void => {
   if (isPatch(payload)) mutator('audio', payload);
-  else if (value) mutator('audio', payload, value);
+  else if (value !== undefined) mutator('audio', payload, value);
 };
 const setApp: ConfigSetter<AppConfig> = (
   payload: keyof AppConfig | Partial<AppConfig>,
   value?: AppConfig[keyof AppConfig]
 ): void => {
   if (isPatch(payload)) mutator('app', payload);
-  else if (value) mutator('app', payload, value);
+  else if (value !== undefined) mutator('app', payload, value);
 };
 const setState: ConfigSetter<StateConfig> = (
   payload: keyof StateConfig | Partial<StateConfig>,
   value?: StateConfig[keyof StateConfig]
 ): void => {
   if (isPatch(payload)) data.state = { ...data.state, ...payload };
-  else if (value) data.state = { ...data.state, [payload]: value };
+  else if (value !== undefined) data.state = { ...data.state, [payload]: value };
   save();
 };
 

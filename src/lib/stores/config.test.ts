@@ -29,7 +29,7 @@ describe('config store', () => {
       expect(data.llm.thinkingEffort).toBe('default');
 
       expect(data.memory.enabled).toBe(true);
-      expect(data.memory.turnsPerSession).toBe(8);
+      expect(data.memory.turnsPerSession).toBe(10);
       expect(data.memory.sessionCap).toBe(8);
       expect(data.memory.summaryCap).toBe(8);
 

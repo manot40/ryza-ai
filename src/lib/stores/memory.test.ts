@@ -19,7 +19,8 @@ describe('MemoryStore', () => {
     vi.unstubAllGlobals();
   });
 
-  it('initializes with empty state and loads valid cards from storage', () => {
+  it('uses ryza.memory.v1 as storage key and initializes correctly', () => {
+    expect(MEMORY_KEY).toBe('ryza.memory.v1');
     mockStorage.setItem(
       MEMORY_KEY,
       JSON.stringify({
@@ -65,6 +66,42 @@ describe('MemoryStore', () => {
     expect(memory.pending.length).toBe(0);
     expect(memory.sessions.length).toBe(1);
     expect(memory.sessions[0].text).toBe('Folded pending turns');
+  });
+
+  it('retains 1-turn (2 messages) overlap when folding multiple turns', async () => {
+    const fakeSummarizer = vi.fn().mockResolvedValue('Folded multi turns');
+    memory.setSummarizer(fakeSummarizer);
+
+    memory.ingest('Turn 1 user', 'Turn 1 assistant');
+    memory.ingest('Turn 2 user', 'Turn 2 assistant');
+    expect(memory.pending.length).toBe(4);
+
+    await memory.flushNow();
+    // After fold, the last turn (2 messages) should be retained as overlap
+    expect(memory.pending.length).toBe(2);
+    expect(memory.pending[0].text).toBe('Turn 2 user');
+    expect(memory.pending[1].text).toBe('Turn 2 assistant');
+    expect(memory.sessions.length).toBe(1);
+  });
+
+  it('converts pending turns to chat history format via toChatHistory', () => {
+    memory.ingest('Hello Ryza', 'Hello adventurer');
+    const hist = memory.toChatHistory();
+    expect(hist).toEqual([
+      { role: 'user', content: 'Hello Ryza' },
+      { role: 'assistant', content: 'Hello adventurer' },
+    ]);
+  });
+
+  it('clears only pending turns via clearPending', () => {
+    memory.ingest('Turn 1', 'Reply 1');
+    memory.add('Existing session card', 'session');
+    expect(memory.pending.length).toBe(2);
+    expect(memory.sessions.length).toBe(1);
+
+    memory.clearPending();
+    expect(memory.pending.length).toBe(0);
+    expect(memory.sessions.length).toBe(1);
   });
 
   it('triggers summarizer when sessionCap is reached', async () => {

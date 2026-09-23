@@ -2671,7 +2671,7 @@ msgstr "故事摘要"
 msgid "Episodic Records"
 msgstr "情景记录"
 
-#. 0: longTerm.entries.length
+#. 0: longMem.entries.length
 #: src/components/views/MemoryView.svelte
 msgid "{0} records"
 msgstr "{0} 条记录"

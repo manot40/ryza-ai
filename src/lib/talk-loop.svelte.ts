@@ -1,7 +1,7 @@
 import { config, type StateConfig } from '$lib/stores/config.svelte';
 import { game } from '$lib/stores/game.svelte';
 import { memory } from '$lib/stores/memory.svelte';
-import { longTerm } from '$lib/stores/longterm.svelte';
+import { longMem } from '$lib/stores/longmem.svelte';
 import { quests } from '$lib/stores/quests.svelte';
 import { welcome } from '$lib/stores/welcome.svelte';
 import { world } from '$lib/stores/world.svelte';
@@ -372,13 +372,16 @@ export class TalkLoopController {
     welcome.mark('talk');
 
     try {
-      const reply = await apiChat(session.history, text, {
+      const keep = Math.max(0, (llm.historyTurns || 12) * 2);
+      const chatHistory = memory.cfg().enabled ? memory.toChatHistory() : session.history.slice(-keep);
+
+      const reply = await apiChat(chatHistory, text, {
         mode: String(st.mode || 'chat'),
         style: String(st.style || 'normal'),
         rpgContext: this.rpgContext(),
         sceneSection: this.sceneContext(),
         nsfwSection: nsfw.screenFact(),
-        memoryBlock: [memory.promptBlock(), longTerm.promptBlock(text)].filter(Boolean).join('\n\n'),
+        memoryBlock: [memory.promptBlock(), longMem.promptBlock(text)].filter(Boolean).join('\n\n'),
         onPressure: () => memory.notifyPressure(),
       });
 
@@ -386,11 +389,9 @@ export class TalkLoopController {
 
       this.isThinking = false;
       session.pushHistory({ role: 'user', content: text });
-      session.remember('user', text);
-      session.remember('ryza', reply.text);
       memory.ingest(text, reply.text);
-      longTerm.note('user', text);
-      longTerm.note('assistant', reply.text);
+      longMem.note('user', text);
+      longMem.note('assistant', reply.text);
 
       if (reply.state && typeof reply.state === 'object') {
         game.applyDelta(reply.state as Record<string, unknown>, 'llm');

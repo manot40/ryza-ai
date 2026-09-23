@@ -1,8 +1,9 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { SessionStore, MEM_KEY, SAVE_KEY, CHAT_HISTORY_KEY, type SaveSlotSnapshot } from './session.svelte';
+import { SessionStore, SAVE_KEY, CHAT_HISTORY_KEY, type SaveSlotSnapshot } from './session.svelte';
 import { config } from './config.svelte';
 import { game } from './game.svelte';
 import { memory } from './memory.svelte';
+import { longMem } from './longmem.svelte';
 import { world } from './world.svelte';
 import { LocalStorageMock } from '../../../tests/utils';
 
@@ -16,6 +17,7 @@ describe('SessionStore', () => {
     config._resetForTest();
     game.reset();
     memory.reset();
+    longMem.reset();
     session = new SessionStore();
   });
 
@@ -24,48 +26,7 @@ describe('SessionStore', () => {
     vi.unstubAllGlobals();
   });
 
-  describe('Diary & Turn History', () => {
-    it('appends to diary, persists to localStorage, and caps at 400 entries', () => {
-      session.remember('user', 'First question');
-      session.remember('ryza', 'First reply');
-
-      expect(session.diary).toHaveLength(2);
-      expect(session.diary[0].who).toBe('user');
-      expect(session.diary[0].text).toBe('First question');
-      expect(session.diary[1].who).toBe('ryza');
-
-      const saved = JSON.parse(mockStorage.getItem(MEM_KEY) || '[]');
-      expect(saved).toHaveLength(2);
-
-      // Overfill beyond 400
-      for (let i = 0; i < 410; i++) {
-        session.remember('user', `Message ${i}`);
-      }
-      expect(session.diary).toHaveLength(400);
-      expect(session.diary[session.diary.length - 1].text).toBe('Message 409');
-    });
-
-    it('loads existing diary from localStorage', () => {
-      mockStorage.setItem(
-        MEM_KEY,
-        JSON.stringify([
-          { who: 'user', text: 'Hello', at: 1000 },
-          { who: 'ryza', text: 'Hi!', at: 2000 },
-        ])
-      );
-      session.loadDiary();
-      expect(session.diary).toHaveLength(2);
-      expect(session.diary[0].text).toBe('Hello');
-    });
-
-    it('clears diary', () => {
-      session.remember('user', 'test');
-      expect(session.diary).toHaveLength(1);
-      session.clearDiary();
-      expect(session.diary).toHaveLength(0);
-      expect(mockStorage.getItem(MEM_KEY)).toBe('[]');
-    });
-
+  describe('Turn History & Clear Sync', () => {
     it('manages turn history and persists to localStorage', () => {
       session.pushHistory({ role: 'user', content: 'Turn 1' });
       session.pushHistory({ role: 'assistant', content: 'Turn 1 answer', voiceKey: 'v_voice_1' });
@@ -79,10 +40,23 @@ describe('SessionStore', () => {
       const parsed = JSON.parse(raw!);
       expect(parsed).toHaveLength(2);
       expect(parsed[1].voiceKey).toBe('v_voice_1');
+    });
+
+    it('clearHistory clears session.history, memory.pending, and longMem.pending', () => {
+      session.pushHistory({ role: 'user', content: 'Turn 1' });
+      memory.ingest('Turn 1 user', 'Turn 1 reply');
+      longMem.note('user', 'Long term note');
+
+      expect(session.history).toHaveLength(1);
+      expect(memory.pending.length).toBeGreaterThan(0);
+      expect(longMem.pending.length).toBeGreaterThan(0);
 
       session.clearHistory();
+
       expect(session.history).toHaveLength(0);
       expect(mockStorage.getItem(CHAT_HISTORY_KEY)).toBe('[]');
+      expect(memory.pending).toHaveLength(0);
+      expect(longMem.pending).toHaveLength(0);
     });
   });
 
@@ -99,7 +73,8 @@ describe('SessionStore', () => {
       config.setState('stage', 'stage_01_001_04');
       config.setState('day', 3);
       session.pushHistory({ role: 'user', content: 'Saved history' });
-      session.remember('ryza', 'Saved diary');
+      memory.add('Saved card', 'session');
+      longMem.add('Saved fact');
 
       const ok = session.saveSlot(1);
       expect(ok).toBe(true);
@@ -108,17 +83,25 @@ describe('SessionStore', () => {
       expect(slots[1]).not.toBeNull();
       expect(slots[1]?.day).toBe(3);
       expect(slots[1]?.history[0].content).toBe('Saved history');
+      expect(slots[1]?.memory?.sessions).toHaveLength(1);
+      expect(slots[1]?.longmem?.entries).toHaveLength(1);
 
       // Change active state
       config.setState('day', 99);
       session.clearHistory();
+      memory.reset();
+      longMem.reset();
       expect(session.history).toHaveLength(0);
+      expect(memory.sessions).toHaveLength(0);
+      expect(longMem.entries).toHaveLength(0);
 
       // Load slot 1
       const loadOk = session.loadSlot(1);
       expect(loadOk).toBe(true);
       expect(config.get('state').day).toBe(3);
       expect(session.history[0].content).toBe('Saved history');
+      expect(memory.sessions).toHaveLength(1);
+      expect(longMem.entries).toHaveLength(1);
     });
 
     it('rejects invalid slot index', () => {

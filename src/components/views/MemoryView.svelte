@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { memory } from '$lib/stores/memory.svelte';
-  import { longTerm } from '$lib/stores/longterm.svelte';
+  import { longMem } from '$lib/stores/longmem.svelte';
   import { viewStore } from '$lib/stores/view.svelte';
   import Header from './Header.svelte';
   import { modal } from '$lib/stores/modal.svelte';
@@ -12,14 +12,14 @@
 
   onMount(() => {
     memory.load();
-    longTerm.load();
+    longMem.load();
   });
 
   async function handleFlush() {
     isFlushing = true;
     try {
       await memory.flushNow();
-      await longTerm.maybeConsolidate();
+      await longMem.maybeConsolidate();
     } finally {
       isFlushing = false;
     }
@@ -34,7 +34,7 @@
     );
     if (ok) {
       memory.reset();
-      longTerm.reset();
+      longMem.reset();
     }
   }
 
@@ -48,7 +48,7 @@
   }
 
   function deleteEpisodic(id: string) {
-    longTerm.remove(id);
+    longMem.remove(id);
   }
 </script>
 
@@ -74,7 +74,7 @@
 <!-- Content List -->
 <div class="flex-1 overflow-y-auto p-4 space-y-5 max-h-[70vh]">
   <!-- Long-Term Narrative Digest -->
-  {#if longTerm.digest}
+  {#if longMem.digest}
     <div class="space-y-2">
       <div class="flex items-center justify-between px-1">
         <h3 class="text-xs font-semibold text-gold uppercase tracking-wider">Story Digest</h3>
@@ -82,7 +82,7 @@
       <Card class="border-border/50 bg-card/75 shadow-sm">
         <CardContent class="p-3">
           <p class="text-xs text-foreground/90 leading-relaxed whitespace-pre-wrap italic">
-            {longTerm.digest}
+            {longMem.digest}
           </p>
         </CardContent>
       </Card>
@@ -90,16 +90,16 @@
   {/if}
 
   <!-- Episodic Memories -->
-  {#if longTerm.entries.length > 0}
+  {#if longMem.entries.length > 0}
     <div class="space-y-2">
       <div class="flex items-center justify-between px-1">
         <h3 class="text-xs font-semibold text-gold uppercase tracking-wider">Episodic Records</h3>
         <span class="text-[11px] text-muted-foreground">
-          {longTerm.entries.length} records
+          {longMem.entries.length} records
         </span>
       </div>
       <div class="space-y-2">
-        {#each longTerm.entries as item}
+        {#each longMem.entries as item}
           <Card class="border-border/50 bg-card/75 shadow-sm">
             <CardContent class="p-3 flex flex-col gap-2">
               <div

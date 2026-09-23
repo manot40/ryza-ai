@@ -1,6 +1,7 @@
 import { config } from './config.svelte';
 import { game } from './game.svelte';
-import { memory } from './memory.svelte';
+import { memory, type MemorySnapshot } from './memory.svelte';
+import { longMem, type LongMemSnapshot } from './longmem.svelte';
 import { daily } from './daily.svelte';
 import { alarm, type AlarmItem } from './alarm.svelte';
 import { quests } from './quests.svelte';
@@ -9,7 +10,6 @@ import { avatarService } from '$lib/avatar/avatar-service.svelte';
 import { sound } from '$lib/audio/sound';
 import { toast } from './toast.svelte';
 
-export const MEM_KEY = 'ryza.memory.v1';
 export const SAVE_KEY = 'ryza.saves.v1';
 export const CHAT_HISTORY_KEY = 'ryza.chathistory.v1';
 export const HOME_STAGE = 'stage_01_001_04';
@@ -22,12 +22,6 @@ const tlRestSafely = 'Rested safely at home — stamina fully restored!';
 const tlSlotSaveFail =
   'Could not write the save: this device is out of storage (clear an older slot, or shorten the chat first)';
 const tlSlotLoadFail = 'That save could not be read (its contents are incomplete)';
-
-export interface DiaryEntry {
-  who: 'user' | 'ryza';
-  text: string;
-  at: number;
-}
 
 export interface HistoryEntry {
   id?: string;
@@ -43,8 +37,8 @@ export interface SaveSlotSnapshot {
   label: string;
   settings: Record<string, unknown>;
   history: HistoryEntry[];
-  memory: DiaryEntry[];
-  longmem: unknown;
+  memory: MemorySnapshot | null;
+  longmem: LongMemSnapshot | null;
   game: unknown;
   daily: unknown;
   alarms: unknown[];
@@ -52,7 +46,6 @@ export interface SaveSlotSnapshot {
 
 export class SessionStore {
   history = $state<HistoryEntry[]>([]);
-  diary = $state<DiaryEntry[]>([]);
   slots = $state<Array<SaveSlotSnapshot | null>>([null, null, null]);
 
   dailyAvailable = $derived(daily.available());
@@ -60,7 +53,6 @@ export class SessionStore {
   constructor() {
     if (typeof localStorage !== 'undefined') {
       this.loadHistory();
-      this.loadDiary();
       this.loadSlots();
     }
   }
@@ -83,37 +75,6 @@ export class SessionStore {
     } catch {}
   }
 
-  /* --------------------------------------------------- Diary Persistence */
-  loadDiary(): void {
-    if (typeof localStorage === 'undefined') return;
-    try {
-      const raw = localStorage.getItem(MEM_KEY);
-      this.diary = raw ? (JSON.parse(raw) as DiaryEntry[]) : [];
-    } catch {
-      this.diary = [];
-    }
-  }
-
-  saveDiary(): void {
-    if (typeof localStorage === 'undefined') return;
-    try {
-      localStorage.setItem(MEM_KEY, JSON.stringify(this.diary));
-    } catch {}
-  }
-
-  remember(who: 'user' | 'ryza', text: string): void {
-    this.diary = [...this.diary, { who, text, at: Date.now() }];
-    if (this.diary.length > 400) {
-      this.diary = this.diary.slice(-400);
-    }
-    this.saveDiary();
-  }
-
-  clearDiary(): void {
-    this.diary = [];
-    this.saveDiary();
-  }
-
   /* --------------------------------------------------- Turn History */
   pushHistory(entry: HistoryEntry): void {
     const fullEntry: HistoryEntry = {
@@ -128,6 +89,8 @@ export class SessionStore {
   clearHistory(): void {
     this.history = [];
     this.saveHistory();
+    memory.clearPending();
+    longMem.clearPending();
   }
 
   /* --------------------------------------------------- Save Slots */
@@ -174,8 +137,8 @@ export class SessionStore {
       label: place ? `${place.area} / ${place.stage}` : st.stage || tlKurkenIsland,
       settings: JSON.parse(config.exportJSON()),
       history: [...this.history],
-      memory: [...this.diary],
-      longmem: memory.snapshot(),
+      memory: memory.snapshot(),
+      longmem: longMem.snapshot(),
       game: game.snapshot(),
       daily: dailyRaw,
       alarms: [...alarm.items],
@@ -191,10 +154,9 @@ export class SessionStore {
     config.importJSON(JSON.stringify(snap.settings));
     this.history = snap.history ? [...snap.history] : [];
     this.saveHistory();
-    this.diary = snap.memory ? [...snap.memory] : [];
-    this.saveDiary();
 
-    if (snap.longmem) memory.restore(snap.longmem);
+    if (snap.memory) memory.restore(snap.memory);
+    if (snap.longmem) longMem.restore(snap.longmem);
     if (snap.game) game.restoreSnapshot(snap.game);
 
     if (typeof localStorage !== 'undefined') {
@@ -310,7 +272,7 @@ export class SessionStore {
   }
 
   init(): void {
-    this.loadDiary();
+    this.loadHistory();
     this.loadSlots();
     this.tickDay();
     this.tickTime();
