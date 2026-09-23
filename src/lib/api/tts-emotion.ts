@@ -1,4 +1,12 @@
 import { EMOTIONS, type Emotion } from './tags';
+import {
+  isFishOrMiniMax,
+  isIrodoriModel,
+  isMiniMaxModel,
+  isOpenAiAudioFamily,
+  isQwenFamily,
+  isVoicevoxFamily,
+} from './model-detect';
 
 export interface EmotionContext {
   text: string;
@@ -115,13 +123,10 @@ function combineInstruction(base?: string, addition?: string): string {
 /** Fish Audio / MiniMax strategy: outputs payload.emotion for MiniMax or prompt for instruction models */
 export const MiniMaxFishStrategy: TtsEmotionStrategy = {
   id: 'minimax-fish',
-  matches(provider: string, model?: string) {
-    return provider === 'fish' || /minimax/i.test(String(model || ''));
-  },
+  matches: isFishOrMiniMax,
   adapt(ctx: EmotionContext, baseInstruction?: string): EmotionAdaptation {
     const norm = normalizeEmotion(ctx.emotion);
-    const m = String(ctx.model || '');
-    const isMiniMax = /minimax/i.test(m);
+    const isMiniMax = isMiniMaxModel(ctx.model);
 
     const out: EmotionAdaptation = {};
     if (isMiniMax) {
@@ -153,9 +158,7 @@ export const MiniMaxFishStrategy: TtsEmotionStrategy = {
 export const QwenCosyVoiceStrategy: TtsEmotionStrategy = {
   id: 'qwen-cosyvoice',
   matches(provider: string, model?: string) {
-    if (provider === 'qwen') return true;
-    const m = String(model || '').toLowerCase();
-    return /cosyvoice|qwen-audio|qwen3-tts|qwen-tts/.test(m);
+    return isQwenFamily(provider, model);
   },
   adapt(ctx: EmotionContext, baseInstruction?: string): EmotionAdaptation {
     const prompt = getEmotionPrompt(ctx.emotion, ctx.lang || 'ja');
@@ -169,10 +172,7 @@ export const QwenCosyVoiceStrategy: TtsEmotionStrategy = {
 export const OpenAiAudioStrategy: TtsEmotionStrategy = {
   id: 'openai-audio',
   matches(provider: string, model?: string) {
-    if (provider === 'openai-speech') return false;
-    if (provider === 'openai') return true;
-    const m = String(model || '').toLowerCase();
-    return /gpt-4o.*audio/.test(m);
+    return isOpenAiAudioFamily(provider, model);
   },
   adapt(ctx: EmotionContext, baseInstruction?: string): EmotionAdaptation {
     const prompt = getEmotionPrompt(ctx.emotion, ctx.lang || 'en');
@@ -189,7 +189,7 @@ export const OpenAiAudioStrategy: TtsEmotionStrategy = {
 export const IrodoriStrategy: TtsEmotionStrategy = {
   id: 'irodori-tts',
   matches(_provider: string, model?: string) {
-    return /irodori/i.test(String(model || ''));
+    return isIrodoriModel(model);
   },
   adapt(ctx: EmotionContext, baseInstruction?: string): EmotionAdaptation {
     const norm = normalizeEmotion(ctx.emotion);
@@ -205,7 +205,6 @@ export const IrodoriStrategy: TtsEmotionStrategy = {
       neutral: '',
     };
     const directive = map[norm] || '';
-    console.log(ctx, baseInstruction, directive, norm);
     return {
       instruction: combineInstruction(baseInstruction, directive),
     };
@@ -216,8 +215,7 @@ export const IrodoriStrategy: TtsEmotionStrategy = {
 export const VoicevoxStrategy: TtsEmotionStrategy = {
   id: 'voicevox',
   matches(provider: string) {
-    const p = String(provider || '').toLowerCase();
-    return p === 'voicevox' || p === 'aivis';
+    return isVoicevoxFamily(provider);
   },
   adapt(ctx: EmotionContext): EmotionAdaptation {
     const norm = normalizeEmotion(ctx.emotion);

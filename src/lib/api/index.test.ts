@@ -58,8 +58,8 @@ describe('api index module', () => {
   describe('translate', () => {
     it('returns original text if target language is empty or matches replyLang', async () => {
       config.setLLM('lang', 'ja');
-      expect(await translate('こんにちは', 'ja')).toBe('こんにちは');
-      expect(await translate('こんにちは', '')).toBe('こんにちは');
+      expect(await translate({ text: 'こんにちは', toLang: 'ja' })).toBe('こんにちは');
+      expect(await translate({ text: 'こんにちは', toLang: '' })).toBe('こんにちは');
     });
 
     it('invokes LLM translation when target language differs', async () => {
@@ -80,8 +80,98 @@ describe('api index module', () => {
       });
       vi.stubGlobal('fetch', fetchMock);
 
-      const res = await translate('こんにちは', 'en');
+      const res = await translate({ text: 'こんにちは', toLang: 'en' });
       expect(res).toBe('Hello there!');
+    });
+
+    it('injects emotion hint into system prompt for inline-cue TTS models', async () => {
+      config.setLLM({
+        apiKey: 'sk-test',
+        baseUrl: 'https://api.example.com/v1',
+        lang: 'ja',
+      });
+      config.setTTS({ provider: 'fish', fishModel: 's2-pro' });
+
+      const mockResponse = {
+        choices: [{ message: { content: 'How lovely! [happy]' } }],
+      };
+      const fetchMock = vi.fn().mockResolvedValue({
+        ok: true,
+        headers: new Headers({ 'content-type': 'application/json' }),
+        json: async () => mockResponse,
+      });
+      vi.stubGlobal('fetch', fetchMock);
+
+      const res = await translate({ text: 'うれしい！', toLang: 'en', emotion: 'happy' });
+      expect(res).toBe('How lovely! [happy]');
+
+      const body = JSON.parse(String(fetchMock.mock.calls[0][1].body));
+      const sys = body.messages[0].content;
+      expect(sys).toContain('Ryza is currently feeling "happy"');
+      expect(sys).toContain('[happy]');
+      expect(sys).toContain('layer up to three');
+    });
+
+    it('re-applies missing emotion marker deterministically after LLM drop', async () => {
+      config.setLLM({
+        apiKey: 'sk-test',
+        baseUrl: 'https://api.example.com/v1',
+        lang: 'ja',
+      });
+      config.setTTS({ provider: 'fish', fishModel: 's2-pro' });
+
+      const fetchMock = vi.fn().mockResolvedValue({
+        ok: true,
+        headers: new Headers({ 'content-type': 'application/json' }),
+        json: async () => ({ choices: [{ message: { content: 'So happy!' } }] }),
+      });
+      vi.stubGlobal('fetch', fetchMock);
+
+      const res = await translate({ text: 'うれしい！', toLang: 'en', emotion: 'happy' });
+      expect(res).toBe('So happy! [happy]');
+    });
+
+    it('preserves translator-chosen cue placement without rewriting', async () => {
+      config.setLLM({
+        apiKey: 'sk-test',
+        baseUrl: 'https://api.example.com/v1',
+        lang: 'ja',
+      });
+      config.setTTS({ provider: 'fish', fishModel: 's2-pro' });
+
+      const fetchMock = vi.fn().mockResolvedValue({
+        ok: true,
+        headers: new Headers({ 'content-type': 'application/json' }),
+        json: async () => ({
+          choices: [{ message: { content: '[laughing] We did it! Ha ha! [happy]' } }],
+        }),
+      });
+      vi.stubGlobal('fetch', fetchMock);
+
+      const res = await translate({ text: 'やった〜！笑', toLang: 'en', emotion: 'happy' });
+      expect(res).toBe('[laughing] We did it! Ha ha! [happy]');
+    });
+
+    it('adds no hint section when engine needs no inline cues', async () => {
+      config.setLLM({
+        apiKey: 'sk-test',
+        baseUrl: 'https://api.example.com/v1',
+        lang: 'ja',
+      });
+      config.setTTS({ provider: 'qwen', qwenModel: 'qwen3-tts-flash' });
+
+      const fetchMock = vi.fn().mockResolvedValue({
+        ok: true,
+        headers: new Headers({ 'content-type': 'application/json' }),
+        json: async () => ({ choices: [{ message: { content: 'Hello!' } }] }),
+      });
+      vi.stubGlobal('fetch', fetchMock);
+
+      const res = await translate({ text: 'こんにちは', toLang: 'en', emotion: 'happy' });
+      expect(res).toBe('Hello!');
+
+      const body = JSON.parse(String(fetchMock.mock.calls[0][1].body));
+      expect(body.messages[0].content).not.toContain('Ryza is currently feeling');
     });
   });
 

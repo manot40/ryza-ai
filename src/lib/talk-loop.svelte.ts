@@ -309,14 +309,14 @@ export class TalkLoopController {
     const replyL = Langs.llm() || 'ja';
     const ttsL = Langs.tts() || replyL;
 
+    const targetEmotion = emotion || avatarService.currentEmotion || 'neutral';
+
     let speakText = text;
     if (ttsL !== replyL && apiTranslate) {
       try {
-        speakText = await apiTranslate(text, ttsL);
+        speakText = await apiTranslate({ text, toLang: ttsL, emotion: targetEmotion });
       } catch {}
     }
-
-    const targetEmotion = emotion || avatarService.currentEmotion || 'neutral';
 
     try {
       const url = await apiSpeak(speakText, ttsL, String(st.mode || 'chat'), targetEmotion);

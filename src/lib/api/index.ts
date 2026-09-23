@@ -40,6 +40,13 @@ export {
   type TtsEmotionStrategy,
 } from './tts-emotion';
 import { resolveEmotionAdaptation } from './tts-emotion';
+export {
+  buildTextEmotionHint,
+  applyTextEmotionHint,
+  type TextEmotionHint,
+  type EmotionHintPlacement,
+} from './text-emotion';
+import { buildTextEmotionHint, applyTextEmotionHint } from './text-emotion';
 import {
   QWEN_DEFAULT_BASE,
   QWEN_TTS_MODELS,
@@ -408,12 +415,37 @@ export function replyLang(): string {
   return Langs.llm() || 'ja';
 }
 
-export async function translate(text: string, toLang: string): Promise<string> {
+export interface TranslateOptions {
+  text: string;
+  toLang?: string;
+  /** Emotion of the line; used to hint inline TTS emotion markers when supported */
+  emotion?: string;
+}
+
+export async function translate(opts: TranslateOptions): Promise<string> {
+  const { text, toLang, emotion } = opts;
   if (!text || !toLang || toLang === replyLang()) {
     return text;
   }
   const llm = config.get('llm');
   if (!llm.apiKey) return text;
+
+  // Resolve the downstream TTS engine so the translator knows whether to
+  // inline an emotion marker (Higgs/OmniVoice/Fish S2/Irodori).
+  let hint = null;
+  try {
+    const tts = config.get('tts');
+    const cred = Providers.credentials(tts);
+    const model =
+      cred.id === 'openai' && String(tts.mode || '') === 'clone' && tts.modelClone
+        ? tts.modelClone
+        : cred.model;
+    hint = buildTextEmotionHint({ emotion, provider: cred.id, model });
+  } catch {
+    hint = null;
+  }
+
+  const hintBlock = hint ? `\n\n${hint.promptSection}` : '';
 
   try {
     const j = await request(
@@ -423,7 +455,7 @@ export async function translate(text: string, toLang: string): Promise<string> {
         messages: [
           {
             role: 'system',
-            content: `You are a translator for a Japanese anime game character (Ryza, cheerful young alchemist). Translate her line into ${Langs.name(toLang)}, keeping the playful spoken tone, first-person feel and emotion. Output ONLY the translated line — no quotes, notes, linebreaks, or tags.`,
+            content: `You are a translator for a Japanese anime game character (Ryza, cheerful young alchemist). Translate her line into ${Langs.name(toLang)}, keeping the playful spoken tone, first-person feel and emotion. Output ONLY the translated line — no quotes, notes, linebreaks, or tags.${hintBlock}`,
           },
           { role: 'user', content: text },
         ],
@@ -434,7 +466,8 @@ export async function translate(text: string, toLang: string): Promise<string> {
       60000
     );
     const c = choiceText(j);
-    return (c && String(c).trim()) || text;
+    const translated = (c && String(c).trim()) || text;
+    return applyTextEmotionHint(translated, hint);
   } catch {
     return text;
   }
@@ -1156,6 +1189,8 @@ export const Api = {
   listFishVoices,
   speak,
   resolveEmotionAdaptation,
+  buildTextEmotionHint,
+  applyTextEmotionHint,
   _openaiSpeechSpeak,
   _qwenSpeak,
   _fishSpeak,
