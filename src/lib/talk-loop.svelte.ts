@@ -30,6 +30,7 @@ import {
   translationText,
   labelForBeat,
   npcPromptBlock,
+  stripCues,
   type DialogueBeat,
 } from '$lib/api/npc-dialogue';
 import { VoiceCache, isFav, toggleFav } from '$lib/audio/voicecache';
@@ -410,7 +411,7 @@ export class TalkLoopController {
 
       const beats = splitDialogue(reply.text);
       this.currentBeats = beats;
-      let mine = spokenText(beats) || reply.text;
+      let mine = stripCues(spokenText(beats) || reply.text);
       const app = config.get('app');
       const showOriginal = app.showOriginal !== false;
       const trans = translationText(beats);

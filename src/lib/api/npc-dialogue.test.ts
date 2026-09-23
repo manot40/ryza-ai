@@ -5,6 +5,7 @@ import {
   translationText,
   hasSpeakerLabels,
   stripCues,
+  sanitizeSpokenDialogue,
   resolveNpcId,
   nameOfNpc,
   labelForBeat,
@@ -70,6 +71,24 @@ describe('npc-dialogue', () => {
       expect(stripCues('Hello [happy] there!')).toBe('Hello there!');
       expect(stripCues('[action:wave] Nice to meet you [pose:stand]')).toBe('Nice to meet you');
       expect(stripCues('No tags here')).toBe('No tags here');
+    });
+  });
+
+  describe('sanitizeSpokenDialogue', () => {
+    it('strips system machine tags and state blocks from chat history', () => {
+      const input =
+        '[emotion:happy|attitude:agree|undress:off|stage:stage_01_001_04]\n元気だよ！\n<state>{"money_delta": 10}</state>';
+      expect(sanitizeSpokenDialogue(input)).toBe('元気だよ！');
+    });
+
+    it('strips speaker prefixes and inline cues', () => {
+      const input = '[emotion:shy|attitude:agree]\nライザ：[happy]ちょっと照れるな…[pose:stand]';
+      expect(sanitizeSpokenDialogue(input)).toBe('ちょっと照れるな…');
+    });
+
+    it('handles clean dialogue without modification', () => {
+      expect(sanitizeSpokenDialogue('おはよう！今日もがんばろうね。')).toBe('おはよう！今日もがんばろうね。');
+      expect(sanitizeSpokenDialogue('')).toBe('');
     });
   });
 

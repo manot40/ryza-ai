@@ -4,6 +4,7 @@
   import { VoiceCache, isFav } from '$lib/audio/voicecache';
   import { confirmDialog } from '$lib/stores/confirm.svelte';
   import { toast } from '$lib/stores/toast.svelte';
+  import { sanitizeSpokenDialogue } from '$lib/api/npc-dialogue';
   import Header from './Header.svelte';
   import { Button } from '$components/ui/button';
   import { PlayIcon, SquareIcon, StarIcon, MessageSquareIcon, Volume2Icon, Trash2Icon } from '@lucide/svelte';
@@ -83,8 +84,7 @@
   }
 
   function cleanAssistantText(text: string): string {
-    // Strip <state>...</state> blocks if present
-    return text.replace(/<state>[\s\S]*?<\/state>/gi, '').trim();
+    return sanitizeSpokenDialogue(text);
   }
 </script>
 

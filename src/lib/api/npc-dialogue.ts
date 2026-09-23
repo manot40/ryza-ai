@@ -1,6 +1,7 @@
 // @wc-ignore-file
 import { world, type NpcDef, type StageInfo } from '$lib/stores/world.svelte';
 import { Langs } from '$lib/i18n/langs';
+import { parseTaggedReply } from './tags';
 
 export type SpeakerKind = 'ryza' | 'narrator' | 'translation' | 'npc';
 
@@ -164,6 +165,21 @@ export function stripCues(s?: string): string {
     if (depth === 0) out += c;
   }
   return out.replace(/[ \t]{2,}/g, ' ').trim();
+}
+
+/**
+ * Sanitize a raw dialogue / history line for display and TTS consumption.
+ * Strips machine tags ([emotion:...|attitude:...|stage:...]), markdown code blocks,
+ * thinking tags, state deltas, inline bracket cues, and speaker prefixes.
+ */
+export function sanitizeSpokenDialogue(text?: string): string {
+  const raw = String(text == null ? '' : text).trim();
+  if (!raw) return '';
+  const parsed = parseTaggedReply(raw);
+  const stripped = stripCues(parsed.text);
+  const beats = splitDialogue(stripped);
+  const spoken = spokenText(beats);
+  return (spoken || stripped).trim();
 }
 
 /**
