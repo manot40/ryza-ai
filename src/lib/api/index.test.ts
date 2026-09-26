@@ -84,6 +84,30 @@ describe('api index module', () => {
       expect(res).toBe('Hello there!');
     });
 
+    it('adds emotion context and asterisk instruction for generic TTS engines', async () => {
+      config.setLLM({
+        apiKey: 'sk-test',
+        baseUrl: 'https://api.example.com/v1',
+        lang: 'ja',
+      });
+
+      const mockResponse = { choices: [{ message: { content: 'Hello there!' } }] };
+      const fetchMock = vi.fn().mockResolvedValue({
+        ok: true,
+        headers: new Headers({ 'content-type': 'application/json' }),
+        json: async () => mockResponse,
+      });
+      vi.stubGlobal('fetch', fetchMock);
+
+      const res = await translate({ text: 'Pfft—hahaha!', toLang: 'en', emotion: 'laughing' });
+      expect(res).toBe('Hello there!');
+
+      const body = JSON.parse(String(fetchMock.mock.calls[0][1].body));
+      const sys = body.messages[0].content;
+      expect(sys).toContain('feeling "laughing"');
+      expect(sys).toContain('*asterisks*');
+    });
+
     it('injects emotion hint into system prompt for inline-cue TTS models', async () => {
       config.setLLM({
         apiKey: 'sk-test',

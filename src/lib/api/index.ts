@@ -39,7 +39,7 @@ export {
   type EmotionAdaptation,
   type TtsEmotionStrategy,
 } from './tts-emotion';
-import { resolveEmotionAdaptation } from './tts-emotion';
+import { getEmotionPrompt, normalizeEmotion, resolveEmotionAdaptation } from './tts-emotion';
 export {
   buildTextEmotionHint,
   applyTextEmotionHint,
@@ -422,6 +422,16 @@ export interface TranslateOptions {
   emotion?: string;
 }
 
+/* Emotion context for the translator system prompt — works for every
+   provider, unlike buildTextEmotionHint (inline-cue engines only). */
+function translatorEmotionSection(emotion?: string, toLang?: string): string {
+  const norm = normalizeEmotion(emotion);
+  if (!emotion || norm === 'neutral') return '';
+  const directive = getEmotionPrompt(norm, toLang || 'en');
+  const feel = directive ? ` — deliver the line ${directive}` : '';
+  return ` She is currently feeling "${norm}"${feel}. Keep this feeling in the translation.`;
+}
+
 export async function translate(opts: TranslateOptions): Promise<string> {
   const { text, toLang, emotion } = opts;
   if (!text || !toLang || toLang === replyLang()) {
@@ -446,6 +456,9 @@ export async function translate(opts: TranslateOptions): Promise<string> {
   }
 
   const hintBlock = hint ? `\n\n${hint.promptSection}` : '';
+  const emotionBlock = translatorEmotionSection(emotion, toLang);
+  const actionBlock =
+    ' Lines may contain stage directions wrapped in *asterisks*; they are actions, not speech — never include them in the translation.';
 
   try {
     const j = await request(
@@ -455,7 +468,7 @@ export async function translate(opts: TranslateOptions): Promise<string> {
         messages: [
           {
             role: 'system',
-            content: `You are a translator for a Japanese anime game character (Ryza, cheerful young alchemist). Translate her line into ${Langs.name(toLang)}, keeping the playful spoken tone, first-person feel and emotion. Output ONLY the translated line — no quotes, notes, linebreaks, or tags.${hintBlock}`,
+            content: `You are a translator for a Japanese anime game character (Ryza, cheerful young alchemist). Translate her line into ${Langs.name(toLang)}, keeping the playful spoken tone, first-person feel and emotion.${emotionBlock}${actionBlock} Output ONLY the translated line — no quotes, notes, linebreaks, or tags.${hintBlock}`,
           },
           { role: 'user', content: text },
         ],

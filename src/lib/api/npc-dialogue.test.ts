@@ -86,6 +86,13 @@ describe('npc-dialogue', () => {
       expect(sanitizeSpokenDialogue(input)).toBe('ちょっと照れるな…');
     });
 
+    it('strips asterisk stage directions from spoken text', () => {
+      const input =
+        '[emotion:laughing|attitude:agree]\n' +
+        '莱莎：Pfft—hahaha! *She snickers, covering her mouth.* Sounds like something didn’t agree with you!';
+      expect(sanitizeSpokenDialogue(input)).toBe('Pfft—hahaha! Sounds like something didn’t agree with you!');
+    });
+
     it('handles clean dialogue without modification', () => {
       expect(sanitizeSpokenDialogue('おはよう！今日もがんばろうね。')).toBe('おはよう！今日もがんばろうね。');
       expect(sanitizeSpokenDialogue('')).toBe('');

@@ -93,6 +93,31 @@ describe('MemoryStore', () => {
     ]);
   });
 
+  it('keeps line structure in stored turns for history replay', () => {
+    memory.ingest('hi', '莱莎：Hey there!\n旁白：She waves.');
+    expect(memory.pending[1].text).toBe('莱莎：Hey there!\n旁白：She waves.');
+    expect(memory.toChatHistory()[1].content).toBe('莱莎：Hey there!\n旁白：She waves.');
+  });
+
+  it('backfills the screen tag line onto legacy assistant turns at replay time', () => {
+    // Turn saved before tag capture existed — no tag stored.
+    memory.ingest('hello', '莱莎：Oh! Hey there!');
+    const tag = '[emotion:happy|attitude:agree|undress:off|stage:stage_01_001_04]';
+    expect(memory.toChatHistory(tag)[1].content).toBe(tag + '\n莱莎：Oh! Hey there!');
+    // No fallback supplied — legacy turn replays as-is.
+    expect(memory.toChatHistory()[1].content).toBe('莱莎：Oh! Hey there!');
+    // Stored tag wins over the fallback.
+    memory.ingest(
+      'more',
+      '莱莎：Sure!',
+      '[emotion:laughing|attitude:agree|undress:off|stage:stage_01_001_04]'
+    );
+    const hist = memory.toChatHistory(tag);
+    expect(hist[3].content).toBe(
+      '[emotion:laughing|attitude:agree|undress:off|stage:stage_01_001_04]\n莱莎：Sure!'
+    );
+  });
+
   it('clears only pending turns via clearPending', () => {
     memory.ingest('Turn 1', 'Reply 1');
     memory.add('Existing session card', 'session');

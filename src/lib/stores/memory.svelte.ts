@@ -9,6 +9,8 @@ export interface MemoryTurn {
   role: 'user' | 'assistant';
   text: string;
   at: number;
+  /** Screen tag line captured when this turn was made, e.g. "[emotion:happy|attitude:agree|undress:off|stage:...]". */
+  tag?: string;
 }
 
 export interface MemoryCard {
@@ -41,6 +43,16 @@ function uid(): string {
 function clip(s?: string | null): string {
   return String(s || '')
     .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, TEXT_MAX);
+}
+
+/** Like clip, but keeps newlines — chat history must replay the
+ * multi-line speaker format (莱莎 / 旁白 lines) the prompt asks for. */
+function clipLines(s?: string | null): string {
+  return String(s || '')
+    .replace(/[ \t]+/g, ' ')
+    .replace(/\s*\n\s*/g, '\n')
     .trim()
     .slice(0, TEXT_MAX);
 }
@@ -260,13 +272,18 @@ export class MemoryStore {
     }).catch(() => {});
   }
 
-  ingest(userText?: string | null, assistantText?: string | null): void {
+  ingest(userText?: string | null, assistantText?: string | null, assistantTag?: string | null): void {
     if (!this.cfg().enabled) return;
-    const u = clip(userText);
-    const a = clip(assistantText);
+    const u = clipLines(userText);
+    const a = clipLines(assistantText);
     if (!u && !a) return;
     if (u) this.pending.push({ role: 'user', text: u, at: Date.now() });
-    if (a) this.pending.push({ role: 'assistant', text: a, at: Date.now() });
+    if (a) {
+      const turn: MemoryTurn = { role: 'assistant', text: a, at: Date.now() };
+      const tag = String(assistantTag || '').trim();
+      if (tag) turn.tag = tag;
+      this.pending.push(turn);
+    }
     this.save();
     this.maybeRoll();
   }
@@ -300,8 +317,13 @@ export class MemoryStore {
     return Math.ceil(this.pending.length / 2);
   }
 
-  toChatHistory(): Array<{ role: 'user' | 'assistant'; content: string }> {
-    return this.pending.map((t) => ({ role: t.role, content: t.text }));
+  toChatHistory(fallbackTag?: string): Array<{ role: 'user' | 'assistant'; content: string }> {
+    const backfill = String(fallbackTag || '').trim();
+    return this.pending.map((t) => {
+      if (t.role !== 'assistant') return { role: t.role, content: t.text };
+      const tag = t.tag || backfill;
+      return { role: t.role, content: tag ? tag + '\n' + t.text : t.text };
+    });
   }
 
   clearPending(): void {

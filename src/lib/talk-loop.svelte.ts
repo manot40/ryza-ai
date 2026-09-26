@@ -22,6 +22,8 @@ import {
   speak as apiSpeak,
   translate as apiTranslate,
   formatHistoryReply,
+  screenTagLine,
+  type ScreenTagState,
   MODE_PLAY_FX,
 } from '$lib/api';
 import {
@@ -31,6 +33,7 @@ import {
   labelForBeat,
   npcPromptBlock,
   stripCues,
+  stripActions,
   type DialogueBeat,
 } from '$lib/api/npc-dialogue';
 import { VoiceCache, isFav, toggleFav } from '$lib/audio/voicecache';
@@ -202,6 +205,20 @@ export class TalkLoopController {
     return parts.filter(Boolean).join('\n\n');
   }
 
+  /* What is on screen right now — feeds the "copy this line" cue, the system
+     tag line, and the history reply so emotion/undress/stage never decay. */
+  private screenTagState(): ScreenTagState {
+    const st = config.get('state');
+    return {
+      emotion: avatarService.currentEmotion,
+      attitude: avatarService.currentAttitude,
+      nsfw: nsfw.active(),
+      stage: String(st.stage || HOME_STAGE),
+      tod: String(st.tod || 'aft'),
+      llmDrivesClock: world.llmDrivesClock(),
+    };
+  }
+
   private rpgContext(): string {
     const st = config.get('state');
     const mode = String(st.mode || 'chat');
@@ -312,10 +329,14 @@ export class TalkLoopController {
 
     const targetEmotion = emotion || avatarService.currentEmotion || 'neutral';
 
-    let speakText = text;
+    /* Stage directions in *asterisks* are actions, not speech — never translate
+       or voice them. Strip on input so the translator doesn't burn effort on
+       them, and again on output in case it echoes them anyway. */
+    const spoken = stripActions(text);
+    let speakText = spoken;
     if (ttsL !== replyL && apiTranslate) {
       try {
-        speakText = await apiTranslate({ text, toLang: ttsL, emotion: targetEmotion });
+        speakText = stripActions(await apiTranslate({ text: spoken, toLang: ttsL, emotion: targetEmotion }));
       } catch {}
     }
 
@@ -373,7 +394,9 @@ export class TalkLoopController {
 
     try {
       const keep = Math.max(0, (llm.historyTurns || 12) * 2);
-      const chatHistory = memory.cfg().enabled ? memory.toChatHistory() : session.history.slice(-keep);
+      const chatHistory = memory.cfg().enabled
+        ? memory.toChatHistory(screenTagLine(this.screenTagState()))
+        : session.history.slice(-keep);
 
       const reply = await apiChat(chatHistory, text, {
         mode: String(st.mode || 'chat'),
@@ -383,15 +406,14 @@ export class TalkLoopController {
         nsfwSection: nsfw.screenFact(),
         memoryBlock: [memory.promptBlock(), longMem.promptBlock(text)].filter(Boolean).join('\n\n'),
         onPressure: () => memory.notifyPressure(),
+        tagState: this.screenTagState(),
       });
 
       if (this._epoch !== epoch) return;
 
       this.isThinking = false;
       session.pushHistory({ role: 'user', content: text });
-      memory.ingest(text, reply.text);
       longMem.note('user', text);
-      longMem.note('assistant', reply.text);
 
       if (reply.state && typeof reply.state === 'object') {
         game.applyDelta(reply.state as Record<string, unknown>, 'llm');
@@ -405,9 +427,16 @@ export class TalkLoopController {
         avatarService.setEmotion(reply.emotion || 'smile', reply.attitude || 'agree');
       }
 
+      /* After side effects so the echoed line matches the new screen — the same
+         line pattern must stay in the model's own history or every column
+         (emotion / undress / stage) decays together. */
+      const tagState = this.screenTagState();
+      memory.ingest(text, reply.text, screenTagLine(tagState));
+      longMem.note('assistant', reply.text);
+
       session.pushHistory({
         role: 'assistant',
-        content: formatHistoryReply(reply.text),
+        content: formatHistoryReply(reply.text, tagState),
       });
 
       const beats = splitDialogue(reply.text);

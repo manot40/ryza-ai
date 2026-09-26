@@ -111,7 +111,8 @@ describe('TalkLoopController', () => {
       expect(api.chat).toHaveBeenCalledWith(
         [
           { role: 'user', content: 'Prior question' },
-          { role: 'assistant', content: 'Prior reply' },
+          // Legacy (untagged) assistant turns get the current screen tag line backfilled.
+          { role: 'assistant', content: expect.stringMatching(/^\[emotion:[^\]]+\]\nPrior reply$/) },
         ],
         'Followup question',
         expect.any(Object)

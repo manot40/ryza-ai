@@ -65,6 +65,14 @@ describe('api tags module', () => {
       expect(isMachineTag('Hello there, how are you?')).toBe(false);
     });
 
+    it('maps near-miss emotion synonyms to canonical values', () => {
+      const dest: Partial<TagFieldsDest> = {};
+      parseTagFields('emotion:laugh|attitude:tease', dest);
+      expect(dest.emotion).toBe('laughing');
+      // attitude "tease" is not in the vocabulary — stays unset
+      expect(dest.attitude).toBeUndefined();
+    });
+
     it('parses tag fields with aliases and case insensitivity', () => {
       const dest: Partial<TagFieldsDest> = {};
       parseTagFields('emotion:Tease|attitude:Agree|undress:ON|stage:place_01|tod:MOr', dest);

@@ -53,6 +53,30 @@ export interface ScreenTagState {
 
 const KEEP: Record<string, number> = { keep: 1, same: 1, omit: 1, here: 1 };
 
+/* Models frequently emit near-miss synonyms (`emotion:laugh`); map the
+   common ones instead of silently dropping the field. */
+const EMOTION_ALIASES: Record<string, Emotion> = {
+  laugh: 'laughing',
+  laughter: 'laughing',
+  chuckle: 'laughing',
+  giggle: 'laughing',
+  smile: 'happy',
+  joy: 'happy',
+  cheerful: 'happy',
+  embarrassed: 'shy',
+  blush: 'shy',
+  love: 'cuddle',
+  hug: 'cuddle',
+  sweet: 'cuddle',
+  gloomy: 'sad',
+  sorrow: 'sad',
+  sob: 'crying',
+  tearful: 'crying',
+  mad: 'angry',
+  rage: 'angry',
+  calm: 'neutral',
+};
+
 export function extractState(body: string): { text: string; state: ParsedState | null } {
   let state: ParsedState | null = null;
   let text = String(body || '');
@@ -80,8 +104,9 @@ export function parseTagFields(tag: string, dest: Partial<TagFieldsDest>): void 
       if (!m) return;
       const k = m[1].toLowerCase();
       const v = m[2].replace(/[。．.]+$/, '').toLowerCase();
-      if (k === 'emotion' && (EMOTIONS as readonly string[]).includes(v)) {
-        dest.emotion = v as Emotion;
+      if (k === 'emotion') {
+        if ((EMOTIONS as readonly string[]).includes(v)) dest.emotion = v as Emotion;
+        else if (EMOTION_ALIASES[v]) dest.emotion = EMOTION_ALIASES[v];
       } else if (k === 'attitude' && (ATTITUDES as readonly string[]).includes(v)) {
         dest.attitude = v as Attitude;
       } else if (k === 'undress' || k === 'nsfw') {
