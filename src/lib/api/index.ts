@@ -407,6 +407,10 @@ export function setModelMeta(m: ModelEntry | null): void {
   _modelMeta = m || null;
 }
 
+export function getModelMeta(): ModelEntry | null {
+  return _modelMeta;
+}
+
 export function resolvedContext(): number {
   return resolveContextFromThinking(config.get('llm'), _modelMeta);
 }
@@ -415,76 +419,13 @@ export function replyLang(): string {
   return Langs.llm() || 'ja';
 }
 
-export interface TranslateOptions {
-  text: string;
-  toLang?: string;
-  /** Emotion of the line; used to hint inline TTS emotion markers when supported */
-  emotion?: string;
-}
+import { translate, translator, TranslationService, type TranslateOptions } from './translator';
 
-/* Emotion context for the translator system prompt — works for every
-   provider, unlike buildTextEmotionHint (inline-cue engines only). */
-function translatorEmotionSection(emotion?: string, toLang?: string): string {
-  const norm = normalizeEmotion(emotion);
-  if (!emotion || norm === 'neutral') return '';
-  const directive = getEmotionPrompt(norm, toLang || 'en');
-  const feel = directive ? ` — deliver the line ${directive}` : '';
-  return ` She is currently feeling "${norm}"${feel}. Keep this feeling in the translation.`;
-}
+export { translate, translator, TranslationService, type TranslateOptions };
 
-export async function translate(opts: TranslateOptions): Promise<string> {
-  const { text, toLang, emotion } = opts;
-  if (!text || !toLang || toLang === replyLang()) {
-    return text;
-  }
-  const llm = config.get('llm');
-  if (!llm.apiKey) return text;
+import { streamChat, type StreamChatOptions } from './streaming';
 
-  // Resolve the downstream TTS engine so the translator knows whether to
-  // inline an emotion marker (Higgs/OmniVoice/Fish S2/Irodori).
-  let hint = null;
-  try {
-    const tts = config.get('tts');
-    const cred = Providers.credentials(tts);
-    const model =
-      cred.id === 'openai' && String(tts.mode || '') === 'clone' && tts.modelClone
-        ? tts.modelClone
-        : cred.model;
-    hint = buildTextEmotionHint({ emotion, provider: cred.id, model });
-  } catch {
-    hint = null;
-  }
-
-  const hintBlock = hint ? `\n\n${hint.promptSection}` : '';
-  const emotionBlock = translatorEmotionSection(emotion, toLang);
-  const actionBlock =
-    ' Lines may contain stage directions wrapped in *asterisks*; they are actions, not speech — never include them in the translation.';
-
-  try {
-    const j = await request(
-      localProxy(upstreamUrl(llm.baseUrl, '/chat/completions')),
-      {
-        model: llm.model,
-        messages: [
-          {
-            role: 'system',
-            content: `You are a translator for a Japanese anime game character (Ryza, cheerful young alchemist). Translate her line into ${Langs.name(toLang)}, keeping the playful spoken tone, first-person feel and emotion.${emotionBlock}${actionBlock} Output ONLY the translated line — no quotes, notes, linebreaks, or tags.${hintBlock}`,
-          },
-          { role: 'user', content: text },
-        ],
-        temperature: 0.3,
-        max_tokens: Math.max(80, llm.maxTokens || 400),
-      },
-      llm.apiKey,
-      60000
-    );
-    const c = choiceText(j);
-    const translated = (c && String(c).trim()) || text;
-    return applyTextEmotionHint(translated, hint);
-  } catch {
-    return text;
-  }
-}
+export { streamChat, type StreamChatOptions };
 
 export async function transcribe(blob: Blob, opts?: { lang?: string; timeout?: number }): Promise<string> {
   const cred = Providers.sttCredentials(config.get('stt'));
@@ -1196,6 +1137,7 @@ export const Api = {
   translate,
   transcribe,
   chat,
+  streamChat,
   complete,
   listModels,
   listQwenTtsModels,

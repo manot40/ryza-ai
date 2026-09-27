@@ -1,7 +1,7 @@
 <script lang="ts">
   import { config } from '$lib/stores/config.svelte';
   import { toast } from '$lib/stores/toast.svelte';
-  import { talkLoop } from '$lib/talk-loop.svelte';
+  import { voicePlayer } from '$lib/audio/voice-player.svelte';
   import { speak, listQwenTtsModels, qwenCloneVoice, fishCloneVoice, QWEN_TTS_VOICES } from '$lib/api';
   import { Input } from '$components/ui/input';
   import { Button } from '$components/ui/button';
@@ -97,7 +97,7 @@
         toast.show('TTS is disabled or produced no audio');
         return;
       }
-      talkLoop.playUrl(audioUrl);
+      voicePlayer.playUrl(audioUrl);
       toast.show('Voice synthesis test succeeded!');
     } catch (e: unknown) {
       toast.err(`TTS Test Failed: ${(e as Error)?.message || 'Unknown error'}`);

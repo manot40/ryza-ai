@@ -4,7 +4,7 @@
   import { config } from '$lib/stores/config.svelte';
   import { game } from '$lib/stores/game.svelte';
   import { overlayStore } from '$lib/stores/overlay.svelte';
-  import { talkLoop } from '$lib/talk-loop.svelte';
+  import { stageNav } from '$lib/stores/stage-nav.svelte';
   import { toast } from '$lib/stores/toast.svelte';
 
   import Header from './Header.svelte';
@@ -48,7 +48,7 @@
       toast.err('No ship, no leaving Kurken Island (finish Main Quest 8)');
       return;
     }
-    talkLoop.gotoStage(stageId);
+    stageNav.gotoStage(stageId);
     onClose?.();
   }
 </script>

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { session, type HistoryEntry } from '$lib/stores/session.svelte';
-  import { talkLoop } from '$lib/talk-loop.svelte';
+  import { voicePlayer } from '$lib/audio/voice-player.svelte';
   import { VoiceCache, isFav } from '$lib/audio/voicecache';
   import { confirmDialog } from '$lib/stores/confirm.svelte';
   import { toast } from '$lib/stores/toast.svelte';
@@ -38,17 +38,17 @@
 
   function isCurrentlyPlaying(voiceKey?: string): boolean {
     if (!voiceKey) return false;
-    return talkLoop.speaking && talkLoop.lastVoiceKey === voiceKey;
+    return voicePlayer.speaking && voicePlayer.lastVoiceKey === voiceKey;
   }
 
   async function handleTogglePlay(voiceKey?: string) {
     if (!voiceKey) return;
     if (isCurrentlyPlaying(voiceKey)) {
-      talkLoop.interrupt();
+      voicePlayer.stop();
       playingKey = null;
     } else {
       playingKey = voiceKey;
-      await talkLoop.playVoiceKey(voiceKey);
+      await voicePlayer.playVoiceKey(voiceKey);
     }
   }
 

@@ -24,10 +24,10 @@ export const DEFAULTS: Settings = {
   /* ---- LLM (OpenAI-compatible) ---- */
   llm: {
     baseUrl: '',
-    model: 'gpt-4o-mini',
+    model: 'openai/gpt-6-luna',
     apiKey: '',
     temperature: 0.9,
-    maxTokens: 400,
+    maxTokens: 600,
     historyTurns: 12,
     contextWindow: 0,
     thinking: 'auto',

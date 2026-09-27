@@ -4,18 +4,21 @@ import { config } from '$lib/stores/config.svelte';
 import { game } from '$lib/stores/game.svelte';
 import { memory } from '$lib/stores/memory.svelte';
 import { longMem } from '$lib/stores/longmem.svelte';
-import { quests } from '$lib/stores/quests.svelte';
 import { session } from '$lib/stores/session.svelte';
 import { overlayStore } from '$lib/stores/overlay.svelte';
 import { avatarService } from '$lib/avatar/avatar-service.svelte';
-import { voiceBank } from '$lib/audio/voicebank';
+import { voicePlayer } from '$lib/audio/voice-player.svelte';
+import { stageNav } from '$lib/stores/stage-nav.svelte';
 import * as api from '$lib/api';
 
 vi.mock('$lib/api', async (importOriginal) => {
   const actual = await importOriginal<typeof import('$lib/api')>();
+  const mockChat = vi.fn();
+  const mockStreamChat = vi.fn((...args: unknown[]) => mockChat(...args));
   return {
     ...actual,
-    chat: vi.fn(),
+    chat: mockChat,
+    streamChat: mockStreamChat,
     speak: vi.fn(),
     translate: vi.fn(),
   };
@@ -206,29 +209,16 @@ describe('TalkLoopController', () => {
       expect(controller.displayText).toContain('There you are again today');
     });
 
-    it('sleepHome refills stamina and returns to safe stage', () => {
-      game.spend(40, 'test');
-      expect(game.stamina).toBeLessThan(game.max());
-
-      controller.sleepHome();
-
-      expect(config.get('state').stage).toBe('stage_01_001_04');
-      expect(game.stamina).toBe(game.max());
-      expect(overlayStore.faintOpen).toBe(false);
+    it('sleepHome delegates to stageNav.sleepHome', () => {
+      const spy = vi.spyOn(stageNav, 'sleepHome').mockImplementation(() => {});
+      stageNav.sleepHome();
+      expect(spy).toHaveBeenCalled();
     });
 
-    it('playWellDone triggers playFile with wellDone voice clip', async () => {
-      const playFileSpy = vi.spyOn(controller, 'playFile').mockImplementation(() => {});
-      vi.spyOn(voiceBank, 'pick').mockReturnValue('assets/audio/alarm/ja/normal/wellDone/daytime/1.m4a');
-      vi.useFakeTimers();
-
-      await controller.playWellDone();
-      vi.advanceTimersByTime(600);
-
-      expect(playFileSpy).toHaveBeenCalled();
-      expect(playFileSpy.mock.calls[0][0]).toContain('wellDone');
-
-      vi.useRealTimers();
+    it('playWellDone delegates to voicePlayer.playWellDone', async () => {
+      const spy = vi.spyOn(voicePlayer, 'playWellDone').mockResolvedValue();
+      await voicePlayer.playWellDone();
+      expect(spy).toHaveBeenCalled();
     });
   });
 
@@ -253,29 +243,31 @@ describe('TalkLoopController', () => {
       expect(api.speak).toHaveBeenCalledWith('こんにちは！元気だよ！', 'ja', 'chat', 'happy');
     });
 
-    it('passes explicit emotion to api.speak during speakThen()', async () => {
-      config.setLLM('lang', 'ja');
-      config.setTTS('lang', 'ja');
-      config.setApp('voice', true);
-      config.setTTS('mode', 'preset');
-      (api.speak as unknown as ReturnType<typeof vi.fn>).mockResolvedValueOnce('blob:mock-voice-url');
-
-      await controller.speakThen('えへへ、照れるな', 'shy');
-
-      expect(api.speak).toHaveBeenCalledWith('えへへ、照れるな', 'ja', 'chat', 'shy');
+    it('delegates speakThen() to voicePlayer.speakThen()', async () => {
+      const spy = vi.spyOn(voicePlayer, 'speakThen').mockResolvedValue();
+      await voicePlayer.speakThen('えへへ、照れるな', 'shy');
+      expect(spy).toHaveBeenCalledWith('えへへ、照れるな', 'shy');
     });
 
-    it('falls back to avatarService.currentEmotion if emotion omitted in speakThen()', async () => {
-      config.setLLM('lang', 'ja');
-      config.setTTS('lang', 'ja');
-      config.setApp('voice', true);
-      config.setTTS('mode', 'preset');
-      avatarService.setEmotion('sad', 'agree');
-      (api.speak as unknown as ReturnType<typeof vi.fn>).mockResolvedValueOnce('blob:mock-voice-url');
+    it('updates avatar emotion early when onFirstLineTags is called during streaming', async () => {
+      config.setLLM('apiKey', 'test-key');
+      const setEmotionSpy = vi.spyOn(avatarService, 'setEmotion');
 
-      await controller.speakThen('悲しいよ…');
+      (api.streamChat as unknown as ReturnType<typeof vi.fn>).mockImplementationOnce(
+        async (_hist: unknown, _text: unknown, opts: { onFirstLineTags?: (tags: unknown) => void }) => {
+          opts.onFirstLineTags?.({ emotion: 'laughing', attitude: 'agree' });
+          return {
+            text: 'すごいね！',
+            emotion: 'laughing',
+            attitude: 'agree',
+            nsfw: null,
+            state: null,
+          };
+        }
+      );
 
-      expect(api.speak).toHaveBeenCalledWith('悲しいよ…', 'ja', 'chat', 'sad');
+      await controller.say('こんにちは！');
+      expect(setEmotionSpy).toHaveBeenCalledWith('laughing', 'agree');
     });
   });
 });

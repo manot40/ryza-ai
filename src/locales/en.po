@@ -1780,12 +1780,12 @@ msgstr "Daily login bonus is available!"
 #: src/components/views/WorldView.svelte
 #: src/components/views/WorldView.svelte
 #: src/lib/i18n/game-content.svelte.ts
-#: src/lib/talk-loop.svelte.ts
+#: src/lib/stores/stage-nav.svelte.ts
 msgid "No ship, no leaving Kurken Island (finish Main Quest 8)"
 msgstr "No ship, no leaving Kurken Island (finish Main Quest 8)"
 
 #: src/lib/i18n/game-content.svelte.ts
-#: src/lib/talk-loop.svelte.ts
+#: src/lib/stores/stage-nav.svelte.ts
 msgid "You sailed! The world map is open"
 msgstr "You sailed! The world map is open"
 
@@ -1809,13 +1809,13 @@ msgstr "Network error: {0}"
 #. 0: place
 #. 0: label
 #: src/lib/i18n/game-content.svelte.ts
-#: src/lib/talk-loop.svelte.ts
+#: src/lib/stores/stage-nav.svelte.ts
 msgid "Travel: {0}"
 msgstr "Travel: {0}"
 
 #: src/lib/i18n/game-content.svelte.ts
 #: src/lib/stores/session.svelte.ts
-#: src/lib/talk-loop.svelte.ts
+#: src/lib/stores/stage-nav.svelte.ts
 msgid "Rested safely at home — stamina fully restored!"
 msgstr "Rested safely at home — stamina fully restored!"
 
@@ -2641,21 +2641,21 @@ msgctxt "welcome_toast"
 msgid "Step completed! Claimed {0} Gold & {1} EXP!"
 msgstr "Step completed! Claimed {0} Gold & {1} EXP!"
 
-#: src/lib/talk-loop.svelte.ts
+#: src/lib/audio/voice-player.svelte.ts
 msgid "No voice to replay"
 msgstr "No voice to replay"
 
-#: src/lib/talk-loop.svelte.ts
+#: src/lib/audio/voice-player.svelte.ts
 msgid "No voice to favorite"
 msgstr "No voice to favorite"
 
 #: src/components/views/HistoryView.svelte
-#: src/lib/talk-loop.svelte.ts
+#: src/lib/audio/voice-player.svelte.ts
 msgid "Added to favorites ★"
 msgstr "Added to favorites ★"
 
 #: src/components/views/HistoryView.svelte
-#: src/lib/talk-loop.svelte.ts
+#: src/lib/audio/voice-player.svelte.ts
 msgid "Removed from favorites"
 msgstr "Removed from favorites"
 
@@ -3105,7 +3105,7 @@ msgstr "Chat history cleared"
 msgid "Clear chat memory"
 msgstr "Clear chat memory"
 
-#: src/lib/talk-loop.svelte.ts
+#: src/lib/audio/voice-player.svelte.ts
 msgid "Voice clip no longer in cache"
 msgstr "Voice clip no longer in cache"
 

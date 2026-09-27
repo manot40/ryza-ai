@@ -6,6 +6,7 @@
   import { viewStore } from '$lib/stores/view.svelte';
   import { overlayStore } from '$lib/stores/overlay.svelte';
   import { talkLoop } from '$lib/talk-loop.svelte';
+  import { voicePlayer } from '$lib/audio/voice-player.svelte';
   import { avatarService } from '$lib/avatar/avatar-service.svelte';
   import { voiceInput } from '$lib/audio/voice-input.svelte';
 
@@ -205,7 +206,7 @@
           variant="outline"
           size="icon"
           class="size-9 rounded-full bg-card/70 backdrop-blur-md border-border/50 shadow-md hover:bg-card/90"
-          onclick={() => talkLoop.replayLastVoice()}
+          onclick={() => voicePlayer.replayLastVoice()}
           title="Replay Voice">
           <PlayIcon class="size-4 text-foreground/80 fill-current" />
         </Button>
@@ -213,10 +214,10 @@
           variant="outline"
           size="icon"
           class="size-9 rounded-full bg-card/70 backdrop-blur-md border-border/50 shadow-md hover:bg-card/90"
-          onclick={() => talkLoop.favLastVoice()}
+          onclick={() => voicePlayer.favLastVoice()}
           title="Favorite Voice">
           <StarIcon
-            class="size-4 {talkLoop.isLastVoiceFav() ? 'text-gold fill-gold' : 'text-foreground/80'}" />
+            class="size-4 {voicePlayer.isLastVoiceFav() ? 'text-gold fill-gold' : 'text-foreground/80'}" />
         </Button>
       </div>
 

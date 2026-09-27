@@ -1780,12 +1780,12 @@ msgstr "デイリーログインボーナスが届いています！"
 #: src/components/views/WorldView.svelte
 #: src/components/views/WorldView.svelte
 #: src/lib/i18n/game-content.svelte.ts
-#: src/lib/talk-loop.svelte.ts
+#: src/lib/stores/stage-nav.svelte.ts
 msgid "No ship, no leaving Kurken Island (finish Main Quest 8)"
 msgstr "船がないとクーケン島の外へは出られない（メイン8をクリア！）"
 
 #: src/lib/i18n/game-content.svelte.ts
-#: src/lib/talk-loop.svelte.ts
+#: src/lib/stores/stage-nav.svelte.ts
 msgid "You sailed! The world map is open"
 msgstr "出航成功！世界の扉が開いたよ"
 
@@ -1809,13 +1809,13 @@ msgstr "通信エラー: {0}"
 #. 0: place
 #. 0: label
 #: src/lib/i18n/game-content.svelte.ts
-#: src/lib/talk-loop.svelte.ts
+#: src/lib/stores/stage-nav.svelte.ts
 msgid "Travel: {0}"
 msgstr "移動：{0}"
 
 #: src/lib/i18n/game-content.svelte.ts
 #: src/lib/stores/session.svelte.ts
-#: src/lib/talk-loop.svelte.ts
+#: src/lib/stores/stage-nav.svelte.ts
 msgid "Rested safely at home — stamina fully restored!"
 msgstr "安全なおうちで眠って、元気が満タンになった！"
 
@@ -2641,21 +2641,21 @@ msgctxt "welcome_toast"
 msgid "Step completed! Claimed {0} Gold & {1} EXP!"
 msgstr "ステップ達成！{0}Gと{1}EXPを獲得しました！"
 
-#: src/lib/talk-loop.svelte.ts
+#: src/lib/audio/voice-player.svelte.ts
 msgid "No voice to replay"
 msgstr "再生する音声がありません"
 
-#: src/lib/talk-loop.svelte.ts
+#: src/lib/audio/voice-player.svelte.ts
 msgid "No voice to favorite"
 msgstr "お気に入り登録できる音声がありません"
 
 #: src/components/views/HistoryView.svelte
-#: src/lib/talk-loop.svelte.ts
+#: src/lib/audio/voice-player.svelte.ts
 msgid "Added to favorites ★"
 msgstr "お気に入りに追加しました ★"
 
 #: src/components/views/HistoryView.svelte
-#: src/lib/talk-loop.svelte.ts
+#: src/lib/audio/voice-player.svelte.ts
 msgid "Removed from favorites"
 msgstr "お気に入りから解除しました"
 
@@ -3105,7 +3105,7 @@ msgstr "チャット履歴を削除しました"
 msgid "Clear chat memory"
 msgstr "チャットメモリーを削除"
 
-#: src/lib/talk-loop.svelte.ts
+#: src/lib/audio/voice-player.svelte.ts
 msgid "Voice clip no longer in cache"
 msgstr "音声クリップがキャッシュに見つかりません"
 

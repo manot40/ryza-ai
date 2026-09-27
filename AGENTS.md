@@ -48,9 +48,10 @@ src/
 │   │   ├── overlay.svelte.ts   # Sheet and modal overlay visibility store
 │   │   ├── toast.svelte.ts     # Reactive toast notifications with highest z-index
 │   │   ├── confirm.svelte.ts   # Global Promise-based confirmation dialog store (shadcn AlertDialog)
+│   │   ├── stage-nav.svelte.ts # World stage travel, home resting, sailing, scene delta application
 │   │   └── nsfw.svelte.ts      # Spine atlas variant manager (nsfw vs default)
-│   ├── api/                    # LLM + TTS transport, SSE streaming parser, system prompt builder
-│   ├── audio/                  # SoundManager (BGM/ambient/SFX), VoiceBankService (alarm/quest voice lines)
+│   ├── api/                    # LLM + TTS transport, prompt-context, translator (LRU), streaming (SSE)
+│   ├── audio/                  # SoundManager, VoiceBankService, VoicePlayer (speech prep/playback/analyser)
 │   ├── i18n/                   # Wuchale runtime loaders, game-content localization tables, Langs
 │   ├── fx/                     # Confetti particle generator, voice-toggle animation
 │   └── talk-loop.svelte.ts     # Conversation coordinator: user send → LLM SSE → state delta → TTS → lipsync
@@ -246,6 +247,56 @@ The SvelteKit implementation diverges from legacy `web/js/` in several key archi
 - **Save Slots (`SaveSlotSnapshot`)**:
   - `snap.memory`: Stores `MemorySnapshot` (working conversation cards).
   - `snap.longmem`: Stores `LongMemSnapshot` (episodic facts & digest).
+
+### Talk-Loop Modularization & Audio Concurrency
+
+- **Monolith Decomposition (`talk-loop.svelte.ts`)**:
+  - Reduced `TalkLoopController` from ~800 lines to ~320 lines by separating voice output and world navigation into standalone stores.
+  - Core responsibility strictly coordinates turn lifecycle: user input guardrails, SSE streaming coordination, delta application, memory ingestion, and typewriter dialogue display.
+- **Voice Playback & Speech Management (`voice-player.svelte.ts`)**:
+  - Global singleton `voicePlayer` (`$lib/audio/voice-player.svelte`) encapsulates HTMLAudioElement lifecycle, Web Audio graph (`createAnalyserGraph` from `analyser.ts` avoiding browser context limit exhaustion), speech synthesis queueing, blob URL lifecycle, favorite bookmarking, and voiced wake-up/quest-clear clips.
+  - Exposes canonical `speakThen(text, emotion)` for direct speech triggering with audio effects.
+- **World & Scene Navigation (`stage-nav.svelte.ts`)**:
+  - Global singleton `stageNav` (`$lib/stores/stage-nav.svelte`) encapsulates stage travel, island departure restrictions (`game.sailed`), safe home resting (`sleepHome`), and scene delta transitions (`stage`, `sleep`, `tod`).
+- **Audio-Typewriter Concurrency**:
+  - Speech synthesis begins immediately upon text receipt.
+  - Audio playback starts as soon as synthesized audio is ready without waiting for the typewriter to finish rendering the text. Voice playback, lipsync, and typewriter run concurrently.
+  - Other NPC dialogue beats sequence strictly after Ryza's speech concludes.
+- **Deprecation of TalkLoop Delegation Wrappers**:
+  - Legacy delegation wrappers on `TalkLoopController` (`gotoStage`, `sleepHome`, `onSailed`, `showFaint`, `playUrl`, `playFile`, `playWellDone`, `replayLastVoice`, `favLastVoice`, `isLastVoiceFav`, `playVoiceKey`, `pauseVoice`, `buzz`, `speakThen`, `speaking`, `lastVoiceKey`, `lastVoiceUrl`) are explicitly marked `@deprecated`.
+  - All views, overlays, sheets, and components invoke `stageNav` and `voicePlayer` directly.
+
+### Prompt Compilation & RPG Context Scoping
+
+- **Pure Prompt Compiler (`prompt-context.ts`)**:
+  - Decoupled prompt text generation from UI and state stores (`buildTurnPromptPackage`, `buildScopedStageBlock`, `buildRpgContext`, `buildClockBlock`, `getScreenTagState`).
+- **Scoped Stage Listings (~75% Token Reduction)**:
+  - Upstream dumped all 120 stages with multilingual names across all 5 world areas on every turn.
+  - `buildScopedStageBlock()` scopes stage listings strictly to the current area (`here.areaId`) + home room (`HOME_STAGE`), significantly reducing token consumption and KV-cache pressure.
+- **Constrained `<state>` Schema & Item Catalog Safeguards**:
+  - Injected bounded stamina deltas (-1 to -3 for normal activity, -5 to -10 for combat) and the 15 valid item catalog IDs from `game-items.ts` (`emeralia`, `uni`, `wasser`, `honey`, `shell`, `ore`, etc.) into the `<state>` schema instruction, eliminating LLM hallucinations of non-existent item IDs.
+
+### Translation Service & In-Memory LRU Cache
+
+- **Translation Module (`translator.ts`)**:
+  - Extracted translation from `index.ts` into a self-contained `TranslationService` (`translator`, `translate`).
+  - In-memory 128-entry LRU cache (`Map<string, string>`) indexed by `${text.trim()}|${toLang}|${emotion}` to eliminate duplicate network calls on repeated phrases.
+  - **Dynamic Token Allocation**: Output quota set to `Math.max(400, Math.floor((Number(llm.maxTokens) || 0) / 2))` (at least half of the main LLM quota with a minimum floor of 400), preventing `max_output_tokens` truncation and comfortably accommodating reasoning/thinking models.
+  - Self-contained HTTP transport with 20s timeout and automatic fallback to original text.
+  - Direct import: consumers import `translate` directly from `$lib/api/translator`.
+
+### Reactive SSE Streaming & Sub-300ms Emotional Reactivity
+
+- **Token Streaming (`streaming.ts`)**:
+  - Implemented `streamChat` with `stream: true` sending SSE requests to the proxy endpoint.
+  - **Line-1 Screen Tag Extraction**: When the first newline `\n` is encountered, tags (`[emotion:... attitude:...]`) are parsed immediately via `onFirstLineTags`, triggering facial expressions and postures on the avatar within ~300ms—well before complete sentence generation.
+  - Robust fallback: automatically falls back to standard non-streaming `chat()` if SSE fails or the endpoint lacks streaming support.
+
+### TypeScript Visibility & Naming Standards
+
+- **Strict Modern TypeScript Conventions**:
+  - Legacy leading underscore prefixes (`_epoch`, `_cache`, `_turnAbort`, `_cacheKey`, `_setCache`) inherited from vanilla JS have been eliminated.
+  - Internal members use proper language-level `private` with clean camelCase identifiers.
 
 ---
 

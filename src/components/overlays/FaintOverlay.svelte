@@ -2,7 +2,7 @@
   import { Button } from '$components/ui/button';
   import { overlayStore } from '$lib/stores/overlay.svelte';
   import { game } from '$lib/stores/game.svelte';
-  import { talkLoop } from '$lib/talk-loop.svelte';
+  import { stageNav } from '$lib/stores/stage-nav.svelte';
 
   const isCheat = $derived(game.cheat());
 
@@ -16,7 +16,7 @@
   }
 
   function handleSleepHome() {
-    talkLoop.sleepHome();
+    stageNav.sleepHome();
   }
 </script>
 

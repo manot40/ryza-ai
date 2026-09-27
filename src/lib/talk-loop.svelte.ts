@@ -1,73 +1,49 @@
-import { config, type StateConfig } from '$lib/stores/config.svelte';
+import { config } from '$lib/stores/config.svelte';
 import { game } from '$lib/stores/game.svelte';
 import { memory } from '$lib/stores/memory.svelte';
 import { longMem } from '$lib/stores/longmem.svelte';
 import { quests } from '$lib/stores/quests.svelte';
 import { welcome } from '$lib/stores/welcome.svelte';
-import { world } from '$lib/stores/world.svelte';
 import { nsfw } from '$lib/stores/nsfw.svelte';
-import { session, HOME_STAGE } from '$lib/stores/session.svelte';
-import { overlayStore } from '$lib/stores/overlay.svelte';
+import { session } from '$lib/stores/session.svelte';
 import { viewStore } from '$lib/stores/view.svelte';
 import { toast } from '$lib/stores/toast.svelte';
 import { avatarService } from '$lib/avatar/avatar-service.svelte';
-import { sound } from '$lib/audio/sound';
-import { voiceBank } from '$lib/audio/voicebank';
-import { alarm, todForHour } from '$lib/stores/alarm.svelte';
+import { voicePlayer } from '$lib/audio/voice-player.svelte';
+import { stageNav } from '$lib/stores/stage-nav.svelte';
 import { Langs } from '$lib/i18n/langs';
 import { getGreeting, getFailBubble, type FailKind } from '$lib/i18n/game-content.svelte';
 import { voiceInput } from '$lib/audio/voice-input.svelte';
-import {
-  chat as apiChat,
-  speak as apiSpeak,
-  translate as apiTranslate,
-  formatHistoryReply,
-  screenTagLine,
-  type ScreenTagState,
-  MODE_PLAY_FX,
-} from '$lib/api';
+import { streamChat as apiChat, formatHistoryReply, screenTagLine, MODE_PLAY_FX } from '$lib/api';
 import {
   splitDialogue,
   spokenText,
   translationText,
   labelForBeat,
-  npcPromptBlock,
   stripCues,
-  stripActions,
   type DialogueBeat,
 } from '$lib/api/npc-dialogue';
-import { VoiceCache, isFav, toggleFav } from '$lib/audio/voicecache';
+import { buildTurnPromptPackage, getScreenTagState } from '$lib/api/prompt-context';
 import { TypewriterController } from '$lib/typewriter';
-
-const RPG_MODES: Record<string, number> = { chat: 1, story: 1, immersive: 1 };
 
 const tlApiKeyMissing = 'API key is not configured';
 const tlNoStamina = 'Not enough stamina…!';
 const tlNetworkError = (em: string) => `Network error: ${em}`;
-const tlNoShip = 'No ship, no leaving Kurken Island (finish Main Quest 8)';
-const tlTravel = (label: string) => `Travel: ${label}`;
-const tlRestSafely = 'Rested safely at home — stamina fully restored!';
-const tlYouSailed = 'You sailed! The world map is open';
 const tlAuthFailed = 'LLM Authentication failed (check API Key)';
 const tlModelNotSupported = 'LLM Model not supported (check model name in Settings)';
 const tlTimeout = 'Timed out: endpoint never answered (check base URL & model name)';
 const tlNetError = 'Could not reach base URL (check address & CORS)';
-const tlNoVoiceToReplay = 'No voice to replay';
-const tlVoiceNotInCache = 'Voice clip no longer in cache';
-const tlNoVoiceToFav = 'No voice to favorite';
-const tlFavAdded = 'Added to favorites ★';
-const tlFavRemoved = 'Removed from favorites';
+
 // prettier-ignore
 const ErrorMessages = {
-  get nokey() { return tlApiKeyMissing },
   get auth() { return tlAuthFailed },
   get model() { return tlModelNotSupported },
-  get timeout() { return tlTimeout },
   get net() { return tlNetError },
+  get nokey() { return tlApiKeyMissing },
+  get timeout() { return tlTimeout },
 } as Record<FailKind, string>;
 
 export class TalkLoopController {
-  speaking = $state(false);
   isThinking = $state(false);
   displayText = $state('');
   recentPages = $state<string[]>([]);
@@ -77,15 +53,9 @@ export class TalkLoopController {
   currentSpeaker = $state('');
   translationDisplay = $state('');
   currentBeats = $state<DialogueBeat[]>([]);
-  lastVoiceKey = $state('');
-  lastVoiceUrl = $state('');
 
-  audio: HTMLAudioElement | null = null;
-  private _voiceCtx: AudioContext | null = null;
-  private _voiceAnalyser: AnalyserNode | null = null;
-  private _activeVoiceUrl: string | null = null;
-  private _epoch = 0;
-
+  private epoch = 0;
+  private turnAbort: AbortController | null = null;
   typewriter: TypewriterController;
 
   constructor() {
@@ -99,208 +69,12 @@ export class TalkLoopController {
       },
     });
 
-    if (typeof window !== 'undefined' && typeof Audio !== 'undefined') {
-      this.audio = new Audio();
-      this.audio.preload = 'auto';
-      this.audio.crossOrigin = 'anonymous';
-    }
-
-    voiceInput.setSpeaker(() => this.speaking);
+    voiceInput.setSpeaker(() => voicePlayer.speaking || this.isThinking);
     voiceInput.setInterrupt(() => this.interrupt());
-    voiceInput.setSink((transcript) => {
-      this.say(transcript);
-    });
+    voiceInput.setSink((transcript) => this.say(transcript));
   }
 
-  /* --------------------------------------------------- Audio & Lip-sync */
-  private _ensureVoiceGraph(): void {
-    if (this._voiceAnalyser || !this.audio || typeof window === 'undefined') return;
-    const AC =
-      window.AudioContext ||
-      (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
-    if (!AC) return;
-
-    try {
-      this._voiceCtx = new AC();
-      const src = this._voiceCtx.createMediaElementSource(this.audio);
-      const an = this._voiceCtx.createAnalyser();
-      an.fftSize = 512;
-      src.connect(an);
-      an.connect(this._voiceCtx.destination);
-      this._voiceAnalyser = an;
-      avatarService.setAudioAnalyser(an);
-    } catch {}
-  }
-
-  buzz(ms: number | number[] = 18): void {
-    if (!config.get('app')?.vibration) return;
-    if (typeof navigator !== 'undefined' && navigator.vibrate) {
-      try {
-        navigator.vibrate(ms);
-      } catch {}
-    }
-  }
-
-  /* --------------------------------------------------- Prompt Contexts */
-  private peopleBlock(st: StateConfig): string {
-    if (!world.npcs) return '';
-    // @wc-ignore
-    const lines = ['## この世界の人々（ライザ以外）'];
-    const stageId = String(st.stage || HOME_STAGE);
-    const day = Number(st.day) || 1;
-    const here = world.npcsAt(stageId, day);
-
-    // prettier-ignore
-    // @wc-ignore
-    lines.push('- いま同じ場所にいる人：' + (here.length ? here.map((n) => world.npcName(n.id) + (n.note ? `（${n.note}）` : '')).join('、') : 'いない'));
-
-    const known: Record<string, { id: string; note?: string }> = {};
-    (world.npcs.npcs || []).forEach((n) => {
-      known[n.id] = n;
-    });
-
-    const metCharas = game.met_charas || [];
-    const met = metCharas
-      .map((id: string) => known[id])
-      .filter((n): n is { id: string; note?: string } => Boolean(n))
-      .slice(0, 16);
-
-    if (met.length) {
-      // prettier-ignore
-      // @wc-ignore
-      lines.push('- これまでに会った人：' + met.map((n) => world.npcName(n.id) + (n.note ? `（${n.note}）` : '')).join('、'));
-    }
-
-    const app = config.get('app');
-    const npcBlock = npcPromptBlock(
-      { stage: stageId, day },
-      {
-        npcFrequency: app.npcFrequency,
-        translate: Langs.reply() !== Langs.ui(),
-      }
-    );
-    if (npcBlock) {
-      lines.push('', npcBlock);
-    }
-    return lines.join('\n');
-  }
-
-  private clockBlock(st: StateConfig): string {
-    const app = config.get('app');
-    const mode = app.timeMode || 'real';
-    const hour =
-      mode === 'flow'
-        ? Math.floor(Number(st.gameHour) || 12)
-        : mode === 'manual'
-          ? world.todStartHour(String(st.tod || 'aft'))
-          : new Date().getHours();
-
-    // @wc-ignore
-    return `## 現在時刻\n- 同伴 ${st.day || 1}日目／${world.todLabel(String(st.tod || 'aft'))}（約${hour}時）`;
-  }
-
-  private sceneContext(): string {
-    const st = config.get('state');
-    const parts = [world.promptBlock(st), this.peopleBlock(st), this.clockBlock(st)];
-    return parts.filter(Boolean).join('\n\n');
-  }
-
-  /* What is on screen right now — feeds the "copy this line" cue, the system
-     tag line, and the history reply so emotion/undress/stage never decay. */
-  private screenTagState(): ScreenTagState {
-    const st = config.get('state');
-    return {
-      emotion: avatarService.currentEmotion,
-      attitude: avatarService.currentAttitude,
-      nsfw: nsfw.active(),
-      stage: String(st.stage || HOME_STAGE),
-      tod: String(st.tod || 'aft'),
-      llmDrivesClock: world.llmDrivesClock(),
-    };
-  }
-
-  private rpgContext(): string {
-    const st = config.get('state');
-    const mode = String(st.mode || 'chat');
-    if (!RPG_MODES[mode]) return '';
-    return [game.promptBlock(), quests.promptBlock()].filter(Boolean).join('\n\n');
-  }
-
-  private applySceneDelta(d: Record<string, unknown>): void {
-    if (!d || typeof d !== 'object') return;
-    const scene = (d.scene && typeof d.scene === 'object' ? d.scene : {}) as Record<string, unknown>;
-
-    const sleep = d.sleep === true || d.sleep === 'true' || d.sleep === 1 || scene.sleep === true;
-    if (sleep) {
-      this.sleepHome();
-      return;
-    }
-
-    const raw = (d.current_stage || d.stage || d.map_move || scene.current_stage) as string | undefined;
-    const s = config.get('state');
-    const fromStage = String(s.stage || HOME_STAGE);
-    const fromTod = String(s.tod || 'aft');
-    let dest = fromStage;
-
-    if (raw != null && String(raw).trim()) {
-      const id = world.resolveStage(String(raw).trim());
-      if (id) {
-        const area = world.areaOf(id);
-        if (area && world.locked(area)) {
-          toast.err(tlNoShip);
-        } else {
-          dest = id;
-        }
-      }
-    }
-
-    let nextTod = fromTod;
-    if (world.llmDrivesClock()) {
-      const tod = (d.tod || d.time_bucket || scene.time_bucket) as string | undefined;
-      const gh = Number(d.game_hour != null ? d.game_hour : NaN);
-      const adv = Number(
-        d.time_advance != null ? d.time_advance : d.advance_hours != null ? d.advance_hours : NaN
-      );
-
-      let cur = Number(s.gameHour);
-      if (!(cur >= 0 && cur < 24)) cur = 12;
-      const nowMs = Date.now();
-
-      if (!isNaN(gh)) cur = ((gh % 24) + 24) % 24;
-      else if (!isNaN(adv)) cur = (((cur + adv) % 24) + 24) % 24;
-      else if (tod && world.isTod(tod) && tod !== fromTod) cur = world.todStartHour(tod);
-      else {
-        cur = world.flowHour(
-          cur,
-          Number(s.gameClockAt) || nowMs,
-          nowMs,
-          Number(config.get('app')?.flowSpeed) || 1
-        );
-      }
-
-      config.setState({
-        gameHour: cur,
-        gameClockAt: nowMs,
-      });
-      nextTod = world.hourToTod(cur);
-    }
-
-    if (fromTod === 'ngt' && nextTod === 'mor' && dest === HOME_STAGE) {
-      game.refill();
-      // @wc-ignore
-      game.remember('安全なおうちでぐっすり眠った。');
-      toast.show(tlRestSafely);
-    }
-
-    if (nextTod !== fromTod) {
-      session.setTod(nextTod);
-    }
-
-    if (dest !== fromStage) {
-      this.gotoStage(dest);
-    }
-  }
-
+  /* --------------------------------------------------- Error Mapping */
   private failKind(err: unknown): FailKind {
     const code =
       err && typeof err === 'object' && 'code' in err ? String((err as { code: unknown }).code) : '';
@@ -313,55 +87,6 @@ export class TalkLoopController {
     if (/timeout|timed out/i.test(m)) return 'timeout';
     if (/failed to fetch|networkerror|econnrefused|cors/i.test(m)) return 'net';
     return 'other';
-  }
-
-  private async prepareSpeech(text: string, emotion?: string): Promise<string | null> {
-    const st = config.get('state');
-    const app = config.get('app');
-    const tts = config.get('tts');
-
-    if (app.voice === false || st.style === 'text' || tts.mode === 'off') {
-      return null;
-    }
-
-    const replyL = Langs.llm() || 'ja';
-    const ttsL = Langs.tts() || replyL;
-
-    const targetEmotion = emotion || avatarService.currentEmotion || 'neutral';
-
-    /* Stage directions in *asterisks* are actions, not speech — never translate
-       or voice them. Strip on input so the translator doesn't burn effort on
-       them, and again on output in case it echoes them anyway. */
-    const spoken = stripActions(text);
-    let speakText = spoken;
-    if (ttsL !== replyL && apiTranslate) {
-      try {
-        speakText = stripActions(await apiTranslate({ text: spoken, toLang: ttsL, emotion: targetEmotion }));
-      } catch {}
-    }
-
-    try {
-      const url = await apiSpeak(speakText, ttsL, String(st.mode || 'chat'), targetEmotion);
-      if (url) {
-        const key = `v${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
-        try {
-          const res = await fetch(url);
-          const blob = await res.blob();
-          await VoiceCache.put(key, blob, { text: speakText });
-        } catch {}
-        this.lastVoiceKey = key;
-        this.lastVoiceUrl = url;
-
-        const lastTurn = session.history[session.history.length - 1];
-        if (lastTurn && lastTurn.role === 'assistant') {
-          lastTurn.voiceKey = key;
-          session.saveHistory();
-        }
-      }
-      return url;
-    } catch {
-      return null;
-    }
   }
 
   /* --------------------------------------------------- Talk Loop Turn */
@@ -378,38 +103,48 @@ export class TalkLoopController {
     const cost = game.turnCost(String(st.mode || 'chat'), String(st.style || 'normal'));
     if (game.faint() || !game.canAct(cost)) {
       toast.err(tlNoStamina);
-      this.showFaint();
+      stageNav.showFaint();
       return;
     }
 
-    const epoch = ++this._epoch;
-    this.pauseVoice();
+    const epoch = ++this.epoch;
+    this.turnAbort?.abort();
+    this.turnAbort = new AbortController();
+
+    voicePlayer.stop();
     this.typewriter.cancel();
 
     this.lastUserText = text;
     this.retryVisible = false;
-    this.speaking = true;
     this.isThinking = true;
     welcome.mark('talk');
 
     try {
+      const promptPkg = buildTurnPromptPackage(text);
       const keep = Math.max(0, (llm.historyTurns || 12) * 2);
       const chatHistory = memory.cfg().enabled
-        ? memory.toChatHistory(screenTagLine(this.screenTagState()))
+        ? memory.toChatHistory(promptPkg.screenTagLine)
         : session.history.slice(-keep);
 
       const reply = await apiChat(chatHistory, text, {
         mode: String(st.mode || 'chat'),
         style: String(st.style || 'normal'),
-        rpgContext: this.rpgContext(),
-        sceneSection: this.sceneContext(),
-        nsfwSection: nsfw.screenFact(),
-        memoryBlock: [memory.promptBlock(), longMem.promptBlock(text)].filter(Boolean).join('\n\n'),
+        rpgContext: promptPkg.rpgContext,
+        sceneSection: promptPkg.sceneSection,
+        nsfwSection: promptPkg.nsfwSection,
+        memoryBlock: promptPkg.memoryBlock,
         onPressure: () => memory.notifyPressure(),
-        tagState: this.screenTagState(),
+        tagState: promptPkg.tagState,
+        signal: this.turnAbort.signal,
+        onFirstLineTags: (tags) => {
+          if (this.epoch !== epoch) return;
+          if (tags.emotion || tags.attitude) {
+            avatarService.setEmotion(tags.emotion || 'smile', tags.attitude || 'agree');
+          }
+        },
       });
 
-      if (this._epoch !== epoch) return;
+      if (this.epoch !== epoch) return;
 
       this.isThinking = false;
       session.pushHistory({ role: 'user', content: text });
@@ -417,7 +152,7 @@ export class TalkLoopController {
 
       if (reply.state && typeof reply.state === 'object') {
         game.applyDelta(reply.state as Record<string, unknown>, 'llm');
-        this.applySceneDelta(reply.state as Record<string, unknown>);
+        stageNav.applySceneDelta(reply.state as Record<string, unknown>);
       }
       game.spend(cost, 'talk');
 
@@ -427,10 +162,7 @@ export class TalkLoopController {
         avatarService.setEmotion(reply.emotion || 'smile', reply.attitude || 'agree');
       }
 
-      /* After side effects so the echoed line matches the new screen — the same
-         line pattern must stay in the model's own history or every column
-         (emotion / undress / stage) decays together. */
-      const tagState = this.screenTagState();
+      const tagState = getScreenTagState();
       memory.ingest(text, reply.text, screenTagLine(tagState));
       longMem.note('assistant', reply.text);
 
@@ -458,43 +190,30 @@ export class TalkLoopController {
 
       // Pre-fetch TTS speech in the background while typewriter renders (Ryza's lines only)
       const targetEmotion = reply.emotion || avatarService.currentEmotion || 'neutral';
-      const speechPromise = mine ? this.prepareSpeech(mine, targetEmotion) : Promise.resolve(null);
+      const speechPromise = mine
+        ? voicePlayer.prepareSpeech(mine, targetEmotion, { signal: this.turnAbort.signal })
+        : Promise.resolve(null);
 
-      const showOthers = () => {
-        let i = 0;
-        const next = () => {
-          if (this._epoch !== epoch) return;
-          if (i >= others.length) return;
-          const b = others[i++];
-          const lab = labelForBeat(b, Langs.ui());
-          this.currentSpeaker = lab;
-          // @wc-ignore
-          const chunk = lab ? `${lab}：${b.text}` : b.text;
-          this.typewriter.start(chunk, () => {
-            if (i < others.length) next();
-          });
-        };
-        next();
-      };
+      // Start audio concurrently as soon as synthesized audio is ready
+      const audioPromise = speechPromise.then(async (url) => {
+        if (this.epoch !== epoch || !url) return;
+        const fx = MODE_PLAY_FX[String(st.mode || 'chat')] || null;
+        await voicePlayer.playUrl(url, fx);
+      });
 
+      // Typewriter reveals text concurrently
       if (mine) {
         this.typewriter.start(mine, async () => {
-          if (this._epoch !== epoch) return;
-          this.speaking = false;
-          try {
-            const audioUrl = await speechPromise;
-            if (this._epoch !== epoch) return;
-            if (audioUrl) {
-              const fx = MODE_PLAY_FX[String(st.mode || 'chat')] || null;
-              this.playUrl(audioUrl, fx);
+          if (this.epoch !== epoch) return;
+          if (others.length > 0) {
+            await audioPromise;
+            if (this.epoch === epoch) {
+              await this.showOtherBeats(others, epoch);
             }
-          } catch {}
-          if (others.length) {
-            showOthers();
           }
         });
-      } else if (others.length) {
-        showOthers();
+      } else if (others.length > 0) {
+        await this.showOtherBeats(others, epoch);
       }
 
       // Advance talk quest if not reported in state
@@ -503,9 +222,8 @@ export class TalkLoopController {
         quests.progressEvent('talk');
       }
     } catch (err: unknown) {
-      if (this._epoch !== epoch) return;
+      if (this.epoch !== epoch) return;
       this.isThinking = false;
-      this.speaking = false;
       const em = (err as Error)?.message || 'UNKNOWN';
       const kind = this.failKind(err);
       if (kind !== 'nokey') this.retryVisible = true;
@@ -516,178 +234,31 @@ export class TalkLoopController {
     }
   }
 
-  async speakThen(text: string, emotion?: string): Promise<void> {
-    const targetEmotion = emotion || avatarService.currentEmotion || 'neutral';
-    const url = await this.prepareSpeech(text, targetEmotion);
-    if (!url) return;
-    const st = config.get('state');
-    const fx = MODE_PLAY_FX[String(st.mode || 'chat')] || null;
-    this.playUrl(url, fx);
-  }
-
-  async replayLastVoice(): Promise<void> {
-    if (!this.lastVoiceKey) {
-      toast.show(tlNoVoiceToReplay);
-      return;
+  private async showOtherBeats(others: DialogueBeat[], epoch: number): Promise<void> {
+    for (const b of others) {
+      if (this.epoch !== epoch) return;
+      const lab = labelForBeat(b, Langs.ui());
+      this.currentSpeaker = lab;
+      // @wc-ignore
+      const chunk = lab ? `${lab}：${b.text}` : b.text;
+      await new Promise<void>((resolve) => {
+        this.typewriter.start(chunk, () => resolve());
+      });
     }
-    const url = await VoiceCache.urlFor(this.lastVoiceKey);
-    if (!url) {
-      toast.show(tlVoiceNotInCache);
-      return;
-    }
-    this.lastVoiceUrl = url;
-    const st = config.get('state');
-    const fx = MODE_PLAY_FX[String(st.mode || 'chat')] || null;
-    this.playUrl(url, fx);
   }
 
   interrupt(): void {
-    this._epoch++;
-    this.pauseVoice();
+    this.epoch++;
+    this.turnAbort?.abort();
+    this.turnAbort = null;
+    voicePlayer.stop();
     this.typewriter.cancel();
     this.isThinking = false;
-    this.speaking = false;
     avatarService.setTalking(false);
-    voiceInput.noteAssistantSpeechEnded('user-barge-in');
   }
 
   retryLast(): void {
     if (this.lastUserText) this.say(this.lastUserText);
-  }
-
-  favLastVoice(): void {
-    if (!this.lastVoiceKey) {
-      toast.show(tlNoVoiceToFav);
-      return;
-    }
-    const isNowFav = toggleFav(this.lastVoiceKey);
-    toast.show(isNowFav ? tlFavAdded : tlFavRemoved);
-  }
-
-  isLastVoiceFav(): boolean {
-    return this.lastVoiceKey ? isFav(this.lastVoiceKey) : false;
-  }
-
-  async playVoiceKey(key: string): Promise<void> {
-    if (!key) return;
-    const url = await VoiceCache.urlFor(key);
-    if (!url) {
-      toast.show(tlVoiceNotInCache);
-      return;
-    }
-    this.lastVoiceKey = key;
-    this.lastVoiceUrl = url;
-    const st = config.get('state');
-    const fx = MODE_PLAY_FX[String(st.mode || 'chat')] || null;
-    this.playUrl(url, fx);
-  }
-
-  playUrl(url: string, fx?: { rate?: number; gain?: number } | null): void {
-    this._ensureVoiceGraph();
-    if (this._voiceCtx && this._voiceCtx.state === 'suspended') {
-      this._voiceCtx.resume().catch(() => {});
-    }
-
-    if (!this.audio) return;
-    const a = this.audio;
-
-    if (this._activeVoiceUrl && this._activeVoiceUrl !== url) {
-      try {
-        URL.revokeObjectURL(this._activeVoiceUrl);
-      } catch {}
-    }
-    this._activeVoiceUrl = url;
-
-    a.src = url;
-
-    const app = config.get('app');
-    const baseVol = Number(app.volume != null ? app.volume : 0.9);
-    a.volume = Math.max(0, Math.min(1, baseVol * (fx?.gain || 1)));
-    a.playbackRate = fx?.rate || 1;
-
-    voiceInput.noteAssistantSpeechStarted();
-
-    a.onended = () => {
-      a.playbackRate = 1;
-      avatarService.setTalking(false);
-      voiceInput.noteAssistantSpeechEnded();
-      if (this._activeVoiceUrl === url) {
-        try {
-          URL.revokeObjectURL(url);
-        } catch {}
-        this._activeVoiceUrl = null;
-      }
-    };
-
-    avatarService.setTalking(true);
-    a.play().catch(() => {
-      avatarService.setTalking(false);
-      voiceInput.noteAssistantSpeechEnded();
-    });
-    this.buzz();
-  }
-
-  playFile(path: string, vol?: number, force?: boolean): void {
-    if (!force && config.get('app')?.voice === false) return;
-    this._ensureVoiceGraph();
-    if (this._voiceCtx && this._voiceCtx.state === 'suspended') {
-      this._voiceCtx.resume().catch(() => {});
-    }
-
-    if (!this.audio && typeof Audio !== 'undefined') {
-      this.audio = new Audio();
-      this.audio.preload = 'auto';
-      this.audio.crossOrigin = 'anonymous';
-    }
-    if (!this.audio) return;
-    const a = this.audio;
-    const resolvedPath = path.startsWith('/') ? path : `/${path}`;
-    a.src = resolvedPath;
-    const base = Number(config.get('app')?.volume != null ? config.get('app')?.volume : 0.9);
-    a.volume = vol != null ? vol : base;
-
-    avatarService.setTalking(true);
-    this.speaking = true;
-    if (alarm.loadEnv) {
-      alarm.loadEnv(resolvedPath).then((env) => {
-        if (env) avatarService.setTalkingEnvelope(env);
-      });
-    }
-
-    a.onended = () => {
-      avatarService.setTalking(false);
-      this.speaking = false;
-    };
-    a.play().catch(() => {
-      avatarService.setTalking(false);
-      this.speaking = false;
-    });
-    this.buzz();
-  }
-
-  async playWellDone(): Promise<void> {
-    if (!voiceBank.index) {
-      await voiceBank.load();
-    }
-    const st = config.get('state');
-    const style = st.mode === 'asmr' ? 'whisper' : 'normal';
-    const tod = todForHour(new Date().getHours());
-    const clip = voiceBank.pick('wellDone', style, tod);
-    if (clip) {
-      setTimeout(() => {
-        this.playFile(clip);
-      }, 500);
-    }
-  }
-
-  pauseVoice(): void {
-    if (this.audio) {
-      try {
-        this.audio.pause();
-      } catch {}
-    }
-    avatarService.setTalking(false);
-    voiceInput.noteAssistantSpeechEnded();
   }
 
   /* --------------------------------------------------- Greeting & Pages */
@@ -716,80 +287,6 @@ export class TalkLoopController {
       this.activePageIdx = idx;
       this.displayText = this.recentPages[idx];
     }
-  }
-
-  gotoStage(stageId: string): void {
-    const areaId = world.areaOf(stageId);
-    if (areaId && world.locked(areaId)) {
-      toast.err(tlNoShip);
-      return;
-    }
-
-    const st = config.get('state');
-    config.setState('stage', stageId);
-    if (avatarService.shouldResetPosture()) {
-      config.setState('posture', 'posture_standing');
-    }
-
-    const tod = String(st.tod || 'aft');
-    avatarService.loadScene(stageId, tod);
-    sound.setPlace(stageId, tod, world.backgroundFor(stageId));
-    sound.setRoute('talk');
-
-    const place = world.find(stageId);
-    if (place) {
-      toast.show(tlTravel(world.placeLabel(stageId, place.stage)));
-    }
-
-    const npcs = world.npcsAt(stageId, Number(st.day) || 1);
-    const names = game.meetCharas(npcs);
-    if (names.length) {
-      // @wc-ignore
-      game.remember(names.join('、') + ' と出会った。');
-    }
-
-    quests.progressEvent('explore');
-    viewStore.setView('talk');
-  }
-
-  sleepHome(): void {
-    const st = config.get('state');
-    const fromStage = String(st.stage || HOME_STAGE);
-    let tod = String(st.tod || 'aft');
-    config.setState('stage', HOME_STAGE);
-
-    if (world.llmDrivesClock()) {
-      tod = 'mor';
-      config.setState({
-        tod: 'mor',
-        gameHour: world.todStartHour('mor'),
-        gameClockAt: Date.now(),
-      });
-    }
-
-    avatarService.loadScene(HOME_STAGE, tod);
-    sound.setPlace(HOME_STAGE, tod, world.backgroundFor(HOME_STAGE));
-    game.refill();
-    // @wc-ignore
-    game.remember('安全なおうちでぐっすり眠った。');
-    if (fromStage !== HOME_STAGE) {
-      quests.progressEvent('explore');
-    }
-    overlayStore.closeFaint();
-    viewStore.setView('talk');
-    toast.show(tlRestSafely);
-  }
-
-  onSailed(): void {
-    // @wc-ignore
-    game.remember('船でクーケン島を出航した！');
-    toast.show(tlYouSailed);
-    viewStore.setView('world');
-  }
-
-  showFaint(): void {
-    overlayStore.showFaint();
-    avatarService.setEmotion('crying', 'deny');
   }
 }
 

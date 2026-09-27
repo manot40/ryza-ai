@@ -3,7 +3,7 @@
   import Confetti from '$lib/fx/confetti.svelte';
   import { overlayStore } from '$lib/stores/overlay.svelte';
   import { quests } from '$lib/stores/quests.svelte';
-  import { talkLoop } from '$lib/talk-loop.svelte';
+  import { voicePlayer } from '$lib/audio/voice-player.svelte';
 
   const clearData = $derived(overlayStore.questClearData);
 
@@ -12,7 +12,7 @@
     if (quests.pendingAdvance()) {
       quests.takeNext();
     }
-    talkLoop.playWellDone();
+    voicePlayer.playWellDone();
   }
 </script>
 

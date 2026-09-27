@@ -1780,12 +1780,12 @@ msgstr "每日登录奖励已送达！"
 #: src/components/views/WorldView.svelte
 #: src/components/views/WorldView.svelte
 #: src/lib/i18n/game-content.svelte.ts
-#: src/lib/talk-loop.svelte.ts
+#: src/lib/stores/stage-nav.svelte.ts
 msgid "No ship, no leaving Kurken Island (finish Main Quest 8)"
 msgstr "还没有船，去不了库肯岛以外（完成主线8「造船出海」）"
 
 #: src/lib/i18n/game-content.svelte.ts
-#: src/lib/talk-loop.svelte.ts
+#: src/lib/stores/stage-nav.svelte.ts
 msgid "You sailed! The world map is open"
 msgstr "出航成功！世界地图已解锁"
 
@@ -1809,13 +1809,13 @@ msgstr "网络错误: {0}"
 #. 0: place
 #. 0: label
 #: src/lib/i18n/game-content.svelte.ts
-#: src/lib/talk-loop.svelte.ts
+#: src/lib/stores/stage-nav.svelte.ts
 msgid "Travel: {0}"
 msgstr "移动：{0}"
 
 #: src/lib/i18n/game-content.svelte.ts
 #: src/lib/stores/session.svelte.ts
-#: src/lib/talk-loop.svelte.ts
+#: src/lib/stores/stage-nav.svelte.ts
 msgid "Rested safely at home — stamina fully restored!"
 msgstr "在安全的家里睡了一觉，精力完全恢复！"
 
@@ -2641,21 +2641,21 @@ msgctxt "welcome_toast"
 msgid "Step completed! Claimed {0} Gold & {1} EXP!"
 msgstr "阶段完成！获得 {0} 金币与 {1} 经验！"
 
-#: src/lib/talk-loop.svelte.ts
+#: src/lib/audio/voice-player.svelte.ts
 msgid "No voice to replay"
 msgstr "没有可重播的语音"
 
-#: src/lib/talk-loop.svelte.ts
+#: src/lib/audio/voice-player.svelte.ts
 msgid "No voice to favorite"
 msgstr "没有可收藏的语音"
 
 #: src/components/views/HistoryView.svelte
-#: src/lib/talk-loop.svelte.ts
+#: src/lib/audio/voice-player.svelte.ts
 msgid "Added to favorites ★"
 msgstr "已添加到收藏 ★"
 
 #: src/components/views/HistoryView.svelte
-#: src/lib/talk-loop.svelte.ts
+#: src/lib/audio/voice-player.svelte.ts
 msgid "Removed from favorites"
 msgstr "已从收藏中移除"
 
@@ -3105,7 +3105,7 @@ msgstr "聊天历史已清除"
 msgid "Clear chat memory"
 msgstr "清除聊天记忆"
 
-#: src/lib/talk-loop.svelte.ts
+#: src/lib/audio/voice-player.svelte.ts
 msgid "Voice clip no longer in cache"
 msgstr "语音片段已不在缓存中"
 

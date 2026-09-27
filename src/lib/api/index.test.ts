@@ -4,6 +4,7 @@ import {
   upstreamUrl,
   replyLang,
   translate,
+  translator,
   chat,
   complete,
   listModels,
@@ -19,6 +20,7 @@ describe('api index module', () => {
   beforeEach(() => {
     vi.stubGlobal('localStorage', new LocalStorageMock());
     config._resetForTest();
+    translator.clearCache();
   });
 
   afterEach(() => {

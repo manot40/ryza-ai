@@ -14,6 +14,8 @@
   import { game } from '$lib/stores/game.svelte';
   import { quests } from '$lib/stores/quests.svelte';
   import { talkLoop } from '$lib/talk-loop.svelte';
+  import { voicePlayer } from '$lib/audio/voice-player.svelte';
+  import { stageNav } from '$lib/stores/stage-nav.svelte';
   import { nsfw } from '$lib/stores/nsfw.svelte';
   import { overlayStore } from '$lib/stores/overlay.svelte';
 
@@ -88,7 +90,7 @@
   }
 
   function handleTapPart(part: string, overlay: string | null) {
-    talkLoop.buzz(18);
+    voicePlayer.buzz(18);
     sound.se('touch_start');
     if (overlay) sound.tapVoice(overlay);
   }
@@ -134,7 +136,7 @@
 
     const unbindGame = game.on('stamina', () => {
       if (game.faint()) {
-        talkLoop.showFaint();
+        stageNav.showFaint();
       }
     });
 

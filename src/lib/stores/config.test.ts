@@ -21,9 +21,9 @@ describe('config store', () => {
   describe('DEFAULTS shape', () => {
     it('contains all required sections with expected initial defaults', () => {
       const data = config.get();
-      expect(data.llm.model).toBe('gpt-4o-mini');
+      expect(data.llm.model).toBe('openai/gpt-6-luna');
       expect(data.llm.temperature).toBe(0.9);
-      expect(data.llm.maxTokens).toBe(400);
+      expect(data.llm.maxTokens).toBe(600);
       expect(data.llm.historyTurns).toBe(12);
       expect(data.llm.thinking).toBe('auto');
       expect(data.llm.thinkingEffort).toBe('default');
@@ -52,7 +52,7 @@ describe('config store', () => {
 
     it('returns slice via section()', () => {
       const llm = config.get('llm');
-      expect(llm.model).toBe('gpt-4o-mini');
+      expect(llm.model).toBe('openai/gpt-6-luna');
       const app = config.get('app');
       expect(app.lang).toBe('en');
     });
@@ -165,7 +165,7 @@ describe('config store', () => {
       config.reset();
 
       expect(config.get('app').lang).toBe('en');
-      expect(config.get('llm').model).toBe('gpt-4o-mini');
+      expect(config.get('llm').model).toBe('openai/gpt-6-luna');
       const stored = JSON.parse(mockStorage.getItem(SETTINGS_KEY)!);
       expect(stored.app.lang).toBe('en');
     });
@@ -173,7 +173,7 @@ describe('config store', () => {
     it('exportJSON returns valid JSON string', () => {
       const json = config.exportJSON();
       const parsed = JSON.parse(json);
-      expect(parsed.llm.model).toBe('gpt-4o-mini');
+      expect(parsed.llm.model).toBe('openai/gpt-6-luna');
     });
 
     it('importJSON parses, merges defaults, applies migrations, and persists', () => {
@@ -186,7 +186,7 @@ describe('config store', () => {
 
       expect(config.get('app').lang).toBe('ja');
       expect(config.get('state').skin).toBe('crf_skn_002_0001');
-      expect(config.get('llm').model).toBe('gpt-4o-mini'); // Preserved default
+      expect(config.get('llm').model).toBe('openai/gpt-6-luna'); // Preserved default
       const stored = JSON.parse(mockStorage.getItem(SETTINGS_KEY)!);
       expect(stored.app.lang).toBe('ja');
     });
