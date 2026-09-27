@@ -37,6 +37,7 @@ vite.config.ts.timestamp-*
 .assets
 .cache
 *.tsbuildinfo
+skills-lock.json
 
 # IntelliJ based IDEs
 .idea
