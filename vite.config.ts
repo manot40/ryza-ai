@@ -1,17 +1,28 @@
 import { defineConfig } from 'vitest/config';
-import { playwright } from '@vitest/browser-playwright';
-import { wuchale } from 'wuchale/vite';
-import adapter from '@sveltejs/adapter-auto';
-import { sveltekit } from '@sveltejs/kit/vite';
+
+import adapterBun from '@sveltejs/adapter-bun';
+import adapterStatic from '@sveltejs/adapter-static';
 import tailwindcss from '@tailwindcss/vite';
+
+import { wuchale } from 'wuchale/vite';
+import { sveltekit } from '@sveltejs/kit/vite';
+
+import { playwright } from '@vitest/browser-playwright';
+
+const adapter = typeof globalThis.Bun === 'object' ? adapterBun() : adapterStatic({ fallback: 'index.html' });
 
 export default defineConfig({
   server: { allowedHosts: ['localhost', '.local'] },
+
+  build: {
+    chunkSizeWarningLimit: 1000,
+  },
+
   plugins: [
     wuchale(),
     tailwindcss(),
     sveltekit({
-      adapter: adapter(),
+      adapter,
       compilerOptions: {
         // Force runes mode for the project, except for libraries. Can be removed in svelte 6.
         runes: ({ filename }) => (filename.split(/[/\\]/).includes('node_modules') ? undefined : true),
@@ -19,6 +30,7 @@ export default defineConfig({
       alias: { $components: 'src/components/*' },
     }),
   ],
+
   test: {
     expect: { requireAssertions: true },
     projects: [
