@@ -3,42 +3,12 @@ import { parseModelEntry, type ModelEntry } from './thinking';
 
 export const QWEN_DEFAULT_BASE = 'https://dashscope.aliyuncs.com';
 
-export const QWEN_TTS_MODELS = [
-  'qwen3-tts-flash',
-  'qwen3-tts-instruct-flash',
-  'qwen3-tts-vc-2026-01-22',
-  'qwen-audio-3.0-tts-flash',
-  'qwen-audio-3.0-tts-plus',
-  'cosyvoice-v3-flash',
-  'cosyvoice-v3.5-flash',
-  'cosyvoice-v3.5-plus',
-] as const;
-
 export const QWEN_TTS_VOICES = ['Cherry', 'Serena', 'Chelsie', 'Ethan', 'longanhuan_v3.6'] as const;
 
 export const FISH_DEFAULT_BASE = 'https://fishaudio.org/api/open/v1';
 export const FISH_MODERN_BASE = 'https://api.fish.audio';
 export const FISH_MODERN_DEFAULT_MODEL = 's2.1-pro-free';
 export const FISH_LEGACY_DEFAULT_MODEL = 'fishaudio-s21pro-flash';
-export const FISH_DEFAULT_VOICE = '';
-export const FISH_TTS_MODELS = [
-  's2.1-pro-free',
-  's2-pro',
-  's1',
-  'fishaudio-s21pro-flash',
-  'fishaudio-s21pro',
-  'fishaudio-s2pro',
-  'fishaudio-s1',
-  'minimax-2.8-turbo',
-  'minimax-2.8-hd',
-  'minimax-2.6-turbo',
-  'minimax-2.6-hd',
-  'qwen3-tts-flash',
-  'qwen-audio-3.0-tts-plus',
-  'qwen-audio-3.0-tts-flash',
-  'cosyvoice-v3-flash',
-  'doubao-tts-2.0',
-] as const;
 
 export const VOICE_BANK_TRANSCRIPT: Record<string, string> = {
   'assets/voice/ryza_wav/prologue_01.wav': 'これは、ライザの夢の世界。あなたと作る一夏の物語。',
@@ -163,14 +133,14 @@ export function parseQwenModelList(j: unknown): ModelEntry[] {
   return out;
 }
 
-export function _b64ToUrl(b64: string, mime: string): string {
+export function b64ToUrl(b64: string, mime: string): string {
   const bin = atob(b64);
   const arr = new Uint8Array(bin.length);
   for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
   return URL.createObjectURL(new Blob([arr], { type: mime }));
 }
 
-export function _pcmToWav(
+export function pcmToWav(
   pcmBuffer: ArrayBuffer,
   sampleRate: number,
   channels: number,
@@ -209,7 +179,7 @@ export function _pcmToWav(
   return new Blob([buffer], { type: 'audio/wav' });
 }
 
-export async function _fetchAsDataUrl(path: string, raw: boolean = false): Promise<string> {
+export async function fetchAsDataUrl(path: string, raw: boolean = false): Promise<string> {
   const r = await fetch(path);
   if (!r.ok) throw new Error(`无法读取参考音频：${path}`);
   const buf = await r.arrayBuffer();
@@ -221,7 +191,7 @@ export async function _fetchAsDataUrl(path: string, raw: boolean = false): Promi
   return `data:audio/wav;base64,${b64}`;
 }
 
-export async function _downloadUrl(
+export async function downloadUrl(
   url: string,
   localProxyFn: (u: string) => string,
   apiKey?: string
@@ -273,10 +243,6 @@ export function fishLanguage(lg?: string): string {
 
 export function fishWantsInstruction(model?: string): boolean {
   return /qwen-audio/i.test(String(model || ''));
-}
-
-export function fishWantsEmotion(model?: string): boolean {
-  return /minimax/i.test(String(model || ''));
 }
 
 export function fishEmotion(emotion?: string): string {

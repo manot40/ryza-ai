@@ -1,6 +1,6 @@
 // @wc-ignore-file
 import { config } from './config.svelte';
-import { Api } from '$lib/api';
+import { complete } from '$lib/api';
 
 export const MEMORY_KEY = 'ryza.memory.v1';
 const TEXT_MAX = 2000;
@@ -204,7 +204,7 @@ export class MemoryStore {
       '固有名詞・約束・感情の変化を残す。タグもJSONも出力しない。200字以内。';
 
     try {
-      const t = await Api.complete(sys, body, { maxTokens: 280, temperature: 0.2 });
+      const t = await complete(sys, body, { maxTokens: 280, temperature: 0.2 });
       return clip(t) || fallbackText(items);
     } catch {
       return fallbackText(items);

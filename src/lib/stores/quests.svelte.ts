@@ -5,7 +5,7 @@ import { game } from './game.svelte';
 import { toast } from './toast.svelte';
 import { welcome } from './welcome.svelte';
 import { ITEMS, itemName, itemValue } from './game-items';
-import { Api } from '$lib/api';
+import { chat } from '$lib/api';
 import {
   getQuestTitle,
   getQuestDesc,
@@ -481,7 +481,7 @@ export class QuestStore {
     }
 
     try {
-      const r = await Api.chat(
+      const r = await chat(
         [],
         [
           'ライザと遊ぶRPGクエストを1つ生成して。',

@@ -2,7 +2,7 @@ import { config, type CharaConfig, type ProfileConfig } from '$lib/stores/config
 import { Langs } from '$lib/i18n/langs';
 import { EMOTIONS, ATTITUDES, screenTagLine, type ScreenTagState } from './tags';
 
-export const STYLE_SAMPLES = [
+const STYLE_SAMPLES = [
   'あたしとお喋りでもしてリフレッシュしよっ',
   '今日は眠くなるまであなたとお喋りしたいなー',
   'あたしにも何が起こるか分からない',

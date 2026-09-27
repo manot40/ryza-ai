@@ -318,6 +318,3 @@ export function applyTextEmotionHint(text: string, hint: TextEmotionHint | null)
     ? `${hint.marker}${line ? ` ${line}` : ''}`
     : `${line ? `${line} ` : ''}${hint.marker}`;
 }
-
-/** All canonical emotion names, re-exported for consumers/tests */
-export const TEXT_EMOTION_IDS = EMOTIONS;

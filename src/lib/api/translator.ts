@@ -1,47 +1,16 @@
+import { generateText } from 'ai';
 import { config } from '$lib/stores/config.svelte';
 import { Langs } from '$lib/i18n/langs';
 import { Providers } from '$lib/api/providers';
 import { getEmotionPrompt, normalizeEmotion } from './tts-emotion';
 import { buildTextEmotionHint, applyTextEmotionHint } from './text-emotion';
+import { getLlmProvider } from './llm';
 
 export interface TranslateOptions {
   text: string;
   toLang?: string;
   /** Emotion of the line; used to hint inline TTS emotion markers when supported */
   emotion?: string;
-}
-
-function upstreamUrl(baseUrl: string, path: string): string {
-  return String(baseUrl || '').replace(/\/+$/, '') + path;
-}
-
-function localProxy(target: string): string {
-  if (!target || !/^https?:\/\//i.test(target)) return target;
-  if (target.startsWith('/_proxy')) return target;
-  return '/_proxy?u=' + encodeURIComponent(target);
-}
-
-function choiceText(j: unknown): string {
-  if (!j || typeof j !== 'object') return '';
-  const choices = (j as { choices?: Array<{ message?: { content?: unknown } }> }).choices;
-  const m = choices?.[0]?.message;
-  if (!m) return '';
-  const c = m.content;
-  if (typeof c === 'string') return c;
-  if (Array.isArray(c)) {
-    return c
-      .map((p) => {
-        if (!p) return '';
-        if (typeof p === 'string') return p;
-        if (typeof p === 'object') {
-          const rec = p as Record<string, unknown>;
-          return String(rec.text || rec.content || '');
-        }
-        return '';
-      })
-      .join('');
-  }
-  return '';
 }
 
 export class TranslationService {
@@ -126,37 +95,17 @@ export class TranslationService {
     const maxTokens = Math.max(400, Math.floor(mainQuota / 2));
 
     try {
-      const headers = new Headers({
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${llm.apiKey}`,
-        'api-key': llm.apiKey,
+      const provider = getLlmProvider(llm);
+      const { text: result } = await generateText({
+        model: provider.chatModel(llm.model),
+        system: `You are a translator for a Japanese anime game character (Ryza, cheerful young alchemist). Translate her line into ${Langs.name(toLang)}, keeping the playful spoken tone, first-person feel and emotion.${emotionBlock}${actionBlock} Output ONLY the translated line — no quotes, notes, linebreaks, or tags.${hintBlock}`,
+        prompt: text,
+        temperature: 0.3,
+        maxOutputTokens: maxTokens,
+        abortSignal: AbortSignal.timeout(20000),
       });
 
-      const res = await fetch(localProxy(upstreamUrl(llm.baseUrl, '/chat/completions')), {
-        method: 'POST',
-        headers,
-        body: JSON.stringify({
-          model: llm.model,
-          messages: [
-            {
-              role: 'system',
-              content: `You are a translator for a Japanese anime game character (Ryza, cheerful young alchemist). Translate her line into ${Langs.name(toLang)}, keeping the playful spoken tone, first-person feel and emotion.${emotionBlock}${actionBlock} Output ONLY the translated line — no quotes, notes, linebreaks, or tags.${hintBlock}`,
-            },
-            { role: 'user', content: text },
-          ],
-          temperature: 0.3,
-          max_tokens: maxTokens,
-        }),
-        signal: AbortSignal.timeout(20000),
-      });
-
-      if (!res.ok) {
-        return text;
-      }
-
-      const j = await res.json();
-      const c = choiceText(j);
-      const translated = (c && String(c).trim()) || text;
+      const translated = (result && result.trim()) || text;
       const finalResult = applyTextEmotionHint(translated, hint);
       this.setCache(cacheKey, finalResult);
       return finalResult;

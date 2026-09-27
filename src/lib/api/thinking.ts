@@ -26,9 +26,6 @@ export const EFFORT_RANK: Record<string, number> = {
   max: 5,
 };
 
-export const EFFORT_UI = ['default', 'off', 'low', 'medium', 'high', 'max'] as const;
-export type EffortUi = (typeof EFFORT_UI)[number];
-
 export const QWEN_BUDGET: Record<string, number> = {
   low: 512,
   medium: 2048,

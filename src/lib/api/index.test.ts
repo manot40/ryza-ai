@@ -8,10 +8,10 @@ import {
   chat,
   complete,
   listModels,
-  Api,
   createTransportError,
   isTransportError,
   fetchTransport,
+  clearProviderCache,
 } from './index';
 import { config } from '$lib/stores/config.svelte';
 import { LocalStorageMock } from '../../../tests/utils';
@@ -21,6 +21,7 @@ describe('api index module', () => {
     vi.stubGlobal('localStorage', new LocalStorageMock());
     config._resetForTest();
     translator.clearCache();
+    clearProviderCache();
   });
 
   afterEach(() => {
