@@ -62,7 +62,7 @@ web/                            # Static assets and legacy reference implementat
 │   ├── audio/                  # BGM (.m4a), ambient loops, SFX, localized alarm voices (.m4a + .env.json)
 │   ├── voice/                  # TTS cloning reference WAV clips
 │   └── _index/                 # Game indices: world hierarchy, npc placement, stage background map, scenes
-├── vendor/                     # spine-webgl.js IIFE runtime
+├── vendor/                     # spine-webgl.js IIFE runtime (removed in favor of PixiJS v8)
 └── js/                         # Legacy vanilla JS modules (authoritative reference for logic and schemas)
 
 config/
@@ -291,6 +291,24 @@ The SvelteKit implementation diverges from legacy `web/js/` in several key archi
   - Implemented `streamChat` with `stream: true` sending SSE requests to the proxy endpoint.
   - **Line-1 Screen Tag Extraction**: When the first newline `\n` is encountered, tags (`[emotion:... attitude:...]`) are parsed immediately via `onFirstLineTags`, triggering facial expressions and postures on the avatar within ~300ms—well before complete sentence generation.
   - Robust fallback: automatically falls back to standard non-streaming `chat()` if SSE fails or the endpoint lacks streaming support.
+
+### PixiJS v8 Avatar Engine & Additive Rim Light Pipeline
+
+- **PixiJS v8 + `@esotericsoftware/spine-pixi-v8` Migration**:
+  - Replaced the vendored IIFE `spine-webgl.js` runtime with PixiJS v8 (`Application`, `Container`, `RenderTexture`, `Sprite`, `Filter`, `GlProgram`, `GpuProgram`) and official `@esotericsoftware/spine-pixi-v8`.
+  - Single WebGL/WebGPU canvas with a root `worldContainer` hosting `sceneContainer` (background stage plate) and `avatarContainer` (Spine character).
+- **Direct-to-Canvas Character Sharpness (Zero Filter Degradation)**:
+  - `avatarContainer` renders directly to the primary screen framebuffer without any `Container.filters` attached (`filters = null`).
+  - This avoids PixiJS filter pipeline pitfalls (intermediate `RenderTexture` rasterization, dynamic subpixel bounding box jitter, bilinear resampling softening, and loss of 4x hardware MSAA).
+- **Pattern 1 Additive Overlay Rim Lighting**:
+  - In scenes where lighting is enabled (`sceneConfig.config.light.rimEnabled !== false` and `config.app.rim !== false`), a silhouette is captured into `rimTexture` (`RenderTexture`).
+  - A full-screen `rimSprite` with `blendMode = 'add'` sits in `app.stage` directly above `worldContainer`.
+  - The rim filter outputs **only the glow photons** (`vec4(uRimColor * acc * uRimOpacity, acc * uRimOpacity)`). Non-edge areas output transparent black `vec4(0.0)`. Additive blending composites only the light halo on top of the untouched, razor-sharp character.
+- **Dual-Backend Shader Support (WebGL GLSL + WebGPU WGSL)**:
+  - Shaders and filter logic are modularized under `src/lib/avatar/engine/rim/`:
+    - [`shader.glsl`](file:///e:/Projects/ryza/src/lib/avatar/engine/rim/shader.glsl): WebGL GLSL fragment shader (`RIM_GL`).
+    - [`shader.wgsl`](file:///e:/Projects/ryza/src/lib/avatar/engine/rim/shader.wgsl): WebGPU WGSL shader (`RIM_WG`) with `mainVertex` and `mainFragment` entry points, structuring uniform buffers into `@group(0)` (`GlobalFilterUniforms`) and `@group(1)` (`RimUniforms`).
+    - [`index.ts`](file:///e:/Projects/ryza/src/lib/avatar/engine/rim/index.ts): Imports raw shader files via `?raw`, instantiating both `GlProgram` and `GpuProgram` for seamless runtime backend switching to WebGPU (`app.init({ preference: 'webgpu' })`).
 
 ### TypeScript Visibility & Naming Standards
 

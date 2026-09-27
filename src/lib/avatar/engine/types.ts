@@ -1,180 +1,36 @@
-// Spine WebGL 4.2 runtime interfaces and engine types
+import type {
+  Skeleton,
+  Bone,
+  Slot,
+  Attachment,
+  AnimationState,
+  TrackEntry,
+  SkeletonData,
+  TextureAtlas,
+  Spine,
+} from '@esotericsoftware/spine-pixi-v8';
 
-export interface SpineMatrix4 {
-  values: Float32Array;
-  ortho2d(x: number, y: number, width: number, height: number): void;
-}
+// Type aliases mapped to official Spine 4.2 runtime types
+export type SpineSkeleton = Skeleton;
+export type SpineBone = Bone;
+export type SpineSlot = Slot;
+export type SpineAttachment = Attachment;
+export type SpineSkeletonData = SkeletonData;
+export type SpineAnimationState = AnimationState;
+export type SpineTrackEntry = TrackEntry;
+export type SpineAtlas = TextureAtlas;
 
-export interface SpineShader {
-  bind(): void;
-  unbind(): void;
-  setUniformi(uniform: string, value: number): void;
-  setUniform2f(uniform: string, x: number, y: number): void;
-  setUniform3f(uniform: string, x: number, y: number, z: number): void;
-  setUniformf(uniform: string, value: number): void;
-  setUniform4x4f(uniform: string, values: Float32Array): void;
-  getProgram(): WebGLProgram;
-}
-
-export interface SpinePolygonBatcher {
-  begin(shader: SpineShader): void;
-  end(): void;
-}
-
-export interface SpineAttachment {
-  name?: string;
-  width?: number;
-  height?: number;
-  worldVerticesLength?: number;
-  computeWorldVertices?(slot: SpineSlot, ...args: unknown[]): void;
-}
-
-export interface SpineBone {
-  data: { name: string };
-  name?: string;
-  active?: boolean;
-  x: number;
-  y: number;
-  worldX: number;
-  worldY: number;
-  rotation: number;
-  scaleX: number;
-  scaleY: number;
-  a?: number;
-  b?: number;
-  c?: number;
-  d?: number;
-}
-
-export interface SpineSlot {
-  data: { name?: string; blendMode?: number; visible?: boolean };
-  bone: SpineBone;
-  getAttachment(): SpineAttachment | null;
-  setAttachment(att: unknown): void;
-  color: { r: number; g: number; b: number; a: number };
-}
-
-export interface SpineAnimation {
-  name: string;
-  duration: number;
-}
-
-export interface SpineSkeletonData {
-  hash?: string;
-  animations: SpineAnimation[];
-  bones: Array<{ name: string; y?: number }>;
-  findAnimation(name: string): SpineAnimation | null;
-  findBone(name: string): unknown;
-}
-
-export interface SpineTrackEntry {
-  animation?: SpineAnimation | null;
-  loop: boolean;
-  timeScale: number;
-  trackTime: number;
-  trackEnd: number;
-  mixDuration: number;
-  mixTime: number;
-  alpha: number;
-  mixBlend?: unknown;
-  mixingFrom?: SpineTrackEntry | null;
-}
-
-export interface SpineAnimationState {
-  data: { defaultMix: number };
-  update(dt: number): void;
-  apply(skeleton: SpineSkeleton): void;
-  setAnimation(track: number, animName: string, loop: boolean): SpineTrackEntry;
-  addAnimation(track: number, animName: string, loop: boolean, delay: number): SpineTrackEntry;
-  setEmptyAnimation(track: number, mixDuration: number): SpineTrackEntry;
-  addEmptyAnimation(track: number, mixDuration: number, delay: number): SpineTrackEntry;
-  getCurrent(track: number): SpineTrackEntry | null;
-}
-
-export interface SpineTransformConstraint {
-  data?: { name?: string };
-  name?: string;
-  mixX?: number | null;
-  mixY?: number | null;
-  mixScaleX?: number | null;
-  mixScaleY?: number | null;
-}
-
-export interface SpineSkeleton {
-  x: number;
-  y: number;
-  scaleX: number;
-  scaleY: number;
-  slots: SpineSlot[];
-  bones: SpineBone[];
-  transformConstraints?: SpineTransformConstraint[];
-  data: SpineSkeletonData;
-  findBone(name: string): SpineBone | null;
-  findSlot(name: string): SpineSlot | null;
-  update(dt: number): void;
-  updateWorldTransform(physics: unknown): void;
-}
-
-export interface SpineSkeletonRenderer {
-  premultipliedAlpha: boolean;
-  draw(batcher: SpinePolygonBatcher, skeleton: SpineSkeleton): void;
-}
-
-export interface SpineManagedCtx {
-  gl: WebGLRenderingContext;
-  canvas: HTMLCanvasElement;
-}
-
-export interface SpineHost {
-  canvas: HTMLCanvasElement;
-  ctx: SpineManagedCtx;
-  gl: WebGLRenderingContext;
-  shader: SpineShader;
-  batcher: SpinePolygonBatcher;
-  sr: SpineSkeletonRenderer;
-  mvp: SpineMatrix4;
-}
-
-export interface SpineAtlasPage {
-  name: string;
-  texture: unknown;
-  setTexture(texture: unknown): void;
-}
-
-export interface SpineAtlas {
-  pages: SpineAtlasPage[];
-}
-
-export interface SpineAssetManager {
-  isLoadingComplete(): boolean;
-  hasErrors(): boolean;
-  removeAll(): void;
-  errors: Record<string, unknown>;
-  loadBinary(path: string): void;
-  loadTextureAtlas(path: string): void;
-  require(path: string): unknown;
-}
+export type XYMap = Record<'x' | 'y', number>;
 
 export interface SpineLayer {
-  canvas: HTMLCanvasElement;
-  ctx: SpineManagedCtx;
-  gl: WebGLRenderingContext;
-  shader: SpineShader;
-  batcher: SpinePolygonBatcher;
-  sr: SpineSkeletonRenderer;
-  mvp: SpineMatrix4;
-  assets: SpineAssetManager;
-  skeleton: SpineSkeleton | null;
-  state: SpineAnimationState | null;
-  data: SpineSkeletonData | null;
-  bounds: unknown;
+  spine: Spine | null;
+  skeleton: Skeleton | null;
+  state: AnimationState | null;
+  data: SkeletonData | null;
   ready: boolean;
-  _cover: { x0: number; x1: number; y0: number; y1: number; w: number; h: number } | null;
-  _coverDone: boolean;
-  cssW: number;
-  cssH: number;
-  dpr: number;
-  _atlas?: SpineAtlas | null;
+  _cover?: { x0: number; x1: number; y0: number; y1: number; w: number; h: number } | null;
+  _coverDone?: boolean;
+  _atlas?: TextureAtlas | null;
   _atlasUrl?: string;
   _atlasBaseTex?: unknown[] | null;
   _atlasVarName?: string;

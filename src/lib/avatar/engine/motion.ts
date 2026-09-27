@@ -1,8 +1,14 @@
-import { clamp, weighted } from '../../util';
+import {
+  Skeleton,
+  AnimationStateData,
+  AnimationState,
+  Physics,
+  MixBlend,
+} from '@esotericsoftware/spine-pixi-v8';
+import { clamp, weighted } from './util';
 import type {
   SpineLayer,
   SpineSkeletonData,
-  SpineSkeleton,
   SpineBone,
   SpineAnimationState,
   SpineTrackEntry,
@@ -10,8 +16,6 @@ import type {
   OccupancyKind,
   GestureData,
   ProjectConfig,
-  ArmInOutPartConfig,
-  EmotionProfile,
   IntensityProfile,
 } from './types';
 
@@ -336,10 +340,7 @@ export class MotionController {
     tr.mixDuration = mix;
     tr.alpha = alpha;
     tr.timeScale = speed;
-    const spineObj = (window as unknown as { spine?: { MixBlend?: { replace: unknown } } }).spine;
-    if (spineObj?.MixBlend) {
-      tr.mixBlend = spineObj.MixBlend.replace;
-    }
+    tr.mixBlend = MixBlend.replace;
   }
 
   private _queueAddTrack(
@@ -563,22 +564,11 @@ export class MotionController {
 
     let mix = base;
     try {
-      // Compute the maximum world-space bone displacement at the gesture's last
-      // frame relative to the idle pose.  The further the limb travels, the
-      // longer the exit fade needs to be so the settle looks natural.
-      // This mirrors Avatar._pokeExitMix in the original avatar.js.
-      const spineObj = (window as unknown as { spine?: SpineGlobal }).spine;
-      if (spineObj && data) {
-        const sk: SpineSkeleton = new (spineObj.Skeleton as new (d: SpineSkeletonData) => SpineSkeleton)(
-          data
-        );
-        const asd = new (spineObj.AnimationStateData as new (d: SpineSkeletonData) => { defaultMix: number })(
-          data
-        );
+      if (data) {
+        const sk = new Skeleton(data);
+        const asd = new AnimationStateData(data);
         asd.defaultMix = 0;
-        const st: SpineAnimationState = new (spineObj.AnimationState as new (d: {
-          defaultMix: number;
-        }) => SpineAnimationState)(asd);
+        const st = new AnimationState(asd);
 
         // Capture idle (track 0) bone world positions as reference
         const idleName = pickAnim(data, 'motion_A_001_idle') || (data.animations[0]?.name ?? null);
@@ -586,14 +576,14 @@ export class MotionController {
           st.setAnimation(0, idleName, false);
           st.update(0);
           st.apply(sk);
-          sk.updateWorldTransform((spineObj.Physics as { pose: unknown }).pose);
+          sk.updateWorldTransform(Physics.pose);
           const ref = sk.bones.map((b: SpineBone) => [b.worldX, b.worldY] as [number, number]);
 
           // Apply the tap anim at its last frame on track 1 (additive-style)
           st.setAnimation(1, anim.name, false);
           st.update(anim.duration);
           st.apply(sk);
-          sk.updateWorldTransform((spineObj.Physics as { pose: unknown }).pose);
+          sk.updateWorldTransform(Physics.pose);
 
           let maxD = 0;
           for (let i = 0; i < sk.bones.length; i++) {
@@ -610,12 +600,4 @@ export class MotionController {
     this._exitMixCache[anim.name] = mix;
     return mix;
   }
-}
-
-// Minimal shape of the `spine` global needed for pokeExitMix
-interface SpineGlobal {
-  Skeleton: unknown;
-  AnimationStateData: unknown;
-  AnimationState: unknown;
-  Physics: unknown;
 }

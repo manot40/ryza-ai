@@ -248,10 +248,10 @@
   onpointerup={handlePointerUp}
   onpointerleave={handlePointerLeave}
   onwheel={handleWheel}>
-  <canvas bind:this={canvas} class="h-full w-full touch-none select-none"></canvas>
+  <canvas bind:this={canvas} class="block size-full touch-none select-none"></canvas>
   {#each ripples as r (r.id)}
     <div
-      class="tap-ripple pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full border-2 border-gold/70 bg-gold/20 animate-ping duration-500"
+      class="tap-ripple pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 size-14 rounded-full border-2 border-gold/70 bg-gold/20 animate-ping duration-500"
       style="left: {r.x}px; top: {r.y}px;">
     </div>
   {/each}

@@ -1,6 +1,6 @@
 // @wc-ignore-file
-import { clamp, createEmitter } from '$lib/util';
 import { config } from './config.svelte';
+import { clamp, createEmitter } from '$lib/avatar/engine/util';
 import { ITEMS, BAGS, BAG_ORDER, BAG_UPGRADE_COST, APPLE_SLOTS, itemName, type BagSize } from './game-items';
 
 export const GAME_KEY = 'ryza.game.v1';

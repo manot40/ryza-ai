@@ -1,5 +1,6 @@
-import { hashHex, swapHashHalves } from '../../util';
 import type { MixDurationPoses, EmotionProfile, ProjectConfig } from './types';
+
+import { hashHex, swapHashHalves } from './util';
 
 export function isMixHashValid(bag: MixDurationPoses | undefined | null, liveSkelHash: string): boolean {
   if (!bag?.sourceHash || !liveSkelHash) return false;

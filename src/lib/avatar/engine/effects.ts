@@ -1,6 +1,7 @@
-import { weighted } from '../../util';
-import { pickAnim } from './motion';
 import type { SpineLayer, SpineSkeleton, IntensityProfile, ProjectConfig } from './types';
+
+import { weighted } from './util';
+import { pickAnim } from './motion';
 
 export class EffectsController {
   fxOn = false;

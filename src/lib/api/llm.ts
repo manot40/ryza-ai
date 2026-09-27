@@ -48,7 +48,6 @@ export function getLlmProvider(llmConfig: LlmConfig = config.get('llm')): OpenAI
       baseURL: baseUrl,
       apiKey: llmConfig.apiKey,
       headers: llmConfig.apiKey ? { 'api-key': llmConfig.apiKey } : undefined,
-      // @ts-expect-error - Bun `fetch` shape compatibility
       async fetch(input, init) {
         const url = typeof input === 'string' ? input : input instanceof URL ? input.href : input.url;
         const res = await fetch(localProxy(url), init);

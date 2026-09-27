@@ -1,4 +1,13 @@
-import type { CamParams, PostureCameraCatalog, SpineLayer, SpineAttachment } from './types';
+import {
+  Physics,
+  BoundingBoxAttachment,
+  ClippingAttachment,
+  PathAttachment,
+  PointAttachment,
+  RegionAttachment,
+  VertexAttachment,
+} from '@esotericsoftware/spine-pixi-v8';
+import type { CamParams, PostureCameraCatalog, SpineLayer } from './types';
 
 export const REF_ZOOM = 1.93;
 export const REF_H = 1720;
@@ -60,17 +69,6 @@ export function getCamParams(
   };
 }
 
-type SpineConstructor<T = unknown> = new (...args: unknown[]) => T;
-
-interface SpineRuntimeGlobal {
-  Physics: { none: unknown; pose: unknown };
-  BoundingBoxAttachment: SpineConstructor;
-  ClippingAttachment: SpineConstructor;
-  PathAttachment: SpineConstructor;
-  PointAttachment: SpineConstructor;
-  RegionAttachment: SpineConstructor<SpineAttachment>;
-}
-
 export function coverFor(L: SpineLayer | null): {
   x0: number;
   x1: number;
@@ -82,13 +80,10 @@ export function coverFor(L: SpineLayer | null): {
   if (!L || !L.skeleton) return null;
   if (L._coverDone) return L._cover || null;
 
-  const spineObj = (window as unknown as { spine?: SpineRuntimeGlobal }).spine;
-  if (!spineObj) return null;
-
   let best: { x0: number; x1: number; y0: number; y1: number; w: number; h: number } | null = null;
   const slots = L.skeleton.slots;
 
-  L.skeleton.updateWorldTransform(spineObj.Physics.none);
+  L.skeleton.updateWorldTransform(Physics.none);
 
   for (let i = 0; i < slots.length; i++) {
     const slot = slots[i];
@@ -96,18 +91,18 @@ export function coverFor(L: SpineLayer | null): {
     const att = slot.getAttachment ? slot.getAttachment() : null;
     if (
       !att ||
-      att instanceof spineObj.BoundingBoxAttachment ||
-      att instanceof spineObj.ClippingAttachment ||
-      att instanceof spineObj.PathAttachment ||
-      att instanceof spineObj.PointAttachment
+      att instanceof BoundingBoxAttachment ||
+      att instanceof ClippingAttachment ||
+      att instanceof PathAttachment ||
+      att instanceof PointAttachment
     )
       continue;
 
     const verts: number[] = [];
     try {
-      if (att instanceof spineObj.RegionAttachment && att.computeWorldVertices) {
+      if (att instanceof RegionAttachment) {
         att.computeWorldVertices(slot, verts, 0, 2);
-      } else if (att.worldVerticesLength && att.computeWorldVertices) {
+      } else if (att instanceof VertexAttachment) {
         att.computeWorldVertices(slot, 0, att.worldVerticesLength, verts, 0, 2);
       } else {
         continue;
@@ -136,8 +131,7 @@ export function coverFor(L: SpineLayer | null): {
 
     if (!(x1 > x0) || !(y1 > y0)) {
       const aVal = slot.bone.a ?? 1;
-      if (!(att instanceof spineObj.RegionAttachment) || !att.width || !att.height || !isFinite(aVal))
-        continue;
+      if (!(att instanceof RegionAttachment) || !att.width || !att.height || !isFinite(aVal)) continue;
       const hw = att.width / 2;
       const hh = att.height / 2;
       const bn = slot.bone;

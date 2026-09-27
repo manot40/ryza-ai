@@ -1,7 +1,7 @@
 // @wc-ignore-file
-import { clamp, createEmitter } from '$lib/util';
 import { game } from './game.svelte';
 import { itemName } from './game-items';
+import { clamp, createEmitter } from '$lib/avatar/engine/util';
 
 export const DAILY_KEY = 'ryza.daily.v1';
 export const DAYS = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'] as const;

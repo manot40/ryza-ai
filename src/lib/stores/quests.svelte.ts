@@ -1,5 +1,5 @@
 // @wc-ignore-file
-import { clamp, createEmitter } from '$lib/util';
+import { clamp, createEmitter } from '$lib/avatar/engine/util';
 import { config } from './config.svelte';
 import { game } from './game.svelte';
 import { toast } from './toast.svelte';

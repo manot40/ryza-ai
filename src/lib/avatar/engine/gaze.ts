@@ -1,13 +1,6 @@
-import { clamp, weighted } from '../../util';
-import type {
-  SpineSkeleton,
-  SpineBone,
-  GestureData,
-  ProjectConfig,
-  LookDriverSpec,
-  TensionProfile,
-  EmotionProfile,
-} from './types';
+import type { SpineSkeleton, GestureData, ProjectConfig, LookDriverSpec, EmotionProfile } from './types';
+
+import { clamp, weighted } from './util';
 
 export interface LookState {
   yaw: number;

@@ -1,4 +1,4 @@
-import { clamp, lerp } from '../util';
+import { clamp, lerp } from '$lib/avatar/engine/util';
 import { config } from '../stores/config.svelte';
 import { getVoiceLocale } from './voicebank';
 

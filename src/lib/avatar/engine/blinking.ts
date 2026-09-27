@@ -1,5 +1,6 @@
-import { weighted } from '../../util';
 import type { SpineLayer, TensionProfile } from './types';
+
+import { weighted } from './util';
 
 export class BlinkingController {
   blinkTimer = 0;
