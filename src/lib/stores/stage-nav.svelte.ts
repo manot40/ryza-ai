@@ -23,13 +23,12 @@ export class StageNavigator {
     }
 
     const st = config.get('state');
-    config.setState('stage', stageId);
-    if (avatarService.shouldResetPosture()) {
+    const tod = String(st.tod || 'aft');
+    avatarService.loadScene(stageId, tod);
+    if (avatarService.engine.shouldResetPosture()) {
       config.setState('posture', 'posture_standing');
     }
 
-    const tod = String(st.tod || 'aft');
-    avatarService.loadScene(stageId, tod);
     sound.setPlace(stageId, tod, world.backgroundFor(stageId));
     sound.setRoute('talk');
 
@@ -53,7 +52,6 @@ export class StageNavigator {
     const st = config.get('state');
     const fromStage = String(st.stage || HOME_STAGE);
     let tod = String(st.tod || 'aft');
-    config.setState('stage', HOME_STAGE);
 
     if (world.llmDrivesClock()) {
       tod = 'mor';

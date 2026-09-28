@@ -120,7 +120,7 @@ describe('VoicePlayer', () => {
 
   describe('stop and favorites', () => {
     it('stop resets speaking state and avatar talking state', () => {
-      const setTalkingSpy = vi.spyOn(avatarService, 'setTalking');
+      const setTalkingSpy = vi.spyOn(avatarService.engine, 'setTalking');
       voicePlayer.speaking = true;
 
       voicePlayer.stop();

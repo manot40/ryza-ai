@@ -19,14 +19,14 @@
     const audio = new Audio(src);
     audioEl = audio;
     audio.volume = Number(config.get('app')?.volume) || 0.9;
-    avatarService.setTalking(true);
+    avatarService.engine.setTalking(true);
 
     audio.onended = () => {
-      avatarService.setTalking(false);
+      avatarService.engine.setTalking(false);
     };
 
     audio.play().catch(() => {
-      avatarService.setTalking(false);
+      avatarService.engine.setTalking(false);
     });
   }
 
@@ -42,7 +42,7 @@
         audioEl.pause();
       } catch {}
     }
-    avatarService.setTalking(false);
+    avatarService.engine.setTalking(false);
     onboarding.nextPrologue();
   }
 
@@ -52,7 +52,7 @@
         audioEl.pause();
       } catch {}
     }
-    avatarService.setTalking(false);
+    avatarService.engine.setTalking(false);
   });
 </script>
 

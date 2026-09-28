@@ -64,9 +64,7 @@ export class TalkLoopController {
       onUpdate: (partial) => {
         this.displayText = partial;
       },
-      onDone: () => {
-        avatarService.setTalking(false);
-      },
+      onDone: () => avatarService.engine.setTalking(false),
     });
 
     voiceInput.setSpeaker(() => voicePlayer.speaking || this.isThinking);
@@ -254,7 +252,7 @@ export class TalkLoopController {
     voicePlayer.stop();
     this.typewriter.cancel();
     this.isThinking = false;
-    avatarService.setTalking(false);
+    avatarService.engine.setTalking(false);
   }
 
   retryLast(): void {

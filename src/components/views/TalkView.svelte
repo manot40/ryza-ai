@@ -36,8 +36,8 @@
     config.setApp('quickCollapsed', !quickCollapsed);
   }
 
-  const postureSwitchable = $derived(avatarService.postureSwitchable());
-  const currentPosture = $derived(appState.posture || avatarService.postureKey());
+  const postureSwitchable = $derived(avatarService.engine.postureSwitchable());
+  const currentPosture = $derived(avatarService.engine.postureKey());
   function togglePosture() {
     const next = currentPosture === 'posture_standing' ? 'posture_sitting' : 'posture_standing';
     avatarService.setPosture(next);
@@ -283,11 +283,11 @@
   <!-- Bottom Log Panel & Input Bar -->
   <div
     style="translate: 0 {!panelCollapsed ? '0' : 'calc(100% - var(--spacing) * 24)'}"
-    class="flex flex-col sm:w-lg mx-auto pointer-events-auto transition-all duration-300">
+    class="flex flex-col sm:w-lg mx-auto pointer-events-none transition-all duration-300">
     <!-- Retry Bar if error occurred -->
     {#if talkLoop.retryVisible}
       <div
-        class="mb-2 flex items-center justify-between p-2 rounded-xl bg-destructive/20 border border-destructive/40 text-xs text-foreground backdrop-blur-md animate-in fade-in">
+        class="pointer-events-auto mb-2 flex items-center justify-between p-2 rounded-xl bg-destructive/20 border border-destructive/40 text-xs text-foreground backdrop-blur-md animate-in fade-in">
         <span>Reply could not be retrieved.</span>
         <Button
           variant="outline"
@@ -299,10 +299,10 @@
       </div>
     {/if}
 
-    <div class="flex justify-between items-center mb-2">
+    <div class="flex justify-between items-center mb-2 pointer-events-none">
       <Button
         variant="outline"
-        class="rounded-full bg-card/60 backdrop-blur-md text-foreground/90 hover:bg-card/90 shadow-sm transition-all"
+        class="pointer-events-auto rounded-full bg-card/60 backdrop-blur-md text-foreground/90 hover:bg-card/90 shadow-sm transition-all"
         style="background: {isVoiceActive ? 'linear-gradient(120deg, #ff9a3d, #f5b03d)' : 'revert-rule'}"
         aria-label="Toggle Voice"
         onclick={toggleVoiceStyle}>
@@ -314,7 +314,7 @@
       <Button
         variant="outline"
         size="icon"
-        class="size-10 rounded-full bg-card/70 backdrop-blur-md border-border/50 shadow-md hover:bg-card/90"
+        class="pointer-events-auto size-10 rounded-full bg-card/70 backdrop-blur-md border-border/50 shadow-md hover:bg-card/90"
         onclick={() => (panelCollapsed = !panelCollapsed)}
         title="Toggle Log Panel">
         <img
@@ -324,13 +324,13 @@
       </Button>
     </div>
 
-    <div class="flex flex-col gap-2">
+    <div class="flex flex-col gap-2 pointer-events-none">
       {#if config.get('app')?.showBubble !== false}
         <!-- Dialogue Bubble Card -->
         <!-- svelte-ignore a11y_click_events_have_key_events -->
         <!-- svelte-ignore a11y_no_static_element_interactions -->
         <div
-          class="bg-card/85 backdrop-blur-md border border-border/50 rounded-2xl p-3.5 shadow-xl flex flex-col gap-2.5 cursor-pointer select-text w-full"
+          class="pointer-events-auto bg-card/85 backdrop-blur-md border border-border/50 rounded-2xl p-3.5 shadow-xl flex flex-col gap-2.5 cursor-pointer select-text w-full"
           onclick={handleSkipTypewriter}>
           <div
             class={[
@@ -410,7 +410,7 @@
 
       <!-- Input Bar -->
       <div
-        class="flex items-center gap-1.5 bg-card/80 backdrop-blur-md p-1.5 rounded-full border border-border/50 shadow-lg">
+        class="pointer-events-auto flex items-center gap-1.5 bg-card/80 backdrop-blur-md p-1.5 rounded-full border border-border/50 shadow-lg">
         <Button
           variant="ghost"
           size="icon"

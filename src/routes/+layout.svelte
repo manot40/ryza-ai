@@ -47,7 +47,6 @@
 
   let { children } = $props();
 
-  let avatarRef: Avatar | null = null;
   let confettiRef: Confetti | null = null;
   let phoneEl: HTMLElement | null = null;
   let uiZoom = $state(1);
@@ -65,12 +64,6 @@
       }
     }
   }
-
-  $effect(() => {
-    if (avatarRef) {
-      avatarService.setInstance(avatarRef);
-    }
-  });
 
   async function handleNewConversation() {
     const ok = await modal.confirm(
@@ -157,17 +150,10 @@
     id="phone"
     bind:this={phoneEl}
     use:imeViewport
-    class="relative w-full h-full max-w-3xl bg-background text-foreground overflow-hidden shadow-2xl flex flex-col">
+    class="relative size-full max-w-4xl bg-background text-foreground overflow-hidden shadow-2xl flex flex-col">
     <!-- Background Spine Stage & Avatar -->
     <div class="absolute inset-0 z-0 overflow-hidden">
-      <Avatar
-        bind:this={avatarRef}
-        stageId={appState.stage || 'stage_01_001_04'}
-        tod={appState.tod || 'aft'}
-        skinId={appState.skin || 'crf_skn_002_0001'}
-        hidden={avatarService.hidden}
-        onTapPart={handleTapPart}
-        class="w-full h-full" />
+      <Avatar onTapPart={handleTapPart} />
     </div>
 
     <!-- Stage Vignette & Atmosphere Gradient -->

@@ -20,10 +20,12 @@ import {
   Ticker,
   RenderTexture,
   Sprite,
+  Cache,
 } from 'pixi.js';
 import {
   Spine,
   Skeleton,
+  Bone,
   BoundingBoxAttachment,
   MixBlend,
   Physics,
@@ -34,6 +36,7 @@ import {
 // External Store and Resources
 import { config } from '$lib/stores/config.svelte';
 import { computePanelFrac } from '$lib/fit-ui';
+import { crfStore } from '../crfstore';
 
 // Additions and Utilities
 import { RimFilter } from './rim';
@@ -50,6 +53,8 @@ import { MotionController, pickAnim, isTrackBusy } from './motion';
 
 // Ensure Spine operates in native Y-up coordinates matching original authoring data and camera math
 Skeleton.yDown = false;
+
+type SkelArtifact = { skel: string; atlas: string; config?: string };
 
 const FALLBACK_LIP = 'facial_mouth_002_scrub_02';
 
@@ -68,31 +73,34 @@ function pointInPoly(px: number, py: number, verts: number[]): boolean {
   return inside;
 }
 
-let _scenesDocCache: Record<string, Record<string, { skel: string; atlas: string; config?: string }>> | null =
-  null;
-let _stageBackgroundMapCache: Record<string, string> | null = null;
+let scenesDocCache: Record<string, Record<string, SkelArtifact>> | null = null;
+let stageBackgroundMapCache: Record<string, string> | null = null;
 
 async function getScenesAndStageMap(): Promise<{
-  scenes: Record<string, Record<string, { skel: string; atlas: string; config?: string }>>;
+  scenes: Record<string, Record<string, SkelArtifact>>;
   stageMap: Record<string, string>;
 }> {
-  if (!_scenesDocCache || !_stageBackgroundMapCache) {
+  if (!scenesDocCache || !stageBackgroundMapCache) {
     const [scRes, mapRes] = await Promise.all([
-      _scenesDocCache
-        ? Promise.resolve(_scenesDocCache)
+      scenesDocCache
+        ? Promise.resolve(scenesDocCache)
         : fetch('/assets/_index/scenes.json')
             .then((r) => (r.ok ? r.json() : {}))
             .catch(() => ({})),
-      _stageBackgroundMapCache
-        ? Promise.resolve(_stageBackgroundMapCache)
+      stageBackgroundMapCache
+        ? Promise.resolve(stageBackgroundMapCache)
         : fetch('/assets/_index/stage_background_map.json')
             .then((r) => (r.ok ? r.json() : {}))
             .catch(() => ({})),
     ]);
-    _scenesDocCache = scRes;
-    _stageBackgroundMapCache = mapRes;
+    if (scRes && Object.keys(scRes).length > 0) {
+      scenesDocCache = scRes;
+    }
+    if (mapRes && Object.keys(mapRes).length > 0) {
+      stageBackgroundMapCache = mapRes;
+    }
   }
-  return { scenes: _scenesDocCache, stageMap: _stageBackgroundMapCache };
+  return { scenes: scenesDocCache || {}, stageMap: stageBackgroundMapCache || {} };
 }
 
 export class AvatarEngine {
@@ -125,6 +133,18 @@ export class AvatarEngine {
   private loadedSceneKey = '';
   private loadingSceneKey = '';
   private atlasVariant = 'default';
+  private loadedSceneSkel = '';
+  private loadedSceneAtlas = '';
+
+  // Frame delta for bound transformer
+  private lastFrameDt = 0;
+  // Active outfit MRU cache (keeps standing + sitting)
+  private activeOutfitBase = '';
+  private cachedOutfitAssets: Array<{ id: string; skel: string; atlas: string }> = [];
+  private loadedVariantUrls: string[] = [];
+  // Cached scene bone references
+  private sceneMidBone: Bone | null = null;
+  private sceneCharaRootBone: Bone | null = null;
 
   // Avatar emotion and animation states
   private emotion = 'neutral';
@@ -138,7 +158,7 @@ export class AvatarEngine {
   private lipSync = FALLBACK_LIP;
   private variantMiss: Record<string, number> = {};
 
-  _view: CameraView = { left: 0, bottom: 0, worldW: 1, worldH: 1, cssW: 1, cssH: 1 };
+  private view: CameraView = { left: 0, bottom: 0, worldW: 1, worldH: 1, cssW: 1, cssH: 1 };
   private viewAuth: CamParams | null = null;
   private headLocal: number | null = null;
   private midBind: { name: string; x: number; y: number } | null = null;
@@ -182,27 +202,27 @@ export class AvatarEngine {
   }
 
   panBy(dxPx: number, dyPx: number): XYMap {
-    const v = this._view;
+    const v = this.view;
     if (!v || !v.worldW || !v.cssW || !v.cssH) return this.charPan();
     const perX = v.worldW / v.cssW;
     const perY = v.worldH / v.cssH;
-    this.charPanX = this._clampPan(this.charPanX + dxPx * perX, v.worldW);
+    this.charPanX = this.clampPan(this.charPanX + dxPx * perX, v.worldW);
     // Screen Y grows downwards, world Y upwards: sprite follows the pointer
-    this.charPanY = this._clampPan(this.charPanY - dyPx * perY, v.worldH);
-    this._placeCharacter();
+    this.charPanY = this.clampPan(this.charPanY - dyPx * perY, v.worldH);
+    this.placeCharacter();
     return this.charPan();
   }
 
-  private _clampPan(value: number, span: number): number {
+  private clampPan(value: number, span: number): number {
     const lim = span * this.PLAYER_PAN_LIMIT;
     return Math.max(-lim, Math.min(lim, value || 0));
   }
 
-  private _clampCharPan(): void {
-    const v = this._view;
+  private clampCharPan(): void {
+    const v = this.view;
     if (!v || !v.worldW) return;
-    this.charPanX = this._clampPan(this.charPanX, v.worldW);
-    this.charPanY = this._clampPan(this.charPanY, v.worldH);
+    this.charPanX = this.clampPan(this.charPanX, v.worldW);
+    this.charPanY = this.clampPan(this.charPanY, v.worldH);
   }
 
   zoomBy(delta: number): number {
@@ -210,7 +230,7 @@ export class AvatarEngine {
     z = Math.max(this.PLAYER_ZOOM_MIN, Math.min(this.PLAYER_ZOOM_MAX, z + delta));
     if (z === this._playerZoom) return z;
     this._playerZoom = z;
-    this._placeCharacter();
+    this.placeCharacter();
     return z;
   }
 
@@ -218,7 +238,7 @@ export class AvatarEngine {
     this._playerZoom = 1;
     this.charPanX = 0;
     this.charPanY = 0;
-    this._placeCharacter();
+    this.placeCharacter();
     return 1;
   }
 
@@ -229,7 +249,7 @@ export class AvatarEngine {
       1,
       Math.floor(parent?.clientHeight || canvas.clientHeight || window?.innerHeight || 600)
     );
-    const dpr = Math.max(1, window.devicePixelRatio || 1) * this._cssZoom(canvas);
+    const dpr = Math.min(Math.max(1, window.devicePixelRatio || 1) * this.cssZoom(canvas), 2.0);
 
     this.cssW = w;
     this.cssH = h;
@@ -244,6 +264,9 @@ export class AvatarEngine {
       antialias: true,
       resolution: dpr,
       background: 0x291c12,
+      gcActive: true,
+      gcMaxUnusedTime: 15_000,
+      gcFrequency: 10_000,
     });
 
     this.worldContainer = new Container();
@@ -254,10 +277,11 @@ export class AvatarEngine {
     this.worldContainer.addChild(this.avatarContainer);
     this.app.stage.addChild(this.worldContainer);
 
+    const rimResolution = Math.min(dpr * 0.5, 1.0);
     this.rimTexture = RenderTexture.create({
       width: w,
       height: h,
-      resolution: dpr,
+      resolution: rimResolution,
     });
     this.rimFilter = new RimFilter();
     this.rimFilter.blendMode = 'add';
@@ -268,25 +292,13 @@ export class AvatarEngine {
     this.rimSprite.visible = false;
     this.app.stage.addChild(this.rimSprite);
 
-    this.scene = {
-      spine: null,
-      skeleton: null,
-      state: null,
-      data: null,
-      ready: false,
-    };
-    this.avatar = {
-      spine: null,
-      skeleton: null,
-      state: null,
-      data: null,
-      ready: false,
-    };
+    this.scene = { spine: null, skeleton: null, state: null, data: null, ready: false };
+    this.avatar = { spine: null, skeleton: null, state: null, data: null, ready: false };
 
     this.running = true;
     this.tick = (ticker: Ticker) => {
       if (!this.running) return;
-      this._renderFrame(ticker.deltaMS / 1000);
+      this.renderFrame(ticker.deltaMS / 1000);
     };
     this.app.ticker.add(this.tick);
 
@@ -308,7 +320,7 @@ export class AvatarEngine {
     this.running = false;
     if (this.app) {
       if (this.tick) this.app.ticker.remove(this.tick);
-      this.app.destroy({ removeView: false }, { children: true });
+      this.app.destroy({ removeView: false, releaseGlobalResources: true }, { children: true });
       this.app = null;
     }
     if (this.scene) {
@@ -317,6 +329,13 @@ export class AvatarEngine {
       this.scene.skeleton = null;
       this.scene.state = null;
       this.scene.data = null;
+    }
+    this.sceneCharaRootBone = null;
+    this.sceneMidBone = null;
+    if (this.loadedSceneSkel) {
+      this.unloadLayerAssets(this.loadedSceneSkel, this.loadedSceneAtlas, false);
+      this.loadedSceneSkel = '';
+      this.loadedSceneAtlas = '';
     }
     if (this.avatar) {
       this.avatar.ready = false;
@@ -327,6 +346,16 @@ export class AvatarEngine {
       this.avatar._atlasBaseTex = null;
       this.avatar._atlasVarTex = null;
     }
+    for (const cached of this.cachedOutfitAssets) {
+      this.unloadLayerAssets(cached.skel, cached.atlas, true);
+      crfStore.revokeUrls(cached.id);
+    }
+    this.cachedOutfitAssets = [];
+    this.activeOutfitBase = '';
+    for (const u of this.loadedVariantUrls) {
+      Assets.unload(u).catch(() => {});
+    }
+    this.loadedVariantUrls = [];
     if (this.rimSprite) {
       this.rimSprite.destroy({ texture: false });
       this.rimSprite = null;
@@ -350,7 +379,7 @@ export class AvatarEngine {
     this.loadingSceneKey = '';
   }
 
-  _cssZoom(el?: HTMLElement | HTMLCanvasElement | null): number {
+  cssZoom(el?: HTMLElement | HTMLCanvasElement | null): number {
     if (!el || !el.clientWidth || !el.getBoundingClientRect) return 1;
     const w = el.getBoundingClientRect().width;
     return (w > 0 && w / el.clientWidth) || 1;
@@ -365,17 +394,18 @@ export class AvatarEngine {
       1,
       Math.floor(parent?.clientHeight || canvas.clientHeight || window?.innerHeight || 1)
     );
-    const dpr = Math.max(1, window.devicePixelRatio || 1) * this._cssZoom(canvas);
+    const dpr = Math.min(Math.max(1, window.devicePixelRatio || 1) * this.cssZoom(canvas), 2.0);
     this.cssW = w;
     this.cssH = h;
     this.app.renderer.resize(w, h, dpr);
     if (this.rimTexture) {
-      this.rimTexture.resize(w, h, dpr);
+      const rimResolution = Math.min(dpr * 0.5, 1.0);
+      this.rimTexture.resize(w, h, rimResolution);
     }
     if (this.rimSprite) {
       this.rimSprite.filterArea = this.app.screen;
     }
-    this._applyCamera();
+    this.applyCamera();
   }
 
   outfitOf(id?: string): string {
@@ -425,11 +455,12 @@ export class AvatarEngine {
     const have = this.outfitPostures();
     if (have.length && have.indexOf(want) < 0) {
       want = have.indexOf('posture_standing') >= 0 ? 'posture_standing' : have[0];
+      console.log(want);
     }
     return want;
   }
 
-  private _loadedPosture(): string {
+  private loadedPosture(): string {
     const id = this.loadedSkelId || '';
     const m = /_(01|99)$/.exec(id);
     return m ? (m[1] === '99' ? 'posture_standing' : 'posture_sitting') : this.postureKey();
@@ -503,10 +534,10 @@ export class AvatarEngine {
 
   setAtlasVariant(name: string, cb?: () => void): void {
     this.atlasVariant = String(name || 'default').toLowerCase();
-    this._applyAtlasVariant(cb);
+    this.applyAtlasVariant(cb);
   }
 
-  private async _applyAtlasVariant(cb?: () => void): Promise<void> {
+  private async applyAtlasVariant(cb?: () => void): Promise<void> {
     const L = this.avatar;
     const done = () => cb?.();
     if (!L || !L.spine || !L._atlas) {
@@ -557,6 +588,9 @@ export class AvatarEngine {
         try {
           const tex = await Assets.load<Texture>(url);
           if (tex) {
+            if (!this.loadedVariantUrls.includes(url)) {
+              this.loadedVariantUrls.push(url);
+            }
             tex.source.autoGenerateMipmaps = false;
             tex.source.scaleMode = 'linear';
             const spineTex = SpineTexture.from(tex.source);
@@ -584,7 +618,7 @@ export class AvatarEngine {
     done();
   }
 
-  private _camParams(postureKey?: string, asmr?: boolean): CamParams {
+  private camParams(postureKey?: string, asmr?: boolean): CamParams {
     const isAsmr = asmr !== undefined ? asmr : this._asmrOn();
     const pk = postureKey || this.postureKey();
     const cssW = this.cssW || 1;
@@ -592,14 +626,14 @@ export class AvatarEngine {
     return getCamParams(pk, isAsmr, this.postureCam, cssW, cssH);
   }
 
-  private _applyCamera(): void {
+  private applyCamera(): void {
     if (!this.app || !this.cssW || !this.cssH) return;
-    const active = this._camParams(this._loadedPosture());
-    let win = this.supportsBothPostures() ? this._camParams(this._primaryPosture(), this._asmrOn()) : active;
+    const active = this.camParams(this.loadedPosture());
+    let win = this.supportsBothPostures() ? this.camParams(this._primaryPosture(), this._asmrOn()) : active;
     const cover = coverFor(this.scene);
     if (cover && cover.w > 0 && cover.h > 0) {
       const aspect = this.cssW / this.cssH;
-      const frac = this._panelFrac || 0;
+      const frac = this.panelFrac || 0;
       const h = Math.min(win.worldH, Math.min(cover.h / Math.max(0.4, 1 - frac), cover.w / aspect));
       const w = h * aspect;
       let bottom = win.bottom;
@@ -609,16 +643,10 @@ export class AvatarEngine {
       let left = win.left + (win.worldW - w) / 2;
       if (left < cover.x0) left = cover.x0;
       if (cover.w >= w && left > cover.x1 - w) left = cover.x1 - w;
-      win = {
-        ...win,
-        left,
-        bottom,
-        worldW: w,
-        worldH: h,
-      };
+      win = { ...win, left, bottom, worldW: w, worldH: h };
     }
 
-    this._view = {
+    this.view = {
       left: win.left,
       bottom: win.bottom,
       worldW: win.worldW,
@@ -627,62 +655,61 @@ export class AvatarEngine {
       cssH: this.cssH,
     };
     this.viewAuth = active;
-    this._clampCharPan();
+    this.clampCharPan();
 
     const scaleX = this.cssW / win.worldW;
     const scaleY = this.cssH / win.worldH;
     this.worldContainer.scale.set(scaleX, -scaleY);
     this.worldContainer.position.set(-win.left * scaleX, (win.bottom + win.worldH) * scaleY);
 
-    this._placeCharacter();
+    this.placeCharacter();
   }
 
-  private _measureHeadLocal(): void {
+  private measureHeadLocal(): void {
     const L = this.avatar;
     this.headLocal = null;
-    if (!L || !L.data) return;
+    if (!L?.skeleton) return;
     try {
-      const sk = new Skeleton(L.data);
-      sk.updateWorldTransform(Physics.pose);
-      const b = sk.findBone('head');
+      L.skeleton.updateWorldTransform(Physics.pose);
+      const b = L.skeleton.findBone('head');
       if (b) this.headLocal = b.worldY;
     } catch {}
   }
 
-  private _placeCharacter(): void {
+  private placeCharacter(): void {
     const L = this.avatar;
     const S = this.scene;
     if (!L?.skeleton) return;
-    const cam = this._camParams(this._loadedPosture());
+    const cam = this.camParams(this.loadedPosture());
     let x = cam.offsetX;
     let y = cam.offsetY;
     if (S?.skeleton) {
-      const bone = S.skeleton.findBone('chara_root');
+      const bone = this.sceneCharaRootBone ?? S.skeleton.findBone('chara_root');
       if (bone) {
         x += bone.worldX;
         y += bone.worldY;
       }
-      if (this._seatedOnMid() && this.midBind) {
-        const mid = S.skeleton.findBone(this.midBind.name);
+      if (this.seatedOnMid() && this.midBind) {
+        const mid = this.sceneMidBone ?? S.skeleton.findBone(this.midBind.name);
         if (mid) {
           x += mid.worldX - this.midBind.x;
           y += mid.worldY - this.midBind.y;
         }
       }
     }
-    const v = this._view;
+    const v = this.view;
     const a = this.viewAuth;
     const k = v && v.worldH && a && a.worldH ? v.worldH / a.worldH : 1;
     let sx: number, sy: number;
     const sc = cam.scale * k;
-    if (this._seatedOnMid()) {
+    if (this.seatedOnMid()) {
       sx = x;
       sy = y;
     } else {
       sx = v && a ? v.left + (x - a.left) * k : x;
       sy = v && a ? v.bottom + (y - a.bottom) * k : y;
       if (this.headLocal != null && v && v.worldH > 0) {
-        const target = this._asmrOn() ? 0.5 : this._loadedPosture() === 'posture_standing' ? 0.7 : 0.71;
+        const target = this._asmrOn() ? 0.5 : this.loadedPosture() === 'posture_standing' ? 0.7 : 0.71;
         const frac = (sy + this.headLocal * sc - v.bottom) / v.worldH;
         if (Math.abs(frac - target) > 0.1) sy += (target - frac) * v.worldH;
       }
@@ -699,26 +726,34 @@ export class AvatarEngine {
     L.skeleton.scaleX = L.skeleton.scaleY = finalSc;
   }
 
-  private _seatedOnMid(): boolean {
-    return this._loadedPosture() === 'posture_sitting' && Boolean(this.midBind?.name);
+  private seatedOnMid(): boolean {
+    return this.loadedPosture() === 'posture_sitting' && Boolean(this.midBind?.name);
   }
 
-  private _cacheMidBind(L: SpineLayer): void {
+  private cacheMidBind(L: SpineLayer): void {
     this.midBind = null;
+    this.sceneCharaRootBone = null;
+    this.sceneMidBone = null;
     if (!L?.skeleton) return;
     try {
       L.skeleton.setToSetupPose();
       L.skeleton.updateWorldTransform(Physics.none);
+      this.sceneCharaRootBone = L.skeleton.findBone('chara_root');
       const b = L.skeleton.findBone('sofa_root');
-      if (b) this.midBind = { name: 'sofa_root', x: b.worldX, y: b.worldY };
+      if (b) {
+        this.midBind = { name: 'sofa_root', x: b.worldX, y: b.worldY };
+        this.sceneMidBone = b;
+      }
     } catch {
       this.midBind = null;
+      this.sceneCharaRootBone = null;
+      this.sceneMidBone = null;
     }
   }
 
   screenToWorld(cssX: number, cssY: number): XYMap {
     if (!this.worldContainer) {
-      const v = this._view;
+      const v = this.view;
       return {
         x: v.left + (cssX / Math.max(1, v.cssW)) * v.worldW,
         y: v.bottom + ((v.cssH - cssY) / Math.max(1, v.cssH)) * v.worldH,
@@ -728,7 +763,27 @@ export class AvatarEngine {
     return { x: p.x, y: p.y };
   }
 
-  private async _loadSpine(
+  private async unloadLayerAssets(skelUrl?: string, atlasUrl?: string, isAvatar?: boolean): Promise<void> {
+    if (!skelUrl || !atlasUrl) return;
+    try {
+      const cacheKey = `${skelUrl}-${atlasUrl}-1`;
+      if (Cache.has(cacheKey)) Cache.remove(cacheKey);
+
+      await Assets.unload(atlasUrl);
+      await Assets.unload(skelUrl);
+    } catch {
+      // Ignore if already unloaded or in use
+    }
+  }
+
+  private onBeforeUpdateWorldTransforms = (): void => {
+    const av = this.avatar?.spine;
+    if (!av) return;
+    this.effects.hideFxSlots(av.skeleton, this.effects.fxOn);
+    this.gaze.apply(av.skeleton, this.gesture?.projectConfig, this.lastFrameDt, isTrackBusy(av.state, 1));
+  };
+
+  private async loadSpine(
     L: SpineLayer,
     skelUrl: string,
     atlasUrl: string,
@@ -786,6 +841,7 @@ export class AvatarEngine {
       L._atlas = atlas || null;
       L._atlasUrl = atlasUrl;
       L._atlasBaseTex = null;
+      spine.beforeUpdateWorldTransforms = this.onBeforeUpdateWorldTransforms;
     }
 
     L.ready = true;
@@ -820,20 +876,49 @@ export class AvatarEngine {
       }
 
       const gP = s.gesture ? fetch(s.gesture).then((r) => (r.ok ? r.json() : null)) : Promise.resolve(null);
-      gP.then((g) => {
+      gP.then(async (g) => {
         if (this.loadingSkelId !== s.id) return;
         this.gesture = g;
-        this._loadSpine(L, s.skel!, s.atlas!, this.avatarContainer)
+
+        // Manage outfit MRU cache
+        const outfitBase = this.outfitOf(s.id);
+        if (this.activeOutfitBase && this.activeOutfitBase !== outfitBase) {
+          for (const cached of this.cachedOutfitAssets) {
+            await this.unloadLayerAssets(cached.skel, cached.atlas, true);
+            crfStore.revokeUrls(cached.id);
+          }
+          this.cachedOutfitAssets = [];
+          for (const u of this.loadedVariantUrls) {
+            Assets.unload(u).catch(() => {});
+          }
+          this.loadedVariantUrls = [];
+        }
+        this.activeOutfitBase = outfitBase;
+        if (!this.cachedOutfitAssets.some((x) => x.id === s.id)) {
+          this.cachedOutfitAssets.push({ id: s.id, skel: s.skel!, atlas: s.atlas! });
+          while (this.cachedOutfitAssets.length > 2) {
+            const evicted = this.cachedOutfitAssets.shift();
+            if (evicted) {
+              await this.unloadLayerAssets(evicted.skel, evicted.atlas, true);
+              crfStore.revokeUrls(evicted.id);
+            }
+          }
+        }
+
+        this.motion.reset();
+        this.gaze.reset();
+
+        this.loadSpine(L, s.skel!, s.atlas!, this.avatarContainer)
           .then(() => {
             if (this.loadingSkelId !== s.id) return;
             this.loadedSkelId = s.id;
             this.loadingSkelId = '';
-            this.sittingId = this._sittingFromPosture();
-            this._measureHeadLocal();
+            this.sittingId = this.sittingFromPosture();
+            this.measureHeadLocal();
             this.setEmotion(this.emotion, this.attitude, true);
-            this._playWind();
+            this.playWind();
             this.resize();
-            if (this._cleanVariant(this.atlasVariant)) this._applyAtlasVariant();
+            if (this._cleanVariant(this.atlasVariant)) this.applyAtlasVariant();
             cb?.(null);
           })
           .catch((err: unknown) => {
@@ -891,10 +976,21 @@ export class AvatarEngine {
               .then((r) => (r.ok ? r.json() : null))
               .catch(() => null)
           : Promise.resolve(null);
-        return cfgP.then((cfg) => {
+        return cfgP.then(async (cfg) => {
           if (this.loadingSceneKey !== sceneKey) return;
           this.sceneConfig = cfg;
-          return this._loadSpine(L, entry.skel, entry.atlas, this.sceneContainer).then(() => {
+
+          // Unload previous scene assets if changed
+          if (
+            this.loadedSceneSkel &&
+            (this.loadedSceneSkel !== entry.skel || this.loadedSceneAtlas !== entry.atlas)
+          ) {
+            await this.unloadLayerAssets(this.loadedSceneSkel, this.loadedSceneAtlas, false);
+          }
+          this.loadedSceneSkel = entry.skel;
+          this.loadedSceneAtlas = entry.atlas;
+
+          return this.loadSpine(L, entry.skel, entry.atlas, this.sceneContainer).then(() => {
             if (this.loadingSceneKey !== sceneKey) return;
             this.loadedSceneKey = sceneKey;
             this.loadingSceneKey = '';
@@ -903,8 +999,8 @@ export class AvatarEngine {
               const tr = L.state.setAnimation(0, fade, false);
               tr.mixDuration = 0;
             }
-            this._applySceneConstraints(L, cfg);
-            this._cacheMidBind(L);
+            this.applySceneConstraints(L, cfg);
+            this.cacheMidBind(L);
             this.resize();
             const outfit = skinId || config.get('state')?.skin || 'crf_skn_002_0001';
             this.loadSkin(outfit, cb);
@@ -917,7 +1013,7 @@ export class AvatarEngine {
       });
   }
 
-  private _applySceneConstraints(L: SpineLayer, cfg: SceneConfigData | null): void {
+  private applySceneConstraints(L: SpineLayer, cfg: SceneConfigData | null): void {
     const ov = cfg?.config?.constraintOverrides;
     if (!ov || !L?.skeleton) return;
     const list = L.skeleton.transformConstraints || [];
@@ -938,13 +1034,13 @@ export class AvatarEngine {
     }
   }
 
-  private _profile(emotion: string): EmotionProfile | null {
+  private profile(emotion: string): EmotionProfile | null {
     const map = this.gesture?.emotionalGesture?.EmotionProfilesV4;
     if (!map) return null;
     return map[emotion] || map.neutral || null;
   }
 
-  private _intensityBand(): string {
+  private intensityBand(): string {
     if (this.talking || this.tension > 0.66) return 'strong';
     let mode = '';
     try {
@@ -953,18 +1049,18 @@ export class AvatarEngine {
     return mode === 'asmr' ? 'weak' : 'normal';
   }
 
-  private _intensity(prof: EmotionProfile | null): IntensityProfile | null {
+  private intensity(prof: EmotionProfile | null): IntensityProfile | null {
     const ip = prof?.intensityProfiles;
     if (!ip) return null;
-    return ip[this._intensityBand()] || ip.normal || ip.strong || ip.weak || null;
+    return ip[this.intensityBand()] || ip.normal || ip.strong || ip.weak || null;
   }
 
-  private _tensionBand(): string {
+  private tensionBand(): string {
     const v = this.tension;
     return v > 0.66 ? 'high' : v > 0.33 ? 'mid' : 'low';
   }
 
-  private _tensionRate(band: string): number {
+  private tensionRate(band: string): number {
     const tc = this.gesture?.projectConfig?.tensionConfig;
     const dr = tc?.decayRates || {};
     let v = Number(dr[band]);
@@ -973,30 +1069,30 @@ export class AvatarEngine {
     return clamp(v, 0.002, 0.5);
   }
 
-  private _sittingFromPosture(): string {
-    const p = this._loadedPosture() || '';
+  private sittingFromPosture(): string {
+    const p = this.loadedPosture() || '';
     if (/agura/i.test(p)) return 'sitting_agura';
     if (/stand/i.test(p)) return 'standing';
     return 'sitting_normal';
   }
 
-  private _idleName(): string {
+  private idleName(): string {
     const tr = this.avatar?.state?.getCurrent(0);
     return tr?.animation?.name || '';
   }
 
-  private _animTimeScale(): number {
-    const prof = this._profile(this.emotion);
+  private animTimeScale(): number {
+    const prof = this.profile(this.emotion);
     let ts = Number(prof?.baseAnimTimeScale) || 1;
     const mul = this.gesture?.emotionalGesture?.performanceConfig?.intensitySpeedMultipliers;
     if (mul) {
-      const band = this._intensityBand();
+      const band = this.intensityBand();
       if (band !== 'normal' && Number(mul[band]) > 0) ts *= Number(mul[band]);
     }
     return ts;
   }
 
-  private _playWind(): void {
+  private playWind(): void {
     const L = this.avatar;
     if (!L?.data || !L.state) return;
     const prefix = this.gesture?.projectConfig?.windAnimationPrefix || 'effect_wind';
@@ -1014,8 +1110,8 @@ export class AvatarEngine {
     tr.mixBlend = MixBlend.add;
   }
 
-  private _oneShots(emotion: string, attitude: string): string[] {
-    const prof = this._profile(emotion);
+  private oneShots(emotion: string, attitude: string): string[] {
+    const prof = this.profile(emotion);
     if (!prof) return [];
     const list = prof.fixedGestureBindingsByAttitude?.[attitude] || [];
     const picked = list.filter((x) => (x.weight || 0) > 0 && x.oneShotAnimation);
@@ -1023,7 +1119,7 @@ export class AvatarEngine {
     return hit?.oneShotAnimation ? [hit.oneShotAnimation] : [];
   }
 
-  private _rerollIdle(): void {
+  private rerollIdle(): void {
     const L = this.avatar;
     if (!L?.ready || !L.state) return;
     const cur = L.state.getCurrent(0);
@@ -1033,14 +1129,14 @@ export class AvatarEngine {
     const fromName = cur?.animation?.name || '';
     const prevType =
       this.poseType ||
-      this.motion.poseTypesOf(fromName, this.gesture, this._intensity(this._profile(this.emotion)))[0] ||
+      this.motion.poseTypesOf(fromName, this.gesture, this.intensity(this.profile(this.emotion)))[0] ||
       'posetype_01_freehand';
     const nextType = this.motion.pickPoseType(prevType, this.gesture);
     let idle = this.motion.idlesForType(
       L.data,
       nextType,
       this.sittingId,
-      this._intensity(this._profile(this.emotion)),
+      this.intensity(this.profile(this.emotion)),
       this.gesture
     );
     let finalType = nextType;
@@ -1049,7 +1145,7 @@ export class AvatarEngine {
         L.data,
         'posetype_01_freehand',
         this.sittingId,
-        this._intensity(this._profile(this.emotion)),
+        this.intensity(this.profile(this.emotion)),
         this.gesture
       );
       finalType = 'posetype_01_freehand';
@@ -1065,14 +1161,14 @@ export class AvatarEngine {
       return;
     }
 
-    const inten = this._intensity(this._profile(this.emotion));
+    const inten = this.intensity(this.profile(this.emotion));
     const a = inten?.poseRerollIntervalMin || 5;
     const b = inten?.poseRerollIntervalMax || 8;
     this.idleGap = a + Math.random() * Math.max(0, b - a);
     this.idleTimer = 0;
     this.poseType = finalType;
 
-    if (!this.talking) this._applyFace(false);
+    if (!this.talking) this.applyFace(false);
     const keep = finalType === prevType;
     if (fromName === name) {
       if (!keep) {
@@ -1094,7 +1190,7 @@ export class AvatarEngine {
     const mix = calcMixDuration(
       fromName,
       name,
-      this._profile(this.emotion),
+      this.profile(this.emotion),
       this.gesture?.emotionalGesture?.MixDurationPoses,
       this.skelHash,
       this.gesture?.projectConfig,
@@ -1103,7 +1199,7 @@ export class AvatarEngine {
 
     const tr = L.state.setAnimation(0, name, true);
     tr.mixDuration = mix;
-    tr.timeScale = this._animTimeScale();
+    tr.timeScale = this.animTimeScale();
     this.motion.syncAdditives(name, finalType, false, false, keep, L, this.gesture, this.sittingId, inten);
   }
 
@@ -1119,9 +1215,9 @@ export class AvatarEngine {
     const L = this.avatar;
     if (!L?.ready || !L.state) return;
 
-    const prof = this._profile(this.emotion);
-    const inten = this._intensity(prof);
-    const timeScale = this._animTimeScale();
+    const prof = this.profile(this.emotion);
+    const inten = this.intensity(prof);
+    const timeScale = this.animTimeScale();
     const sat = Number(this.gesture?.projectConfig?.mixDurationSaturationRatio) || 0.1;
     L.state.data.defaultMix = (Number(prof?.mixDurationMin) || 1) * sat;
     this.lipSync = prof?.lipSyncScrubClip || FALLBACK_LIP;
@@ -1129,7 +1225,7 @@ export class AvatarEngine {
     const a = inten?.poseRerollIntervalMin || 5;
     const b = inten?.poseRerollIntervalMax || 8;
     this.idleGap = a + Math.random() * Math.max(0, b - a);
-    this.sittingId = this._sittingFromPosture();
+    this.sittingId = this.sittingFromPosture();
 
     const cur0 = L.state.getCurrent(0);
     const hasIdle = cur0?.animation?.name;
@@ -1161,7 +1257,7 @@ export class AvatarEngine {
       cur0.timeScale = timeScale;
     }
 
-    const shots = this._oneShots(this.emotion, this.attitude)
+    const shots = this.oneShots(this.emotion, this.attitude)
       .map((n) => pickAnim(L.data, n))
       .filter(Boolean) as string[];
     if (shots.length && !immediate) {
@@ -1172,7 +1268,7 @@ export class AvatarEngine {
       if (!(fade > 0)) fade = 0.3;
       L.state.addEmptyAnimation(1, fade, 0);
       this.motion.syncAdditives(
-        hasIdle || this._idleName(),
+        hasIdle || this.idleName(),
         this.poseType,
         false,
         false,
@@ -1196,8 +1292,8 @@ export class AvatarEngine {
       );
     }
 
-    this._applyFace(Boolean(immediate));
-    this.exprBand = this._intensityBand();
+    this.applyFace(Boolean(immediate));
+    this.exprBand = this.intensityBand();
     this.effects.syncFx(
       Boolean(immediate),
       L,
@@ -1206,16 +1302,16 @@ export class AvatarEngine {
       inten,
       this.gesture?.projectConfig
     );
-    this.gaze.pickLook(prof, this._tensionBand(), this.gesture);
-    this.blinking.blinkTimer = this.blinking.nextBlinkGap(prof?.tensionProfiles?.[this._tensionBand()]);
+    this.gaze.pickLook(prof, this.tensionBand(), this.gesture);
+    this.blinking.blinkTimer = this.blinking.nextBlinkGap(prof?.tensionProfiles?.[this.tensionBand()]);
   }
 
-  private _applyFace(immediate: boolean): void {
+  private applyFace(immediate: boolean): void {
     const L = this.avatar;
     if (!L?.ready || !L.state) return;
     const st = L.state;
     const data = L.data;
-    const inten = this._intensity(this._profile(this.emotion));
+    const inten = this.intensity(this.profile(this.emotion));
     const mixEye = immediate ? 0 : inten?.mixDurationEye || 0.25;
     const mixBrow = immediate ? 0 : inten?.mixDurationEyebrow || 0.25;
 
@@ -1252,22 +1348,22 @@ export class AvatarEngine {
     }
 
     const tr0 = L.state.getCurrent(0);
-    if (tr0) tr0.timeScale = this._animTimeScale();
+    if (tr0) tr0.timeScale = this.animTimeScale();
 
-    const bandNow = this._intensityBand();
+    const bandNow = this.intensityBand();
     const bandPrev = this.exprBand || bandNow;
     this.exprBand = bandNow;
     if (bandNow !== bandPrev) {
-      this._applyFace(false);
+      this.applyFace(false);
     }
-    const inten = this._intensity(this._profile(this.emotion));
+    const inten = this.intensity(this.profile(this.emotion));
     this.effects.syncFx(false, L, this.emotion, bandNow, inten, this.gesture?.projectConfig);
     if (this.talking) {
-      this.gaze.lookAtUserNow(this._profile(this.emotion), this._tensionBand(), this.gesture?.projectConfig);
+      this.gaze.lookAtUserNow(this.profile(this.emotion), this.tensionBand(), this.gesture?.projectConfig);
     }
     if (!this.motion.addMuted) {
       this.motion.syncAdditives(
-        this._idleName(),
+        this.idleName(),
         this.poseType,
         false,
         false,
@@ -1314,7 +1410,7 @@ export class AvatarEngine {
     if (!(enter >= 0)) enter = 0.2;
     if (enter === 0 && isTrackBusy(L.state, 6)) enter = 0.15;
 
-    this.motion.muteAdditives(true, L, this._idleName(), this.poseType, pc);
+    this.motion.muteAdditives(true, L, this.idleName(), this.poseType, pc);
 
     // Empty track 4 so mouth doesn't distort
     if (!this.talking) {
@@ -1329,7 +1425,7 @@ export class AvatarEngine {
     return pick.OverlayID;
   }
 
-  private _restoreMouthAfterPoke(): void {
+  private restoreMouthAfterPoke(): void {
     if (!this.pokeMouthHold) return;
     if (isTrackBusy(this.avatar?.state, 6)) return;
     this.pokeMouthHold = false;
@@ -1407,7 +1503,7 @@ export class AvatarEngine {
     this.gaze.setPointer(x, y, on);
   }
 
-  private _renderFrame(rawDt: number): void {
+  private renderFrame(rawDt: number): void {
     const dt = Math.min(rawDt, 0.05);
 
     if (this.scene?.ready && this.scene.spine) {
@@ -1416,7 +1512,7 @@ export class AvatarEngine {
 
     if (this.avatar?.ready && this.avatar.spine) {
       const av = this.avatar.spine;
-      this._placeCharacter();
+      this.placeCharacter();
       this.gaze.update(
         dt,
         av.skeleton,
@@ -1429,25 +1525,25 @@ export class AvatarEngine {
         this.setTalking(false)
       );
 
-      av.beforeUpdateWorldTransforms = () => {
-        this.effects.hideFxSlots(av.skeleton, this.effects.fxOn);
-        this.gaze.apply(av.skeleton, this.gesture?.projectConfig, dt, isTrackBusy(av.state, 1));
-      };
+      this.lastFrameDt = dt;
+      if (av.beforeUpdateWorldTransforms !== this.onBeforeUpdateWorldTransforms) {
+        av.beforeUpdateWorldTransforms = this.onBeforeUpdateWorldTransforms;
+      }
 
       av.update(dt);
     }
 
     // Tension decay
     const tgtT = this.talking ? 1 : 0;
-    const tBand = tgtT > this.tension ? 'high' : this._tensionBand();
-    const tRate = this._tensionRate(tBand);
+    const tBand = tgtT > this.tension ? 'high' : this.tensionBand();
+    const tRate = this.tensionRate(tBand);
     const nk = 1 - Math.exp(-tRate * 60 * dt);
     this.tension += (tgtT - this.tension) * nk;
 
     // Idle reroll
     this.idleTimer += dt;
     if (this.idleTimer > this.idleGap && this.avatar?.ready) {
-      this._rerollIdle();
+      this.rerollIdle();
     }
 
     // Additives unmute
@@ -1455,15 +1551,15 @@ export class AvatarEngine {
       this.motion.muteAdditives(
         false,
         this.avatar,
-        this._idleName(),
+        this.idleName(),
         this.poseType,
         this.gesture?.projectConfig
       );
     }
-    this._restoreMouthAfterPoke();
+    this.restoreMouthAfterPoke();
 
     // Natural blinking
-    const prof = this._profile(this.emotion);
+    const prof = this.profile(this.emotion);
     const tps = prof?.tensionProfiles;
     const tp = (tBand && tps?.[tBand]) || tps?.low || tps?.high;
     this.blinking.update(
@@ -1488,15 +1584,17 @@ export class AvatarEngine {
         const prevSceneVis = this.sceneContainer.visible;
         this.sceneContainer.visible = false;
 
-        this.app.renderer.render({
-          container: this.worldContainer,
-          target: this.rimTexture,
-          clear: true,
-        });
+        try {
+          this.app.renderer.render({
+            container: this.worldContainer,
+            target: this.rimTexture,
+            clear: true,
+          });
+        } finally {
+          this.sceneContainer.visible = prevSceneVis;
+        }
 
-        this.sceneContainer.visible = prevSceneVis;
         this.rimSprite.visible = true;
-
         this.rimFilter.updateLight(this.cssW, this.cssH, light);
       } else {
         this.rimSprite.visible = false;
@@ -1504,7 +1602,7 @@ export class AvatarEngine {
     }
   }
 
-  private get _panelFrac(): number {
+  private get panelFrac(): number {
     return computePanelFrac(this.cssH);
   }
 }

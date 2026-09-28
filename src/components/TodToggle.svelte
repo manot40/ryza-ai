@@ -18,7 +18,6 @@
 
   function handleAdvanceTod() {
     const next = world.nextTod(appState.tod);
-    config.setState('tod', next);
     avatarService.loadScene(appState.stage, next);
   }
 </script>

@@ -148,11 +148,11 @@ export class VoicePlayer {
 
       voiceInput.noteAssistantSpeechStarted();
       this.speaking = true;
-      avatarService.setTalking(true);
+      avatarService.engine.setTalking(true);
 
       const cleanup = () => {
         a.playbackRate = 1;
-        avatarService.setTalking(false);
+        avatarService.engine.setTalking(false);
         this.speaking = false;
         voiceInput.noteAssistantSpeechEnded();
         if (this.activeVoiceUrl === url) {
@@ -204,17 +204,17 @@ export class VoicePlayer {
       const base = Number(config.get('app')?.volume != null ? config.get('app')?.volume : 0.9);
       a.volume = vol != null ? vol : base;
 
-      avatarService.setTalking(true);
+      avatarService.engine.setTalking(true);
       this.speaking = true;
 
       if (alarm.loadEnv) {
         alarm.loadEnv(resolvedPath).then((env) => {
-          if (env) avatarService.setTalkingEnvelope(env);
+          if (env) avatarService.engine.setTalkingEnvelope(env);
         });
       }
 
       const cleanup = () => {
-        avatarService.setTalking(false);
+        avatarService.engine.setTalking(false);
         this.speaking = false;
         a.onended = null;
         a.onerror = null;
@@ -311,7 +311,7 @@ export class VoicePlayer {
       this.activeVoiceUrl = null;
     }
     this.speaking = false;
-    avatarService.setTalking(false);
+    avatarService.engine.setTalking(false);
     voiceInput.noteAssistantSpeechEnded();
   }
 

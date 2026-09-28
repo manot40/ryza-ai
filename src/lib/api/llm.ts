@@ -48,7 +48,7 @@ export function getLlmProvider(llmConfig: LlmConfig = config.get('llm')): OpenAI
       baseURL: baseUrl,
       apiKey: llmConfig.apiKey,
       headers: llmConfig.apiKey ? { 'api-key': llmConfig.apiKey } : undefined,
-      async fetch(input, init) {
+      fetch: (async (input, init) => {
         const url = typeof input === 'string' ? input : input instanceof URL ? input.href : input.url;
         const res = await fetch(localProxy(url), init);
 
@@ -68,7 +68,7 @@ export function getLlmProvider(llmConfig: LlmConfig = config.get('llm')): OpenAI
         }
 
         return res;
-      },
+      }) as typeof fetch,
       transformRequestBody: (body) => attachThinking(body, config.get('llm'), modelMeta),
     });
     providerCache.set(cacheKey, provider);

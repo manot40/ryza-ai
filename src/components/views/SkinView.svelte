@@ -64,9 +64,7 @@
     }
   }
 
-  onMount(() => {
-    loadAllSkins();
-  });
+  onMount(loadAllSkins);
 
   async function handleFileSelect(e: Event) {
     const target = e.target as HTMLInputElement;
@@ -76,7 +74,6 @@
     try {
       toast.show('Importing costume...');
       const v = await crfStore.importZip(file);
-      config.setState('skin', v.id);
       avatarService.loadSkin(v.id);
       await loadAllSkins();
       toast.show(`Imported: ${v.id}`);
@@ -87,7 +84,6 @@
 
   function handleEquip(outfit: SkinItem) {
     if (!outfit.hasSpine) return;
-    config.setState('skin', outfit.id);
     avatarService.loadSkin(outfit.id);
   }
 </script>

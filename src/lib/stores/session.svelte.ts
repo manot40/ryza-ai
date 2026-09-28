@@ -219,10 +219,8 @@ export class SessionStore {
     if (!world.isTod(tod)) return;
     const s = config.get('state');
     const prev = s.tod;
+
     if (tod === prev) return;
-
-    config.setState('tod', tod);
-
     if (prev === 'ngt' && tod === 'mor' && s.stage === HOME_STAGE) {
       game.refill();
       // @wc-ignore
@@ -250,16 +248,11 @@ export class SessionStore {
       const curHour = Number(s.gameHour);
       const startHour = Number.isFinite(curHour) ? curHour : 12;
       const nh = world.flowHour(startHour, s.gameClockAt, now, app.flowSpeed);
-      config.setState({
-        gameHour: nh,
-        gameClockAt: now,
-      });
+      config.setState({ gameHour: nh, gameClockAt: now });
       target = world.hourToTod(nh);
     }
 
-    if (target && target !== s.tod) {
-      this.setTod(target);
-    }
+    if (target && target !== s.tod) this.setTod(target);
   }
 
   dailyNudge(): void {

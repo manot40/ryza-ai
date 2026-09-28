@@ -38,7 +38,7 @@ describe('StageNavigator', () => {
 
       stageNav.gotoStage('stage_01_001_01');
 
-      expect(config.get('state').stage).toBe('stage_01_001_01');
+      expect(avatarService.getPending('scene')?.stageId).toBe('stage_01_001_01');
       expect(loadSceneSpy).toHaveBeenCalledWith('stage_01_001_01', expect.any(String));
       expect(progressSpy).toHaveBeenCalledWith('explore');
       expect(viewStore.activeView).toBe('talk');

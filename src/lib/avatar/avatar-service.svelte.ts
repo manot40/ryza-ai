@@ -1,79 +1,143 @@
 // @wc-ignore-file
-import type Avatar from './Avatar.svelte';
-import { nsfw } from '$lib/stores/nsfw.svelte';
-import { config } from '$lib/stores/config.svelte';
+import { config, nsfw } from '$lib/stores';
+import { AvatarEngine } from './engine/avatar-engine';
+
+type PendingRender = {
+  tod: string;
+  skinId?: string;
+  stageId: string;
+  cb?: (err: Error | null) => void;
+};
+type PendingSkin = Pick<PendingRender, 'skinId' | 'cb'>;
 
 export class AvatarService {
-  instance = $state<Avatar | null>(null);
+  ready = $state(false);
   hidden = $state(false);
-  private _analyser: AnalyserNode | null = null;
-  private _lastEmotion = 'neutral';
-  private _lastAttitude = 'agree';
+  engine = $state.raw(new AvatarEngine());
 
-  setInstance(inst: Avatar | null) {
-    this.instance = inst;
-    if (inst) {
-      nsfw.setAvatarHandle({
-        setAtlasVariant: (variant: string, cb?: () => void) => inst.setAtlasVariant(variant, cb),
-        takeVariantMiss: () => inst.takeVariantMiss(),
-      });
-      inst.setHidden(this.hidden);
-      if (this._analyser) {
-        inst.setAudioAnalyser(this._analyser);
-      }
-    }
-  }
+  private canvas: HTMLCanvasElement | null = null;
+  private analyser: AnalyserNode | null = null;
+  private lastEmotion = 'neutral';
+  private lastAttitude = 'agree';
 
-  setAtlasVariant(variant: string, cb?: () => void) {
-    this.instance?.setAtlasVariant(variant, cb);
-  }
+  private currentSkin = '';
+  private currentStageTod = '';
+  private pendingSkin: PendingSkin | null = null;
+  private pendingScene: PendingRender | null = null;
 
-  takeVariantMiss(): { skin: string; variant: string } | null {
-    return this.instance?.takeVariantMiss() || null;
-  }
-
-  setAudioAnalyser(analyser: AnalyserNode | null) {
-    this._analyser = analyser;
-    this.instance?.setAudioAnalyser(analyser);
-  }
-
-  setEmotion(emotion: string, attitude: string = 'agree', immediate?: boolean) {
-    this._lastEmotion = emotion;
-    this._lastAttitude = attitude || 'agree';
-    this.instance?.setEmotion(emotion, attitude, immediate);
-  }
+  private resizeCb = () => this.engine.resize();
+  private resizeObserver: ResizeObserver | null = null;
 
   get currentEmotion(): string {
-    return this.instance?.currentEmotion?.() ?? this._lastEmotion;
+    return this.engine.currentEmotion ?? this.lastEmotion;
   }
 
   get currentAttitude(): string {
-    return this._lastAttitude;
+    return this.lastAttitude;
   }
 
-  setTalking(talking: boolean) {
-    this.instance?.setTalking(talking);
+  async init(canvas: HTMLCanvasElement, container?: HTMLElement) {
+    this.canvas = canvas;
+    this.engine.setHidden(this.hidden);
+    nsfw.setAvatarHandle({
+      setAtlasVariant: this.engine.setAtlasVariant.bind(this.engine),
+      takeVariantMiss: this.engine.takeVariantMiss.bind(this.engine),
+    });
+
+    if (this.analyser) this.engine.setAudioAnalyser(this.analyser);
+    await this.engine.init(canvas);
+    this.engine.resize();
+
+    if (typeof ResizeObserver !== 'undefined' && container) {
+      this.resizeObserver = new ResizeObserver((entries) => {
+        const entry = entries[0];
+        if (entry && (entry.contentRect.width > 0 || entry.contentRect.height > 0))
+          // prettier-ignore
+          this.engine.resize();
+      });
+      this.resizeObserver.observe(container);
+    }
+
+    this.ready = true;
+
+    if (!this.pendingScene && !this.pendingSkin) {
+      const { stage, tod, skin } = config.get('state');
+      this.loadScene(stage || 'stage_01_001_01', tod || 'stage_01_001_01');
+      this.loadSkin(skin || 'crf_skn_002_0001');
+    } else {
+      if (this.pendingScene) {
+        const p = this.pendingScene;
+        this.pendingScene = null;
+        this.loadScene(p.stageId, p.tod, p.cb);
+      }
+      if (this.pendingSkin) {
+        const p = this.pendingSkin;
+        this.pendingSkin = null;
+        if (p.skinId) this.loadSkin(p.skinId, p.cb);
+      }
+    }
+
+    window.addEventListener('resize', this.resizeCb);
   }
 
-  setTalkingEnvelope(env: { envelope: number[]; durationMs?: number; windowMs?: number }) {
-    this.instance?.setTalkingEnvelope(env);
+  destroy() {
+    this.pendingScene = null;
+    this.pendingSkin = null;
+    this.resizeObserver?.disconnect();
+    window.removeEventListener('resize', this.resizeCb);
+    this.engine.destroy();
   }
 
-  loadScene(stageId: string, tod: string, cb?: (err: Error | null) => void) {
-    this.instance?.loadScene(stageId, tod, cb);
+  loadScene(newStageId: string, newTod: string, cb?: PendingRender['cb']) {
+    const key = `${newStageId}/${newTod}`;
+    const skinId = this.currentSkin || config.get('state').skin || 'crf_skn_002_0001';
+    if (!this.ready) {
+      this.pendingScene = { stageId: newStageId, tod: newTod, skinId, cb };
+    } else if (this.currentStageTod !== key) {
+      this.currentSkin = skinId;
+      this.currentStageTod = key;
+      this.engine.loadScene(newStageId, newTod, cb, skinId);
+      config.setState('stage', newStageId);
+      config.setState('tod', newTod);
+    }
   }
 
-  loadSkin(skinId: string, cb?: (err: Error | null) => void) {
-    this.instance?.loadSkin(skinId, cb);
+  loadSkin(newSkinId: string, cb?: PendingRender['cb']) {
+    if (!this.ready) {
+      this.pendingSkin = { skinId: newSkinId, cb };
+    } else if (this.currentSkin !== newSkinId) {
+      this.currentSkin = newSkinId;
+      this.engine.loadSkin(newSkinId, cb);
+      config.setState('skin', newSkinId);
+    }
   }
 
-  poke(part: string): string | null {
-    return this.instance?.poke(part) ?? null;
+  getPending<T extends 'scene' | 'skin'>(type: T): (T extends 'scene' ? PendingRender : PendingSkin) | null {
+    if (type === 'scene') return this.pendingScene;
+    else return this.pendingSkin as null;
+  }
+
+  setAudioAnalyser(analyser: AnalyserNode | null) {
+    this.analyser = analyser;
+    this.engine.setAudioAnalyser(analyser);
+  }
+
+  setEmotion(emotion: string, attitude: string = 'agree', immediate?: boolean) {
+    this.lastEmotion = emotion;
+    this.lastAttitude = attitude || 'agree';
+    this.engine.setEmotion(emotion, attitude, immediate);
   }
 
   setHidden(on: boolean): void {
     this.hidden = Boolean(on);
-    this.instance?.setHidden(this.hidden);
+    this.engine.setHidden(this.hidden);
+  }
+
+  setPosture(posture: 'posture_standing' | 'posture_sitting', cb?: (err: Error | null) => void): void {
+    if (posture !== 'posture_standing' && posture !== 'posture_sitting') return;
+    config.setState('posture', posture);
+    const skin = config.get('state')?.skin || 'crf_skn_002_0001';
+    this.engine.loadSkin(skin, cb);
   }
 
   toggleChara(): boolean {
@@ -82,46 +146,11 @@ export class AvatarService {
   }
 
   zoomBy(delta: number): number {
-    return this.instance?.zoomBy(delta) ?? 1;
+    return this.engine.zoomBy(delta) ?? 1;
   }
 
   zoomReset(): number {
-    return this.instance?.zoomReset() ?? 1;
-  }
-
-  playerZoom(): number {
-    return this.instance?.playerZoom() ?? 1;
-  }
-
-  panBy(dx: number, dy: number): { x: number; y: number } {
-    return this.instance?.panBy(dx, dy) ?? { x: 0, y: 0 };
-  }
-
-  charPan(): { x: number; y: number } {
-    return this.instance?.charPan() ?? { x: 0, y: 0 };
-  }
-
-  postureKey(): string {
-    return this.instance?.postureKey() ?? 'posture_standing';
-  }
-
-  supportsBothPostures(): boolean {
-    return this.instance?.supportsBothPostures() ?? false;
-  }
-
-  postureSwitchable(): boolean {
-    return this.instance?.postureSwitchable() ?? true;
-  }
-
-  shouldResetPosture(): boolean {
-    return this.instance?.shouldResetPosture() ?? false;
-  }
-
-  setPosture(posture: 'posture_standing' | 'posture_sitting', cb?: (err: Error | null) => void): void {
-    if (posture !== 'posture_standing' && posture !== 'posture_sitting') return;
-    config.setState('posture', posture);
-    const skin = config.get('state')?.skin || 'crf_skn_002_0001';
-    this.loadSkin(skin, cb);
+    return this.engine.zoomReset() ?? 1;
   }
 }
 

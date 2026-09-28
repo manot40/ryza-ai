@@ -295,6 +295,15 @@ export const crfStore = {
     return v;
   },
 
+  revokeUrls(id: string): void {
+    Object.keys(_urls[id] || {}).forEach((k) => {
+      try {
+        URL.revokeObjectURL(_urls[id][k]);
+      } catch {}
+    });
+    delete _urls[id];
+  },
+
   async remove(id: string): Promise<void> {
     const store = await getStore('readwrite');
     await new Promise<void>((res) => {
@@ -303,12 +312,7 @@ export const crfStore = {
       del.onerror = () => res();
     });
     setCrfMeta(getCrfMeta().filter((x) => x.id !== id));
-    Object.keys(_urls[id] || {}).forEach((k) => {
-      try {
-        URL.revokeObjectURL(_urls[id][k]);
-      } catch {}
-    });
-    delete _urls[id];
+    this.revokeUrls(id);
   },
 
   async get(id: string): Promise<CrfRecord | null> {

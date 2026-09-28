@@ -1,11 +1,12 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { SessionStore, SAVE_KEY, CHAT_HISTORY_KEY, type SaveSlotSnapshot } from './session.svelte';
+import { SessionStore, CHAT_HISTORY_KEY } from './session.svelte';
 import { config } from './config.svelte';
 import { game } from './game.svelte';
 import { memory } from './memory.svelte';
 import { longMem } from './longmem.svelte';
 import { world } from './world.svelte';
 import { LocalStorageMock } from '../../../tests/utils';
+import avatarService from '$lib/avatar/avatar-service.svelte';
 
 describe('SessionStore', () => {
   let mockStorage: LocalStorageMock;
@@ -148,7 +149,7 @@ describe('SessionStore', () => {
       config.setApp('timeMode', 'real');
       session.tickTime();
       const expectedTod = world.hourToTod(new Date().getHours());
-      expect(config.get('state').tod).toBe(expectedTod);
+      expect(avatarService.getPending('scene')?.tod).toBe(expectedTod);
     });
 
     it('tickTime respects manual mode without changing tod', () => {
@@ -165,7 +166,7 @@ describe('SessionStore', () => {
       expect(game.stamina).toBeLessThan(game.max());
 
       session.setTod('mor');
-      expect(config.get('state').tod).toBe('mor');
+      expect(avatarService.getPending('scene')?.tod).toBe('mor');
       expect(game.stamina).toBe(game.max());
     });
   });
